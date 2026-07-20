@@ -21,7 +21,9 @@ Golden Rules in `CLAUDE.md` (use folder layouts, real encoder, no invented QR de
 - [x] **Remaining type/use-case/ICP pages** DONE for the brief-approved set (34 pages total). The 14 pages SEO-BRIEF §11 marks delay/demote were deliberately skipped. from `docs/FINAL-TAXONOMY.md` (data-weighted order in
       `docs/SEO-BRIEF.md` §11). Add each as an entry in `src/content/pages.json` with the right
       `archetype`; no new templates needed. *Check: page builds with unique title/meta + JSON-LD.*
-- [x] **Learn hub** DONE — `learn` branch in `Page.astro` ported from `learn.html`. Article cards are unlinked (as in the folder) until the articles exist. (`/learn`) from `ui_kits/website/learn.html` — featured + article grid + tool
+- [x] **Learn hub** DONE — `learn` branch in `Page.astro` ported from `learn.html`, plus an `article`
+      archetype and `/learn/<slug>` routes. All 7 articles written; every card is linked and no
+      "Coming soon" remains. (`/learn`) from `ui_kits/website/learn.html` — featured + article grid + tool
       CTA. Add a `learn` render branch in `Page.astro` and a content shape in `pages.json`.
 - [x] **Saved-designs drawer** DONE — Save sits in the preview header exactly as `saved-designs.html` places it, so the download row stays two buttons. Save/rename/load/delete all verified. from `ui_kits/website/saved-designs.html`. The Save button already
       writes to `localStorage` (`qra:saved`); build the drawer to list/rename/delete (no login).

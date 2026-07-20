@@ -2955,7 +2955,8 @@
         "kicker": "Cornerstone guide",
         "title": "The complete guide to QR codes for restaurants",
         "text": "Menu, WiFi and reviews — what to print, where to put it, and how to keep every code scannable off a laminated table tent.",
-        "meta": "12 min read · Coming soon"
+        "meta": "12 min read",
+        "href": "/learn/restaurant-qr-code-guide"
       },
       "articles_title": "Latest guides",
       "articles": [
@@ -2963,37 +2964,43 @@
           "cat": "Printing",
           "title": "What size should a QR code be to print?",
           "text": "The 10:1 scan-distance rule and safe minimums for cards, posters and packaging.",
-          "meta": "6 min read · Coming soon"
+          "meta": "6 min read",
+          "href": "/learn/qr-code-print-size"
         },
         {
           "cat": "Basics",
           "title": "Static vs dynamic QR codes: which do you need?",
           "text": "Why a free static code never expires — and when a trackable one is worth paying for.",
-          "meta": "7 min read · Coming soon"
+          "meta": "7 min read",
+          "href": "/learn/static-vs-dynamic-qr-codes"
         },
         {
           "cat": "Design",
           "title": "Add a logo without breaking your QR code",
           "text": "Error correction, safe logo size, and contrast — keep it scannable and on-brand.",
-          "meta": "5 min read · Coming soon"
+          "meta": "5 min read",
+          "href": "/learn/add-logo-without-breaking-qr-code"
         },
         {
           "cat": "Basics",
           "title": "PNG or SVG: which QR file should you download?",
           "text": "Raster for screens, vector for print — a quick rule for picking the right export.",
-          "meta": "4 min read · Coming soon"
+          "meta": "4 min read",
+          "href": "/learn/png-or-svg-qr-code"
         },
         {
           "cat": "Design",
           "title": "Coloring QR codes so they still scan",
           "text": "Contrast ratios, inverted codes, and the color combos that quietly fail.",
-          "meta": "5 min read · Coming soon"
+          "meta": "5 min read",
+          "href": "/learn/qr-code-colors-that-scan"
         },
         {
           "cat": "By industry",
           "title": "WiFi QR codes for cafes and hotels",
           "text": "Set up guest WiFi once, print it on the table tent, and stop reading passwords aloud.",
-          "meta": "6 min read · Coming soon"
+          "meta": "6 min read",
+          "href": "/learn/wifi-qr-codes-cafes-hotels"
         }
       ],
       "related": [
@@ -3162,6 +3169,1274 @@
       ],
       "schema": [
         "BreadcrumbList"
+      ]
+    },
+    {
+      "slug": "learn/restaurant-qr-code-guide",
+      "archetype": "article",
+      "phase": "2",
+      "primary": "how to use qr codes in a restaurant",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "qr codes for restaurant tables",
+        "where to put qr codes in a restaurant",
+        "what size qr code for a table tent",
+        "restaurant table tent qr code"
+      ],
+      "cat": "By industry",
+      "reading": "12 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "How to Use QR Codes in a Restaurant: Full Guide",
+      "meta": "Which three QR codes a restaurant actually needs, where to put each one, what size to print, and how to keep them scanning off a laminated table tent.",
+      "h1": "How to use QR codes in a restaurant",
+      "subhead": "Three codes, four places to put them, and the print details that decide whether a guest scans on the first try or gives up.",
+      "sections": [
+        {
+          "h": "The three codes worth having",
+          "p": [
+            "Most restaurants need exactly three QR codes: the menu, the guest WiFi, and the Google review. Each one answers a different question at a different moment of the meal, and each belongs in a different place in the room. Everything beyond those three tends to go unscanned.",
+            "The menu code is for the first ninety seconds after a guest sits down, and for the passer-by deciding whether to come in. The WiFi code is for the ten minutes after that, when someone wants to get online without asking a server to spell out a password. The review code is for the end, when the meal is over and the guest is happiest.",
+            "Make all three in the same colours and dot style so they look like part of your table setting. What has to differ is the label under each one — a guest cannot tell two codes apart by looking at the pattern, so the words beneath them do all the work."
+          ],
+          "list": [
+            "Menu — table tents, the window, the top of a printed menu, takeaway packaging.",
+            "Guest WiFi — the table tent, next to the menu code, and the counter at a coffee bar.",
+            "Google review — the check presenter, the receipt, the takeaway bag. Never the entrance."
+          ]
+        },
+        {
+          "h": "Point the menu code at a link you control",
+          "p": [
+            "The single decision that determines whether you ever reprint is which address you encode. A static QR code has the destination baked into the pattern, so the printed square can never be redirected. Choose an address you own and can update — usually yourdomain.com/menu — and the code stays correct forever while the content behind it changes freely.",
+            "This is why replacing the file at the same address matters so much. If your menu is a PDF sitting at yourdomain.com/menu.pdf, uploading a new PDF over the old one at that exact filename leaves every table tent, window decal and takeaway sticker in the building still working. Change the filename to menu-spring-2026.pdf and you have just invalidated every code you printed.",
+            "Seasonal changes follow the same rule. A restaurant that swaps its menu four times a year needs one permanent menu address and four sets of content, not four QR codes.",
+            "The expensive mistake is pointing the code at a temporary file-share link — a Google Drive preview, a Dropbox share, a WeTransfer download. Those URLs can be revoked, they change when the file is re-uploaded, and some ask the guest to sign in or open an app first. A guest holding a phone over a table tent will not do that."
+          ],
+          "callout": "If you remember one thing: encode an address you control, and change what lives at that address. Every reprint a restaurant ever pays for is caused by encoding something temporary."
+        },
+        {
+          "h": "Where each code belongs",
+          "p": [
+            "Placement is really a question of distance. A seated guest holds a phone about 25–30 cm from a table tent; a person on the pavement is 1.5–2 m from your window. The rough working rule is that a code should be about one tenth as wide as the distance it is scanned from, which is why a window code has to be roughly ten times the area of a table code.",
+            "Put the menu and WiFi codes together on the table tent, clearly labelled, and keep the review code off the table entirely — it belongs on the check presenter where the timing is right."
+          ],
+          "table": {
+            "head": [
+              "Placement",
+              "What it is for",
+              "Scan distance",
+              "Minimum printed size"
+            ],
+            "rows": [
+              [
+                "Table tent",
+                "Menu + guest WiFi, seated guests",
+                "25–30 cm",
+                "2.5 cm (1 in); 3–4 cm is safer"
+              ],
+              [
+                "Window or door decal",
+                "Menu preview for passers-by",
+                "1.5–2 m",
+                "15–20 cm"
+              ],
+              [
+                "Printed menu corner",
+                "Full menu, allergens, wine list",
+                "25–30 cm",
+                "2 cm, 2.5 cm preferred"
+              ],
+              [
+                "Check presenter or receipt",
+                "Google review, after the meal",
+                "25–30 cm",
+                "2–2.5 cm"
+              ],
+              [
+                "Takeaway bag or box lid",
+                "Reorder link or review",
+                "30–50 cm",
+                "3 cm"
+              ],
+              [
+                "A-board or pavement sign",
+                "Menu, from a few steps away",
+                "1–1.5 m",
+                "10–15 cm"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Print size, quiet zone and durability",
+          "p": [
+            "Below about 2 cm a QR code becomes unreliable on older phone cameras, and in dim restaurant lighting the failure rate climbs fast. Treat 2.5 cm as your floor for anything a guest holds, and go larger whenever there is room — there is no scanning penalty for a code being too big.",
+            "Every code needs a quiet zone of four modules of clear space on all four sides. A module is one of the small squares in the pattern, so on a 3 cm code that is roughly 4–5 mm of empty margin. Designers routinely crop this away to make a table tent look tidier, and the result is a code that scans in the studio and fails on the floor. Keep the margin blank — no border rule, no leaf motif, no price sitting in it.",
+            "For durability, laminate matte, not gloss. Gloss laminate reflects overhead lighting straight back into the camera and blanks out part of the pattern, and restaurant lighting is almost always directly above the table. Matte scatters that light. The same applies to varnished wood table tents and glossy card stock.",
+            "Assume spills. A laminated or acrylic table tent survives wine and grease; uncoated card does not, and a code with a stained or scuffed corner loses data. Printing at error correction Q (about 25% recovery) or H (about 30%) buys you tolerance for wear and for a centre logo, at the cost of a denser pattern that needs slightly more size. If you are adding a logo to the middle of the code, Q or H is not optional.",
+            "Send SVG to the printer rather than PNG whenever they accept it. Vector stays sharp at any size, which matters most on the window decal, where a scaled-up PNG turns into soft, grey-edged modules that cameras struggle to read."
+          ]
+        },
+        {
+          "h": "Guest WiFi: use the guest network only",
+          "p": [
+            "A WiFi QR code stores your network name and password as plain text inside the pattern. Anyone can point a decoding app at it and read the password in full — the code is not encryption, it is just a faster way of typing. Print it only for a guest network that is isolated from your till, your back office and your own devices.",
+            "That caveat aside, it is the highest-value code in a cafe. Guests join without asking, staff stop reciting a password twenty times a shift, and it sits happily beside the menu code on the same table tent.",
+            "Rotating the guest password means reprinting the code — there is no way around that with a static code. Most restaurants settle on a stable guest password, change it once or twice a year, and print a fresh batch of tents at the same time. You can make one at the WiFi QR code tool."
+          ]
+        },
+        {
+          "h": "Reviews: ask at the check, not the door",
+          "p": [
+            "A review code works or fails entirely on timing. At the entrance the guest has nothing to say yet. At the check, when the meal has just gone well, the ask is natural and the phone is already in hand for payment. That is the only place the review code should live — the check presenter, the receipt footer, or the takeaway bag.",
+            "The code opens your public Google Business Profile listing, the same page any customer can already reach by searching for you. It does not submit a review, it does not know who scanned it, and it cannot filter anything — it simply saves the guest from typing your name into Google and finding the right button.",
+            "Label it honestly and keep it short: \"Enjoyed it? Leave us a review\" does more work than a code with no caption. Do not offer a discount in exchange for a review; Google's policies prohibit review gating and incentivised reviews, and listings do get penalised for it."
+          ]
+        },
+        {
+          "h": "Test from a real seat before you print a run",
+          "p": [
+            "Test the printed proof, not the file on your screen. A code that scans instantly from a laptop display can fail on laminated card under a dim pendant lamp, and you only find out after a thousand table tents arrive.",
+            "Sit at an actual table in the lighting you use during service — evening lighting, not the fluorescents you clean under. Hold the phone the way a guest would: at arm's length and at an angle.",
+            "Use at least two phones: a current model and the oldest one you can borrow from a member of staff. New camera stacks decode marginal codes that four-year-old phones will not. If the old phone hesitates for more than a second or two, print the code bigger or drop the logo, then test again.",
+            "Check the destination too, not just that something scanned. Confirm the menu opens on mobile, loads in a few seconds on cellular rather than your WiFi, and does not land on a login screen or a PDF that opens at illegible zoom."
+          ],
+          "list": [
+            "Scan from the guest's seat, at the guest's distance, in service lighting.",
+            "Test one new phone and one phone that is at least three years old.",
+            "Test the laminated proof, including at an angle and under the light directly overhead.",
+            "Open the destination on mobile data with WiFi turned off."
+          ]
+        },
+        {
+          "h": "Always keep printed menus available",
+          "p": [
+            "Keep a stack of printed menus behind the host stand and offer one without being asked. Some guests have no smartphone, no data allowance, a dead battery, or low vision that makes a phone menu unusable. A QR code should be the convenient option, never the only option.",
+            "This is also a legal point in several jurisdictions. Accessibility rules in the US, the EU and the UK have been applied to digital-only menus, and a restaurant that can only serve a menu through a phone screen is exposed. The practical answer is cheap: print a dozen menus, keep them clean, and hand one over the moment a guest looks stuck.",
+            "Fix the digital side too: the page behind the code should be readable at default phone text size, allow pinch-zoom, and list allergens as real text rather than as an image."
+          ]
+        },
+        {
+          "h": "What a static code cannot do",
+          "p": [
+            "A static QR code has the destination encoded in the pattern itself, so it needs no server and never expires. The honest trade-off is that it also cannot be edited after you download it, and it cannot count scans. There is no dashboard, because nothing is reporting back — to us or to you.",
+            "In practice neither limit hurts if you set it up as described above. Editability is solved by pointing at an address you control and changing the content there. Scan counts, if you want them, come from the analytics on the page the code opens — your menu page can tell you how many mobile visits it received, which is the number you actually care about.",
+            "What you get in return is a code with no subscription behind it. A dynamic code routes through a third party's redirect service, so the printed square in your window stops working if that company folds, raises its price, or ends your trial. A static code has no such dependency."
+          ]
+        }
+      ],
+      "related": [
+        "/menu-qr-code",
+        "/wifi-qr-code",
+        "/google-review-qr-code",
+        "/qr-codes-for-restaurants"
+      ],
+      "cta_href": "/menu-qr-code",
+      "faq": [
+        {
+          "q": "How many QR codes does a restaurant actually need?",
+          "a": "Three: menu, guest WiFi and Google review. Each one belongs in a different place — menu and WiFi on the table tent, review on the check presenter."
+        },
+        {
+          "q": "What size should a QR code be on a table tent?",
+          "a": "At least 2.5 cm (1 inch) wide, with 3–4 cm safer under dim lighting. Add a clear quiet zone of four modules on every side and do not crop it."
+        },
+        {
+          "q": "Can I change my menu without reprinting the codes?",
+          "a": "Yes, as long as the code points to an address you control. Edit the page or replace the PDF at the same URL and every printed code keeps working."
+        },
+        {
+          "q": "Is it safe to put my WiFi password in a QR code?",
+          "a": "The password is stored as plain text in the pattern and anyone can decode it, so use the code for a guest network only — never your main or point-of-sale network."
+        },
+        {
+          "q": "Can I see how many people scanned my table tent?",
+          "a": "Not from the code itself. Static codes report nothing to anyone, so use the analytics on the menu page the code opens if you want scan numbers."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/add-logo-without-breaking-qr-code",
+      "archetype": "article",
+      "phase": "2",
+      "primary": "add logo to qr code without breaking it",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "how big can a qr code logo be",
+        "does a logo break a qr code",
+        "qr code error correction for logo",
+        "logo in centre of qr code"
+      ],
+      "cat": "Design",
+      "reading": "5 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "How to add a logo without breaking your QR code",
+      "meta": "A centre logo works only because of error correction. How much of the code you can safely cover, where the logo must sit, and what to test before printing.",
+      "h1": "How to add a logo without breaking your QR code",
+      "subhead": "A centre logo is possible because QR codes are built to survive damage — but only up to a point, and only if you cover the right part.",
+      "sections": [
+        {
+          "h": "Why a logo works at all",
+          "p": [
+            "A logo can sit on top of a QR code because every QR code carries redundant data. Reed-Solomon error correction adds extra codewords so a scanner can rebuild the message even when part of the pattern is missing, smudged or covered. The logo is simply deliberate damage.",
+            "There are four error correction levels, and each one recovers roughly a fixed share of the code: L about 7%, M about 15%, Q about 25% and H about 30%. Those percentages are the ceiling on how much of the pattern can be lost before the scan fails."
+          ]
+        },
+        {
+          "h": "Use Q or H when there is a logo",
+          "p": [
+            "With a logo, set error correction to Q or H. M leaves too little headroom once you also account for print quality, glare and a phone camera holding still for half a second. Q is a sensible default for screens and clean print; H is the safer choice for anything laminated, folded, or printed small.",
+            "Do not read the recovery percentage as a budget you can spend down to zero. Real-world scanning eats into it, so treat the level as the reason a logo is possible, not as permission to cover a third of the code."
+          ],
+          "table": {
+            "head": [
+              "Level",
+              "Recovers about",
+              "Use it when"
+            ],
+            "rows": [
+              [
+                "L",
+                "7%",
+                "No logo, clean digital display only"
+              ],
+              [
+                "M",
+                "15%",
+                "Plain codes in print, no overlay"
+              ],
+              [
+                "Q",
+                "25%",
+                "Logo on screen or good-quality print"
+              ],
+              [
+                "H",
+                "30%",
+                "Logo plus laminate, small size or rough surfaces"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "How big the logo can safely be",
+          "p": [
+            "Keep the logo under roughly 10% of the code's total area. Because area grows with the square of width, that is a square logo about 30% of the code's width — and 30% of the width is the practical ceiling, not the target. About 20 to 25% of the width, which is 4 to 6% of the area, is the comfortable working range.",
+            "Bigger is riskier for two reasons. The obvious one is that you are consuming the recovery budget. The less obvious one is that error correction is interleaved across data blocks: a large solid block of loss can wipe out more codewords in one block than that block can repair, even though the overall percentage still looks fine."
+          ],
+          "callout": "If in doubt, make the logo smaller. A logo nobody squints at still does its job; a code that fails to scan does not."
+        },
+        {
+          "h": "Put it dead centre and keep clear of the fixed patterns",
+          "p": [
+            "The centre is the only safe place for a logo. Loss there is spread evenly across the interleaved data blocks, so no single block takes the whole hit. Move the logo off-centre and you concentrate damage in fewer blocks while creeping towards structures that carry no redundancy at all.",
+            "Three things must never be touched. The three finder patterns — the large squares in the top-left, top-right and bottom-left corners — are how a scanner locates and orients the code. The timing patterns, the alternating rows and columns running between the finders, set the module grid. Cover any of them and the scan fails outright, whatever the error correction level says."
+          ],
+          "list": [
+            "Never overlap the three corner finder patterns.",
+            "Never cross the timing rows or columns that link them.",
+            "Leave the alignment patterns near the other corners alone.",
+            "Keep the quiet zone clear: 4 modules of empty background on every side."
+          ]
+        },
+        {
+          "h": "Give the logo a clean background plate",
+          "p": [
+            "Place the logo on a solid plate in the code's background colour, with a couple of modules of padding around the mark. This gives the scanner a clean, unambiguous area to discard rather than a fringe of half-covered modules it may try and fail to read.",
+            "Transparent PNGs are the best logo source, but transparency is exactly why the plate matters: without one, the QR modules show through the gaps in your mark and produce ambiguous grey-ish edges. A transparent logo sitting on a solid plate gives you a crisp mark and a clean cut-out at the same time."
+          ]
+        },
+        {
+          "h": "Higher error correction makes the code denser",
+          "p": [
+            "Raising error correction costs data capacity, so the encoder often has to step up to a larger QR version with more modules. The same URL can be a 33 by 33 grid at L and a 45 by 45 grid at H — more than twice as many modules squeezed into the same square.",
+            "That matters at print time. Each module gets physically smaller, so the whole code has to be printed larger to keep modules legible. As a rule, keep the code at least one tenth of the intended scanning distance: 2 cm across for a table tent read at 20 cm, 30 cm across for a poster read at 3 m. With a logo and H-level correction, size up from whatever your minimum was."
+          ]
+        },
+        {
+          "h": "Test before you print",
+          "p": [
+            "Test the actual exported file at the actual final size, not the preview on your screen. A code that scans on a 27-inch monitor can fail as a 2 cm sticker on matte card. Print one, then work through this list."
+          ],
+          "list": [
+            "Scan with at least one iPhone and one Android phone, using the native camera app.",
+            "Test at the real distance people will stand, not from 10 cm away.",
+            "Test under the lighting of the actual room, including any glare from lamination or glass.",
+            "Have one person who has never seen the code try it cold.",
+            "If any test is marginal, shrink the logo or raise error correction and print again."
+          ],
+          "callout": "QR Code Agent bakes the logo into the exported PNG or SVG, so the file you download is the finished artwork — nothing else has to be composited on top."
+        },
+        {
+          "h": "One thing the logo cannot fix",
+          "p": [
+            "These are static codes: the destination is encoded in the pattern itself, so the code never expires and needs no server. It also cannot be edited after download. If the link might change, point the code at a page you control and change the content on that page.",
+            "Ready to make one? The logo generator handles the upload, the frame and the error correction hint, and exports print-ready SVG."
+          ]
+        }
+      ],
+      "related": [
+        "/qr-code-with-logo",
+        "/custom-qr-code-generator",
+        "/qr-codes-for-business-cards",
+        "/learn"
+      ],
+      "cta_href": "/qr-code-with-logo",
+      "faq": [
+        {
+          "q": "Does adding a logo break a QR code?",
+          "a": "Not if it is small, centred and error correction is set to Q or H. A logo covering under about 10% of the code's area sits inside the recovery budget that error correction provides."
+        },
+        {
+          "q": "What error correction level should I use with a logo?",
+          "a": "Q for screens and good print, H for small, laminated or outdoor codes. L and M leave too little margin once a logo, print quality and lighting are all working against you."
+        },
+        {
+          "q": "Can the logo go in a corner instead of the centre?",
+          "a": "No. The corners hold the finder patterns that scanners use to locate and orient the code, and covering one makes the code unreadable regardless of error correction."
+        },
+        {
+          "q": "Should my logo be a transparent PNG?",
+          "a": "Yes, a transparent PNG is the cleanest source. Place it on a solid plate in the code's background colour so the QR modules do not show through the transparent areas."
+        },
+        {
+          "q": "Do I have to add the logo separately after downloading?",
+          "a": "No. The logo is rendered into the exported PNG or SVG, so the downloaded file is the final artwork."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/wifi-qr-codes-cafes-hotels",
+      "archetype": "article",
+      "phase": "2",
+      "primary": "guest wifi qr code for cafes and hotels",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "guest wifi qr code hospitality",
+        "hotel room wifi qr code",
+        "is a wifi qr code secure",
+        "where to put wifi qr code in a cafe"
+      ],
+      "cat": "By industry",
+      "reading": "6 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "Guest WiFi QR codes for cafes and hotels",
+      "meta": "How hospitality teams use scan-to-join WiFi codes: what they encode, why they belong on the guest network only, where to place them, and when to reprint.",
+      "h1": "Guest WiFi QR codes for cafes and hotels",
+      "subhead": "Scan-to-join stops staff reading passwords aloud all day — as long as you put the code on the right network and in the right place.",
+      "sections": [
+        {
+          "h": "What the code actually encodes",
+          "p": [
+            "A WiFi QR code holds three things: the network name (SSID), the encryption type, and the password. They are stored as plain text inside the pattern, in a standard format that every phone camera understands. There is no server, no lookup and no login step — the phone reads the credentials and offers to join.",
+            "Be clear about the consequence: anyone who can photograph the code has your password. Any QR reader will display the raw text rather than joining, and a photo taken from across the room decodes just as well as a scan from the table. The code is a convenient way to hand out a password, not a way to protect one."
+          ],
+          "callout": "Treat a printed WiFi code exactly as you would treat the password written on a chalkboard — because that is what it is."
+        },
+        {
+          "h": "Guest network only",
+          "p": [
+            "That is why this belongs on a guest network and nowhere else. Put the code on the network that reaches the internet and nothing else — no point-of-sale terminal, no back-office file share, no property management system, no printers, no cameras.",
+            "If your router supports client isolation on the guest SSID, turn it on so guests cannot see each other's devices either. If your guest and staff networks are currently the same network, split them before you print anything. A code that hands the whole building's password to every passer-by is worse than typing it out."
+          ]
+        },
+        {
+          "h": "Encryption types",
+          "p": [
+            "Pick WPA for anything modern. The WiFi code format uses one WPA setting that covers WPA and WPA2, which is what almost every current router runs. WPA3 is newer and support in scanners is less consistent, so if your access point offers a WPA2/WPA3 mixed mode, that is the safest setting for a public code."
+          ],
+          "table": {
+            "head": [
+              "Network type",
+              "Use for a guest code?",
+              "Notes"
+            ],
+            "rows": [
+              [
+                "WPA2 (or WPA2/WPA3 mixed)",
+                "Yes",
+                "The default choice; broadest phone support"
+              ],
+              [
+                "WPA3 only",
+                "With testing",
+                "Secure, but some scanners still mishandle it"
+              ],
+              [
+                "WEP",
+                "No",
+                "Obsolete and trivially broken; replace the router setting"
+              ],
+              [
+                "Open / no password",
+                "Rarely",
+                "A code adds little; consider a captive portal instead"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Hidden SSIDs and captive portals",
+          "p": [
+            "If the guest network is hidden, the code must carry the hidden flag, otherwise phones will not find the network after reading it. Hidden SSIDs also demand an exact match on the name, including capitals and spaces — copy it from the router settings rather than typing it from memory.",
+            "One limit worth knowing before you print: a WiFi code joins the network, but it cannot log in to a captive portal. If your guests have to accept terms or enter a room number on a splash page, the code gets them onto the WiFi and the portal still appears."
+          ]
+        },
+        {
+          "h": "Changing the password means reprinting",
+          "p": [
+            "The password is baked into the pattern, so rotating it invalidates every printed code at once. That is the trade-off for a code that needs no server and never expires: it works forever, but it points at exactly one password forever.",
+            "Plan around it. Decide a rotation schedule you can live with, count how many pieces you would have to replace, and keep the source file so a reprint is a print job rather than a redesign. Cafes that rotate the guest password monthly should think hard about how many table tents that really means."
+          ]
+        },
+        {
+          "h": "Where to put it — cafes",
+          "p": [
+            "Put it where someone sits down with a laptop, not only where they order. The counter is busy and people scan it while being handed a coffee; the table is where they actually need the network."
+          ],
+          "list": [
+            "Table tents, ideally the same one as the menu code but clearly labelled.",
+            "A small card in the window for people deciding whether to work there.",
+            "The back of the receipt or a loyalty card.",
+            "One larger sign near the seats furthest from the counter."
+          ]
+        },
+        {
+          "h": "Where to put it — hotels",
+          "p": [
+            "Hotels have two moments that matter: check-in and the first minute in the room. Cover both, because a guest who cannot get online in the room will call the front desk."
+          ],
+          "list": [
+            "A desk card in the room, standing up, next to the desk or bedside.",
+            "The room compendium or directory, on its own page rather than buried.",
+            "Reception, so guests can connect while they wait to check in.",
+            "Lobby, bar and meeting rooms if those run on the same guest SSID.",
+            "Not on the room key card sleeve if the code and the room number travel together."
+          ]
+        },
+        {
+          "h": "iPhone and Android behaviour",
+          "p": [
+            "Both platforms handle WiFi codes natively, but not identically. On iOS, the camera app reads the code and shows a banner offering to join the network; the guest taps it and is connected. On Android 10 and later, the camera or Google Lens does the same, though on some manufacturer skins the prompt arrives as a notification the guest has to pull down and tap.",
+            "Older Android phones may need a QR reader app or may open the raw text instead of offering to join. Test with a couple of real handsets before a full print run, and put the network name and password in small text under the code so anyone whose phone does not cooperate can type it in."
+          ]
+        },
+        {
+          "h": "Printing, laminating and refresh cycles",
+          "p": [
+            "Print at least 2 cm across for something read at arm's length, and keep 4 modules of clear background around the code. Matte laminate survives spills without the glare that makes gloss unscannable under downlights, and vector SVG output keeps the pattern crisp at any size.",
+            "Build a refresh habit. Table tents get coffee on them, desk cards get bent, and a code that scans in the print shop can fail after a month in service. Walk the floor once a month, scan a few codes yourself, and reprint the tired ones."
+          ],
+          "callout": "The code is generated in your browser, so the guest password is never uploaded anywhere — but once it is printed, it is public. Guest network only."
+        }
+      ],
+      "related": [
+        "/wifi-qr-code",
+        "/qr-codes-for-hotels",
+        "/qr-codes-for-restaurants",
+        "/learn"
+      ],
+      "cta_href": "/wifi-qr-code",
+      "faq": [
+        {
+          "q": "Is a WiFi QR code secure?",
+          "a": "The code itself is just an encoded copy of your password, so anyone who photographs it can read the password. Use one on a guest network you are happy to share, never on a staff or back-office network."
+        },
+        {
+          "q": "What happens if I change the WiFi password?",
+          "a": "Every printed code stops working and has to be regenerated and reprinted. The credentials are encoded in the pattern, so there is no way to update a code after it is downloaded."
+        },
+        {
+          "q": "Does it work on both iPhone and Android?",
+          "a": "Yes. iOS shows a join banner from the camera app, and Android 10 and later do the same, though some phones surface it as a notification instead. Very old Android handsets may need a reader app."
+        },
+        {
+          "q": "Can guests use it with a captive portal login page?",
+          "a": "The code joins the network, but it cannot complete a captive portal form. Guests will still see the splash page and accept terms or enter a room number as usual."
+        },
+        {
+          "q": "Does the code work if the network name is hidden?",
+          "a": "Yes, as long as the hidden-network flag is set when you generate it and the SSID is spelled exactly as it appears in the router settings."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/qr-code-print-size",
+      "archetype": "article",
+      "phase": "2",
+      "primary": "qr code print size",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "what size should a qr code be",
+        "minimum qr code size",
+        "qr code size for print",
+        "how big should a qr code be on a poster"
+      ],
+      "cat": "Printing",
+      "reading": "6 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "QR code print size: the 10:1 rule and safe minimums",
+      "meta": "How big should a QR code be? Use the 10:1 rule, plus minimum print sizes for business cards, menus, posters, packaging, window decals and billboards.",
+      "h1": "What size should a QR code be to print?",
+      "subhead": "Minimum width is roughly scan distance divided by ten — everything else is what pushes that number up.",
+      "sections": [
+        {
+          "h": "The 10:1 rule",
+          "p": [
+            "Minimum printed width is about the maximum scan distance divided by ten. A code read from 1 m needs to be at least 10 cm wide. A code read from 30 cm needs about 3 cm. That ratio is roughly how much of the camera frame the code has to fill before a phone can resolve the individual squares, called modules.",
+            "Work it from the far end. Decide the furthest point at which someone will realistically stand or sit, convert both numbers to the same unit, divide by ten, then round up. Rounding up is free; a reprint is not.",
+            "The rule assumes a modern phone camera, decent light, a flat surface and a code carrying a moderate amount of data. Break any of those — a dim bar, a gloss laminate, a 140-character URL, a curved bottle — and add 20 to 50 percent on top."
+          ],
+          "callout": "Minimum width = scan distance ÷ 10. Then add margin for low light, glare, curves and dense data. Nobody has ever complained that a QR code was too big."
+        },
+        {
+          "h": "Minimum sizes by surface",
+          "p": [
+            "These are working minimums, not targets. Each assumes a dark code on a light background, a short URL, and a full quiet zone. When you are between two sizes, take the larger one."
+          ],
+          "table": {
+            "head": [
+              "Surface / use",
+              "Typical scan distance",
+              "Minimum width",
+              "Comfortable width"
+            ],
+            "rows": [
+              [
+                "Business card",
+                "10–15 cm (4–6 in)",
+                "1.5 cm (0.6 in)",
+                "2 cm (0.8 in)"
+              ],
+              [
+                "Product label, small packaging",
+                "20–30 cm (8–12 in)",
+                "2 cm (0.8 in)",
+                "2.5–3 cm (1–1.2 in)"
+              ],
+              [
+                "Flyer, A5 leaflet, receipt",
+                "25–40 cm (10–16 in)",
+                "2.5 cm (1 in)",
+                "3 cm (1.2 in)"
+              ],
+              [
+                "Menu or table tent",
+                "30–50 cm (12–20 in)",
+                "3 cm (1.2 in)",
+                "4 cm (1.6 in)"
+              ],
+              [
+                "A4 / A3 poster at arm's length",
+                "50–80 cm (20–32 in)",
+                "5 cm (2 in)",
+                "7 cm (2.8 in)"
+              ],
+              [
+                "Wall poster, corridor or lift sign",
+                "1.5–2 m (5–6.5 ft)",
+                "15 cm (6 in)",
+                "20 cm (8 in)"
+              ],
+              [
+                "Window decal read from the pavement",
+                "1.5–3 m (5–10 ft)",
+                "20 cm (8 in)",
+                "30 cm (12 in)"
+              ],
+              [
+                "Trade-show banner",
+                "2–3 m (6.5–10 ft)",
+                "25 cm (10 in)",
+                "35 cm (14 in)"
+              ],
+              [
+                "Vehicle livery, parked",
+                "4–5 m (13–16 ft)",
+                "40 cm (16 in)",
+                "60 cm (24 in)"
+              ],
+              [
+                "Billboard",
+                "20–50 m (65–165 ft)",
+                "2–5 m (6.5–16 ft)",
+                "As large as the layout allows"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Denser codes need more size, not less",
+          "p": [
+            "More data means more modules, and more modules at the same physical width means every module gets smaller. A QR code is a fixed grid: version 1 is 21×21 modules, and each version up adds four modules per side, all the way to 177×177 at version 40.",
+            "A 25-character short link at error correction M lands around version 2, a 25×25 grid. Push the same code to a 120-character URL with tracking parameters and you are near version 7, a 45×45 grid. Printed at the same 2 cm, each module shrinks from 0.8 mm to about 0.44 mm — and 0.4 mm is roughly where everyday printing and phone cameras start to give up.",
+            "Error correction does the same thing from the other direction. Levels L, M, Q and H recover roughly 7, 15, 25 and 30 percent of a damaged code, but that redundancy is stored as extra modules. Moving a fixed payload from L to H can add several versions to the grid."
+          ],
+          "list": [
+            "Shorten the URL before you shrink the code. Fewer characters is the cheapest way to get a coarser, more forgiving grid.",
+            "Use ECC H only when you need it: a center logo, a surface that gets scuffed, a laminate that reflects.",
+            "Keep printed modules at 0.5 mm or larger for offset and digital printing, and 0.8–1 mm for flexo, thermal labels and corrugated board.",
+            "Export SVG for anything going to print. Vector edges stay clean at any size, while an upscaled PNG turns crisp module edges into grey mush."
+          ]
+        },
+        {
+          "h": "The quiet zone: four modules of nothing",
+          "p": [
+            "The quiet zone is the blank margin around the code, and the specification is four modules on every side. It is not styling — it is how a scanner finds the edge of the grid. Cropping it is the single most common cause of a printed code that will not scan.",
+            "Because it is measured in modules, it scales with the code. On a 2 cm code built from a 25×25 grid, each module is 0.8 mm and the quiet zone is 3.2 mm on each side. On a 20 cm poster code, the same rule gives you several centimetres of empty space.",
+            "The margin has to be the same flat, light color as the code background: no text, no logo, no photograph bleeding in, no border rule running along the edge. Designers usually lose it in one of two ways — trimming the exported image tight to the pattern, or butting the code up against a colored panel in the layout."
+          ]
+        },
+        {
+          "h": "Curved and flexible surfaces",
+          "p": [
+            "Curves distort the grid, and scanners tolerate less distortion than most people expect. On bottles, cans, tubes and pouches, size up by 20 to 30 percent and keep the code off the tightest part of the curve."
+          ],
+          "list": [
+            "Keep the code width under about a third of the circumference. A 65 mm bottle is roughly 200 mm around, so stay at or below 65 mm wide.",
+            "On shrink sleeves, place the code where the film distorts least — flat mid-panel, never over a shoulder or a taper.",
+            "On flexible pouches and soft-touch film, allow for creasing. Larger modules survive a fold that fine ones do not.",
+            "Keep seams, glue lines and label edges out of the pattern and out of the quiet zone."
+          ]
+        },
+        {
+          "h": "Matte beats gloss",
+          "p": [
+            "Use a matte or satin laminate. Gloss creates a specular hotspot: overhead light bounces off the varnish straight into the lens, and the camera sees a blown-out white patch where modules should be.",
+            "This is why laminated menus and glossy table tents fail under downlights while the identical artwork scans fine on plain paper. If the finish is already decided and it is gloss, compensate with extra size, error correction Q or H, and placement that keeps the reflection angle away from where people hold their phone.",
+            "Metallic inks, spot varnish over the pattern and foil all cause the same problem. So does uncoated kraft, fabric and corrugated board, where ink spreads and thickens the modules. Ask the printer for their smallest reliable feature size on that stock — they will know it, and it is usually larger than you assumed."
+          ]
+        },
+        {
+          "h": "Test a real printed sample",
+          "p": [
+            "Print one before you print ten thousand. A proof at final size, on the final stock, with the final finish, tested in the room where it will actually live, catches problems that no on-screen check will."
+          ],
+          "list": [
+            "Scan with at least three phones, including one older Android handset and one iPhone.",
+            "Test in the real lighting: the dim restaurant, the sunlit window, the strip-lit warehouse aisle.",
+            "Test from the furthest realistic distance, not from 20 cm away with your nose on it.",
+            "Test it smudged, folded or thumbprinted — that is what the code looks like a week into its life.",
+            "Try one in-app scanner from a banking or social app. Those are stricter than the native camera."
+          ],
+          "callout": "Static codes cannot be edited after download, so a print run with a code that scans badly is a reprint. Ten minutes with a paper proof is the cheapest insurance on the job."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-packaging",
+        "/qr-codes-for-business-cards",
+        "/qr-code-with-logo",
+        "/learn"
+      ],
+      "cta_href": "/",
+      "faq": [
+        {
+          "q": "What is the smallest a QR code can be?",
+          "a": "About 1.5 cm (0.6 in) for a short link held at reading distance on smooth stock, and 2 cm (0.8 in) is a safer floor. Below that the modules fall under 0.4 mm and printing tolerance, ink spread and camera resolution all start working against you."
+        },
+        {
+          "q": "How big should a QR code be on a poster?",
+          "a": "Divide the viewing distance by ten. A poster read from 2 m needs at least 20 cm; one read from 5 m needs 50 cm. Measure where people can actually stand, not where the poster hangs."
+        },
+        {
+          "q": "Does adding a logo change the size I need?",
+          "a": "Yes. A center logo requires error correction Q or H, which adds modules, so the same data needs a physically larger code to keep the module size safe. Size up by roughly 20 percent and test the printed result."
+        },
+        {
+          "q": "Should I export PNG or SVG for printing?",
+          "a": "SVG. It is vector, so it stays sharp at any size and drops straight into print artwork. PNG is fine for screens, email and slides, where the code is never scaled beyond its exported resolution."
+        },
+        {
+          "q": "Can I resize the code after it is printed wrong?",
+          "a": "No — you reprint. The code is static, so the destination and the artwork are fixed once it leaves the generator. Regenerating and exporting a fresh SVG is free, which is why a proof before the run is worth the delay."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/qr-code-colors-that-scan",
+      "archetype": "article",
+      "phase": "2",
+      "primary": "qr code colors",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "can qr codes be colored",
+        "qr code contrast",
+        "inverted qr code",
+        "qr code brand colors"
+      ],
+      "cat": "Design",
+      "reading": "5 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "QR code colors that still scan: a practical guide",
+      "meta": "Scanners read contrast, not color. Which QR code colors work, which quietly fail, and how to use your brand palette without breaking the scan.",
+      "h1": "QR code colors that still scan",
+      "subhead": "Contrast is what a scanner actually reads — design around that and most brand palettes survive.",
+      "sections": [
+        {
+          "h": "Scanners read contrast, not color",
+          "p": [
+            "A scanner does not see red or blue. It reduces the image to greyscale and looks for a light-dark difference between the modules and the background. Any color pair works if the luminance gap is wide enough, and any pair fails if it is not — including pairs that look strikingly different to your eye.",
+            "The useful measure is contrast ratio, the same one used for web accessibility. Black on white is 21:1. For print, aim for 7:1 or better and treat anything under 4:1 as a code that will fail somewhere: a dim room, a cheap camera, a worn label, a phone held at an angle."
+          ],
+          "callout": "Two colors can be wildly different in hue and nearly identical in brightness. Hue is what you see; brightness is what the scanner sees."
+        },
+        {
+          "h": "Keep the code darker than the background",
+          "p": [
+            "Dark modules on a light background is what every decoder expects. It is what the specification describes, and it is what hardware scanners, older phones and in-app scanners assume before they try anything clever.",
+            "Inverted codes — light modules on a dark background — do work on many modern phones. The iOS camera and Google Lens usually handle them. But a lot of in-app scanners, older Android handsets and almost every dedicated laser or imager scanner will not invert, so an inverted code silently loses you a slice of your audience with no error message and no way to know.",
+            "If the design really needs a dark surface, do not invert. Print a light plate behind the code — a white or cream panel with the full quiet zone inside it — and keep the modules dark. It looks deliberate and it scans everywhere."
+          ]
+        },
+        {
+          "h": "Safe and risky color pairings",
+          "p": [
+            "Contrast ratios below are approximate and calculated the WCAG way, code color against background color. Anything in the safe band has margin left for bad light and cheap cameras."
+          ],
+          "table": {
+            "head": [
+              "Code on background",
+              "Approx. contrast",
+              "Verdict"
+            ],
+            "rows": [
+              [
+                "Black on white",
+                "21:1",
+                "Safe — the benchmark"
+              ],
+              [
+                "Near-black #111827 on white",
+                "17:1",
+                "Safe, and softer than pure black"
+              ],
+              [
+                "Navy #0B1F3B on white",
+                "16:1",
+                "Safe"
+              ],
+              [
+                "Dark green #14532D on white",
+                "9:1",
+                "Safe"
+              ],
+              [
+                "Dark code on light cream #FAF5EC",
+                "15:1+",
+                "Safe — warm backgrounds are fine"
+              ],
+              [
+                "Teal #0F766E on white",
+                "5.5:1",
+                "Borderline — usable in print, test it"
+              ],
+              [
+                "Mid grey #808080 on white",
+                "4:1",
+                "Risky — fails in low light"
+              ],
+              [
+                "Orange #F97316 on white",
+                "2.8:1",
+                "Fails"
+              ],
+              [
+                "Dark red #8B0000 on black",
+                "2.1:1",
+                "Fails"
+              ],
+              [
+                "Pastel blue #A7D8F0 on white",
+                "1.5:1",
+                "Fails"
+              ],
+              [
+                "Yellow #FFD700 on white",
+                "1.4:1",
+                "Fails badly"
+              ],
+              [
+                "White on near-black #111827",
+                "17:1",
+                "High contrast but inverted — avoid in print"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Why red is the repeat offender",
+          "p": [
+            "Red carries very little luminance for how loud it looks. Pure red on black measures around 5:1 on paper but collapses in practice, because the camera's red channel is the noisiest one and warm indoor lighting shifts white balance further against it. Dark red on black lands near 2:1 and simply does not decode.",
+            "The same trap catches yellow and orange from the other end. They read as bright to the eye, so designers pair them with white, where the luminance gap is almost nothing. Yellow on white is about 1.4:1 — a code you can see clearly and a scanner cannot read at all."
+          ]
+        },
+        {
+          "h": "The finder patterns are not decoration",
+          "p": [
+            "The three large squares in the corners are the finder patterns, and a smaller alignment square sits near the bottom right on all but the smallest codes. The scanner uses them to locate the code, work out its orientation, and correct for angle before it reads a single data module.",
+            "They must stay the darkest, highest-contrast part of the image. Tinting them a lighter accent color, filling them with a gradient, outlining them with a thin stroke, or letting a logo or photograph overlap them are all reliable ways to build a code that looks great and scans intermittently.",
+            "Restyling their shape is a different matter and it is fine. Rounded or circular finder patterns keep the same light-dark relationship while changing the outline, which is why style options exist. Changing their contrast is the thing to avoid."
+          ]
+        },
+        {
+          "h": "Gradients, photos and transparency",
+          "p": [
+            "A gradient across the modules is safe only if every stop in it clears your contrast floor against the background. A gradient running from deep navy to pale sky blue will scan at one end of the code and fail at the other, which is worse than failing outright because it passes your first test."
+          ],
+          "list": [
+            "Keep gradients inside a narrow, dark range — for example #1E1B4B to #4338CA, never navy to white.",
+            "Apply gradients to the modules only. Leave the background a single flat, light color.",
+            "Never lay a code directly over a photograph. Put it on a solid light plate with the whole quiet zone inside that plate.",
+            "Avoid semi-transparent codes over video or imagery. The background moves and the contrast goes with it."
+          ]
+        },
+        {
+          "h": "Using brand colors without breaking the scan",
+          "p": [
+            "Most palettes contain something dark enough to work. Take the darkest color in the brand, check it against white, and if it clears 7:1 you can build the entire code from it and still be on brand.",
+            "If the brand color is light or mid-tone, spend it somewhere other than the modules: as the background behind a near-black code, as the frame or panel around it, as the call-to-action text underneath, or as the logo in the center. The code itself stays dark and everything around it carries the brand.",
+            "A center logo adds its own constraint. Keep it under roughly 20 to 25 percent of the code area and raise error correction to Q (about 25 percent recovery) or H (about 30 percent) so the covered modules can be reconstructed."
+          ]
+        },
+        {
+          "h": "How to check before you print",
+          "p": [
+            "Three checks catch nearly everything, and all of them take less time than a reprint."
+          ],
+          "list": [
+            "Run the two hex values through any WCAG contrast checker. Under 4:1, change something. Between 4:1 and 7:1, test hard before committing.",
+            "Screenshot the code and desaturate it to greyscale. If the modules and background blur together in grey, that is exactly what the scanner gets.",
+            "Print at final size on the final stock and scan with three phones, at the real distance, in the real lighting — including one in-app scanner, which is stricter than the native camera."
+          ],
+          "callout": "Colors shift between screen and press. An RGB navy measuring 16:1 on your monitor can print noticeably lighter in CMYK on uncoated stock, so the paper proof is the check that counts."
+        }
+      ],
+      "related": [
+        "/custom-qr-code-generator",
+        "/qr-code-with-logo",
+        "/qr-codes-for-packaging",
+        "/learn"
+      ],
+      "cta_href": "/custom-qr-code-generator",
+      "faq": [
+        {
+          "q": "Can a QR code be any color?",
+          "a": "Almost any, as long as the modules stay clearly darker than the background. Aim for a contrast ratio of 7:1 or better; below 4:1 the code will fail on some cameras and in some lighting even if it looks fine to you."
+        },
+        {
+          "q": "Do inverted QR codes work?",
+          "a": "Sometimes. Modern phone cameras usually decode light-on-dark codes, but many in-app scanners and dedicated hardware scanners do not invert. For anything printed, keep dark modules on a light background."
+        },
+        {
+          "q": "Why does my colored QR code scan on my phone but not on others?",
+          "a": "Your phone's camera, screen brightness and the lighting in the room are all doing you a favor. Marginal contrast decodes on a good camera in good light and fails on everything else, which is why 4:1 to 7:1 is a warning band rather than a pass."
+        },
+        {
+          "q": "Can I use a gradient on a QR code?",
+          "a": "Yes, if every color in the gradient is dark enough against the background. Keep the range narrow and dark, apply it to the modules only, and leave the background one flat light color."
+        },
+        {
+          "q": "Can I change the colors after I download the code?",
+          "a": "Not in the file itself — these codes are static, so the exported PNG or SVG is final. Regenerating with different colors is free and takes seconds, so make a new export rather than editing the artwork by hand."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/static-vs-dynamic-qr-codes",
+      "archetype": "article",
+      "phase": "2",
+      "primary": "static vs dynamic qr code",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "do qr codes expire",
+        "dynamic qr code",
+        "can you edit a qr code after printing",
+        "free qr code that never expires",
+        "trackable qr code"
+      ],
+      "cat": "Basics",
+      "reading": "7 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "Static vs Dynamic QR Codes: Which Do You Need?",
+      "meta": "Static codes bake the link into the pattern and never expire. Dynamic codes rent you an editable, trackable redirect. An honest comparison of both.",
+      "h1": "Static vs dynamic QR codes: which do you need?",
+      "subhead": "One bakes the destination into the image forever. The other rents you a redirect you can change. Here is the real trade-off.",
+      "sections": [
+        {
+          "h": "The short answer",
+          "p": [
+            "A static QR code stores the destination inside the pattern itself. A dynamic QR code stores a short redirect URL, and a server run by the vendor decides where that redirect points today. Everything else — cost, expiry, editing, analytics — follows from that one difference.",
+            "Choose static when the destination is settled and you want the code to keep working with no ongoing dependency and no bill. Choose dynamic when you genuinely need to change the destination after printing, or need scan numbers you will actually act on."
+          ],
+          "callout": "Neither is better in the abstract. A static code is a file you own; a dynamic code is a service you rent. Decide based on whether the destination is settled."
+        },
+        {
+          "h": "How each one actually works",
+          "p": [
+            "In a static code, the link, WiFi credentials or text you entered is encoded directly into the modules — the small light and dark squares. A scanner reads the pattern and has your data immediately. Nothing is looked up, so no server is involved once the image exists.",
+            "That is why the pattern gets denser as the data gets longer: a 30-character link needs fewer modules than a 200-character one. It is also why a static code cannot be edited. Changing the destination would mean redrawing the image, and the copies already printed do not redraw themselves.",
+            "A dynamic code encodes something short instead, such as https://ex.mp/7fQ2a. When someone scans it, their phone requests that address, the vendor's server looks up which destination the code currently points to, and sends a redirect. You change the destination by editing a record in the vendor's dashboard, not the artwork.",
+            "Because every scan passes through that server, the vendor can count it, timestamp it, and log coarse details such as country, city and device type. That is the entire basis of QR analytics — there is no other way to collect it. It also means the vendor sees your scanners before you do, and the code only works for as long as their server answers."
+          ]
+        },
+        {
+          "h": "Static vs dynamic at a glance",
+          "table": {
+            "head": [
+              "",
+              "Static",
+              "Dynamic"
+            ],
+            "rows": [
+              [
+                "What is encoded",
+                "The destination itself",
+                "A short redirect URL"
+              ],
+              [
+                "Needs a server",
+                "No",
+                "Yes — the vendor's, permanently"
+              ],
+              [
+                "Expires",
+                "Never",
+                "When the plan lapses or the vendor closes"
+              ],
+              [
+                "Cost",
+                "Free, once",
+                "Usually a monthly or annual subscription"
+              ],
+              [
+                "Edit destination after printing",
+                "No",
+                "Yes"
+              ],
+              [
+                "Scan analytics",
+                "None",
+                "Counts, timestamps, rough location, device"
+              ],
+              [
+                "Privacy",
+                "Nobody sits in the scan path",
+                "Vendor logs every scan"
+              ],
+              [
+                "Pattern density",
+                "Grows with the length of your data",
+                "Always short and sparse"
+              ],
+              [
+                "Works with no internet",
+                "Yes, for WiFi and contact data",
+                "No"
+              ],
+              [
+                "Who controls it",
+                "You",
+                "The vendor"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "The failure mode nobody prints on the poster",
+          "p": [
+            "The common disaster is a code that scanned perfectly in the print proof and shows an error page eighteen months later. It happens because many \"free\" generators quietly hand you a dynamic code: free to create, free for a 14-day trial, then dead unless you subscribe.",
+            "The artwork is not the problem. The pattern still decodes flawlessly. It just decodes to a redirect address that now returns \"this code has expired\" or a page selling you an upgrade. Every menu, label and flyer carrying it is wasted, and you cannot fix them without reprinting.",
+            "The same happens if the vendor shuts down, gets acquired, or retires the short domain it used — the redirect host stops resolving and the codes go with it. Printing a dynamic code at volume is a bet that one company stays in business and stays affordable. Sometimes that is a perfectly sensible bet. It should be a conscious one."
+          ],
+          "callout": "Before printing a dynamic code, ask what happens to it if you stop paying. If the answer is that it stops working, price the reprint into the decision."
+        },
+        {
+          "h": "When a dynamic code is genuinely worth paying for",
+          "p": [
+            "There are real jobs a static code cannot do. If one of these describes you, buy a dynamic code and do not feel bad about it — this is exactly what the subscription is for."
+          ],
+          "list": [
+            "The destination does not exist yet. Packaging and signage often go to print months before the landing page is finished, and a redirect lets you point it somewhere real later.",
+            "You need scan analytics to make a decision — comparing two poster placements, or proving a campaign worked. Counting scans requires a server in the path, so only a dynamic code can do it.",
+            "You are A/B testing, sending the same printed code to different destinations or splitting traffic between them.",
+            "You are retargeting. A redirect through a domain you can tag lets you build an audience from people who scanned.",
+            "The link is expected to rot: seasonal menus, event pages and quarterly promos that get replaced on a schedule are easier to manage from one dashboard.",
+            "You are managing hundreds or thousands of codes across many SKUs and need them in a single inventory."
+          ]
+        },
+        {
+          "h": "When a static code is the better choice",
+          "p": [
+            "For most everyday uses, static is not the budget option — it is the more durable one."
+          ],
+          "list": [
+            "WiFi codes. The network name and password live in the pattern, so a phone can join with no internet connection at all. A redirect physically cannot do this.",
+            "Contact codes on business cards, where the name, phone and email are the payload rather than a link.",
+            "Anything pointing at a domain you control, because you can change what lives at that address whenever you like.",
+            "Print you cannot recall — packaging, engraved signage, window decals, stickers already out in the world.",
+            "Anywhere you would rather not have a third party logging who scanned what, and when."
+          ]
+        },
+        {
+          "h": "How to get editability without paying for a redirect",
+          "p": [
+            "Point a static code at a URL you own, then change what that URL serves. A code pointing at yoursite.com/menu is permanently fixed on that address, but you decide whether the address shows the spring menu or the winter one. A redirect on your own domain works the same way and costs nothing extra.",
+            "That gives you the half of dynamic that usually matters — changing the destination — without renting anything from anyone. What it does not give you is scan counts. For a rough figure, your own site analytics will show visits to that page, and adding a query string such as ?src=tabletent separates QR traffic from ordinary visitors."
+          ],
+          "callout": "A static code aimed at a page you control is editable in every way that matters, and it still never expires."
+        },
+        {
+          "h": "What this tool makes, and what it does not",
+          "p": [
+            "QR Code Agent makes static codes only. Your data is encoded straight into the pattern, in your browser — nothing is uploaded, and no server sits between the printed code and the person scanning it. That is why there is no account, no subscription and no expiry date.",
+            "The limits, stated plainly: a code you download here cannot be edited afterwards, and there is no dashboard, because a static code does not report scans to anyone, including us. If you need editing or tracking, a paid dynamic service is the right tool for that job and this page is not going to pretend otherwise."
+          ]
+        }
+      ],
+      "related": [
+        "/url-qr-code",
+        "/pdf-qr-code",
+        "/qr-codes-for-packaging",
+        "/learn"
+      ],
+      "cta_href": "/",
+      "faq": [
+        {
+          "q": "Do QR codes expire?",
+          "a": "Static codes do not — the destination is inside the pattern, so the code works as long as that destination exists. Dynamic codes stop working when the subscription lapses or the vendor's redirect server goes away."
+        },
+        {
+          "q": "Can I change where a QR code points after printing?",
+          "a": "Only if it is dynamic. A static code is fixed the moment you download it. The workaround is to point it at a URL you control and change the content at that URL instead."
+        },
+        {
+          "q": "Can I track scans on a static QR code?",
+          "a": "Not on the code itself. You can see visits to the destination page in your own web analytics, and a query string such as ?src=poster will separate QR traffic from other visitors. WiFi and contact codes cannot be tracked at all."
+        },
+        {
+          "q": "Is a free dynamic QR code safe to print?",
+          "a": "Read the terms before you print. Many free tiers issue dynamic codes that stop redirecting once the trial ends, which kills every printed copy at once. If a code is free, editable and tracked, something is usually being paid for later."
+        },
+        {
+          "q": "Which type should I use for a restaurant menu?",
+          "a": "Static, pointing at a menu page or PDF on your own domain. You update the page whenever the menu changes, and the printed table tents keep working indefinitely."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/png-or-svg-qr-code",
+      "archetype": "article",
+      "phase": "2",
+      "primary": "png or svg qr code",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "qr code svg",
+        "vector qr code",
+        "qr code resolution for print",
+        "300 dpi qr code",
+        "qr code file format"
+      ],
+      "cat": "Basics",
+      "reading": "4 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "PNG or SVG: Which QR Code File to Download?",
+      "meta": "PNG for screens, SVG for anything printed. What DPI means, why 300 matters, and the exact pixel size to export for each physical code size.",
+      "h1": "PNG or SVG: which QR code file should you download?",
+      "subhead": "Raster for screens, vector for print — plus the pixel sizes that stop a printed code coming out soft.",
+      "sections": [
+        {
+          "h": "The short answer",
+          "p": [
+            "Download SVG for anything that will be printed or resized. Download PNG for anything that stays on a screen — email, a slide, a social post, a web page. Print gets vector, screens get raster.",
+            "Both files hold the same QR code and scan identically at the size you made them. The only difference is how the image is stored, which decides what happens when someone makes it bigger."
+          ],
+          "callout": "If you are not sure, take both. Neither costs anything here, and having the SVG ready when the printer asks for vector saves an afternoon."
+        },
+        {
+          "h": "What actually differs",
+          "p": [
+            "A PNG is a raster image: a fixed grid of pixels. A 512 x 512 px PNG holds 262,144 pixels of information and will never hold more. Scale it up to poster size and the software has to invent the missing detail, so the edge of every module goes soft and the code becomes harder to read in poor light or at an angle.",
+            "An SVG is a vector image: a set of instructions describing the squares rather than a picture of them. The renderer draws them fresh at whatever size is requested, so the edges stay exactly as crisp on a billboard as on a business card. The file is usually smaller too, because a QR code is only a few hundred shapes.",
+            "The catch is support. Every phone, browser, email client and word processor handles PNG. SVG is reliable in browsers and in design software such as Illustrator, InDesign and Affinity, but some office suites render it badly and most social platforms reject it outright. That is the whole trade-off.",
+            "One detail if you added a logo: the QR pattern stays vector in the SVG, but a logo you supplied as a PNG or JPG is still a raster image inside it. Start from the largest version of the logo you have."
+          ]
+        },
+        {
+          "h": "Which format for which job",
+          "table": {
+            "head": [
+              "Where it goes",
+              "Format",
+              "Export size"
+            ],
+            "rows": [
+              [
+                "Web page or email signature",
+                "PNG",
+                "300–600 px"
+              ],
+              [
+                "Slide deck",
+                "PNG",
+                "600–1000 px"
+              ],
+              [
+                "Instagram or other social",
+                "PNG",
+                "1000–1080 px"
+              ],
+              [
+                "Business card, 2 cm code",
+                "SVG",
+                "PNG fallback: 250 px"
+              ],
+              [
+                "Menu or table tent, 4 cm code",
+                "SVG",
+                "PNG fallback: 500 px"
+              ],
+              [
+                "Flyer or A4 poster, 5 cm code",
+                "SVG",
+                "PNG fallback: 600 px"
+              ],
+              [
+                "Packaging and labels",
+                "SVG",
+                "Vector — printers will ask for it"
+              ],
+              [
+                "Large-format poster or banner",
+                "SVG",
+                "Vector, no pixel size needed"
+              ]
+            ]
+          },
+          "p": [
+            "When a print shop asks for print-ready artwork, the SVG is the answer. Send a PNG only if their system will not take vector, and send it at the size worked out below."
+          ]
+        },
+        {
+          "h": "What DPI means and why printers want 300",
+          "p": [
+            "DPI — dots per inch — is how many ink dots a press lays down across each inch of paper. 300 DPI is the standard for anything held in the hand, because at normal reading distance the eye stops resolving individual dots somewhere around that density. Below roughly 150 DPI, edges look visibly soft.",
+            "For a QR code, soft edges are more than cosmetic. A scanner has to decide whether each module is light or dark, and blurred boundaries produce more decoding errors — most noticeably in dim light, at an angle, or on an older phone camera. A sharp code scans faster and from further away.",
+            "DPI applies only to raster files. An SVG has no DPI because it has no pixels; the printer's software renders it at whatever resolution the press runs at. That is precisely why print shops keep asking for vector."
+          ]
+        },
+        {
+          "h": "Picking an export size in pixels",
+          "p": [
+            "The maths is one line: pixels = printed width in inches x 300. A 1-inch (2.5 cm) code needs a 300 x 300 px PNG, and a 2-inch (5 cm) code needs 600 x 600 px. Working in centimetres, divide by 2.54 first — a 4 cm code is 1.57 in, so 1.57 x 300 = 472 px, which you round up to 500."
+          ],
+          "list": [
+            "2 cm on a business card — 250 px",
+            "3 cm on a flyer — 360 px",
+            "4 cm on a menu or table tent — 500 px",
+            "5 cm on a poster — 600 px",
+            "10 cm on a shipping label or carton — 1200 px"
+          ],
+          "callout": "Rounding the export size up costs nothing. Rounding it down costs a reprint."
+        },
+        {
+          "h": "Two things that ruin a file at any size",
+          "p": [
+            "Do not crop the quiet zone. A QR code needs a blank margin of four modules on all four sides, and scanners use it to find the code's edges. Trimming it to squeeze the code into a layout is the most common reason a technically perfect code will not scan.",
+            "Do not save a QR code as JPG. JPG compression puts faint halos around high-contrast edges, which is all a QR code is made of. Use PNG when you need a raster file, and never re-export a code that has already been through JPG compression."
+          ]
+        },
+        {
+          "h": "Both exports are free here",
+          "p": [
+            "QR Code Agent exports PNG and SVG with no account, no watermark and no size limit. The image is generated in your browser, so the file is built on your own device and nothing is uploaded.",
+            "The codes are static, which means the destination is encoded in the pattern and the file you download is final — worth knowing before 5,000 labels go to print. Test the exported file on two or three different phones before the run, not after it."
+          ]
+        }
+      ],
+      "related": [
+        "/qr-code-with-logo",
+        "/custom-qr-code-generator",
+        "/qr-codes-for-packaging",
+        "/learn"
+      ],
+      "cta_href": "/",
+      "faq": [
+        {
+          "q": "Is SVG or PNG better for a QR code?",
+          "a": "SVG for print, PNG for screens. SVG scales to any size with no loss of quality, while PNG is a fixed pixel grid but is accepted everywhere."
+        },
+        {
+          "q": "Can I use an SVG QR code in Word or on Instagram?",
+          "a": "Often not. Office software support for SVG is patchy and most social platforms reject it. Use the PNG in those places and keep the SVG for the printer."
+        },
+        {
+          "q": "What size PNG do I need for printing?",
+          "a": "Multiply the printed width in inches by 300. A 4 cm (1.6 in) code needs about 500 x 500 px; a 2 cm business-card code needs about 250 x 250 px. Always round up."
+        },
+        {
+          "q": "Will converting a PNG to SVG fix a blurry code?",
+          "a": "Not usefully. Tracing a low-resolution raster preserves its soft edges as vector outlines. Re-export the code as SVG from the generator instead — it takes a few seconds."
+        },
+        {
+          "q": "Does the file format affect whether the code scans?",
+          "a": "Only through sharpness and contrast. The encoded data is identical in both files, but a soft, upscaled PNG gives a scanner more work to do than a clean vector print."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
       ]
     }
   ]
