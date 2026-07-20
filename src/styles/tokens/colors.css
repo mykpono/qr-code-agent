@@ -13,7 +13,7 @@
 
 :root {
   /* ── Brand / accent ───────────────────────────────── */
-  --brand-500: #6543ff;          /* primary accent — links, selection ring, sliders (a11y: was #6d4dff, 4.2:1 on --brand-soft) */
+  --brand-500: #5c38ff;          /* primary accent — links, selection ring, sliders (a11y: was #6d4dff; solved against --page, the darkest surface brand-coloured text lands on) */
   --brand-600: #5535e6;          /* hover / pressed accent */
   --brand-grad-a: #7b5cff;       /* CTA gradient start */
   --brand-grad-b: #a24dff;       /* CTA gradient end */
