@@ -87,8 +87,17 @@ function bakeLogo(ctx, out, grid, img, bg, fg, shape, border) {
   ctx.drawImage(img, x, y, size, size); ctx.restore();
   if (border) { ctx.strokeStyle = fg; ctx.lineWidth = stroke; if (shape === 'circle') { ctx.beginPath(); ctx.arc(cx, cy, R + gap + stroke / 2, 0, 7); ctx.stroke(); } else { ctx.beginPath(); traceRR(ctx, x - gap, y - gap, size + gap * 2, size + gap * 2, corner); ctx.stroke(); } }
 }
+// ISO/IEC 18004 requires a quiet zone of at least 4 modules on every side.
+// This was previously `pad = out * 0.04` — a fraction of the output size, which
+// made the quiet zone shrink in module terms as the code got denser: ~1.3
+// modules on a typical URL code. Under-quieting is a leading cause of printed
+// codes failing to scan against coloured or busy backgrounds. Size the pad in
+// modules so it is correct at every version and every output size.
+const QUIET_MODULES = 4;
 function renderReal(canvas, matrix, out, fg, bg, dot, finder, logoImg, logoShape, logoBorder) {
-  const n = matrix.length, pad = out * 0.04, grid = out - pad * 2, cell = grid / n;
+  const n = matrix.length;
+  const cell = out / (n + QUIET_MODULES * 2);
+  const pad = QUIET_MODULES * cell, grid = out - pad * 2;
   canvas.width = out; canvas.height = out; const ctx = canvas.getContext('2d');
   ctx.fillStyle = bg; ctx.fillRect(0, 0, out, out);
   const fin = [[0, 0], [0, n - 7], [n - 7, 0]];

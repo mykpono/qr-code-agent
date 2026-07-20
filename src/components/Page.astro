@@ -16,7 +16,7 @@ const mode = (page.tool && page.tool.mode) || 'url';
 const flagship = a !== 'learn' && a !== 'trust';
 const guide = a === 'usecase' || a === 'industry';
 const prose = a === 'trust';
-const badge = a === 'usecase' ? 'Use-case guide' : a === 'industry' ? `For ${page.h1.replace(/^QR codes for /i, '')}` : a === 'learn' ? 'Learn' : a === 'trust' ? page.badge || 'About' : 'Free · No sign-up · Never expires';
+const badge = a === 'usecase' ? 'Use-case guide' : a === 'industry' ? `For ${page.h1.replace(/^QR codes for /i, '')}` : a === 'learn' ? 'Learn' : a === 'trust' ? page.badge || 'About' : 'Free QR Codes';
 const glyphs = ['✎', '◉', '∞', '⌂', '⚡', '◇', '✓'];
 const canonical = guide && page.related ? page.related[0] : null;
 

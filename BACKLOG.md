@@ -41,8 +41,11 @@ Golden Rules in `CLAUDE.md` (use folder layouts, real encoder, no invented QR de
 ## P3 — polish & Phase-2
 - [ ] **a11y pass** (WCAG AA): contrast on dark themes (Olive/Slate), 44px targets, focus states,
       keyboard-operable generator, canvas text alternative. Run the `design:accessibility-review`.
-- [ ] **Widen the QR quiet zone** slightly before heavy print use (currently `pad = out*0.04`;
-      spec prefers more) as a scan-safety margin. Keep the Q/H default.
+- [x] **Widen the QR quiet zone.** DONE — was `pad = out*0.04`, a fraction of output size, so
+      the quiet zone shrank in module terms as codes got denser (~1.3 modules on a typical URL,
+      spec requires 4). Now sized in modules: `cell = out/(n+8)`, `pad = 4*cell`. Verified with
+      BarcodeDetector across 4 payload sizes, all 5 dot styles, all 5 finder styles, all 4 ECC
+      levels, and with a baked-in logo — 100% decode, margin measured at exactly 4 modules.
 - [ ] **Generate vs Download** — both currently trigger export since the preview is live. Split if
       a distinct "Generate" action is wanted.
 - [ ] **Phase-2 accounts** (post-launch, optional): Supabase Auth + Google provider for cross-device
