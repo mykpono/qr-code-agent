@@ -357,3 +357,15 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
 .qa summary.q::-webkit-details-marker { display: none; }
 .qa .q span::after { content: "+"; }
 details[open].qa .q span::after { content: "–"; }
+
+/* Article byline (learn/*). Reuses the prose column; no new visual language. */
+.art-byline { margin: 10px 0 0; font: 500 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
+.prose-sec h3 { margin: 22px 0 8px; font-size: 17px; text-align: left; }
+.prose-sec table { width: 100%; border-collapse: collapse; margin: 4px 0 16px; font: 400 14px var(--font-sans); }
+.prose-sec th, .prose-sec td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+.prose-sec th { font: 600 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); border-bottom-color: var(--border-2); }
+.prose-sec td strong { color: var(--ink-2); }
+.prose-sec .callout { margin: 4px 0 16px; padding: 14px 16px; border-radius: 12px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); }
+.prose-sec .callout p { margin: 0; color: var(--ink-2); }
+.feat .body h3 a { color: inherit; }
+.feat .body h3 a:hover { color: var(--brand-500); }

@@ -6,17 +6,21 @@ import { SITE, labelFor, localHref, SUPPORT_URL } from '../lib/content.js';
 
 const { page, locale = 'en' } = Astro.props;
 const L = (href) => localHref(href, locale);   // locale-prefix internal links
-const a = page.archetype;                       // home | feature | type | usecase | industry | learn | trust
+const a = page.archetype;                       // home | feature | type | usecase | industry | learn | trust | article
 const mode = (page.tool && page.tool.mode) || 'url';
 // Every page type — QR types, use cases, ICP/industry, feature, home — embeds the
 // exact generator widget. `guide` only changes the surrounding layout (breadcrumb,
 // narrow hero, canonical callout), not whether the tool is present.
 // `learn` is a content index and `trust` is prose (about/privacy) — neither embeds
 // the tool: a privacy policy wrapped around a QR generator makes no sense.
-const flagship = a !== 'learn' && a !== 'trust';
+// `learn` is a content index, `trust` is prose (about/privacy) and `article` is
+// long-form editorial — none embed the tool. An article ends with a CTA to the
+// generator instead, which is the right conversion path from editorial content.
+const flagship = a !== 'learn' && a !== 'trust' && a !== 'article';
 const guide = a === 'usecase' || a === 'industry';
-const prose = a === 'trust';
-const badge = a === 'usecase' ? 'Use-case guide' : a === 'industry' ? `For ${page.h1.replace(/^QR codes for /i, '')}` : a === 'learn' ? 'Learn' : a === 'trust' ? page.badge || 'About' : 'Free QR Codes';
+const prose = a === 'trust' || a === 'article';
+const article = a === 'article';
+const badge = a === 'usecase' ? 'Use-case guide' : a === 'industry' ? `For ${page.h1.replace(/^QR codes for /i, '')}` : a === 'learn' ? 'Learn' : a === 'trust' ? page.badge || 'About' : a === 'article' ? page.cat || 'Guide' : 'Free QR Codes';
 const glyphs = ['✎', '◉', '∞', '⌂', '⚡', '◇', '✓'];
 const canonical = guide && page.related ? page.related[0] : null;
 
@@ -35,6 +39,12 @@ const TRUST = [
   </div>
 )}
 
+{article && (
+  <div class="wrap">
+    <div class="crumb"><a href={L("/")}>Home</a> › <a href={L("/learn")}>Learn</a> › <span style="color:var(--ink-2);">{page.h1}</span></div>
+  </div>
+)}
+
 <div class={guide ? 'wrap' : 'wrap hero'}>
   {guide ? (
     <div class="narrow hero left">
@@ -50,6 +60,9 @@ const TRUST = [
       {page.categories && (
         <div class="cats">{page.categories.map((c, i) => <span class={`cat${i === 0 ? ' on' : ''}`}>{c}</span>)}</div>
       )}
+      {article && (
+        <p class="art-byline">{[page.reading, page.updated && `Updated ${page.updated}`].filter(Boolean).join(' · ')}</p>
+      )}
     </>
   )}
 </div>
@@ -63,7 +76,9 @@ const TRUST = [
       <div class="feat">
         <div class="body">
           <span class="k">{page.featured.kicker}</span>
-          <h3>{page.featured.title}</h3>
+          {page.featured.href
+            ? <h3><a href={L(page.featured.href)}>{page.featured.title}</a></h3>
+            : <h3>{page.featured.title}</h3>}
           <p>{page.featured.text}</p>
           <span class="meta">{page.featured.meta}</span>
         </div>
@@ -100,11 +115,30 @@ const TRUST = [
     {page.sections.map((s) => (
       <div class="prose-sec">
         {s.h && <h2>{s.h}</h2>}
+        {s.h3 && <h3>{s.h3}</h3>}
         {s.p && s.p.map((para) => <p>{para}</p>)}
         {s.list && <ul>{s.list.map((li) => <li>{li}</li>)}</ul>}
+        {s.table && (
+          <div style="overflow-x:auto;">
+            <table>
+              <thead><tr>{s.table.head.map((c) => <th>{c}</th>)}</tr></thead>
+              <tbody>{s.table.rows.map((r) => <tr>{r.map((c) => <td>{c}</td>)}</tr>)}</tbody>
+            </table>
+          </div>
+        )}
+        {s.callout && <div class="callout"><p>{s.callout}</p></div>}
       </div>
     ))}
-    {page.updated && <p class="prose-updated">Last updated {page.updated}</p>}
+    {page.updated && !article && <p class="prose-updated">Last updated {page.updated}</p>}
+  </div></section>
+)}
+
+{article && (
+  <section class="blk" style="padding-top:0;"><div class="wrap narrow">
+    <div class="toolcta">
+      <div><h3>Make one now</h3><p>Free, no sign-up, and your code never expires.</p></div>
+      <a href={L(page.cta_href || '/')}>OPEN THE GENERATOR →</a>
+    </div>
   </div></section>
 )}
 

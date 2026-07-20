@@ -104,11 +104,32 @@ export function schemaGraph(page, locale = 'en') {
     });
   }
   if (want.has('BreadcrumbList') && page.slug) {
+    // Nested pages (/learn/<slug>) get their hub as an intermediate crumb so the
+    // trail matches the on-page breadcrumb.
+    const parts = page.slug.split('/');
+    const trail = [{ '@type': 'ListItem', position: 1, name: 'Home', item: urlFor('', locale) }];
+    if (parts.length > 1) {
+      const hub = getPage(parts[0]);
+      trail.push({
+        '@type': 'ListItem', position: 2,
+        name: hub ? hub.h1 : parts[0], item: urlFor(parts[0], locale),
+      });
+    }
+    trail.push({ '@type': 'ListItem', position: trail.length + 1, name: page.h1, item: canonical });
+    graph.push({ '@type': 'BreadcrumbList', itemListElement: trail });
+  }
+  if (want.has('Article')) {
     graph.push({
-      '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: urlFor('', locale) },
-        { '@type': 'ListItem', position: 2, name: page.h1, item: canonical },
-      ],
+      '@type': 'Article',
+      headline: page.h1,
+      description: page.meta,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      author: { '@type': 'Person', name: 'Myk Pono', url: 'https://www.linkedin.com/in/mykolaponomarenko/' },
+      publisher: { '@id': `${BASE}/#organization` },
+      isPartOf: { '@id': `${BASE}/#website` },
+      ...(page.published ? { datePublished: page.published } : {}),
+      ...(page.updated_iso ? { dateModified: page.updated_iso } : {}),
     });
   }
   if (want.has('HowTo') && page.howto) {

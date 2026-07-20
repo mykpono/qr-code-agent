@@ -1,5 +1,30 @@
+# Block nothing that should rank; QR generation happens client-side and the
+# codes people make are never sent to a server, so there is nothing to hide.
+
+# --- AI search + assistant crawlers -------------------------------------
+# Named explicitly so the intent is auditable, not just inherited from the
+# wildcard below. These are the crawlers that produce citations in ChatGPT
+# Search, Perplexity and Claude; the site wants that reach.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# --- Everything else ----------------------------------------------------
 User-agent: *
 Allow: /
 
-# Block nothing that should rank; QR generation happens client-side.
 Sitemap: https://qrcodeagent.net/sitemap.xml
