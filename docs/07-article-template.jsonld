@@ -1,0 +1,16 @@
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "QR Codes for Restaurants: The Complete 2026 Guide",
+  "description": "How restaurants use QR codes for menus, reviews, WiFi, and promotions — with print sizing and scanning best practices.",
+  "image": "https://qrcodeagent.net/assets/learn/qr-codes-for-restaurants.png",
+  "datePublished": "2026-07-20",
+  "dateModified": "2026-07-20",
+  "author": { "@id": "https://qrcodeagent.net/#organization" },
+  "publisher": { "@id": "https://qrcodeagent.net/#organization" },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://qrcodeagent.net/learn/qr-codes-for-restaurants"
+  },
+  "inLanguage": "en"
+}

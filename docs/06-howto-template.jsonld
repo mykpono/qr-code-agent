@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to create a WiFi QR code",
+  "totalTime": "PT1M",
+  "tool": [{ "@type": "HowToTool", "name": "QR Code Agent" }],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Enter your WiFi details",
+      "text": "Type your network name (SSID) and password into the generator.",
+      "url": "https://qrcodeagent.net/wifi-qr-code#step1"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Style the code",
+      "text": "Pick your dot style, colors, and optionally add a logo.",
+      "url": "https://qrcodeagent.net/wifi-qr-code#step2"
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Download",
+      "text": "Download the QR code as a PNG or SVG and print or share it.",
+      "url": "https://qrcodeagent.net/wifi-qr-code#step3"
+    }
+  ]
+}

@@ -1,0 +1,3168 @@
+{
+  "site": {
+    "name": "QR Code Agent",
+    "base": "https://qrcodeagent.net",
+    "tagline": "Free QR codes with your logo — no sign-up, no expiry, generated in your browser.",
+    "languages": [
+      {
+        "code": "en",
+        "prefix": "",
+        "label": "English",
+        "default": true
+      },
+      {
+        "code": "es",
+        "prefix": "/es",
+        "label": "Español"
+      },
+      {
+        "code": "pt-BR",
+        "prefix": "/pt-br",
+        "label": "Português (BR)"
+      },
+      {
+        "code": "de",
+        "prefix": "/de",
+        "label": "Deutsch"
+      },
+      {
+        "code": "fr",
+        "prefix": "/fr",
+        "label": "Français"
+      },
+      {
+        "code": "it",
+        "prefix": "/it",
+        "label": "Italiano"
+      },
+      {
+        "code": "ja",
+        "prefix": "/ja",
+        "label": "日本語"
+      },
+      {
+        "code": "id",
+        "prefix": "/id",
+        "label": "Bahasa Indonesia"
+      },
+      {
+        "code": "uk",
+        "prefix": "/uk",
+        "label": "Українська"
+      },
+      {
+        "code": "pl",
+        "prefix": "/pl",
+        "label": "Polski"
+      },
+      {
+        "code": "ru",
+        "prefix": "/ru",
+        "label": "Русский"
+      }
+    ],
+    "primary_nav": [
+      {
+        "label": "QR types",
+        "href": "/#types"
+      },
+      {
+        "label": "By industry",
+        "href": "/#industries"
+      },
+      {
+        "label": "With logo",
+        "href": "/qr-code-with-logo"
+      },
+      {
+        "label": "Learn",
+        "href": "/learn"
+      }
+    ],
+    "footer_columns": [
+      {
+        "heading": "Popular types",
+        "links": [
+          {
+            "label": "WiFi QR code",
+            "href": "/wifi-qr-code"
+          },
+          {
+            "label": "vCard QR code",
+            "href": "/vcard-qr-code"
+          },
+          {
+            "label": "Menu QR code",
+            "href": "/menu-qr-code"
+          },
+          {
+            "label": "Google Review QR code",
+            "href": "/google-review-qr-code"
+          },
+          {
+            "label": "Instagram QR code",
+            "href": "/instagram-qr-code"
+          },
+          {
+            "label": "WhatsApp QR code",
+            "href": "/whatsapp-qr-code"
+          }
+        ]
+      },
+      {
+        "heading": "By use case",
+        "links": [
+          {
+            "label": "Business cards",
+            "href": "/qr-codes-for-business-cards"
+          },
+          {
+            "label": "Restaurant menus",
+            "href": "/qr-codes-for-menus"
+          },
+          {
+            "label": "Social media",
+            "href": "/qr-codes-for-social-media"
+          }
+        ]
+      },
+      {
+        "heading": "By industry",
+        "links": [
+          {
+            "label": "Restaurants",
+            "href": "/qr-codes-for-restaurants"
+          },
+          {
+            "label": "Small business",
+            "href": "/qr-codes-for-small-business"
+          }
+        ]
+      },
+      {
+        "heading": "QR Code Agent",
+        "links": [
+          {
+            "label": "How it works",
+            "href": "/learn"
+          },
+          {
+            "label": "About",
+            "href": "/about"
+          },
+          {
+            "label": "Privacy",
+            "href": "/privacy"
+          }
+        ]
+      }
+    ],
+    "trust_points": [
+      "100% free — no account, no watermark",
+      "Codes never expire (data is in the image)",
+      "Generated in your browser — nothing is uploaded"
+    ],
+    "support": {
+      "label": "Buy me a coffee",
+      "short": "☕ Support",
+      "href": "https://buy.stripe.com/7sYfZid6e4A7bg670KdUY00",
+      "mechanism": "Stripe Payment Link (customer-chosen amount) — no backend required.",
+      "placements": [
+        "header pill (subtle)",
+        "post-download thank-you",
+        "footer line"
+      ],
+      "thankyou": "Free and no ads — if this saved you time, you can buy me a coffee. Totally optional."
+    },
+    "save": {
+      "phase1": {
+        "mode": "local",
+        "storage": "browser (localStorage / IndexedDB)",
+        "login_required": false,
+        "note": "Saves the current design (content + style + logo ref) on this device only. Preserves the validated 'no sign-up' positioning — never gate the generator behind it."
+      },
+      "phase2": {
+        "mode": "account",
+        "auth": "Supabase Auth + Google provider (OpenID Connect) — do NOT hand-roll OAuth",
+        "adds": [
+          "cross-device saved codes",
+          "backend + database",
+          "login / account-menu UI"
+        ],
+        "status": "documented, not built this phase"
+      }
+    },
+    "themes": [
+      "Cream",
+      "Olive",
+      "Black",
+      "Default (dark violet)"
+    ],
+    "templates_panel": {
+      "count": 16,
+      "categories": {
+        "Social": [
+          "Telegram",
+          "WhatsApp",
+          "Instagram",
+          "YouTube",
+          "Facebook",
+          "Spotify"
+        ],
+        "Creative themes": [
+          "Classic",
+          "Rain",
+          "Jungle",
+          "Coffee",
+          "Neon",
+          "Mono"
+        ]
+      },
+      "note": "Preset gallery in the right rail (see reference screenshot). Selecting a preset sets colors + dot/finder style + sample logo. Names above are representative; final 16 curated by design/brand."
+    }
+  },
+  "archetypes": {
+    "home": "Head-term landing + full tool + directory of types/industries.",
+    "feature": "Differentiator landing (logo, custom) — tool + feature explainer.",
+    "type": "One QR data type — tool (with type-specific inputs) + how-to + FAQ.",
+    "industry": "ICP hub — scenarios + links down to relevant type/use-case tools.",
+    "usecase": "Use-case guide — context + links to the tool that makes it.",
+    "learn-index": "Article hub — cornerstone content feeding money pages."
+  },
+  "pages": [
+    {
+      "slug": "",
+      "archetype": "home",
+      "phase": "1",
+      "primary": "qr code generator",
+      "msv": 1000000,
+      "kd": 96,
+      "secondaries": [
+        "free qr code generator no sign up",
+        "free qr code generator no expiration",
+        "create qr code"
+      ],
+      "title": "Free QR Code Generator with Logo — No Sign-Up",
+      "meta": "Create a free QR code with your logo, custom colors and styled dots. No sign-up, no expiry. Download PNG or SVG — generated right in your browser.",
+      "h1": "Free QR Code Generator with Logo",
+      "subhead": "Design a custom QR code in seconds — add your logo, pick your colors, download PNG or SVG. No account, no watermark, no expiry.",
+      "tool": {
+        "mode": "url",
+        "note": "Full generator: content field + style controls (dots, finders, colors, size, error-correction, logo upload) + live preview + Download PNG/SVG."
+      },
+      "intro": "QR Code Agent is a free QR code generator that runs entirely in your browser. Paste any link, choose a dot style and colors, drop in your logo, and download a high-resolution PNG or print-ready SVG. There is no sign-up, no watermark, and the codes never expire because the data lives inside the image itself.",
+      "howto": {
+        "title": "How to make a QR code",
+        "steps": [
+          {
+            "name": "Enter your content",
+            "text": "Paste the URL or text you want the QR code to open."
+          },
+          {
+            "name": "Style it",
+            "text": "Pick dot and finder shapes, set your colors, and add a center logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export a PNG for screens or an SVG for print, then share or print it."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Add your logo",
+          "t": "Place a logo in the center with a circle or square frame. Q/H error correction keeps it scannable."
+        },
+        {
+          "h": "Styled, on-brand codes",
+          "t": "Star, diamond, circle or square dots and custom finder patterns — not the usual plain black grid."
+        },
+        {
+          "h": "Print-ready SVG",
+          "t": "Vector export scales to any size, from a business card to a billboard, with no blur."
+        },
+        {
+          "h": "Private by design",
+          "t": "Everything happens on your device. Your links and logos are never uploaded to a server."
+        }
+      ],
+      "directory": [
+        {
+          "heading": "By QR type",
+          "anchor": "types",
+          "links": [
+            "/wifi-qr-code",
+            "/vcard-qr-code",
+            "/google-review-qr-code",
+            "/instagram-qr-code",
+            "/menu-qr-code",
+            "/facebook-qr-code",
+            "/youtube-qr-code",
+            "/whatsapp-qr-code",
+            "/spotify-qr-code",
+            "/pdf-qr-code",
+            "/crypto-qr-code",
+            "/url-qr-code",
+            "/app-download-qr-code",
+            "/event-qr-code",
+            "/phone-qr-code",
+            "/sms-qr-code",
+            "/text-qr-code"
+          ]
+        },
+        {
+          "heading": "By industry",
+          "anchor": "industries",
+          "links": [
+            "/qr-codes-for-restaurants",
+            "/qr-codes-for-small-business",
+            "/qr-codes-for-retail",
+            "/qr-codes-for-real-estate",
+            "/qr-codes-for-events",
+            "/qr-codes-for-hotels"
+          ]
+        },
+        {
+          "heading": "By use case",
+          "anchor": "usecases",
+          "links": [
+            "/qr-codes-for-business-cards",
+            "/qr-codes-for-menus",
+            "/qr-codes-for-social-media",
+            "/qr-codes-for-packaging",
+            "/qr-codes-for-feedback"
+          ]
+        },
+        {
+          "heading": "Features",
+          "anchor": "features",
+          "links": [
+            "/qr-code-with-logo",
+            "/custom-qr-code-generator"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Is this QR code generator really free?",
+          "a": "Yes. Every feature is free — no account, no watermark, and no limit on how many codes you make or download."
+        },
+        {
+          "q": "Do the QR codes expire?",
+          "a": "No. The codes are static, so the data is encoded directly in the image and works forever. There is nothing to renew."
+        },
+        {
+          "q": "Can I add a logo?",
+          "a": "Yes. Upload a PNG logo and it is placed in the center. Use Quartile (Q) or High (H) error correction so it still scans reliably."
+        },
+        {
+          "q": "PNG or SVG — which should I download?",
+          "a": "Use PNG for screens and social; use SVG for anything printed, since it scales to any size without losing quality."
+        }
+      ],
+      "schema": [
+        "WebSite",
+        "Organization",
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-code-with-logo",
+      "archetype": "feature",
+      "phase": "1",
+      "primary": "qr code generator with logo",
+      "msv": 2400,
+      "kd": 70,
+      "secondaries": [
+        "qr code with logo",
+        "custom qr code with logo"
+      ],
+      "title": "QR Code Generator with Logo — Free, No Sign-Up",
+      "meta": "Add your logo to a QR code for free. Upload a PNG, keep it scannable with high error correction, and download PNG or SVG. No account needed.",
+      "h1": "Add Your Logo to a QR Code — Free",
+      "subhead": "Drop your logo into the center of a fully styled QR code and download it in seconds. Free, no sign-up, no watermark.",
+      "tool": {
+        "mode": "url",
+        "note": "Generator with the logo-upload panel emphasized (logo drop zone, shape circle/square, border toggle, error-correction hint)."
+      },
+      "intro": "A logo in the center makes a QR code instantly recognizable and on-brand. QR Code Agent lets you upload a transparent PNG, frame it as a circle or square, and keep the code scannable by nudging error correction to Q or H. Style the dots and colors to match your brand, then export a crisp PNG or a print-ready SVG — all free and all in your browser.",
+      "howto": {
+        "title": "How to add a logo to a QR code",
+        "steps": [
+          {
+            "name": "Enter your link",
+            "text": "Paste the URL the QR code should open."
+          },
+          {
+            "name": "Upload your logo",
+            "text": "Drop in a PNG (transparent background works best) and pick a circle or square frame."
+          },
+          {
+            "name": "Set error correction to Q or H",
+            "text": "Higher recovery keeps the code readable with a logo covering the center, then download."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Stays scannable",
+          "t": "Built-in guidance sets error correction high enough that the logo never breaks the scan."
+        },
+        {
+          "h": "Circle or square frame",
+          "t": "Match the logo shape to your brand, with an optional border for contrast."
+        },
+        {
+          "h": "Brand colors too",
+          "t": "Combine the logo with custom foreground/background colors and styled dots."
+        },
+        {
+          "h": "Vector output",
+          "t": "Download SVG so the logo and code stay sharp at any print size."
+        }
+      ],
+      "related": [
+        "/custom-qr-code-generator",
+        "/qr-codes-for-business-cards",
+        "/vcard-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Will a logo stop the QR code from scanning?",
+          "a": "Not if error correction is high enough. Use Q (25%) or H (30%) and keep the logo to roughly the center third of the code."
+        },
+        {
+          "q": "What logo file works best?",
+          "a": "A PNG with a transparent background gives the cleanest result. High-contrast, simple marks scan most reliably."
+        },
+        {
+          "q": "Is adding a logo free?",
+          "a": "Yes. Logo upload, styling, and PNG/SVG download are all free with no account."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "wifi-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "build": true,
+      "primary": "wifi qr code",
+      "msv": 2900,
+      "kd": 42,
+      "secondaries": [
+        "wifi qr code generator",
+        "create wifi qr code"
+      ],
+      "title": "WiFi QR Code Generator — Free, Instant Connect",
+      "meta": "Make a free WiFi QR code. Guests scan to join your network — no typing the password. Style it, add a logo, download PNG or SVG. No sign-up.",
+      "h1": "WiFi QR Code Generator",
+      "subhead": "Let guests join your WiFi with one scan — no more reading passwords aloud. Free, styled, and downloadable as PNG or SVG.",
+      "tool": {
+        "mode": "wifi",
+        "note": "TYPE-SPECIFIC BUILD: fields = Network name (SSID), Encryption (WPA/WPA2 · WEP · None), Password, Hidden network toggle → encodes WIFI: payload. Then the standard style + download controls."
+      },
+      "intro": "A WiFi QR code lets anyone connect to your network by scanning it with their phone camera — no typing a long password. Enter your network name, security type, and password, style the code to match your space, and print it on a table tent, window, or welcome card. Everything is generated on your device, so your WiFi password is never sent anywhere.",
+      "howto": {
+        "title": "How to create a WiFi QR code",
+        "steps": [
+          {
+            "name": "Enter your WiFi details",
+            "text": "Type your network name (SSID), choose the encryption type, and enter the password."
+          },
+          {
+            "name": "Style and brand it",
+            "text": "Pick colors and dot style, and optionally add your logo."
+          },
+          {
+            "name": "Download and display",
+            "text": "Export PNG or SVG and print it where guests can scan it."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "One-scan connect",
+          "t": "Guests join instantly on iOS and Android — no password typing, no errors."
+        },
+        {
+          "h": "Password stays private",
+          "t": "The code is built in your browser; your credentials are never uploaded."
+        },
+        {
+          "h": "Print-ready",
+          "t": "SVG export prints crisply on table tents, signage, or a framed card."
+        },
+        {
+          "h": "On-brand",
+          "t": "Colors, dot styles, and a logo make it look intentional, not generic."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-restaurants",
+        "/qr-codes-for-menus",
+        "/menu-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Is the WiFi QR code free?",
+          "a": "Yes — generate, style, and download as many WiFi QR codes as you like, with no account."
+        },
+        {
+          "q": "Does it work on iPhone and Android?",
+          "a": "Yes. Both scan WiFi QR codes with the built-in camera and prompt to join the network."
+        },
+        {
+          "q": "Is my WiFi password safe?",
+          "a": "Yes. The code is generated entirely in your browser — the password is never sent to a server."
+        },
+        {
+          "q": "Which encryption type should I pick?",
+          "a": "Most modern routers use WPA/WPA2. Choose 'None' only for open networks."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "vcard-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "build": true,
+      "primary": "vcard qr code",
+      "msv": 1300,
+      "kd": 33,
+      "secondaries": [
+        "vcard qr code generator",
+        "contact qr code"
+      ],
+      "title": "vCard QR Code Generator — Free Digital Business Card",
+      "meta": "Create a free vCard QR code. One scan saves your name, phone, email and company to contacts. Style it, add a logo, download PNG or SVG.",
+      "h1": "vCard QR Code Generator",
+      "subhead": "Turn your contact details into a QR code people scan to save you instantly. Free, branded, and print-ready.",
+      "tool": {
+        "mode": "vcard",
+        "note": "TYPE-SPECIFIC BUILD: fields = First/Last name, Phone, Email, Company, Job title, Website, Address → encodes vCard/MECARD payload. Then style + download controls."
+      },
+      "intro": "A vCard QR code holds your full contact details, so a single scan saves your name, phone, email, and company straight into someone's phone. It is the fastest way to share contact info at events, on a business card, or in an email signature. Fill in your details, brand the code with your colors and logo, and download it — no app and no account required.",
+      "howto": {
+        "title": "How to make a vCard QR code",
+        "steps": [
+          {
+            "name": "Enter your contact details",
+            "text": "Add your name, phone, email, company, and anything else you want saved."
+          },
+          {
+            "name": "Brand the code",
+            "text": "Set colors, dot style, and add your logo for a professional look."
+          },
+          {
+            "name": "Download and share",
+            "text": "Put the PNG in your email signature or the SVG on a printed business card."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Saved in one scan",
+          "t": "All your details drop into the phone's contacts app — no manual typing."
+        },
+        {
+          "h": "Perfect for print",
+          "t": "SVG export keeps the code sharp on business cards and badges."
+        },
+        {
+          "h": "Always current",
+          "t": "Regenerate anytime your details change and reprint — it's free."
+        },
+        {
+          "h": "Add your logo",
+          "t": "A branded contact code looks far more credible than a plain one."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-business-cards",
+        "/qr-code-with-logo",
+        "/qr-codes-for-small-business"
+      ],
+      "faq": [
+        {
+          "q": "What can a vCard QR code store?",
+          "a": "Name, phone number(s), email, company, job title, website, and address — the standard vCard fields."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes. Create and download unlimited vCard QR codes with no sign-up or watermark."
+        },
+        {
+          "q": "Can I edit it later?",
+          "a": "These are static codes, so to change details you regenerate and reprint. That also means they never expire."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-business-cards",
+      "archetype": "usecase",
+      "phase": "1",
+      "primary": "qr code business card",
+      "msv": 5400,
+      "kd": 37,
+      "secondaries": [
+        "business card with qr code",
+        "qr code for business cards"
+      ],
+      "title": "QR Codes for Business Cards — Free Generator",
+      "meta": "Add a QR code to your business card for free. Link to your contact details, portfolio, or booking page. Branded, print-ready SVG, no sign-up.",
+      "h1": "QR Codes for Business Cards",
+      "subhead": "Make your business card do more — one scan saves your contact details or opens your portfolio. Free and print-ready.",
+      "tool": {
+        "mode": "vcard",
+        "note": "Reuse the vCard tool component here (contact fields) with a note that users can also switch to a URL for a portfolio/booking link."
+      },
+      "intro": "Adding a QR code to a business card bridges paper and phone: a quick scan can save your full contact details as a vCard, open your portfolio, or jump to a booking page. Choose what the code should do, brand it with your colors and logo, and export a print-ready SVG that stays crisp at business-card size. It is free, with no account and no watermark.",
+      "howto": {
+        "title": "How to add a QR code to a business card",
+        "steps": [
+          {
+            "name": "Choose the destination",
+            "text": "Save-my-contact (vCard) or a link to your site, portfolio, or booking page."
+          },
+          {
+            "name": "Brand and size it",
+            "text": "Match your card's colors, add your logo, and keep the code at least 2 cm wide."
+          },
+          {
+            "name": "Download SVG for print",
+            "text": "Hand the vector file to your printer so the code stays sharp."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Save contact in a tap",
+          "t": "Pair with a vCard so people store your details instantly — no typos."
+        },
+        {
+          "h": "Print-safe sizing",
+          "t": "SVG plus a quiet-zone reminder keeps small printed codes scannable."
+        },
+        {
+          "h": "On-brand",
+          "t": "Colors, dots, and a logo make the code part of the design, not an afterthought."
+        },
+        {
+          "h": "Free forever",
+          "t": "No subscription and no expiry — reprint whenever you refresh your cards."
+        }
+      ],
+      "related": [
+        "/vcard-qr-code",
+        "/qr-code-with-logo",
+        "/qr-codes-for-small-business"
+      ],
+      "faq": [
+        {
+          "q": "What should the QR code on a business card link to?",
+          "a": "Most people use a vCard (save contact) or a link to a portfolio, LinkedIn, or booking page. Pick whichever drives your goal."
+        },
+        {
+          "q": "How small can the code be?",
+          "a": "Keep it about 2 cm (0.8 in) or larger with a clear quiet zone around it so phone cameras lock on."
+        },
+        {
+          "q": "Is it free to use on printed cards?",
+          "a": "Yes. There is no license fee, watermark, or expiry — download the SVG and print."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "google-review-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "primary": "google review qr code",
+      "msv": 1900,
+      "kd": 40,
+      "secondaries": [
+        "qr code for google reviews",
+        "review qr code"
+      ],
+      "title": "Google Review QR Code Generator — Get More Reviews",
+      "meta": "Create a free Google Review QR code. Customers scan to leave a review in seconds. Brand it, add a logo, download PNG or SVG. No sign-up.",
+      "h1": "Google Review QR Code Generator",
+      "subhead": "Put a scannable review link on the counter, receipt, or table — and watch your Google reviews grow. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode with helper copy: 'paste your Google review link (g.page/r/… or Place ID short link)'. Standard style + download."
+      },
+      "intro": "The easiest way to collect more Google reviews is to remove friction: a QR code that opens your review form directly. Paste your Google review link, brand the code with your colors and logo, and place it where happy customers are — the counter, the receipt, a table tent. More reviews lift your local ranking and win trust with new customers. It's free and generated in your browser.",
+      "howto": {
+        "title": "How to make a Google Review QR code",
+        "steps": [
+          {
+            "name": "Get your review link",
+            "text": "Copy your 'leave a review' short link from your Google Business Profile."
+          },
+          {
+            "name": "Brand the code",
+            "text": "Add your colors and logo so it fits your signage."
+          },
+          {
+            "name": "Print and place it",
+            "text": "Download PNG or SVG and display it where customers can scan."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "More reviews, less friction",
+          "t": "One scan opens the review form — no searching for your business."
+        },
+        {
+          "h": "Better local ranking",
+          "t": "A steady flow of reviews strengthens your Google Business presence."
+        },
+        {
+          "h": "Put it anywhere",
+          "t": "Counter, receipt, table tent, packaging — print it as large or small as you need."
+        },
+        {
+          "h": "Branded and free",
+          "t": "Match your look with a logo and colors, at no cost."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-restaurants",
+        "/qr-codes-for-small-business",
+        "/qr-codes-for-menus"
+      ],
+      "faq": [
+        {
+          "q": "Where do I find my Google review link?",
+          "a": "In your Google Business Profile, use the 'Ask for reviews' option to copy your short review link, then paste it here."
+        },
+        {
+          "q": "Is the review QR code free?",
+          "a": "Yes — unlimited codes, no account, no watermark."
+        },
+        {
+          "q": "Can I add my logo?",
+          "a": "Yes, and it's a good idea — a branded code looks trustworthy on signage and receipts."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "instagram-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "primary": "instagram qr code",
+      "msv": 2900,
+      "kd": 31,
+      "secondaries": [
+        "instagram qr code generator",
+        "qr code for instagram"
+      ],
+      "title": "Instagram QR Code Generator — Free",
+      "meta": "Make a free Instagram QR code so people scan to open and follow your profile. Style it, add a logo, download PNG or SVG. No sign-up.",
+      "h1": "Instagram QR Code Generator",
+      "subhead": "Grow your following in one scan — link straight to your Instagram profile. Free, branded, print-ready.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste your instagram.com/username link'. Standard style + download."
+      },
+      "intro": "An Instagram QR code sends anyone straight to your profile to follow you — perfect for shop windows, packaging, flyers, and events. Paste your profile link, style the code with your brand colors and logo, and download it. It's free, there's no sign-up, and it never expires.",
+      "howto": {
+        "title": "How to make an Instagram QR code",
+        "steps": [
+          {
+            "name": "Paste your profile link",
+            "text": "Copy your instagram.com/username URL."
+          },
+          {
+            "name": "Style it",
+            "text": "Set colors and dot style, and add your logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG and add it to your marketing."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "One-scan follows",
+          "t": "Skip the search — the code opens your profile directly."
+        },
+        {
+          "h": "Great on print",
+          "t": "Works on packaging, flyers, and window displays with a print-ready SVG."
+        },
+        {
+          "h": "On-brand",
+          "t": "Colors and a logo make it look like part of your feed."
+        },
+        {
+          "h": "Free & permanent",
+          "t": "No account and no expiry."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-social-media",
+        "/facebook-qr-code",
+        "/youtube-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Does it link to my whole profile?",
+          "a": "Yes — it opens your Instagram profile so people can follow you. You can also point it at a specific post or reel link."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no sign-up or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "menu-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "primary": "qr code menu",
+      "msv": 1000,
+      "kd": 25,
+      "secondaries": [
+        "menu qr code",
+        "restaurant menu qr code"
+      ],
+      "title": "Free QR Code Menu Generator for Restaurants",
+      "meta": "Create a free QR code menu. Diners scan to view your menu — no app, no reprints. Link a page or PDF, brand it, download PNG or SVG.",
+      "h1": "QR Code Menu Generator",
+      "subhead": "Let diners scan to see your menu. Update it anytime without reprinting a single code. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste a link to your online menu or hosted PDF'. Note this page OWNS the term 'qr code menu' (see cannibalization fix). Standard style + download."
+      },
+      "intro": "A QR code menu points diners to your menu online, so they scan and browse on their own phone — no shared laminates, no printing costs, and updates go live instantly. Link your menu page or a hosted PDF, brand the code to match your restaurant, and print it on table tents or the window. It's free and made in your browser.",
+      "howto": {
+        "title": "How to make a QR code menu",
+        "steps": [
+          {
+            "name": "Link your menu",
+            "text": "Paste the URL of your online menu or a hosted PDF."
+          },
+          {
+            "name": "Brand it",
+            "text": "Match your colors, add your logo, and pick a dot style."
+          },
+          {
+            "name": "Print it",
+            "text": "Download an SVG for crisp table tents and window signs."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Update without reprinting",
+          "t": "Point the code at a menu you can edit — the QR never has to change."
+        },
+        {
+          "h": "No app for diners",
+          "t": "The phone camera opens it; nothing to install."
+        },
+        {
+          "h": "Cheaper than laminates",
+          "t": "One printed code replaces stacks of physical menus."
+        },
+        {
+          "h": "On-brand",
+          "t": "Colors and a logo make it feel part of the table setting."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-restaurants",
+        "/qr-codes-for-menus",
+        "/wifi-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Do I need a special menu page?",
+          "a": "Any web link works — your site's menu page, an online-ordering menu, or a hosted PDF."
+        },
+        {
+          "q": "Can I change the menu later without a new code?",
+          "a": "Yes, if the code points to a menu you control. Edit the page or replace the PDF at the same link and the code keeps working."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes — unlimited menu QR codes, no account, no watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "facebook-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "primary": "facebook qr code",
+      "msv": 1900,
+      "kd": 42,
+      "secondaries": [
+        "facebook qr code generator",
+        "qr code for facebook page"
+      ],
+      "title": "Facebook QR Code Generator — Free",
+      "meta": "Create a free Facebook QR code linking to your page or profile. Brand it, add a logo, download PNG or SVG. No sign-up needed.",
+      "h1": "Facebook QR Code Generator",
+      "subhead": "Send people straight to your Facebook page with one scan. Free, branded, and print-ready.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste your facebook.com/yourpage link'. Standard style + download."
+      },
+      "intro": "A Facebook QR code opens your page or profile in one scan, making it easy to grow your audience from print and in-person touchpoints. Paste your page link, style the code with your brand, and download it free — no account, no expiry.",
+      "howto": {
+        "title": "How to make a Facebook QR code",
+        "steps": [
+          {
+            "name": "Paste your page link",
+            "text": "Copy your facebook.com/yourpage URL."
+          },
+          {
+            "name": "Brand it",
+            "text": "Set colors and add your logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG for your materials."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "One-scan to your page",
+          "t": "No searching — the code opens Facebook directly."
+        },
+        {
+          "h": "Print or screen",
+          "t": "PNG for posts, SVG for print."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo keep it on-brand."
+        },
+        {
+          "h": "Free",
+          "t": "No sign-up, no watermark."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-social-media",
+        "/instagram-qr-code",
+        "/youtube-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Can it link to a group or event?",
+          "a": "Yes — paste any Facebook URL, including a group, event, or profile."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no account or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "youtube-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "primary": "youtube qr code",
+      "msv": 1600,
+      "kd": 35,
+      "secondaries": [
+        "youtube qr code generator",
+        "qr code for youtube video"
+      ],
+      "title": "YouTube QR Code Generator — Free Video Link",
+      "meta": "Make a free YouTube QR code for a video or channel. Viewers scan to watch instantly. Brand it, add a logo, download PNG or SVG.",
+      "h1": "YouTube QR Code Generator",
+      "subhead": "Get more views — link a video or channel that opens with one scan. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste a youtube.com or youtu.be link'. Standard style + download."
+      },
+      "intro": "A YouTube QR code takes viewers straight to your video or channel, ideal for packaging, posters, and slides. Paste the link, brand the code, and download it free — no sign-up, and it never expires.",
+      "howto": {
+        "title": "How to make a YouTube QR code",
+        "steps": [
+          {
+            "name": "Paste the video or channel link",
+            "text": "Copy your youtube.com or youtu.be URL."
+          },
+          {
+            "name": "Style it",
+            "text": "Add colors and your logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Instant play",
+          "t": "One scan opens the video — no typing a link."
+        },
+        {
+          "h": "Print-friendly",
+          "t": "SVG stays sharp on packaging and posters."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo keep it on-brand."
+        },
+        {
+          "h": "Free",
+          "t": "No account, no expiry."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-social-media",
+        "/instagram-qr-code",
+        "/facebook-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Video or channel — can it do both?",
+          "a": "Either. Paste a single video link or your channel URL."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no sign-up or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "whatsapp-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "primary": "whatsapp qr code",
+      "msv": 1300,
+      "kd": 42,
+      "secondaries": [
+        "whatsapp qr code generator",
+        "qr code for whatsapp"
+      ],
+      "title": "WhatsApp QR Code Generator — Free Chat Link",
+      "meta": "Create a free WhatsApp QR code. Customers scan to start a chat with your number, pre-filled message optional. Brand it, download PNG or SVG.",
+      "h1": "WhatsApp QR Code Generator",
+      "subhead": "Let customers start a WhatsApp chat with one scan — no saving your number first. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode building a wa.me link, helper: 'enter your number (with country code) and an optional pre-filled message'. Could be a light build. Standard style + download."
+      },
+      "intro": "A WhatsApp QR code opens a chat with your business number instantly — no saving the contact, no typing. Great for support, orders, and lead capture. Enter your number and an optional pre-filled message, brand the code, and download it free.",
+      "howto": {
+        "title": "How to make a WhatsApp QR code",
+        "steps": [
+          {
+            "name": "Enter your number",
+            "text": "Add your WhatsApp number with country code, plus an optional message."
+          },
+          {
+            "name": "Brand it",
+            "text": "Set colors and add your logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG and display it."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Chat in one scan",
+          "t": "Opens WhatsApp with your number ready — no manual save."
+        },
+        {
+          "h": "Pre-filled message",
+          "t": "Start the conversation with context, like an order or enquiry."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo keep it professional."
+        },
+        {
+          "h": "Free",
+          "t": "No account, no watermark."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-small-business",
+        "/instagram-qr-code",
+        "/qr-codes-for-restaurants"
+      ],
+      "faq": [
+        {
+          "q": "Do customers need my number saved?",
+          "a": "No. The code opens a chat with your number directly, even if it's not in their contacts."
+        },
+        {
+          "q": "Can I pre-fill a message?",
+          "a": "Yes — add a default message so the chat starts with context."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "spotify-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "primary": "spotify qr code",
+      "msv": 1600,
+      "kd": 48,
+      "secondaries": [
+        "spotify qr code generator",
+        "qr code for spotify"
+      ],
+      "title": "Spotify QR Code Generator — Free",
+      "meta": "Make a free Spotify QR code for a track, playlist, or artist. Fans scan to listen instantly. Brand it, add a logo, download PNG or SVG.",
+      "h1": "Spotify QR Code Generator",
+      "subhead": "Share a track, playlist, or artist page that opens with one scan. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste a Spotify track, playlist, or artist link'. Standard style + download."
+      },
+      "intro": "A Spotify QR code sends listeners straight to your track, playlist, or artist page. Perfect for posters, merch, and venues. Paste the Spotify link, brand the code, and download it free — no sign-up.",
+      "howto": {
+        "title": "How to make a Spotify QR code",
+        "steps": [
+          {
+            "name": "Paste your Spotify link",
+            "text": "Copy the share link for a track, playlist, or artist."
+          },
+          {
+            "name": "Style it",
+            "text": "Add colors and your logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "One-scan listen",
+          "t": "Opens Spotify directly to your music."
+        },
+        {
+          "h": "Merch & posters",
+          "t": "SVG prints sharply on any surface."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo make it yours."
+        },
+        {
+          "h": "Free",
+          "t": "No account, no expiry."
+        }
+      ],
+      "related": [
+        "/qr-codes-for-social-media",
+        "/youtube-qr-code",
+        "/instagram-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Can it link a playlist?",
+          "a": "Yes — paste any Spotify track, playlist, album, or artist link."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no sign-up or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "pdf-qr-code",
+      "archetype": "type",
+      "phase": "1",
+      "primary": "pdf qr code",
+      "msv": 390,
+      "kd": 23,
+      "secondaries": [
+        "pdf qr code generator",
+        "qr code for pdf"
+      ],
+      "title": "PDF QR Code Generator — Link a PDF, Free",
+      "meta": "Create a free QR code for a PDF. Scan to open a menu, brochure, or manual. Link your hosted PDF, brand it, download PNG or SVG.",
+      "h1": "PDF QR Code Generator",
+      "subhead": "Turn a hosted PDF into a scannable code — menus, brochures, manuals, flyers. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste the link to your hosted PDF'. Include a tip that they need a public URL to the file. Standard style + download."
+      },
+      "intro": "A PDF QR code links to a document you've hosted online — a menu, brochure, spec sheet, or manual — so people scan to open it on their phone. Upload your PDF to your site or a file host, paste the link, brand the code, and download it free.",
+      "howto": {
+        "title": "How to make a PDF QR code",
+        "steps": [
+          {
+            "name": "Host your PDF",
+            "text": "Put the PDF online and copy its public link."
+          },
+          {
+            "name": "Paste and brand",
+            "text": "Add the link, set colors, and add your logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG and share or print it."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Any document",
+          "t": "Menus, brochures, manuals, price lists — anything in a PDF."
+        },
+        {
+          "h": "No reprint to update",
+          "t": "Replace the file at the same link and the code still works."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo keep it on-brand."
+        },
+        {
+          "h": "Free",
+          "t": "No account, no watermark."
+        }
+      ],
+      "related": [
+        "/menu-qr-code",
+        "/qr-codes-for-restaurants",
+        "/qr-codes-for-small-business"
+      ],
+      "faq": [
+        {
+          "q": "Can the QR code hold the PDF itself?",
+          "a": "No — QR codes store a link, not a whole file. Host the PDF online and the code opens it. That keeps the code small and scannable."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no account or expiry."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-restaurants",
+      "archetype": "industry",
+      "phase": "1b",
+      "primary": "restaurant qr code",
+      "msv": 390,
+      "kd": null,
+      "title": "Restaurant QR Codes — Menu, WiFi & Reviews (Free)",
+      "meta": "Free QR codes for restaurants — menu, guest WiFi, and Google reviews. No app, no monthly fee. Style them, add your logo, download PNG or SVG.",
+      "h1": "QR codes for restaurants",
+      "intro": "One little square on the table can replace a printed menu, hand out your WiFi, and nudge happy diners to leave a review — all without an app or a monthly fee. Here are the QR codes every restaurant actually uses, and the free tools to make each one.",
+      "tool": {
+        "mode": "url",
+        "note": "Full generator embedded so restaurants can make any code on the ICP page itself."
+      },
+      "tools": [
+        {
+          "name": "Menu",
+          "tag": "Type · qr code menu",
+          "text": "Point diners at your digital menu or PDF. Update prices any time the link is hosted — the printed code never changes.",
+          "cta": "MAKE A MENU QR",
+          "href": "/menu-qr-code",
+          "fg": "#9a3412",
+          "bg": "#fdf3ec",
+          "dot": "square",
+          "finder": "rounded",
+          "seed": 8
+        },
+        {
+          "name": "Guest WiFi",
+          "tag": "Type · wifi qr code",
+          "text": "Guests scan to join — no passwords read aloud. Put it on the table tent right next to the menu code.",
+          "cta": "MAKE A WIFI QR",
+          "href": "/wifi-qr-code",
+          "fg": "#0e7490",
+          "bg": "#ecfeff",
+          "dot": "dot",
+          "finder": "circle",
+          "seed": 12
+        },
+        {
+          "name": "Google review",
+          "tag": "Type · google review qr",
+          "text": "Turn a great meal into a 5-star review — drop the code on the receipt or check presenter.",
+          "cta": "MAKE A REVIEW QR",
+          "href": "/google-review-qr-code",
+          "fg": "#2f7d32",
+          "bg": "#eff7ef",
+          "dot": "rounded",
+          "finder": "rounded",
+          "seed": 7
+        }
+      ],
+      "scenarios_title": "Where restaurants put them",
+      "scenarios": [
+        {
+          "h": "Table tents & coasters",
+          "t": "Menu + WiFi together, one per table — the highest-scan spot in the room."
+        },
+        {
+          "h": "Window & door",
+          "t": "Let passers-by see the menu before they walk in. Great for footfall."
+        },
+        {
+          "h": "Receipts & check presenters",
+          "t": "Ask for the review at the happiest moment — right after a good meal."
+        },
+        {
+          "h": "Takeaway packaging",
+          "t": "Print the review or reorder link on the bag or box lid."
+        }
+      ],
+      "related": [
+        "/menu-qr-code",
+        "/wifi-qr-code",
+        "/google-review-qr-code",
+        "/qr-codes-for-menus",
+        "/qr-codes-for-business-cards"
+      ],
+      "faq": [
+        {
+          "q": "Is it free for my restaurant?",
+          "a": "Yes — every tool here is free, with no sign-up and no expiry. Print as many table tents as you need."
+        },
+        {
+          "q": "Can I update the menu after printing?",
+          "a": "Yes, if the code points to a menu you control. Edit the page or replace the PDF at the same link and the printed code keeps working."
+        },
+        {
+          "q": "Do I need an app for guests?",
+          "a": "No. Guests scan with their phone camera — nothing to install."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-small-business",
+      "archetype": "industry",
+      "phase": "1b",
+      "primary": "qr code for business",
+      "msv": 390,
+      "kd": null,
+      "title": "QR Codes for Business — Free Generator, No Sign-Up",
+      "meta": "Free QR codes for small business — contact cards, reviews, promotions and social. Style them, add your logo, download PNG or SVG. No account.",
+      "h1": "QR codes for small business",
+      "intro": "A QR code turns anything you print — a card, a flyer, a window, a package — into a tap to your website, your reviews, or your socials. Here are the codes small businesses reach for most, each with a free tool to make it in seconds.",
+      "tool": {
+        "mode": "url",
+        "note": "Full generator embedded on the ICP page."
+      },
+      "tools": [
+        {
+          "name": "Digital business card",
+          "tag": "Type · vcard qr code",
+          "text": "One scan saves your name, phone, email and company to a customer's phone.",
+          "cta": "MAKE A vCARD QR",
+          "href": "/vcard-qr-code",
+          "fg": "#1c1c1c",
+          "bg": "#ffffff",
+          "dot": "rounded",
+          "finder": "rounded",
+          "seed": 83
+        },
+        {
+          "name": "Get reviews",
+          "tag": "Type · google review qr",
+          "text": "Put a review link on the counter or receipt and watch your Google rating grow.",
+          "cta": "MAKE A REVIEW QR",
+          "href": "/google-review-qr-code",
+          "fg": "#2f7d32",
+          "bg": "#eff7ef",
+          "dot": "rounded",
+          "finder": "rounded",
+          "seed": 84
+        },
+        {
+          "name": "Social follow",
+          "tag": "Type · instagram qr code",
+          "text": "Grow your following — link straight to Instagram from packaging or the window.",
+          "cta": "MAKE A SOCIAL QR",
+          "href": "/instagram-qr-code",
+          "fg": "#c1358a",
+          "bg": "#fdeef6",
+          "dot": "circle",
+          "finder": "rounded",
+          "seed": 43
+        }
+      ],
+      "scenarios_title": "Where small businesses put them",
+      "scenarios": [
+        {
+          "h": "Business cards & flyers",
+          "t": "A vCard or link so contacts and leads reach you without typing."
+        },
+        {
+          "h": "Counter & receipts",
+          "t": "A review or loyalty link at the point of sale."
+        },
+        {
+          "h": "Packaging & products",
+          "t": "Setup guides, reorder links, or your socials on the box."
+        }
+      ],
+      "related": [
+        "/vcard-qr-code",
+        "/google-review-qr-code",
+        "/instagram-qr-code",
+        "/qr-codes-for-business-cards",
+        "/whatsapp-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Is it really free?",
+          "a": "Yes — no sign-up, no watermark, and the codes never expire. Make and print as many as you like."
+        },
+        {
+          "q": "Can I add my logo?",
+          "a": "Yes. Upload a PNG and keep error correction at Q or H so it stays scannable."
+        },
+        {
+          "q": "Which code should I start with?",
+          "a": "Most small businesses start with a vCard (contact) or a Google review code — both are quick wins."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "custom-qr-code-generator",
+      "archetype": "feature",
+      "phase": "1b",
+      "primary": "custom qr code generator",
+      "msv": 5400,
+      "kd": 94,
+      "secondaries": [
+        "custom qr code",
+        "personalized qr code generator"
+      ],
+      "title": "Custom QR Code Generator — Free, No Sign-Up",
+      "meta": "Design a custom QR code free. Pick dot styles, finder patterns, colors, and a center logo, then download PNG or SVG. No account, no watermark.",
+      "h1": "Custom QR Code Generator",
+      "subhead": "Full control over dots, finder patterns, colors, and your logo. Free, no sign-up, never expires.",
+      "tool": {
+        "mode": "url",
+        "note": "Generator with the full style panel open: dot style (square, circle, diamond, star), finder-pattern style (square, rounded, circle), foreground/background color pickers, logo upload, error-correction L/M/Q/H."
+      },
+      "intro": "Most free generators hand you a plain black square. This one lets you change the dot shape, restyle the three corner finder patterns, set foreground and background colors, and drop your logo in the middle. Adjust error correction so it still scans, then export a PNG or a print-ready SVG. Free, no account, and the code never expires.",
+      "howto": {
+        "title": "How to make a custom QR code",
+        "steps": [
+          {
+            "name": "Enter your link or text",
+            "text": "Type what the code should open when scanned."
+          },
+          {
+            "name": "Style it",
+            "text": "Pick dot and finder-pattern shapes, set your colors, and add a logo."
+          },
+          {
+            "name": "Check and download",
+            "text": "Raise error correction if you added a logo, then export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Dot styles",
+          "t": "Square, circle, diamond, or star dots instead of the default grid."
+        },
+        {
+          "h": "Styled finder patterns",
+          "t": "Restyle the three corner markers as square, rounded, or circular."
+        },
+        {
+          "h": "Your colors and logo",
+          "t": "Set foreground and background, then drop a logo in the center."
+        },
+        {
+          "h": "Free and permanent",
+          "t": "No sign-up, no watermark, and the code never expires."
+        }
+      ],
+      "related": [
+        "/qr-code-with-logo",
+        "/url-qr-code",
+        "/qr-codes-for-business-cards"
+      ],
+      "faq": [
+        {
+          "q": "Does styling break the scan?",
+          "a": "Not if you keep contrast high and error correction at Q or H when a logo is present. Dark dots on a light background scan most reliably."
+        },
+        {
+          "q": "Can I use my brand colors?",
+          "a": "Yes. Set any foreground and background color. Keep them clearly different so scanners can read the pattern."
+        },
+        {
+          "q": "Is it really free?",
+          "a": "Yes. Every style option and both download formats are free, with no account and no watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "crypto-qr-code",
+      "archetype": "type",
+      "phase": "1b",
+      "primary": "bitcoin qr code",
+      "msv": 1000,
+      "kd": 56,
+      "secondaries": [
+        "crypto qr code",
+        "bitcoin qr code generator"
+      ],
+      "title": "Bitcoin QR Code Generator — Free, No Sign-Up",
+      "meta": "Turn a wallet address or payment URI into a QR code, free. Works for Bitcoin and other crypto. Brand it and download PNG or SVG. No account.",
+      "h1": "Bitcoin QR Code Generator",
+      "subhead": "Encode a wallet address or payment URI so people can scan instead of typing it. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste your wallet address or a payment URI such as bitcoin:address?amount=0.01'. Tell the user to copy the address exactly and test the code with their own wallet app before sharing."
+      },
+      "intro": "Wallet addresses are long strings that are easy to mistype. A QR code lets someone scan the address you already have straight into their wallet app. Paste the address or a full payment URI, style the code, and download it free. Nothing is uploaded, everything is generated in your browser, and the code never expires.",
+      "howto": {
+        "title": "How to make a crypto QR code",
+        "steps": [
+          {
+            "name": "Copy your address",
+            "text": "Take the receiving address or payment URI from your own wallet."
+          },
+          {
+            "name": "Paste and style it",
+            "text": "Add the string, set colors, and add a logo if you want."
+          },
+          {
+            "name": "Test, then download",
+            "text": "Scan it with a wallet app to confirm the address matches, then export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "No mistyped addresses",
+          "t": "Scanning removes the risk of a wrong character in a long address."
+        },
+        {
+          "h": "Amounts too",
+          "t": "Encode a full payment URI if you want the amount prefilled in the wallet app."
+        },
+        {
+          "h": "Nothing leaves your browser",
+          "t": "The code is generated locally, so your address is never sent to a server."
+        },
+        {
+          "h": "Free and permanent",
+          "t": "No account, no watermark, no expiry."
+        }
+      ],
+      "related": [
+        "/url-qr-code",
+        "/qr-codes-for-small-business",
+        "/custom-qr-code-generator"
+      ],
+      "faq": [
+        {
+          "q": "Which coins does it work with?",
+          "a": "Any of them. The code stores whatever text you paste, so a Bitcoin, Ethereum, or other wallet address all work the same way."
+        },
+        {
+          "q": "Should I test it first?",
+          "a": "Yes. Always scan your own code with a wallet app and check the address character for character before you print or publish it."
+        },
+        {
+          "q": "Do you store my address?",
+          "a": "No. The code is generated in your browser and nothing is uploaded or tracked."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "url-qr-code",
+      "archetype": "type",
+      "phase": "1b",
+      "primary": "url qr code generator",
+      "msv": 390,
+      "kd": 90,
+      "secondaries": [
+        "url qr code",
+        "qr code for a link"
+      ],
+      "title": "URL QR Code Generator — Free, No Sign-Up",
+      "meta": "Turn any URL into a QR code for free. Paste a link, style it, download PNG or SVG. No account, no watermark, and the code never expires.",
+      "h1": "URL QR Code Generator",
+      "subhead": "Paste a link, get a scannable code. Free, no sign-up, never expires.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste any link, including https://'. Standard style + download. Keep this page tool-first with minimal copy."
+      },
+      "intro": "Paste any web address and get a QR code that opens it. Works for landing pages, forms, docs, booking links, anything with a URL. Style the dots and colors, add a logo, and download a PNG or SVG. Free, no sign-up, and the link is baked into the image so it never expires.",
+      "howto": {
+        "title": "How to make a URL QR code",
+        "steps": [
+          {
+            "name": "Paste your link",
+            "text": "Include https:// so scanners open it directly."
+          },
+          {
+            "name": "Style it",
+            "text": "Set colors and dot style, and add a logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Any link",
+          "t": "Landing pages, forms, docs, booking links, app listings."
+        },
+        {
+          "h": "Print-ready",
+          "t": "SVG stays sharp from a business card to a billboard."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors, dot styles, and a logo in the center."
+        },
+        {
+          "h": "Free and permanent",
+          "t": "No account and no expiry."
+        }
+      ],
+      "related": [
+        "/",
+        "/custom-qr-code-generator",
+        "/pdf-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Does the code expire?",
+          "a": "No. The link is stored in the image itself, so it keeps working as long as the page it points to is online."
+        },
+        {
+          "q": "Can I change the link later?",
+          "a": "No. These are static codes, so the URL is fixed once you download. Point it at a page you control if the destination may change."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "app-download-qr-code",
+      "archetype": "type",
+      "phase": "2",
+      "primary": "app store qr code",
+      "msv": 170,
+      "kd": 34,
+      "secondaries": [
+        "app download qr code",
+        "qr code for app download"
+      ],
+      "title": "App Store QR Code Generator — Free",
+      "meta": "Make a free QR code for your app listing. Scan to open the App Store or Google Play page. Brand it and download PNG or SVG. No sign-up.",
+      "h1": "App Store QR Code Generator",
+      "subhead": "One code that sends people straight to your app listing. Free, branded, print-ready.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste your App Store, Google Play, or smart-link URL'. Mention that a smart link covering both stores works too. Standard style + download."
+      },
+      "intro": "Asking people to search a store by name loses installs. A QR code drops them on your listing in one scan. Paste your App Store or Google Play URL, or a smart link that routes each phone to the right store, then brand the code and download it. Free, no sign-up, and it never expires.",
+      "howto": {
+        "title": "How to make an app download QR code",
+        "steps": [
+          {
+            "name": "Copy your listing link",
+            "text": "Grab the App Store, Google Play, or smart-link URL."
+          },
+          {
+            "name": "Style it",
+            "text": "Set colors and dot style, and add your app icon as the logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG for screens or SVG for print."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Skip the store search",
+          "t": "The scan opens your listing directly, so nobody installs the wrong app."
+        },
+        {
+          "h": "Both stores",
+          "t": "Point it at a smart link and each phone lands on iOS or Android."
+        },
+        {
+          "h": "Your app icon",
+          "t": "Drop the icon in the center so the code is recognizable at a glance."
+        },
+        {
+          "h": "Free and permanent",
+          "t": "No account, no watermark, no expiry."
+        }
+      ],
+      "related": [
+        "/url-qr-code",
+        "/qr-codes-for-small-business",
+        "/qr-code-with-logo"
+      ],
+      "faq": [
+        {
+          "q": "Can one code cover iOS and Android?",
+          "a": "Yes, if you point it at a smart link or a landing page that detects the device and forwards to the right store."
+        },
+        {
+          "q": "Where should I put it?",
+          "a": "Packaging, posters, receipts, trade-show stands, and slide decks all work. Keep it at least two centimetres wide in print."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no account or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "event-qr-code",
+      "archetype": "type",
+      "phase": "2",
+      "primary": "event qr code",
+      "msv": 140,
+      "kd": 15,
+      "secondaries": [
+        "event ticket qr code"
+      ],
+      "title": "Event QR Code Generator — Free, No Sign-Up",
+      "meta": "Create a free event QR code for tickets, check-in, or your event page. Brand it and download PNG or SVG. No account and no expiry.",
+      "h1": "Event QR Code Generator",
+      "subhead": "Link to tickets, a check-in page, or the event details in one scan. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste your ticket, registration, or event page link'. Standard style + download."
+      },
+      "intro": "An event QR code points at whatever attendees need next: the ticket page, the registration form, the check-in link, or the agenda. Put it on invites, badges, posters, and signage so people get there in one scan. Paste the link, brand the code, and download it free with no sign-up.",
+      "howto": {
+        "title": "How to make an event QR code",
+        "steps": [
+          {
+            "name": "Pick the destination",
+            "text": "Copy the link to your ticket, registration, or event page."
+          },
+          {
+            "name": "Brand it",
+            "text": "Set colors to match the event and add your logo."
+          },
+          {
+            "name": "Download and print",
+            "text": "Export SVG for signage and PNG for email or social."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Tickets and registration",
+          "t": "Send people straight to the page that sells or confirms a spot."
+        },
+        {
+          "h": "Faster check-in",
+          "t": "Put the code on badges and door signage so staff scan instead of typing."
+        },
+        {
+          "h": "Details on demand",
+          "t": "One code on the invite can open the agenda, venue map, or directions."
+        },
+        {
+          "h": "Free and permanent",
+          "t": "No account and no expiry, so codes printed early still work on the day."
+        }
+      ],
+      "related": [
+        "/wifi-qr-code",
+        "/qr-codes-for-business-cards",
+        "/pdf-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Can it hold the ticket itself?",
+          "a": "No. A QR code stores a link, not a file, so point it at your ticketing or registration page."
+        },
+        {
+          "q": "How big should it print?",
+          "a": "At least two centimetres wide for handouts, and much larger for signage people scan from a few metres away."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no sign-up, no watermark, and no expiry."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "phone-qr-code",
+      "archetype": "type",
+      "phase": "2",
+      "primary": "phone number qr code",
+      "msv": 320,
+      "kd": 18,
+      "secondaries": [
+        "phone qr code generator",
+        "qr code for phone number"
+      ],
+      "title": "Phone Number QR Code Generator — Free",
+      "meta": "Make a free QR code for a phone number. One scan starts the call — no typing digits. Brand it, add a logo, download PNG or SVG. No sign-up.",
+      "h1": "Phone Number QR Code Generator",
+      "subhead": "Scan to call — the number opens in the dialer, ready to ring. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode encoding a tel: link. Helper: 'enter your number in international format, e.g. +1 415 555 0123' and note that the code becomes tel:+14155550123. Standard style + download."
+      },
+      "intro": "A phone QR code puts your number into the dialer with one scan, so nobody mistypes it off a flyer or a van door. Enter the number in international format, brand the code, and download it free — no sign-up, and it never expires.",
+      "howto": {
+        "title": "How to make a phone number QR code",
+        "steps": [
+          {
+            "name": "Enter the number",
+            "text": "Use international format, like +14155550123."
+          },
+          {
+            "name": "Style it",
+            "text": "Add colors and your logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "One-scan call",
+          "t": "The number lands in the dialer — no typing, no typos."
+        },
+        {
+          "h": "Good on print",
+          "t": "SVG stays sharp on cards, signs, and vehicle decals."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo keep it on-brand."
+        },
+        {
+          "h": "Free",
+          "t": "No account, no expiry."
+        }
+      ],
+      "related": [
+        "/vcard-qr-code",
+        "/qr-codes-for-business-cards",
+        "/whatsapp-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Does scanning place the call automatically?",
+          "a": "No. The phone opens the dialer with your number filled in and the person taps to call."
+        },
+        {
+          "q": "What number format should I use?",
+          "a": "International format with the country code, like +14155550123. It works for scanners anywhere."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no sign-up or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "sms-qr-code",
+      "archetype": "type",
+      "phase": "2",
+      "primary": "sms qr code",
+      "msv": 260,
+      "kd": 24,
+      "secondaries": [
+        "sms qr code generator",
+        "text message qr code"
+      ],
+      "title": "SMS QR Code Generator — Free, No Sign-Up",
+      "meta": "Make a free SMS QR code. One scan opens a text to your number with the message prefilled. Brand it, add a logo, download PNG or SVG. No sign-up.",
+      "h1": "SMS QR Code Generator",
+      "subhead": "Scan to text — your number and message are already filled in. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode encoding an sms: link. Helper: number in international format plus an optional prefilled message → sms:+14155550123?body=JOIN. Standard style + download."
+      },
+      "intro": "An SMS QR code opens a new text to your number with the message already written, so people just hit send. Useful for keyword opt-ins, support requests, and table service. Enter the number and message, brand the code, and download it free.",
+      "howto": {
+        "title": "How to make an SMS QR code",
+        "steps": [
+          {
+            "name": "Enter the number",
+            "text": "Use international format, like +14155550123."
+          },
+          {
+            "name": "Add a message",
+            "text": "Optional — prefill a keyword like JOIN or a support prompt."
+          },
+          {
+            "name": "Style and download",
+            "text": "Add colors and a logo, then export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Prefilled message",
+          "t": "Set the keyword or question so the sender only taps send."
+        },
+        {
+          "h": "Good for opt-ins",
+          "t": "Print it where people already stand — counters, tables, packaging."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo keep it on-brand."
+        },
+        {
+          "h": "Free",
+          "t": "No account, no expiry."
+        }
+      ],
+      "related": [
+        "/phone-qr-code",
+        "/whatsapp-qr-code",
+        "/qr-codes-for-small-business"
+      ],
+      "faq": [
+        {
+          "q": "Does it send the text automatically?",
+          "a": "No. It opens the messaging app with the number and message filled in, and the person taps send."
+        },
+        {
+          "q": "Do all phones support a prefilled message?",
+          "a": "Most modern iPhones and Android phones do. If one ignores the message body, the number still fills in correctly."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no sign-up or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "text-qr-code",
+      "archetype": "type",
+      "phase": "2",
+      "primary": "text qr code",
+      "msv": 320,
+      "kd": 72,
+      "secondaries": [
+        "text qr code generator",
+        "qr code for plain text"
+      ],
+      "title": "Text QR Code Generator — Free",
+      "meta": "Make a free text QR code. Scan to show a plain-text message — no link, no internet needed. Brand it and download PNG or SVG. No sign-up.",
+      "h1": "Text QR Code Generator",
+      "subhead": "Show a plain-text message on scan — no link, no connection required. Free and branded.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode with plain text accepted as-is (no URL required). Helper: 'type any text — it is shown on the scanner screen'. Note that shorter text keeps the code easier to scan. Standard style + download."
+      },
+      "intro": "A text QR code stores words instead of a link, so the message appears on screen the moment someone scans it. Handy for serial numbers, instructions, shelf notes, and event details. Type the text, brand the code, and download it free.",
+      "howto": {
+        "title": "How to make a text QR code",
+        "steps": [
+          {
+            "name": "Type your text",
+            "text": "Keep it short so the code stays easy to scan."
+          },
+          {
+            "name": "Style it",
+            "text": "Add colors and your logo."
+          },
+          {
+            "name": "Download",
+            "text": "Export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Works offline",
+          "t": "The text is in the image, so no internet is needed to read it."
+        },
+        {
+          "h": "No hosting",
+          "t": "Nothing to upload or maintain — just the words you typed."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo keep it on-brand."
+        },
+        {
+          "h": "Free",
+          "t": "No account, no expiry."
+        }
+      ],
+      "related": [
+        "/wifi-qr-code",
+        "/vcard-qr-code",
+        "/phone-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "How much text can it hold?",
+          "a": "A few hundred characters is comfortable. More text makes the pattern denser and harder to scan, so keep it brief."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no sign-up or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-retail",
+      "archetype": "industry",
+      "phase": "2",
+      "primary": "qr code for retail",
+      "msv": 70,
+      "kd": 16,
+      "secondaries": [
+        "retail qr code",
+        "qr codes for retail stores"
+      ],
+      "title": "QR Codes for Retail — Free Generator, No Sign-Up",
+      "meta": "Free QR codes for retail — shelf labels, product info, loyalty sign-up and reviews. Add your logo, download PNG or SVG. No account, no expiry.",
+      "h1": "QR codes for retail",
+      "intro": "A shelf label only has room for a price. A QR code next to it can hold the size guide, the ingredients, the how-to video, or the loyalty sign-up form. Here are the codes retail stores actually use on shelves, receipts and windows, each with a free tool to make it.",
+      "tool": {
+        "mode": "url",
+        "note": "Full generator embedded so store teams can make any code on the ICP page itself."
+      },
+      "tools": [
+        {
+          "name": "Product info sheet",
+          "tag": "Type · pdf qr code",
+          "text": "Link a hosted spec sheet, size guide or care instructions from a shelf label or swing tag.",
+          "cta": "MAKE A PDF QR",
+          "href": "/pdf-qr-code",
+          "fg": "#1f3b63",
+          "bg": "#eef3fa",
+          "dot": "rounded",
+          "finder": "rounded",
+          "seed": 21
+        },
+        {
+          "name": "Get reviews",
+          "tag": "Type · google review qr",
+          "text": "Put a review link on the receipt or at the till while the purchase is still fresh.",
+          "cta": "MAKE A REVIEW QR",
+          "href": "/google-review-qr-code",
+          "fg": "#2f7d32",
+          "bg": "#eff7ef",
+          "dot": "rounded",
+          "finder": "rounded",
+          "seed": 22
+        },
+        {
+          "name": "Loyalty & social",
+          "tag": "Type · instagram qr code",
+          "text": "Send shoppers to your sign-up page or Instagram from the window or the bag.",
+          "cta": "MAKE A SOCIAL QR",
+          "href": "/instagram-qr-code",
+          "fg": "#c1358a",
+          "bg": "#fdeef6",
+          "dot": "circle",
+          "finder": "rounded",
+          "seed": 23
+        }
+      ],
+      "scenarios_title": "Where retail stores put them",
+      "scenarios": [
+        {
+          "h": "Shelf labels & edge strips",
+          "t": "One small code per line gives a shopper the full spec without a staff member."
+        },
+        {
+          "h": "Swing tags & product info",
+          "t": "Sizing, materials and care details that never fit on the tag itself."
+        },
+        {
+          "h": "Loyalty sign-up at the till",
+          "t": "A code on the counter beats reading an email address out loud."
+        },
+        {
+          "h": "Receipts",
+          "t": "Ask for a review or a reorder link right after a good purchase."
+        },
+        {
+          "h": "Window displays",
+          "t": "Let passers-by browse the range or shop online when you're closed."
+        }
+      ],
+      "related": [
+        "/pdf-qr-code",
+        "/google-review-qr-code",
+        "/instagram-qr-code",
+        "/qr-codes-for-small-business",
+        "/qr-code-with-logo"
+      ],
+      "faq": [
+        {
+          "q": "Is it free for my store?",
+          "a": "Yes — every tool here is free, with no sign-up and no expiry. Print as many shelf labels as you need."
+        },
+        {
+          "q": "Can I change what a shelf code points to?",
+          "a": "Only if it points to a page you control. Update that page and the printed code keeps working; change the link itself and you need a new code."
+        },
+        {
+          "q": "How small can a shelf code be?",
+          "a": "Around 2 cm square scans reliably at arm's length. Download the SVG so it stays sharp at small sizes."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-real-estate",
+      "archetype": "industry",
+      "phase": "2",
+      "primary": "qr code for real estate",
+      "msv": 50,
+      "kd": 16,
+      "secondaries": [
+        "real estate qr code",
+        "qr code for realtors"
+      ],
+      "title": "QR Codes for Real Estate — Free, No Sign-Up",
+      "meta": "Free QR codes for real estate — yard signs, listing sheets, virtual tours and agent contact cards. Add your logo, download PNG or SVG. No account.",
+      "h1": "QR codes for real estate",
+      "intro": "A yard sign gets seen by people who will never call the number on it. A QR code lets them scan from the sidewalk and see photos, the floor plan, or the video tour on the spot. Here are the codes agents use on signs, sheets and cards, each with a free tool to make it.",
+      "tool": {
+        "mode": "url",
+        "note": "Full generator embedded so agents can make any code on the ICP page itself."
+      },
+      "tools": [
+        {
+          "name": "Listing sheet",
+          "tag": "Type · pdf qr code",
+          "text": "Link a hosted listing PDF or floor plan from the yard sign, the window card or the flyer.",
+          "cta": "MAKE A PDF QR",
+          "href": "/pdf-qr-code",
+          "fg": "#1f3b63",
+          "bg": "#eef3fa",
+          "dot": "square",
+          "finder": "rounded",
+          "seed": 31
+        },
+        {
+          "name": "Agent contact card",
+          "tag": "Type · vcard qr code",
+          "text": "One scan saves your name, phone, email and agency to a buyer's phone.",
+          "cta": "MAKE A vCARD QR",
+          "href": "/vcard-qr-code",
+          "fg": "#1c1c1c",
+          "bg": "#ffffff",
+          "dot": "rounded",
+          "finder": "rounded",
+          "seed": 32
+        },
+        {
+          "name": "Virtual tour",
+          "tag": "Type · youtube qr code",
+          "text": "Send viewers straight to the walkthrough video or 3D tour instead of a phone number.",
+          "cta": "MAKE A VIDEO QR",
+          "href": "/youtube-qr-code",
+          "fg": "#b3261e",
+          "bg": "#fdeceb",
+          "dot": "rounded",
+          "finder": "circle",
+          "seed": 33
+        }
+      ],
+      "scenarios_title": "Where agents put them",
+      "scenarios": [
+        {
+          "h": "Yard signs & rider boards",
+          "t": "Passers-by scan from the sidewalk and see the full listing without calling."
+        },
+        {
+          "h": "Listing sheets & window cards",
+          "t": "Print one code that opens the photo gallery, the floor plan or the PDF."
+        },
+        {
+          "h": "Virtual tours",
+          "t": "Point a code at the walkthrough video so a drive-by turns into a viewing."
+        },
+        {
+          "h": "Open-house check-in",
+          "t": "A code on the door frame opens your visitor form — no clipboard, no queue."
+        },
+        {
+          "h": "Agent contact card",
+          "t": "A vCard code on your card or sign saves your details in one scan."
+        }
+      ],
+      "related": [
+        "/vcard-qr-code",
+        "/pdf-qr-code",
+        "/youtube-qr-code",
+        "/qr-codes-for-business-cards",
+        "/google-review-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Is it free for agents?",
+          "a": "Yes — no sign-up, no watermark, and the codes never expire. Make one per listing if you want."
+        },
+        {
+          "q": "What happens when the property sells?",
+          "a": "If the code points to a listing page you control, update that page to a sold notice or your other listings. The printed code keeps working."
+        },
+        {
+          "q": "Will it scan from a yard sign?",
+          "a": "Yes, if you print it large enough — roughly 8 cm square for sidewalk distance. Use the SVG so it stays crisp at sign size."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-events",
+      "archetype": "industry",
+      "phase": "2",
+      "primary": "qr code for events",
+      "msv": 70,
+      "kd": 24,
+      "secondaries": [
+        "qr codes for event organizers",
+        "qr code for conferences"
+      ],
+      "title": "QR Codes for Events — Free Generator, No Sign-Up",
+      "meta": "Free QR codes for event organizers — tickets, schedules, guest WiFi, speaker contacts and feedback. Add your logo, download PNG or SVG. No account.",
+      "h1": "QR codes for events",
+      "intro": "Running an event means printing things: badges, signage, programs, lanyards. A QR code on each one saves the attendee from typing anything. This is the organizer's hub — the codes worth printing before doors open, and the free tool for each. For a single ticket or invite code, start on the event QR code page.",
+      "tool": {
+        "mode": "url",
+        "note": "Full generator embedded on the ICP page. Hub only — must not target 'event qr code'; that head term belongs to /event-qr-code."
+      },
+      "tools": [
+        {
+          "name": "Tickets & invites",
+          "tag": "Type · event qr code",
+          "text": "Link the ticket, the registration page or the calendar invite from a badge, poster or email.",
+          "cta": "MAKE AN EVENT QR",
+          "href": "/event-qr-code",
+          "fg": "#5b3fa8",
+          "bg": "#f2eefb",
+          "dot": "rounded",
+          "finder": "rounded",
+          "seed": 41
+        },
+        {
+          "name": "Venue WiFi",
+          "tag": "Type · wifi qr code",
+          "text": "Attendees scan to join the network — no password read out from the stage.",
+          "cta": "MAKE A WIFI QR",
+          "href": "/wifi-qr-code",
+          "fg": "#0e7490",
+          "bg": "#ecfeff",
+          "dot": "dot",
+          "finder": "circle",
+          "seed": 42
+        },
+        {
+          "name": "Program & handouts",
+          "tag": "Type · pdf qr code",
+          "text": "One code on the signage opens the schedule, floor plan or slide deck as a PDF.",
+          "cta": "MAKE A PDF QR",
+          "href": "/pdf-qr-code",
+          "fg": "#1f3b63",
+          "bg": "#eef3fa",
+          "dot": "square",
+          "finder": "rounded",
+          "seed": 43
+        }
+      ],
+      "scenarios_title": "Where organizers put them",
+      "scenarios": [
+        {
+          "h": "Badges & lanyards",
+          "t": "A vCard code on the badge lets two attendees swap details in one scan."
+        },
+        {
+          "h": "Registration desk",
+          "t": "A code on the desk sign opens the check-in or ticket page while people queue."
+        },
+        {
+          "h": "Signage & floor stands",
+          "t": "Schedule, floor plan and WiFi on the boards people already stop to read."
+        },
+        {
+          "h": "Stage & slide decks",
+          "t": "End each talk on a code to the deck, the feedback form or the speaker's socials."
+        },
+        {
+          "h": "Programs & handouts",
+          "t": "Print one code instead of reprinting the program every time a slot moves."
+        }
+      ],
+      "related": [
+        "/event-qr-code",
+        "/wifi-qr-code",
+        "/pdf-qr-code",
+        "/vcard-qr-code",
+        "/instagram-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Is it free to use for an event?",
+          "a": "Yes — no sign-up, no watermark, and the codes never expire. Print as many badges and signs as you need."
+        },
+        {
+          "q": "Can I change the schedule after printing?",
+          "a": "Yes, if the code points to a schedule you control. Edit that page or replace the PDF at the same link and the printed code keeps working."
+        },
+        {
+          "q": "Does it count scans or check people in?",
+          "a": "No. These are static codes — they open a link. Any check-in or ticket scanning happens in your ticketing system, not here."
+        },
+        {
+          "q": "I only need one ticket code. Where do I start?",
+          "a": "Use the event QR code page — it is the single-code tool. This page is for organizers printing several different codes."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-hotels",
+      "archetype": "industry",
+      "phase": "2",
+      "primary": "qr code for hotels",
+      "msv": 10,
+      "kd": 0,
+      "secondaries": [
+        "hotel qr code",
+        "qr code for hotel rooms"
+      ],
+      "title": "QR Codes for Hotels — Free Generator, No Sign-Up",
+      "meta": "Free QR codes for hotels — guest WiFi, room compendium, restaurant menu and reviews. Add your logo, download PNG or SVG. No account, no expiry.",
+      "h1": "QR codes for hotels",
+      "intro": "The folder in the room goes out of date the week it is printed. A QR code on the desk card does the same job and can be updated without a reprint. Here are the codes hotels get the most use from, each with a free tool to make it.",
+      "tool": {
+        "mode": "url",
+        "note": "Full generator embedded on the ICP page. Low-priority page — keep it short."
+      },
+      "tools": [
+        {
+          "name": "Guest WiFi",
+          "tag": "Type · wifi qr code",
+          "text": "Guests scan to join at check-in or from the desk card — no password spelled out.",
+          "cta": "MAKE A WIFI QR",
+          "href": "/wifi-qr-code",
+          "fg": "#0e7490",
+          "bg": "#ecfeff",
+          "dot": "dot",
+          "finder": "circle",
+          "seed": 51
+        },
+        {
+          "name": "Room compendium",
+          "tag": "Type · pdf qr code",
+          "text": "Link the hosted guest directory — checkout times, housekeeping, local tips.",
+          "cta": "MAKE A PDF QR",
+          "href": "/pdf-qr-code",
+          "fg": "#1f3b63",
+          "bg": "#eef3fa",
+          "dot": "rounded",
+          "finder": "rounded",
+          "seed": 52
+        },
+        {
+          "name": "Restaurant menu",
+          "tag": "Type · qr code menu",
+          "text": "Room service and breakfast menus guests can read on their own phone.",
+          "cta": "MAKE A MENU QR",
+          "href": "/menu-qr-code",
+          "fg": "#9a3412",
+          "bg": "#fdf3ec",
+          "dot": "square",
+          "finder": "rounded",
+          "seed": 53
+        }
+      ],
+      "scenarios_title": "Where hotels put them",
+      "scenarios": [
+        {
+          "h": "Desk card in the room",
+          "t": "WiFi and the compendium on one small card beats a ring binder."
+        },
+        {
+          "h": "Reception & check-in",
+          "t": "A code on the counter hands over WiFi and house info in one scan."
+        },
+        {
+          "h": "Concierge board",
+          "t": "Local recommendations on a page you can change without reprinting."
+        },
+        {
+          "h": "Restaurant & bar tables",
+          "t": "Menu codes on table tents, same as any restaurant."
+        }
+      ],
+      "related": [
+        "/wifi-qr-code",
+        "/pdf-qr-code",
+        "/menu-qr-code",
+        "/google-review-qr-code",
+        "/qr-codes-for-restaurants"
+      ],
+      "faq": [
+        {
+          "q": "Is it free for a hotel?",
+          "a": "Yes — no sign-up and no expiry. Print a card for every room at no cost."
+        },
+        {
+          "q": "Do I need a new code when the WiFi password changes?",
+          "a": "Yes. A WiFi code stores the network name and password, so a new password means a new code and a new card."
+        },
+        {
+          "q": "Can I update the compendium without reprinting?",
+          "a": "Yes, if the code points to a page or PDF you control. Replace the content at the same link and the printed code keeps working."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-menus",
+      "archetype": "usecase",
+      "phase": "2",
+      "primary": "qr code for restaurant menus",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "restaurant table tent qr code",
+        "how big should a qr code be on a menu"
+      ],
+      "title": "QR Codes for Menus — Restaurant Setup Guide",
+      "meta": "Where to put a menu code, how big to print it, and how to keep the link stable. Free generator, no sign-up, codes never expire.",
+      "h1": "QR codes for menus",
+      "subhead": "A practical guide for restaurants: placement, print size, laminating, and keeping one link for good.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste the link to your menu page or hosted PDF'. This page is the guide; the primary CTA points to /menu-qr-code as the tool."
+      },
+      "intro": "Getting a menu code right is mostly physical: where it sits on the table, how big it prints, and whether the link behind it survives your next website change. This guide covers table tents versus window decals, minimum print size, laminating without killing contrast, and how to pick a link you will never have to swap. Make the code itself on the menu tool, free and with no account.",
+      "howto": {
+        "title": "How to set up menu codes in a restaurant",
+        "steps": [
+          {
+            "name": "Pick a link you can keep",
+            "text": "Use one page you control and edit the menu behind it, so the printed code never changes."
+          },
+          {
+            "name": "Print it big enough",
+            "text": "At least 3 cm on table tents and 8 cm on a window, with clear space all around."
+          },
+          {
+            "name": "Place and test it",
+            "text": "Put it where a seated guest can reach, then scan it from that seat in the room's real lighting."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Table tents beat window decals",
+          "t": "Tents get scanned at the seat; window codes only work for passers-by reading the menu outside."
+        },
+        {
+          "h": "Laminate matte, not gloss",
+          "t": "Gloss throws overhead light straight back at the camera and kills the scan."
+        },
+        {
+          "h": "One link, forever",
+          "t": "Point at a page you own, not a temporary share link, and you never reprint the code."
+        },
+        {
+          "h": "Free to reprint",
+          "t": "No account, no expiry — make a new tent for every seasonal menu at no cost."
+        }
+      ],
+      "related": [
+        "/menu-qr-code",
+        "/qr-codes-for-restaurants",
+        "/wifi-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "How big should the code be on a table tent?",
+          "a": "About 3 cm (1.2 in) across is the safe minimum for arm's-length scanning. Go to 8 cm or more for a window, which people scan from the pavement."
+        },
+        {
+          "q": "Table tent or window sticker?",
+          "a": "Do both if you can. The tent serves seated guests; the window version lets people check the menu before deciding to come in."
+        },
+        {
+          "q": "Will laminating stop it scanning?",
+          "a": "Matte laminate is fine and protects the card from spills. Avoid high-gloss finishes, which reflect ceiling lights into the camera."
+        },
+        {
+          "q": "What if my menu link changes?",
+          "a": "The printed code is fixed, so choose a link you control and edit the menu behind it. Replacing the PDF at the same address keeps every printed code working."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-social-media",
+      "archetype": "usecase",
+      "phase": "2",
+      "primary": "qr code for social media",
+      "msv": 170,
+      "kd": 27,
+      "secondaries": [
+        "social media qr code",
+        "qr code for social media profiles"
+      ],
+      "title": "QR Codes for Social Media — Free Generator",
+      "meta": "Turn any profile or link-in-bio into a scannable code. One code per platform or one for all. Free, no sign-up, download PNG or SVG.",
+      "h1": "QR codes for social media",
+      "subhead": "Send people straight to your profile from print — one code per platform, or one code for your whole link-in-bio.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste your profile or link-in-bio URL'. Hub page — surface links down to the Instagram, Facebook, YouTube and Spotify pages as the main next step."
+      },
+      "intro": "There are two ways to do this. Give each platform its own code when the printed piece has room and you want people on one specific profile, or print a single code that opens your link-in-bio page listing everything. Either way it is a link, made in your browser, free, with no account and no expiry. Pick your platform below for a page with the exact profile-link format.",
+      "howto": {
+        "title": "How to make a social media QR code",
+        "steps": [
+          {
+            "name": "Decide one code or many",
+            "text": "One per platform for a specific follow, or one link-in-bio code when space is tight."
+          },
+          {
+            "name": "Paste the profile link",
+            "text": "Copy the profile URL from a browser, not the in-app share sheet, so it stays a plain link."
+          },
+          {
+            "name": "Brand it and download",
+            "text": "Match your colors, add a logo, then export SVG for print or PNG for screens."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "One code per platform",
+          "t": "Best on packaging, posters, and shop windows where a single clear ask converts better."
+        },
+        {
+          "h": "Or one code for all",
+          "t": "Point at your link-in-bio page and list every profile behind a single square."
+        },
+        {
+          "h": "Works from anything printed",
+          "t": "Flyers, stickers, receipts, van livery — the camera app opens it, no app to install."
+        },
+        {
+          "h": "Free and permanent",
+          "t": "No sign-up, no watermark, no expiry. Print once and it keeps working."
+        }
+      ],
+      "related": [
+        "/instagram-qr-code",
+        "/facebook-qr-code",
+        "/youtube-qr-code"
+      ],
+      "faq": [
+        {
+          "q": "Should I make one code per platform or a single code?",
+          "a": "Use one per platform when you want a specific follow and have the space. Use a single link-in-bio code when the printed piece is small or you want to cover everything at once."
+        },
+        {
+          "q": "Which platforms are covered?",
+          "a": "There are dedicated pages for Instagram, Facebook, YouTube and Spotify, each with the right profile-link format. Any other platform works too — just paste its profile URL."
+        },
+        {
+          "q": "Where do I find my profile link?",
+          "a": "Open your profile in a desktop browser and copy the address bar. In-app share links sometimes carry extra tracking parameters you do not need."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes. Unlimited codes, no account, no watermark, and they never expire."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-packaging",
+      "archetype": "usecase",
+      "phase": "2",
+      "primary": "qr code on packaging",
+      "msv": 140,
+      "kd": 22,
+      "secondaries": [
+        "qr code for product packaging",
+        "product packaging qr code"
+      ],
+      "title": "QR Codes on Packaging — Free, Print-Ready",
+      "meta": "Put a QR code on your product box or label: how-to videos, reorder links, recycling info. Free, print-ready SVG, no sign-up, never expires.",
+      "h1": "QR codes on packaging",
+      "subhead": "Ingredients, how-to videos, reorder links, recycling info — the box only holds so much text. Free and print-ready.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste the product page, video, or reorder link'. Emphasize SVG download for the print file and the quiet-zone and contrast notes."
+      },
+      "intro": "A box has very little room, so the code carries the rest: full ingredients, a how-to-use video, a reorder link, or recycling instructions in every language you sell in. It is a link, not a file, so keep it pointed at a page you control. Export SVG and hand it to your printer with the rest of the artwork. Free, no account, no expiry.",
+      "howto": {
+        "title": "How to put a QR code on packaging",
+        "steps": [
+          {
+            "name": "Pick one job for the code",
+            "text": "Product info, a how-to video, a reorder link, or recycling details — one clear ask per code."
+          },
+          {
+            "name": "Build in contrast and space",
+            "text": "Dark code on a light background, and leave a clear margin of at least four modules on every side."
+          },
+          {
+            "name": "Export SVG for the print file",
+            "text": "Vector keeps the edges sharp at any size and drops straight into the artwork."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "More than the box can hold",
+          "t": "Full ingredients, manuals, and multi-language instructions live on the page behind the code."
+        },
+        {
+          "h": "Reorders and refills",
+          "t": "Point at the product page so a used-up item is one scan away from being replaced."
+        },
+        {
+          "h": "Print-safe by design",
+          "t": "SVG plus a proper quiet zone keeps the code readable at small label sizes."
+        },
+        {
+          "h": "Free forever",
+          "t": "No licence fee and no expiry, so a code printed on a two-year run keeps scanning."
+        }
+      ],
+      "related": [
+        "/pdf-qr-code",
+        "/qr-code-with-logo",
+        "/qr-codes-for-small-business"
+      ],
+      "faq": [
+        {
+          "q": "How small can a code be on a label?",
+          "a": "Keep it about 2 cm (0.8 in) across as a floor, and larger on anything a shopper reads at arm's length. Small print runs and coated stock both eat into readability."
+        },
+        {
+          "q": "Does it still scan on a curved bottle or a pouch?",
+          "a": "Yes, if it is bigger and flatter than you think. Curves and creases distort the grid, so size up, keep the code off the sharpest part of the curve, and test a real sample."
+        },
+        {
+          "q": "Can I use my brand colors?",
+          "a": "Yes, as long as the code stays clearly darker than its background. Light-on-dark and low-contrast pairings are the most common reason a printed code fails."
+        },
+        {
+          "q": "Can I change where it points after printing?",
+          "a": "No — the code is a fixed link. Point it at a page you control so you can change the content behind it without reprinting."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "qr-codes-for-feedback",
+      "archetype": "usecase",
+      "phase": "2",
+      "primary": "qr code for feedback",
+      "msv": 40,
+      "kd": 36,
+      "secondaries": [
+        "feedback qr code",
+        "qr code for feedback form"
+      ],
+      "title": "QR Codes for Feedback Forms — Free Generator",
+      "meta": "Make a QR code that opens your feedback form. Google Forms, Typeform, or your own survey. Free, no sign-up, download PNG or SVG.",
+      "h1": "QR codes for feedback",
+      "subhead": "Point a code at your form and collect comments from the room, the table, or the shop floor. Free and no sign-up.",
+      "tool": {
+        "mode": "url",
+        "note": "URL mode, helper: 'paste the link to your feedback form or survey'. Cross-link to /google-review-qr-code for public review intent, which this page does not cover."
+      },
+      "intro": "This is feedback that comes back to you: a Google Form, a Typeform, a survey tool, or an internal ticket form. Paste the form link, print the code, and put it where the experience happens — the table, the counter, the exit, the staff room. If you want public star ratings on your listing instead, the Google review page covers that. Free, no account, no expiry.",
+      "howto": {
+        "title": "How to make a feedback QR code",
+        "steps": [
+          {
+            "name": "Build the form first",
+            "text": "Keep it to two or three questions — long forms get abandoned on a phone."
+          },
+          {
+            "name": "Paste the share link",
+            "text": "Copy the form's public link and check it opens on a phone before you print anything."
+          },
+          {
+            "name": "Print and place it",
+            "text": "Download SVG and put it where the experience ends: the table, the receipt, or the exit."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Feedback that stays private",
+          "t": "Answers land in your form, not on a public listing, so you can fix things quietly."
+        },
+        {
+          "h": "Works with any form tool",
+          "t": "Google Forms, Typeform, Microsoft Forms, or your own page — it is just a link."
+        },
+        {
+          "h": "Catch people in the moment",
+          "t": "A code at the table or the exit gets answers while the visit is still fresh."
+        },
+        {
+          "h": "Free and no sign-up",
+          "t": "Make as many as you need for different rooms, sites, or shifts. Codes never expire."
+        }
+      ],
+      "related": [
+        "/google-review-qr-code",
+        "/qr-codes-for-restaurants",
+        "/qr-codes-for-small-business"
+      ],
+      "faq": [
+        {
+          "q": "How is this different from a Google review code?",
+          "a": "A review code sends people to your public Google listing. This one opens a private form you own, which suits internal, staff, and event feedback where you do not want the answers published."
+        },
+        {
+          "q": "Which form tools work?",
+          "a": "Any that give you a public link — Google Forms, Typeform, Microsoft Forms, SurveyMonkey, or a form on your own site."
+        },
+        {
+          "q": "Can I tell which location a response came from?",
+          "a": "Make a separate code per location, each pointing at its own form or a form link with the location pre-filled. The generator does not track scans."
+        },
+        {
+          "q": "Where should I put it?",
+          "a": "Where the experience ends: the check presenter, the counter, the exit door, the last slide of a talk, or the back of a delivery note."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn",
+      "archetype": "learn",
+      "phase": "2",
+      "primary": "qr code guides",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "how to make a qr code",
+        "qr code best practices"
+      ],
+      "title": "Learn — Guides to Better QR Codes",
+      "meta": "Guides to QR codes that scan every time: print size, error correction, adding a logo without breaking it, and choosing PNG or SVG. Free, no sign-up.",
+      "h1": "Guides to better QR codes",
+      "subhead": "How to make codes that scan every time — the right size, the right error correction, and how to add a logo without breaking them.",
+      "categories": [
+        "All",
+        "Printing",
+        "Design",
+        "By industry",
+        "Basics"
+      ],
+      "featured": {
+        "kicker": "Cornerstone guide",
+        "title": "The complete guide to QR codes for restaurants",
+        "text": "Menu, WiFi and reviews — what to print, where to put it, and how to keep every code scannable off a laminated table tent.",
+        "meta": "12 min read · Coming soon"
+      },
+      "articles_title": "Latest guides",
+      "articles": [
+        {
+          "cat": "Printing",
+          "title": "What size should a QR code be to print?",
+          "text": "The 10:1 scan-distance rule and safe minimums for cards, posters and packaging.",
+          "meta": "6 min read · Coming soon"
+        },
+        {
+          "cat": "Basics",
+          "title": "Static vs dynamic QR codes: which do you need?",
+          "text": "Why a free static code never expires — and when a trackable one is worth paying for.",
+          "meta": "7 min read · Coming soon"
+        },
+        {
+          "cat": "Design",
+          "title": "Add a logo without breaking your QR code",
+          "text": "Error correction, safe logo size, and contrast — keep it scannable and on-brand.",
+          "meta": "5 min read · Coming soon"
+        },
+        {
+          "cat": "Basics",
+          "title": "PNG or SVG: which QR file should you download?",
+          "text": "Raster for screens, vector for print — a quick rule for picking the right export.",
+          "meta": "4 min read · Coming soon"
+        },
+        {
+          "cat": "Design",
+          "title": "Coloring QR codes so they still scan",
+          "text": "Contrast ratios, inverted codes, and the color combos that quietly fail.",
+          "meta": "5 min read · Coming soon"
+        },
+        {
+          "cat": "By industry",
+          "title": "WiFi QR codes for cafes and hotels",
+          "text": "Set up guest WiFi once, print it on the table tent, and stop reading passwords aloud.",
+          "meta": "6 min read · Coming soon"
+        }
+      ],
+      "related": [
+        "/qr-code-with-logo",
+        "/wifi-qr-code",
+        "/menu-qr-code"
+      ],
+      "schema": [
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "slug": "about",
+      "archetype": "trust",
+      "phase": "2",
+      "primary": "about qr code agent",
+      "msv": null,
+      "kd": null,
+      "secondaries": [],
+      "badge": "About",
+      "title": "About QR Code Agent — Free, Private QR Codes",
+      "meta": "Who makes QR Code Agent, why it is free, and how it stays that way. Every code is generated in your browser — nothing is ever uploaded.",
+      "h1": "About QR Code Agent",
+      "subhead": "A free QR code generator that does not want your email address.",
+      "updated": "July 2026",
+      "sections": [
+        {
+          "h": "What this is",
+          "p": [
+            "QR Code Agent makes QR codes for links, WiFi networks, contact cards, menus, PDFs and social profiles. You can style the dots and finder patterns, set your own colors, drop a logo in the middle, and download a PNG or a print-ready SVG.",
+            "There is no account, no watermark, no trial, and no expiry date. You do not give an email address, and there is no upsell waiting three clicks in."
+          ]
+        },
+        {
+          "h": "Why the codes never expire",
+          "p": [
+            "Every code here is static. That means the destination is encoded directly into the pattern of the image — the code is the link, rather than a pointer to a redirect service that someone has to keep paying for.",
+            "This is the important difference between this tool and most \"free\" QR generators. A dynamic code routes through a third-party server, so it stops working the moment that service shuts down, changes its pricing, or decides your free trial is over. A static code has no such dependency. Print it once and it works for as long as the page it points to exists.",
+            "The trade-off is real and worth stating plainly: because the link is baked in, you cannot edit where a static code points after you download it. If the destination might change, point the code at a page you control and change the content on that page instead."
+          ]
+        },
+        {
+          "h": "Nothing is uploaded",
+          "p": [
+            "The generator runs entirely in your browser. The text you type, the WiFi password you enter, the contact details, and any logo you add are processed on your own device and never sent to a server. There is no copy of your code on our end, because there is no server involved in making it.",
+            "That is also why there are no scan counts or analytics dashboards for your codes: a static code does not report back to anyone, including us."
+          ]
+        },
+        {
+          "h": "How it stays free",
+          "p": [
+            "There is no cost to serve a static site, so there is no pressure to monetise you. There are no ads, no affiliate links, and nothing is sold.",
+            "If the tool saves you time, there is an optional coffee link in the header and footer. It is genuinely optional and nothing is gated behind it."
+          ]
+        },
+        {
+          "h": "Who made it",
+          "p": [
+            "Built by Myk Pono. If something is broken or a QR type is missing, the fastest way to reach me is LinkedIn — the link is in the footer."
+          ]
+        }
+      ],
+      "related": [
+        "/privacy",
+        "/learn",
+        "/qr-code-with-logo"
+      ],
+      "faq": [
+        {
+          "q": "Is it really free?",
+          "a": "Yes. No account, no watermark, no expiry, and no limit on how many codes you make."
+        },
+        {
+          "q": "Can I use the codes commercially?",
+          "a": "Yes. The codes you generate are yours — use them on packaging, signage, menus, business cards, or anything else, including commercial work."
+        },
+        {
+          "q": "Can I edit a code after downloading it?",
+          "a": "No. These are static codes, so the destination is fixed once downloaded. Point the code at a page you control if the destination may change."
+        }
+      ],
+      "schema": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "privacy",
+      "archetype": "trust",
+      "phase": "2",
+      "primary": "qr code agent privacy",
+      "msv": null,
+      "kd": null,
+      "secondaries": [],
+      "badge": "Privacy",
+      "title": "Privacy Policy — QR Code Agent",
+      "meta": "What QR Code Agent collects and what it does not. Your QR codes and logos never leave your browser. Cookieless analytics; GA4 only if you allow it.",
+      "h1": "Privacy",
+      "subhead": "The short version: your QR codes never leave your browser, and we do not want your personal data.",
+      "updated": "July 2026",
+      "sections": [
+        {
+          "h": "Your QR codes never leave your browser",
+          "p": [
+            "Everything you enter into the generator — links, WiFi network names and passwords, contact details, and any logo image you add — is processed locally on your device by JavaScript running in your browser. None of it is transmitted to us or to anyone else, and none of it is stored on a server.",
+            "We therefore cannot see, recover, or share the contents of any code you make. Because the codes are static, they also do not report scans back to us or to you."
+          ]
+        },
+        {
+          "h": "Analytics",
+          "p": [
+            "We use two analytics tools, and they are treated differently."
+          ],
+          "list": [
+            "Umami — privacy-focused and cookieless. It records aggregate page views, the referring site, and coarse signals such as country, browser, operating system and device type. It sets no cookies, does not fingerprint you, and does not track you across other websites. It runs without asking, because it does not collect personal data.",
+            "Google Analytics 4 — cookie-based, and it does not load at all unless you press Allow on the consent banner. If you decline, or simply ignore the banner, the Google script is never fetched and no Google cookies are set. If you do allow it, IP anonymisation is enabled."
+          ]
+        },
+        {
+          "h": "What is stored on your device",
+          "p": [
+            "A small amount of data is kept in your browser's local storage. It stays on your device, is never sent anywhere, and you can clear it at any time through your browser's site-data settings."
+          ],
+          "list": [
+            "qra:consent — whether you allowed or declined Google Analytics, so you are not asked on every page.",
+            "qra:saved — any QR designs you choose to save, kept only so the saved-designs list works. Saved designs are local to that one browser and are not synced or backed up."
+          ]
+        },
+        {
+          "h": "Supporting the project",
+          "p": [
+            "The optional coffee link sends you to a Stripe-hosted payment page. Payment is handled entirely by Stripe under their own privacy policy — we never see or receive your card details, and no payment information passes through this site.",
+            "Following that link is entirely voluntary, and nothing on the site is gated behind it."
+          ]
+        },
+        {
+          "h": "Third parties we load",
+          "p": [
+            "These are the only external services this site contacts:"
+          ],
+          "list": [
+            "Umami (cloud.umami.is) — cookieless analytics, loaded on every page.",
+            "Google Analytics (googletagmanager.com) — loaded only after you press Allow.",
+            "Stripe (buy.stripe.com) — only if you click the support link.",
+            "Fonts are self-hosted on this domain, so no font provider sees your visit."
+          ]
+        },
+        {
+          "h": "Changing your mind",
+          "p": [
+            "To withdraw analytics consent, clear this site's data in your browser settings. The banner will appear again on your next visit and you can decline.",
+            "Clearing site data also removes any saved QR designs, since those live only in your browser."
+          ]
+        },
+        {
+          "h": "Contact",
+          "p": [
+            "Questions about this policy can go to Myk Pono via the LinkedIn link in the footer. This page will be updated if the tools listed above change."
+          ]
+        }
+      ],
+      "related": [
+        "/about",
+        "/learn"
+      ],
+      "schema": [
+        "BreadcrumbList"
+      ]
+    }
+  ]
+}

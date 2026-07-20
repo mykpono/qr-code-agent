@@ -1,0 +1,35 @@
+/* QR Code Agent — Typography tokens
+   Two families only: Space Grotesk (UI + display) and IBM Plex Mono
+   (labels, values, buttons, captions). Fonts loaded in tokens/fonts.css. */
+
+:root {
+  /* ── Families ─────────────────────────────────────── */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* ── Weights ──────────────────────────────────────── */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* ── Display / heading sizes (Space Grotesk) ──────── */
+  --text-h1: 700 clamp(30px, 4vw, 48px)/1.05 var(--font-sans);   /* page hero */
+  --text-h2: 700 28px/1.15 var(--font-sans);                     /* section head */
+  --text-title: 700 20px/1 var(--font-sans);                     /* card / brand title */
+  --text-lead: 500 15px/1.55 var(--font-sans);                   /* subhead / body-lead */
+  --text-body: 500 14px/1.6 var(--font-sans);                    /* body copy */
+
+  /* ── Mono roles (IBM Plex Mono) ───────────────────── */
+  --text-label:  600 11px/1 var(--font-mono);   /* section label, +.16em, UPPER */
+  --text-micro:  600 9px/1 var(--font-mono);    /* tiny label, +.06–.14em, UPPER */
+  --text-value:  500 12px/1 var(--font-mono);   /* hex / numeric readout */
+  --text-caption:500 10px/1.4 var(--font-mono); /* status chips, helper */
+  --text-btn:    700 12px/1 var(--font-mono);   /* button label, +.09em, UPPER */
+
+  /* ── Tracking ─────────────────────────────────────── */
+  --track-label: .16em;   /* section labels */
+  --track-micro: .12em;   /* micro-labels */
+  --track-btn: .09em;     /* buttons */
+  --track-chip: .04em;    /* chips / meta */
+}

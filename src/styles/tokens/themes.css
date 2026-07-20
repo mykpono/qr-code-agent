@@ -1,0 +1,71 @@
+/* QR Code Agent — Theme variants
+   The generator ships four themes selected from header swatches.
+   Cream (default) lives on :root in colors.css; these scopes override it.
+   Apply with <html data-theme="sand|olive|slate"> or on any container. */
+
+/* ── Sand — warmer light ─────────────────────────────── */
+[data-theme="sand"] {
+  --page: #d8cdb4;
+  --surface: #efe7d3;
+  --surface-2: #e7dcc4;
+  --surface-3: #eae1cd;
+  --border: #dbd0b6;
+  --border-soft: #e3d9c1;
+  --border-2: #cfc4a8;
+  --border-3: #c7bb9e;
+  --ink: #2b2140;
+  --ink-2: #4a4030;
+  --muted: #6b6152;
+  --muted-2: #9a8f7c;
+  --label: #9c907a;
+  --label-2: #ab9f86;
+  --brand-soft: #e7e0fb;
+  --brand-500: #6d4dff;
+  --preview: linear-gradient(160deg, #ede4cf, #e5dcc4);
+}
+
+/* ── Olive — dark, warm green ────────────────────────── */
+[data-theme="olive"] {
+  --page: #3d4029;
+  --surface: #4a4d33;
+  --surface-2: #55583b;
+  --surface-3: #4f5236;
+  --surface-white: #4f5236;
+  --border: #646845;
+  --border-soft: #585c3c;
+  --border-2: #70744e;
+  --border-3: #7b7f56;
+  --ink: #f6f4e6;
+  --ink-2: #e3e1cd;
+  --muted: #c3c1a6;
+  --muted-2: #a7a488;
+  --label: #a3a184;
+  --label-2: #bbb99b;
+  --brand-soft: rgba(150,120,255,.32);
+  --brand-soft-border: rgba(150,120,255,.5);
+  --brand-500: #cabdff;
+  --preview: linear-gradient(160deg, #464a30, #3d4029);
+}
+
+/* ── Slate — dark, cool violet ───────────────────────── */
+[data-theme="slate"] {
+  --page: #1b1922;
+  --surface: #262330;
+  --surface-2: #302c3b;
+  --surface-3: #2b2734;
+  --surface-white: #2b2734;
+  --border: #3a3548;
+  --border-soft: #332f40;
+  --border-2: #423c52;
+  --border-3: #4a4358;
+  --ink: #f4f0e6;
+  --ink-2: #ddd7e6;
+  --muted: #a8a1b6;
+  --muted-2: #8f8aa0;
+  --label: #8b83a0;
+  --label-2: #a49db4;
+  --brand-soft: rgba(139,110,255,.30);
+  --brand-soft-border: rgba(139,110,255,.5);
+  --brand-500: #cabdff;
+  --preview: linear-gradient(160deg, #211f2b, #1b1922);
+}

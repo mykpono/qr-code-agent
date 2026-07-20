@@ -1,0 +1,17 @@
+---
+import { SITE, localHref, SUPPORT_URL } from '../lib/content.js';
+// Footer ported verbatim from ui_kits/website/*.html (incl. the "Created by Myk Pono" byline).
+const { locale = 'en' } = Astro.props;
+const L = (href) => localHref(href, locale);
+---
+<footer class="site-footer">
+  <div class="wrap fgrid">
+    {SITE.footer_columns.map((c) => (
+      <div><h5>{c.heading}</h5>{c.links.map((l) => <a href={L(l.href)}>{l.label}</a>)}</div>
+    ))}
+  </div>
+  <div class="wrap fbot">
+    <span>Generated in your browser — nothing is uploaded. · Created by <a href="https://www.linkedin.com/in/mykolaponomarenko/" target="_blank" rel="noopener" style="font-weight:600;">Myk Pono</a></span>
+    <a href={SUPPORT_URL} data-support="footer">☕ Support this tool</a>
+  </div>
+</footer>

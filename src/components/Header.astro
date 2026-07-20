@@ -1,0 +1,51 @@
+---
+import { SITE, LIVE_LOCALES, localHref, SUPPORT_URL } from '../lib/content.js';
+// Header markup ported verbatim from ui_kits/website/*.html
+const { locale = 'en', slug = '' } = Astro.props;
+const L = (href) => localHref(href, locale);
+
+// The folder's header shows a static `◉ EN ▾` chip — the ▾ implies a menu it
+// never draws. Rendered as a native <details> so it needs no JS; falls back to
+// the plain chip when only one locale is live.
+const langs = LIVE_LOCALES.map((l) => ({
+  code: l,
+  label: (SITE.languages.find((x) => x.prefix.replace('/', '') === l) || SITE.languages[0]).label,
+  href: l === 'en' ? `/${slug}`.replace(/\/$/, '') || '/' : `/${l}/${slug}`.replace(/\/$/, ''),
+  current: l === locale,
+}));
+---
+<header class="site-header">
+  <div class="wrap hbar">
+    <a class="lock" href={L('/')}><div class="tile">QR</div><div><div class="t1">QR Code Agent</div><div class="t2">Free · No sign-up · Never expires</div></div></a>
+    <nav>{SITE.primary_nav.map((i) => <a href={L(i.href)}>{i.label}</a>)}</nav>
+    <div class="hright">
+      <a class="pill" href={SUPPORT_URL} data-support="header">☕ Support</a>
+      {langs.length > 1 ? (
+        <details class="langmenu">
+          <summary class="lang">◉ {locale.toUpperCase()} ▾</summary>
+          <div class="langpop">
+            {langs.map((l) => <a href={l.href} hreflang={l.code} aria-current={l.current ? 'true' : undefined}>{l.label}</a>)}
+          </div>
+        </details>
+      ) : (
+        <span class="lang">◉ {locale.toUpperCase()} ▾</span>
+      )}
+      <div class="sw">
+        <span style="background:#faf6ec" class="on" data-theme-set="cream"></span>
+        <span style="background:#e7dcc4" data-theme-set="sand"></span>
+        <span style="background:#59603c" data-theme-set="olive"></span>
+        <span style="background:#302c3b" data-theme-set="slate"></span>
+      </div>
+    </div>
+  </div>
+</header>
+<script>
+  document.querySelectorAll('[data-theme-set]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const t = b.getAttribute('data-theme-set');
+      document.documentElement.setAttribute('data-theme', t === 'cream' ? '' : t);
+      document.querySelectorAll('[data-theme-set]').forEach((x) => x.classList.remove('on'));
+      b.classList.add('on');
+    });
+  });
+</script>

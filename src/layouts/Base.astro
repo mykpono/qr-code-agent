@@ -1,0 +1,62 @@
+---
+import '../styles/styles.css';
+import '../styles/app.css';
+import { alternates, schemaGraph, urlFor } from '../lib/content.js';
+import Consent from '../components/Consent.astro';
+
+const { page, locale = 'en', theme = 'cream' } = Astro.props;
+const canonical = urlFor(page.slug, locale);
+const alts = alternates(page.slug);
+const graph = schemaGraph(page, locale);
+const ogImg = `https://qrcodeagent.net/assets/og/${page.slug || 'home'}.png`;
+
+// hreflang code doubles as the <html lang> value (SEO-BRIEF §8.1).
+const htmlLang = alts.find((a) => a.href === canonical)?.hreflang || 'en';
+
+// Public env (client-safe) — set in Vercel. Empty locally = no-op.
+const UMAMI = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const GA = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
+---
+<!DOCTYPE html>
+<html lang={htmlLang} data-theme={theme}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{page.title}</title>
+  <meta name="description" content={page.meta} />
+  <link rel="canonical" href={canonical} />
+  {alts.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={page.title} />
+  <meta property="og:description" content={page.meta} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImg} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+
+  {/* Umami — cookieless, primary analytics (no consent needed in most reads). */}
+  {UMAMI && <script defer src="https://cloud.umami.is/script.js" data-website-id={UMAMI}></script>}
+
+  {/* GA4 — cookie-based, secondary: load only after consent (EU locales). */}
+  {GA && (
+    <script is:inline define:vars={{ GA }}>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      window.loadGA = function () {
+        if (window.__gaLoaded) return; window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA;
+        document.head.appendChild(s);
+        gtag('js', new Date()); gtag('config', GA, { anonymize_ip: true });
+      };
+      // Consent gate: GA loads only on a stored 'granted'. Components/Consent.astro
+      // asks when no decision exists and calls loadGA() on accept.
+      try { if (localStorage.getItem('qra:consent') === 'granted') window.loadGA(); } catch (e) {}
+    </script>
+  )}
+</head>
+<body>
+  <slot />
+  <Consent locale={locale} />
+</body>
+</html>

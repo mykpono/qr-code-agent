@@ -1,0 +1,48 @@
+/* QR Code Agent — Color tokens
+   Derived verbatim from the shipped generator (QR Generator.dc.html).
+   Base palette + semantic aliases. Default theme = Cream (light).
+   Theme variants live in tokens/themes.css. */
+
+:root {
+  /* ── Brand / accent ───────────────────────────────── */
+  --brand-500: #6d4dff;          /* primary accent — links, selection ring, sliders */
+  --brand-600: #5535e6;          /* hover / pressed accent */
+  --brand-grad-a: #7b5cff;       /* CTA gradient start */
+  --brand-grad-b: #a24dff;       /* CTA gradient end */
+  --brand-gradient: linear-gradient(135deg, #7b5cff, #a24dff);
+  --brand-soft: #ece7ff;         /* accent-tinted surface (pills, active chips) */
+  --brand-soft-border: #c9beff;  /* border on accent-soft surfaces */
+
+  /* ── Neutral surfaces (Cream) ─────────────────────── */
+  --page: #e8e0cf;              /* app background behind the card */
+  --surface: #faf6ec;           /* primary card surface */
+  --surface-2: #f2ecdd;         /* inset field / control surface */
+  --surface-3: #f7f2e6;         /* subtle raised panel (rail, dropzone) */
+  --surface-white: #ffffff;     /* popovers, preview mat */
+
+  /* ── Borders / hairlines ──────────────────────────── */
+  --border: #e6dfce;            /* default 1px border */
+  --border-soft: #efe8d8;       /* section dividers */
+  --border-2: #d9d0bb;          /* stronger border (swatch outlines) */
+  --border-3: #d4cbb4;          /* dashed dropzone, scrollbar thumb */
+
+  /* ── Ink / text ───────────────────────────────────── */
+  --ink: #2b2140;               /* primary text + dark tooltip bg */
+  --ink-2: #4a4030;             /* secondary text, values */
+  --muted: #6b6152;             /* muted body / helper text */
+  --muted-2: #9a8f7c;           /* fainter captions */
+  --label: #a2977f;             /* section labels (mono, uppercase) */
+  --label-2: #b3a892;           /* faintest micro-labels */
+  --on-brand: #ffffff;          /* text on accent gradient */
+
+  /* ── Preview mat ──────────────────────────────────── */
+  --preview: linear-gradient(160deg, #f6f1e4, #efe8d7);
+
+  /* ── Semantic — success / scannable ───────────────── */
+  --success-ink: #22a06b;
+  --success-surface: #eafaf1;
+  --success-border: #c5ecd6;
+
+  /* ── Focus ring ───────────────────────────────────── */
+  --ring: #6d4dff;
+}

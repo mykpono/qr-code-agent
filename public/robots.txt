@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Block nothing that should rank; QR generation happens client-side.
+Sitemap: https://qrcodeagent.net/sitemap.xml

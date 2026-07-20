@@ -1,0 +1,47 @@
+/* QR Code Agent — Spacing, radii, shadows, motion
+   Scales lifted from the shipped generator's inline styles. */
+
+:root {
+  /* ── Spacing scale (px) ───────────────────────────── */
+  --space-1: 3px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 10px;
+  --space-5: 12px;
+  --space-6: 14px;
+  --space-7: 16px;
+  --space-8: 22px;
+  --space-9: 24px;
+  --space-10: 30px;
+  --space-12: 48px;   /* page gutter */
+
+  /* ── Radii ────────────────────────────────────────── */
+  --radius-xs: 6px;    /* swatch chips */
+  --radius-sm: 9px;    /* inputs, small controls, segment knob */
+  --radius-md: 11px;   /* field wrappers, segmented tracks */
+  --radius-lg: 12px;   /* buttons, tiles */
+  --radius-xl: 14px;   /* CTA buttons, popovers, cards */
+  --radius-2xl: 24px;  /* preview mat */
+  --radius-3xl: 28px;  /* app shell */
+  --radius-pill: 999px;
+
+  /* ── Elevation ────────────────────────────────────── */
+  --shadow-card: 0 40px 80px -40px rgba(60,40,80,.35);      /* app shell */
+  --shadow-preview: 0 30px 60px -25px rgba(40,30,60,.40);   /* QR preview mat */
+  --shadow-popover: 0 20px 44px -14px rgba(30,20,50,.40);   /* color popovers */
+  --shadow-tooltip: 0 14px 34px -12px rgba(30,20,50,.55);   /* dark tooltip */
+  --shadow-cta: 0 12px 28px -10px rgba(109,77,255,.70);     /* accent CTA glow */
+  --shadow-soft: 0 1px 3px rgba(60,40,80,.14);              /* segment knob */
+
+  /* ── Motion ───────────────────────────────────────── */
+  --ease-standard: cubic-bezier(.4, 0, .2, 1);
+  --dur-fast: .15s;
+  --dur-base: .22s;
+  --dur-slow: .28s;
+
+  /* ── Layout ───────────────────────────────────────── */
+  --shell-max: 1320px;
+  --shell-min: 1120px;
+  --config-col: 346px;   /* generator left rail */
+  --template-rail: 306px;/* generator right rail */
+}

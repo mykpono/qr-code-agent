@@ -1,0 +1,16 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://qrcodeagent.net/#organization",
+  "name": "QR Code Agent",
+  "url": "https://qrcodeagent.net/",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://qrcodeagent.net/assets/logo.png",
+    "width": 512,
+    "height": 512
+  },
+  "sameAs": [
+    "https://github.com/mykpono/qr-code-agent"
+  ]
+}

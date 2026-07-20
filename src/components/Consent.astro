@@ -1,0 +1,62 @@
+---
+// Consent banner gating GA4 (BACKLOG P0). Umami is cookieless and is NOT gated
+// by this — only the cookie-based GA4 loader is.
+//
+// The design folder has no banner layout, so this is built from existing tokens
+// only (surface/border/radius/font vars) and deliberately introduces no new
+// visual language. Decline is exactly as prominent as accept.
+//
+// Renders only when GA4 is actually configured; with no GA id there is nothing
+// to consent to and the banner would be a dark pattern.
+const { locale = 'en' } = Astro.props;
+const GA = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
+---
+{GA && (
+  <div id="qra-consent" class="consent" hidden role="dialog" aria-live="polite" aria-label="Analytics consent">
+    <div class="consent-in">
+      <p>
+        We use cookieless analytics that never see your QR codes. May we also enable
+        Google Analytics? It sets cookies. Your codes are generated in your browser
+        either way — nothing is uploaded.
+      </p>
+      <div class="consent-btns">
+        <button type="button" data-consent="denied">DECLINE</button>
+        <button type="button" data-consent="granted" class="ok">ALLOW</button>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* Support-click tracking for the static (non-React) placements. Delegated so it
+    covers header, footer and the FAQ line without touching each component. */}
+<script is:inline>
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-support]');
+    if (!a) return;
+    var props = { placement: a.getAttribute('data-support') };
+    try { if (window.umami) window.umami.track('support_click', props); } catch (err) {}
+    try { if (window.gtag) window.gtag('event', 'support_click', props); } catch (err) {}
+  });
+</script>
+
+{GA && (
+  <script is:inline>
+    (function () {
+      var el = document.getElementById('qra-consent');
+      if (!el) return;
+      var KEY = 'qra:consent';
+      var prior = null;
+      try { prior = localStorage.getItem(KEY); } catch (e) {}
+      // No decision yet -> ask. Any stored decision is respected silently.
+      if (prior !== 'granted' && prior !== 'denied') el.hidden = false;
+      el.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-consent]');
+        if (!b) return;
+        var v = b.getAttribute('data-consent');
+        try { localStorage.setItem(KEY, v); } catch (e) {}
+        el.hidden = true;
+        if (v === 'granted' && window.loadGA) window.loadGA();
+      });
+    })();
+  </script>
+)}

@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Page from '../components/Page.astro';
+import { PAGES, LIVE_LOCALES, localizedPage } from '../lib/content.js';
+
+export function getStaticPaths() {
+  // One static route per page per LIVE locale. EN sits at the root; every other
+  // live locale is prefixed (/de/wifi-qr-code). A locale becomes live purely by
+  // having a bundle in src/content/i18n/ — see lib/content.js.
+  return LIVE_LOCALES.flatMap((locale) =>
+    PAGES.map((page) => {
+      const prefix = locale === 'en' ? '' : locale;
+      const slug = [prefix, page.slug].filter(Boolean).join('/') || undefined;
+      return {
+        params: { slug },
+        props: { page: localizedPage(page, locale), locale },
+      };
+    }),
+  );
+}
+
+const { page, locale } = Astro.props;
+---
+<Base page={page} locale={locale}>
+  <Page page={page} locale={locale} />
+</Base>

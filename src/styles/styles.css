@@ -1,0 +1,8 @@
+/* QR Code Agent Design System — global entry point.
+   Consumers link this one file. Import-only; no rules live here. */
+
+@import url("./tokens/fonts.css");
+@import url("./tokens/colors.css");
+@import url("./tokens/themes.css");
+@import url("./tokens/typography.css");
+@import url("./tokens/layout.css");

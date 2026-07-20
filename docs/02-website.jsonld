@@ -1,0 +1,24 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://qrcodeagent.net/#website",
+  "url": "https://qrcodeagent.net/",
+  "name": "QR Code Agent",
+  "description": "Free QR code generator with logo, custom colors, and styled dots. No sign-up, no expiry.",
+  "publisher": {
+    "@id": "https://qrcodeagent.net/#organization"
+  },
+  "inLanguage": [
+    "en",
+    "es",
+    "pt-BR",
+    "de",
+    "fr",
+    "it",
+    "ja",
+    "id",
+    "uk",
+    "pl",
+    "ru"
+  ]
+}

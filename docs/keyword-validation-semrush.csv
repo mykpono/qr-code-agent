@@ -1,0 +1,76 @@
+cluster,url,brief_primary,brief_tier,validated_primary,msv,kd,cpc_usd,validated_tier,action
+core,/,qr code generator,High,qr code generator,1000000,96,1.55,High-long-term,Keep; win via modifiers first
+core,/,free qr code generator,—,free qr code generator,135000,94,2.02,High-long-term,Home secondary
+core,/,—,—,create qr code,40500,90,2.77,High-long-term,Home secondary
+core,/,—,—,make qr code,12100,91,2.2,High-long-term,Home secondary
+core,/,—,—,free qr code generator no sign up,4400,,1.37,High-intent,Title/meta differentiator
+core,/,—,—,free qr code generator no expiration,2900,,1.84,High-intent,Title/meta differentiator
+feature,/qr-code-with-logo,qr code generator with logo,High,qr code generator with logo,2400,70,2.2,High,Phase 1
+feature,/custom-qr-code-generator,custom qr code generator,Med,custom qr code generator,5400,94,3.11,High-vol High-KD,Phase 1b
+feature,/svg-qr-code-generator,svg qr code,Med,svg qr code generator,260,71,1.66,Low,Demote
+feature,/colored-qr-code-generator,colored qr code,Med,colored qr code,170,82,2.05,Low,Demote
+type,/wifi-qr-code,wifi qr code generator,High,wifi qr code,2900,42,0.73,High,Phase 1 BUILD
+type,/wifi-qr-code,—,—,wifi qr code generator,1900,34,0.82,High,Secondary
+type,/instagram-qr-code,instagram qr code,Med,instagram qr code,2900,31,1.78,High,UPGRADE Phase 1
+type,/google-review-qr-code,google review qr code,High,google review qr code,1900,40,1.79,High,Phase 1
+type,/facebook-qr-code,facebook qr code,Med,facebook qr code,1900,42,1.55,High-Med,UPGRADE Phase 1
+type,/youtube-qr-code,youtube qr code,Med,youtube qr code,1600,35,1.04,High-Med,UPGRADE Phase 1
+type,/spotify-qr-code,spotify qr code,Low,spotify qr code,1600,48,1.19,Med-High,UPGRADE Phase 1
+type,/vcard-qr-code,vcard qr code generator,High,vcard qr code,1300,33,2.78,High,Phase 1 BUILD
+type,/vcard-qr-code,—,—,vcard qr code generator,880,30,2.81,High,Secondary
+type,/whatsapp-qr-code,whatsapp qr code,Med,whatsapp qr code,1300,42,1.47,Med-High,Phase 1
+type,/whatsapp-qr-code,—,—,whatsapp qr code generator,210,13,1.41,Med,Easy KD secondary
+type,/crypto-qr-code,bitcoin qr code,Low,bitcoin qr code,1000,56,2.65,Med,UPGRADE
+type,/url-qr-code,url qr code,High,url qr code generator,390,90,2.11,Med-vol High-KD,Spoke only
+type,/url-qr-code,—,—,url qr code,260,85,1.34,Med-vol High-KD,—
+type,/url-qr-code,—,—,link qr code,320,89,0.79,Med-vol High-KD,—
+type,/pdf-qr-code,pdf qr code,Med,pdf qr code,390,23,1.86,Med,Phase 1b
+type,/menu-qr-code,menu qr code generator,High,qr code menu,1000,25,3.11,High,RETARGET primary; was 40 MSV on old KW
+type,/menu-qr-code,menu qr code generator,High,menu qr code generator,40,24,3.6,Low as primary,Do not use as primary
+type,/menu-qr-code,—,—,menu qr code,320,29,2.96,Med,Secondary
+type,/phone-qr-code,phone number qr code,Low,phone number qr code,320,18,1.29,Low-Med,Helper
+type,/text-qr-code,text qr code,Low,text qr code,320,72,0.2,Low,Deprioritize
+type,/sms-qr-code,sms qr code,Low,sms qr code,260,24,1.47,Low,Helper
+type,/email-qr-code,email qr code,Med,email qr code,170,23,1.15,Low,DEMOTE tier
+type,/app-download-qr-code,app store qr code,Med,app store qr code,170,34,1.91,Low-Med,Later
+type,/event-qr-code,event qr code,Med,event qr code,140,15,5.25,Low-Med,Later
+type,/google-maps-qr-code,location qr code,Med,google maps qr code,110,19,1.79,Low,DEMOTE; location=40
+use,/qr-codes-for-business-cards,qr code business card,High,qr code business card,5400,37,3.32,High,Phase 1 HERO
+use,/qr-codes-for-menus,qr code menu,High,qr code menu,1000,25,3.11,High,Phase 1; resolve cannibalization w/ menu type
+use,/qr-codes-for-social-media,qr code for social media,Med,qr code for social media,170,27,2.96,Low-Med,Hub only
+use,/qr-codes-for-packaging,qr code on packaging,Low,qr code on packaging,140,22,0.99,Low,Later
+use,/qr-codes-for-reviews,qr code for reviews,High,qr code for reviews,110,50,3.28,Low-Med,DEMOTE; use google-review type
+use,/qr-codes-for-feedback,qr code for feedback,Low,qr code for feedback,40,36,5.47,Low,Later
+use,/qr-codes-for-flyers-posters,qr code for flyers,Med,qr code for flyers,20,0,3.44,Low,DEMOTE
+use,/qr-codes-for-table-tents,qr code table tent,Low,qr code table tent,10,0,6.3,Very low,Optional
+use,/qr-codes-for-promotions,qr code for promotions,Med,qr code for promotions,0,,,Unproven,Delay
+industry,/qr-codes-for-restaurants,qr code for restaurants,High,restaurant qr code,390,,6.03,Med,RETARGET primary
+industry,/qr-codes-for-restaurants,—,—,qr code for restaurants,40,2,6.04,Low exact,—
+industry,/qr-codes-for-restaurants,—,—,qr codes for restaurants,110,23,6.03,Low exact,—
+industry,/qr-codes-for-small-business,qr code for small business,High,qr code for business,390,,3.57,Med,RETARGET; small business exact=20
+industry,/qr-codes-for-small-business,—,—,qr code for small business,20,0,3.35,Very low,—
+industry,/qr-codes-for-retail,qr code for retail,Med,qr code for retail,70,16,6.37,Low,Later
+industry,/qr-codes-for-events,qr code for events,Med,qr code for events,70,24,5.25,Low,Later
+industry,/qr-codes-for-real-estate,qr code for real estate,Med,qr code for real estate,50,16,4.42,Low,Later
+industry,/qr-codes-for-hotels,qr code for hotels,Med,qr code for hotels,10,0,0,Very low,Delay
+industry,/qr-codes-for-bars,qr code for bars,Med,qr code for bars,0,0,0,None,No exact demand
+excluded,(future),dynamic qr code,—,dynamic qr code generator,2400,,6.59,High but N/A,Product gap — do not target yet
+locale-ES,/es/,generador de código QR,—,generador de codigos qr,1600,,0.3,—,Prefer unaccented plural
+locale-ES,/es/,—,—,generador de codigo qr,1300,,0.31,—,—
+locale-PT-BR,/pt-br/,gerador de QR code,—,gerador de qr code,49500,,0.1,Top locale,Roll out early
+locale-DE,/de/,QR-Code-Generator,—,qr code generator,165000,,0.52,Top locale,EN form dominates
+locale-DE,/de/,—,—,qr code generator kostenlos,9900,,0.64,—,Free modifier
+locale-DE,/de/,QR-Code erstellen,—,qr-code erstellen,1600,,0.46,—,Verb intent
+locale-FR,/fr/,générateur de QR code,—,generateur de qr code,3600,,0.39,—,OK
+locale-FR,/fr/,créer un QR code,—,creer un qr code,2900,,0.64,—,Verb intent
+locale-IT,/it/,generatore di QR code,—,crea qr code,8100,,0.49,Retarget,Verb >> noun
+locale-IT,/it/,—,—,generatore di qr code,1300,,0.58,—,Secondary
+locale-JA,/ja/,QRコード生成,—,QRコード生成,27100,,0.29,Top locale,Preferred native
+locale-JA,/ja/,—,—,qr code generator,18100,,0.38,—,EN also strong
+locale-ID,/id/,pembuat kode QR,—,qr code generator,135000,,0.02,Top locale,EN-first titles
+locale-ID,/id/,buat kode QR,—,buat kode qr,2400,,0.02,—,Native secondary
+locale-ID,/id/,—,—,pembuat kode qr,720,,0.02,—,—
+locale-UK,/uk/,генератор QR-кодів,—,генератор qr кодів,2900,,0.15,—,OK
+locale-UK,/uk/,створити QR-код,—,створити qr код,3600,,0.16,—,Verb slightly ahead
+locale-PL,/pl/,generator kodów QR,—,generator kodów qr,9900,,0.29,Strong,Plural wins
+locale-PL,/pl/,generator kodu QR,—,generator kodu qr,720,,0.38,—,Singular weaker

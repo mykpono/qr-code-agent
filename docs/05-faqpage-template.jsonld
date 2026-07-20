@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is the QR code menu generator free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. QR Code Agent is completely free. You can generate, style, and download a menu QR code as a PNG or SVG with no sign-up and no expiry."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do the QR codes expire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The QR codes you download are static and never expire, because the data is encoded directly in the image."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I add my restaurant logo to the QR code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Upload a PNG logo and it is placed in the center of the QR code. Use Quartile (Q) or High (H) error correction so the code still scans reliably with a logo."
+      }
+    }
+  ]
+}
