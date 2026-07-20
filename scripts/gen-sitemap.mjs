@@ -57,12 +57,22 @@ writeFileSync(new URL('../dist/sitemap.xml', import.meta.url), xml);
 // llms.txt — proposed standard, no proven citation impact yet, but it is
 // zero-cost hygiene and is generated here so it can never drift from the
 // actual page set.
-const group = (archetype, heading) => {
-  const list = data.pages
-    .filter((p) => p.archetype === archetype && p.slug)
+// Headings are per-archetype, but the group list is derived from the pages
+// themselves — any archetype without a heading here still gets emitted under a
+// fallback, so adding a page type can never silently drop it from llms.txt.
+const HEADINGS = {
+  feature: 'Features', type: 'By QR type', usecase: 'By use case',
+  industry: 'By industry', learn: 'Guides', trust: 'About this site',
+};
+const inner = data.pages.filter((p) => p.slug);
+const archetypes = [...new Set(inner.map((p) => p.archetype))]
+  .sort((a, b) => (Object.keys(HEADINGS).indexOf(a) + 1 || 99) - (Object.keys(HEADINGS).indexOf(b) + 1 || 99));
+const group = (archetype) => {
+  const list = inner
+    .filter((p) => p.archetype === archetype)
     .map((p) => `- [${p.h1}](${BASE}/${p.slug}): ${p.subhead || p.intro?.slice(0, 110) || ''}`)
     .join('\n');
-  return list ? `\n## ${heading}\n${list}\n` : '';
+  return list ? `\n## ${HEADINGS[archetype] || archetype}\n${list}\n` : '';
 };
 const llms = `# ${'QR Code Agent'}
 > Free QR code generator with logo. No sign-up, no watermark, no expiry. Codes are
@@ -71,11 +81,17 @@ const llms = `# ${'QR Code Agent'}
 
 ## Key Pages
 - [Home](${BASE}/): Free QR code generator — all types, styling, and logo support.
-${group('feature', 'Features')}${group('type', 'By QR type')}${group('usecase', 'By use case')}${group('industry', 'By industry')}
-## About
+${archetypes.map(group).join('')}
+## Credits
 - Created by Myk Pono — https://www.linkedin.com/in/mykolaponomarenko/
 - All generation is client-side. No account, no tracking of generated codes.
 `;
+
+// Guard: every built page must appear, or the file is quietly misleading.
+const missing = data.pages.filter((p) => !llms.includes(`(${BASE}/${p.slug || ''})`));
+if (missing.length) {
+  throw new Error(`llms.txt is missing ${missing.length} page(s): ${missing.map((p) => p.slug).join(', ')}`);
+}
 writeFileSync(new URL('../dist/llms.txt', import.meta.url), llms);
 
 console.log(

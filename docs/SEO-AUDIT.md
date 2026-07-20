@@ -1,7 +1,7 @@
-# SEO + GEO audit — 2026-07-20
+# SEO + GEO audit — 2026-07-20 (re-verified after /learn, /about, /privacy and PRs #5–#6)
 
-Internal Mode. Audited the **built output** (`dist/`, 31 pages), not a live URL — the site
-is not deployed yet. No fetch-based metrics (Core Web Vitals, backlinks, GSC impressions)
+Internal Mode. Audited the **built output** (`dist/`, **34 pages**), not a live URL — the
+site is not deployed yet. No fetch-based metrics (Core Web Vitals, backlinks, GSC impressions)
 are reported, because none were measured.
 
 ## Scope note
@@ -14,14 +14,17 @@ from the built HTML.
 
 | Check | Result |
 |---|---|
-| Duplicate titles | none across 31 pages |
+| Duplicate titles | none across 34 pages |
 | Duplicate meta descriptions | none |
 | H1 count | exactly 1 on every page |
 | Canonical tag | present on every page, self-referencing |
-| Thin content | none — min 406 words, median 506, max 692 |
+| Thin content | none — min 389 words, max 738 |
 | JSON-LD | valid graph on every page; `HowTo` correctly omitted where no procedure exists |
 | Server-side rendering | all copy is in the raw HTML. Critical for GEO — AI crawlers do not execute JS, and the generator being a React island does not hide the content |
 | Primary-keyword uniqueness | no two pages share a primary (enforced by the merge validator) |
+| Meta description length | all 34 within 70–155 chars |
+| OG tags / hreflang | present on all 34 |
+| Orphan pages | none — every page has an inbound internal link |
 
 ## Fixed in this pass
 
@@ -52,6 +55,14 @@ from the built HTML.
 - Impact: low. The standard is proposed, not adopted, and has no proven citation impact.
 - Fix: generated at build time in `scripts/gen-sitemap.mjs` so it always matches the live
   page set. Treated as hygiene, not a priority.
+
+**5. llms.txt silently dropped 3 pages — CONFIRMED (found on re-audit)**
+- Evidence: the generator hardcoded four archetypes, so when `/learn` (learn) and
+  `/about` + `/privacy` (trust) shipped, llms.txt listed 31 of 34 pages with no warning.
+- Impact: low in isolation, but a file whose whole purpose is "here is the site" being
+  quietly incomplete is worse than not having one.
+- Fix: groups are now derived from the pages themselves with a fallback heading, plus a
+  build-time guard that throws if any page is missing. Verified 34/34.
 
 ## Open — needs your decision
 
