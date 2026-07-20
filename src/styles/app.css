@@ -20,14 +20,10 @@ a:hover { color: var(--brand-600); }
 .hright { display: flex; align-items: center; gap: 9px; }
 .pill { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 9px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .06em; color: var(--brand-500); cursor: pointer; }
 .lang { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px; border-radius: 9px; background: var(--surface-2); border: 1px solid var(--border); font: 600 11px var(--font-mono); color: var(--ink-2); cursor: pointer; }
-/* Post-download support ask. Inline, dismissible, never blocks the download —
-   the product is free and the brief's whole positioning depends on it staying
-   that way, so this must never behave like a paywall or interstitial. */
-.gf-support { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); }
-.gf-support p { flex: 1 1 200px; margin: 0; font: 400 12px/1.5 var(--font-sans); color: var(--ink-2); }
-.gf-support-acts { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
-.gf-support-acts a { padding: 9px 14px; border-radius: 9px; background: var(--brand-gradient); color: #fff; text-decoration: none; font: 700 10px var(--font-mono); letter-spacing: .08em; white-space: nowrap; }
-.gf-support-acts button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-2); background: var(--surface); color: var(--muted); cursor: pointer; font-size: 11px; }
+/* Widget footer support line — always visible, part of the generator card. */
+.gf-support-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 14px 30px; border-top: 1px solid var(--brand-soft-border); background: var(--brand-soft); }
+.gf-support-footer p { flex: 1 1 200px; margin: 0; font: 400 12px/1.5 var(--font-sans); color: var(--ink-2); }
+.gf-support-footer a { flex: 0 0 auto; padding: 9px 14px; border-radius: 9px; background: var(--brand-gradient); color: #fff; text-decoration: none; font: 700 10px var(--font-mono); letter-spacing: .08em; white-space: nowrap; }
 
 /* Saved designs — ported from ui_kits/website/saved-designs.html (BACKLOG P1).
    Save lives in the preview header exactly as the folder places it, so the
@@ -36,7 +32,7 @@ a:hover { color: var(--brand-600); }
 .gf-savebtns button { height: 30px; padding: 0 12px; border-radius: 9px; border: 1px solid var(--border-2); background: var(--surface); font: 700 10px var(--font-mono); letter-spacing: .08em; color: var(--ink-2); cursor: pointer; white-space: nowrap; }
 .gf-savebtns button.save:hover { border-color: var(--brand-500); color: var(--brand-500); }
 .gf-savebtns button.open { background: var(--brand-soft); border-color: var(--brand-soft-border); color: var(--brand-500); }
-.gf-toast { align-self: center; margin-top: 10px; padding: 7px 14px; border-radius: 20px; background: #eafaf1; border: 1px solid #c5ecd6; font: 600 11px var(--font-mono); color: #22a06b; }
+.gf-toast { align-self: center; margin-top: 10px; padding: 7px 14px; border-radius: 20px; background: var(--success-surface); border: 1px solid var(--success-border); font: 600 11px var(--font-mono); color: var(--success-ink); }
 
 .gf-drawer { position: absolute; right: 0; top: 0; bottom: 0; width: 306px; z-index: 30; display: flex; flex-direction: column; background: var(--surface); border-left: 1px solid var(--border); box-shadow: -18px 0 40px -30px rgba(40,30,60,.6); }
 .gf-drawer .dhead { display: flex; align-items: center; justify-content: space-between; padding: 18px 18px 14px; border-bottom: 1px solid var(--border-soft); }
@@ -114,7 +110,7 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .tool-scroll { overflow-x: auto; padding: 4px 48px; }
 .support-line { text-align: center; font: 500 13px var(--font-sans); color: var(--muted); margin: 14px 0 0; }
 
-.genflag { width: 100%; max-width: 1190px; min-width: 1120px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-3xl); overflow: hidden; box-shadow: var(--shadow-card); }
+.genflag { width: 100%; max-width: 1190px; min-width: 1120px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-3xl); overflow: hidden; }
 .genflag .lab { font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); margin-bottom: 9px; }
 .genflag .lab.spread { display: flex; justify-content: space-between; align-items: baseline; }
 .genflag .lab.spread .accent { font: 600 12px var(--font-mono); color: var(--brand-500); letter-spacing: 0; }
@@ -218,7 +214,7 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .gf-plabel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .gf-railtoggle { display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px; border-radius: 9px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .08em; color: var(--brand-500); cursor: pointer; }
 .gf-stage { flex: 1; display: flex; align-items: center; justify-content: center; min-width: 0; }
-.gf-mat { padding: 28px; background: #fff; border-radius: 24px; box-shadow: var(--shadow-preview); }
+.gf-mat { padding: 28px; background: #fff; border-radius: 24px; }
 .gf-mat canvas { display: block; width: 340px; max-width: 100%; height: auto; border-radius: 8px; }
 .gf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .gf-chips .chip { font: 500 10px var(--font-mono); color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 6px 10px; border-radius: 20px; white-space: nowrap; }

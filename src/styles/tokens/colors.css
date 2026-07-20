@@ -1,11 +1,19 @@
 /* QR Code Agent — Color tokens
-   Derived verbatim from the shipped generator (QR Generator.dc.html).
+   Derived from the shipped generator (QR Generator.dc.html).
+
+   DELIBERATE DEVIATION FROM THE DESIGN FOLDER (BACKLOG P3, WCAG AA):
+   the folder's label/caption greys and the accent-on-accent-soft pairing fail
+   AA for normal-size text — several were under 3:1. Hue and saturation are
+   preserved exactly; only lightness is shifted, by the minimum needed to reach
+   4.5:1 against the surface each token is actually rendered on. Original values
+   are noted inline. Do not "restore" these from the folder without re-checking
+   contrast.
    Base palette + semantic aliases. Default theme = Cream (light).
    Theme variants live in tokens/themes.css. */
 
 :root {
   /* ── Brand / accent ───────────────────────────────── */
-  --brand-500: #6d4dff;          /* primary accent — links, selection ring, sliders */
+  --brand-500: #6543ff;          /* primary accent — links, selection ring, sliders (a11y: was #6d4dff, 4.2:1 on --brand-soft) */
   --brand-600: #5535e6;          /* hover / pressed accent */
   --brand-grad-a: #7b5cff;       /* CTA gradient start */
   --brand-grad-b: #a24dff;       /* CTA gradient end */
@@ -30,16 +38,16 @@
   --ink: #2b2140;               /* primary text + dark tooltip bg */
   --ink-2: #4a4030;             /* secondary text, values */
   --muted: #6b6152;             /* muted body / helper text */
-  --muted-2: #9a8f7c;           /* fainter captions */
-  --label: #a2977f;             /* section labels (mono, uppercase) */
-  --label-2: #b3a892;           /* faintest micro-labels */
+  --muted-2: #796f5d;           /* fainter captions (a11y: was #9a8f7c, 2.95:1) */
+  --label: #766d56;             /* section labels (mono, uppercase) (a11y: was #a2977f, 2.68:1) */
+  --label-2: #6d614c;           /* faintest micro-labels (a11y: was #b3a892, 2.18:1 — solved against --page, the darkest surface it lands on) */
   --on-brand: #ffffff;          /* text on accent gradient */
 
   /* ── Preview mat ──────────────────────────────────── */
   --preview: linear-gradient(160deg, #f6f1e4, #efe8d7);
 
   /* ── Semantic — success / scannable ───────────────── */
-  --success-ink: #22a06b;
+  --success-ink: #1b7f55;       /* a11y: was #22a06b, 3.08:1 on --success-surface */
   --success-surface: #eafaf1;
   --success-border: #c5ecd6;
 

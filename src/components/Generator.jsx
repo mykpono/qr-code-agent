@@ -212,7 +212,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   const [size, setSize] = useState(512);
   const [ecc, setEcc] = useState('Q');
   const [logoImg, setLogoImg] = useState(null);
-  const [useLogo, setUseLogo] = useState(false);
+  const [useLogo, setUseLogo] = useState(true);
   const [logoShape, setLogoShape] = useState('circle');
   const [logoBorder, setLogoBorder] = useState('none');
   const [fgOpen, setFgOpen] = useState(false);
@@ -227,7 +227,6 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [toast, setToast] = useState(false);
-  const [askSupport, setAskSupport] = useState(false);
 
   // fitHeight — the config column never scrolls; the body row grows to fit it
   // (ported from QR Generator.dc.html). Below 1120px the media query stacks the
@@ -276,22 +275,9 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   function applyTheme(t) { setTheme(t); try { document.documentElement.setAttribute('data-theme', t === 'cream' ? '' : t); } catch {} track('theme_switch', { theme: t }); }
   function onLogo(e) { const file = e.target.files?.[0]; if (!file) return; const rd = new FileReader(); rd.onload = (ev) => { const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = ev.target.result; }; rd.readAsDataURL(file); }
   function pickTemplate(t) { setSel(t.name); setFg(t.fg); setBg(t.bg); setDot(t.dot); setFinder(t.finder); if (t.content) setF('url', t.content); track('template_selected', { name: t.name }); }
-  // Post-download support ask (site.support.placements). Shown inline under the
-  // download row only AFTER a successful download, never as a modal, and never
-  // blocking the file. Dismissal is remembered so it asks once, not every time.
-  const SUPPORT_KEY = 'qra:supportAsked';
-  function offerSupport() {
-    if (!supportUrl) return;
-    try { if (localStorage.getItem(SUPPORT_KEY)) return; } catch {}
-    setAskSupport(true);
-  }
-  function dismissSupport() {
-    try { localStorage.setItem(SUPPORT_KEY, '1'); } catch {}
-    setAskSupport(false);
-  }
 
-  function downloadPNG() { const a = document.createElement('a'); a.download = 'qrcode.png'; a.href = mainRef.current.toDataURL('image/png'); a.click(); track('download_png', { mode }); offerSupport(); }
-  function downloadSVG() { const c = mainRef.current, s = c.width, d = c.toDataURL('image/png'); const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><image href="${d}" width="${s}" height="${s}"/></svg>`; const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' })); const a = document.createElement('a'); a.download = 'qrcode.svg'; a.href = url; a.click(); URL.revokeObjectURL(url); track('download_svg', { mode }); offerSupport(); }
+  function downloadPNG() { const a = document.createElement('a'); a.download = 'qrcode.png'; a.href = mainRef.current.toDataURL('image/png'); a.click(); track('download_png', { mode }); }
+  function downloadSVG() { const c = mainRef.current, s = c.width, d = c.toDataURL('image/png'); const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><image href="${d}" width="${s}" height="${s}"/></svg>`; const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' })); const a = document.createElement('a'); a.download = 'qrcode.svg'; a.href = url; a.click(); URL.revokeObjectURL(url); track('download_svg', { mode }); }
 
   // ---- saved designs (BACKLOG P1, ported from ui_kits/website/saved-designs.html).
   // Local to this browser only — no account, nothing uploaded. Stored under
@@ -418,16 +404,6 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
             <span className={`chip ${scannable ? 'ok' : 'warn'}`}>{scannable ? '✓ Scannable' : '⚠ At risk'}</span>
           </div>
           <div className="gf-dl"><button className="dl" onClick={downloadPNG}>↓ DOWNLOAD PNG</button><button className="dl primary" onClick={downloadSVG}>↓ DOWNLOAD SVG</button></div>
-          {askSupport && (
-            <div className="gf-support">
-              <p>{thanks}</p>
-              <div className="gf-support-acts">
-                <a href={supportUrl} target="_blank" rel="noopener" data-support="post_download"
-                   onClick={() => { track('support_click', { placement: 'post_download', mode }); dismissSupport(); }}>☕ BUY ME A COFFEE</a>
-                <button onClick={dismissSupport} aria-label="Dismiss">✕</button>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* saved-designs drawer — ported from ui_kits/website/saved-designs.html */}
@@ -487,6 +463,13 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
           </div>
         </div>
       </div>
+      {supportUrl && (
+        <div className="gf-support-footer">
+          <p>{thanks}</p>
+          <a href={supportUrl} target="_blank" rel="noopener" data-support="widget_footer"
+             onClick={() => track('support_click', { placement: 'widget_footer', mode })}>☕ BUY ME A COFFEE</a>
+        </div>
+      )}
     </div>
   );
 }
