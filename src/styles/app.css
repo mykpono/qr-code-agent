@@ -47,7 +47,7 @@ a:hover { color: var(--brand-600); }
 .ditem .th span { width: 22px; height: 22px; border-radius: 4px; display: block; }
 .ditem .dmeta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; align-items: flex-start; text-align: left; background: none; border: none; padding: 0; cursor: pointer; }
 .ditem .nm { font: 600 12px var(--font-sans); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
-.ditem .sub { font: 500 10px var(--font-mono); color: var(--label); }
+.ditem .sub { font: 500 10px var(--font-mono); color: var(--muted); }  /* a11y: --label is too faint on --surface-2 */
 .ditem .nm-input { width: 100%; background: var(--surface); border: 1px solid var(--border-2); border-radius: 8px; padding: 6px 8px; font: 500 12px var(--font-sans); color: var(--ink); outline: none; }
 .ditem .dacts { display: flex; gap: 4px; flex: 0 0 auto; }
 .ditem .dacts button { width: 26px; height: 26px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; font-size: 11px; }
