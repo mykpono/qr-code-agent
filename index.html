@@ -509,12 +509,23 @@
   let lastBg      = '#ffffff';
 
   // ── Selector helpers ──────────────────────────────────
+  let colorRaf = null;
+
   function regenerateIfReady() {
     if (!lastMatrix) return;
     const size = parseInt(document.getElementById('qr-size').value, 10);
     const fg   = document.getElementById('fg-color').value;
     const bg   = document.getElementById('bg-color').value;
     renderQR(lastMatrix, size, fg, bg, dotStyle, finderStyle, logoImg);
+  }
+
+  function recolorIfReady() {
+    if (!lastMatrix) return;
+    if (colorRaf) cancelAnimationFrame(colorRaf);
+    colorRaf = requestAnimationFrame(() => {
+      colorRaf = null;
+      regenerateIfReady();
+    });
   }
 
   function selectDotStyle(s) {
@@ -693,16 +704,24 @@
   }
 
   // ── Main render ───────────────────────────────────────
-  function renderQR(matrix, outputSize, fg, bg, dStyle, fStyle, logoImage) {
+  function renderQR(matrix, outputSize, fg, bg, dStyle, fStyle, logoImage, options = {}) {
+    const { animate = false } = options;
     const n       = matrix.length;
     const padding = outputSize * 0.04;
     const gridSize= outputSize - padding * 2;
     const cell    = gridSize / n;
 
     const canvas  = document.getElementById('qr-canvas');
-    canvas.width  = outputSize;
-    canvas.height = outputSize;
-    const ctx     = canvas.getContext('2d');
+    let buffer    = renderQR._buffer;
+    if (!buffer) {
+      buffer = document.createElement('canvas');
+      renderQR._buffer = buffer;
+    }
+    if (buffer.width !== outputSize || buffer.height !== outputSize) {
+      buffer.width  = outputSize;
+      buffer.height = outputSize;
+    }
+    const ctx = buffer.getContext('2d');
 
     // Background
     ctx.fillStyle = bg;
@@ -726,7 +745,6 @@
     for (let r = 0; r < n; r++) {
       for (let c = 0; c < n; c++) {
         if (getFinderZone(r, c, n)) continue;
-        // Also skip the separator rows (row/col 7 adjacent to finders)
         if (!matrix[r][c]) continue;
 
         const cx = padding + c * cell + cell / 2;
@@ -742,7 +760,6 @@
       const logoY     = (outputSize - logoSize) / 2;
       const pad       = logoSize * 0.12;
 
-      // White background circle behind logo
       ctx.fillStyle = bg;
       ctx.beginPath();
       ctx.arc(outputSize / 2, outputSize / 2, (logoSize / 2) + pad, 0, Math.PI * 2);
@@ -751,14 +768,22 @@
       ctx.drawImage(logoImage, logoX, logoY, logoSize, logoSize);
     }
 
+    if (canvas.width !== outputSize || canvas.height !== outputSize) {
+      canvas.width  = outputSize;
+      canvas.height = outputSize;
+    }
+    const visible = canvas.getContext('2d');
+    visible.drawImage(buffer, 0, 0);
+
     canvas.style.display = 'block';
     document.getElementById('empty-state').style.display = 'none';
     document.getElementById('qr-stage').classList.add('ready');
 
-    // Re-trigger animation
-    canvas.style.animation = 'none';
-    canvas.offsetHeight;
-    canvas.style.animation = '';
+    if (animate) {
+      canvas.style.animation = 'none';
+      canvas.offsetHeight;
+      canvas.style.animation = '';
+    }
 
     lastMatrix = matrix;
     lastSize   = outputSize;
@@ -787,7 +812,7 @@
       }
     }
 
-    renderQR(matrix, size, fg, bg, dotStyle, finderStyle, logoImg);
+    renderQR(matrix, size, fg, bg, dotStyle, finderStyle, logoImg, { animate: true });
 
     document.getElementById('btn-png').disabled = false;
     document.getElementById('btn-svg').disabled = false;
@@ -835,9 +860,9 @@
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') generate();
   });
 
-  // Live preview on color change
-  document.getElementById('fg-color').addEventListener('input', regenerateIfReady);
-  document.getElementById('bg-color').addEventListener('input', regenerateIfReady);
+  // Live preview on color change (no pop-in animation, rAF-throttled)
+  document.getElementById('fg-color').addEventListener('input', recolorIfReady);
+  document.getElementById('bg-color').addEventListener('input', recolorIfReady);
 
   // Auto-generate on load as demo
   window.addEventListener('load', () => setTimeout(generate, 400));
