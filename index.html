@@ -509,16 +509,26 @@
   let lastBg      = '#ffffff';
 
   // ── Selector helpers ──────────────────────────────────
+  function regenerateIfReady() {
+    if (!lastMatrix) return;
+    const size = parseInt(document.getElementById('qr-size').value, 10);
+    const fg   = document.getElementById('fg-color').value;
+    const bg   = document.getElementById('bg-color').value;
+    renderQR(lastMatrix, size, fg, bg, dotStyle, finderStyle, logoImg);
+  }
+
   function selectDotStyle(s) {
     dotStyle = s;
     document.querySelectorAll('.dot-opt').forEach(el => el.classList.remove('active'));
     document.querySelector(`.dot-opt[data-style="${s}"]`).classList.add('active');
+    regenerateIfReady();
   }
 
   function selectFinderStyle(s) {
     finderStyle = s;
     document.querySelectorAll('.finder-opt').forEach(el => el.classList.remove('active'));
     document.querySelector(`.finder-opt[data-style="${s}"]`).classList.add('active');
+    regenerateIfReady();
   }
 
   // Set defaults
