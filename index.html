@@ -835,6 +835,10 @@
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') generate();
   });
 
+  // Live preview on color change
+  document.getElementById('fg-color').addEventListener('input', regenerateIfReady);
+  document.getElementById('bg-color').addEventListener('input', regenerateIfReady);
+
   // Auto-generate on load as demo
   window.addEventListener('load', () => setTimeout(generate, 400));
 </script>
