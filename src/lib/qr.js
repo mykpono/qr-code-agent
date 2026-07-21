@@ -190,4 +190,9 @@ export function hasContent(mode, f = {}) {
   return !!(f.url || '').trim();
 }
 
-export { buildPayload, getMatrix, buildSVG, renderReal, QUIET_MODULES, rrPathD, modSVG, finderSVG };
+// drawMod and drawFinderReal are also used by the decorative rail-thumbnail
+// drawer in Generator.jsx, so they must be exported, not module-private.
+export {
+  buildPayload, getMatrix, buildSVG, renderReal, QUIET_MODULES,
+  rrPathD, modSVG, finderSVG, drawMod, drawFinderReal,
+};

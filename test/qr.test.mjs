@@ -207,3 +207,35 @@ test('a logo is the only thing allowed to embed a raster', () => {
   assert.ok(svg.includes('clip-path'), 'logo must be clipped to its shape');
   assert.equal((svg.match(/<image/g) || []).length, 1, 'exactly one raster, the logo');
 });
+
+/* ---------------- module contract ----------------
+   The extraction into lib/qr.js shipped a production crash: drawMod and
+   drawFinderReal stayed module-private while Generator.jsx still called them,
+   so the island threw "drawMod is not defined" and the whole generator vanished
+   on the live site. The build passed and every test passed, because nothing
+   checked that the component's imports actually resolve. This does. */
+
+test('lib/qr.js exports everything Generator.jsx imports from it', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('../src/components/Generator.jsx', import.meta.url), 'utf8');
+  const m = src.match(/import\s*\{([^}]+)\}\s*from\s*'\.\.\/lib\/qr\.js'/);
+  assert.ok(m, 'Generator.jsx should import from lib/qr.js');
+  const wanted = m[1].split(',').map((s) => s.trim().split(/\s+as\s+/)[0]).filter(Boolean);
+  const mod = await import('../src/lib/qr.js');
+  const missing = wanted.filter((name) => mod[name] === undefined);
+  assert.deepEqual(missing, [], `lib/qr.js is missing: ${missing.join(', ')}`);
+});
+
+test('Generator.jsx calls no bare helper that lib/qr.js does not provide', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('../src/components/Generator.jsx', import.meta.url), 'utf8');
+  const imported = new Set(
+    (src.match(/import\s*\{([^}]+)\}\s*from\s*'\.\.\/lib\/qr\.js'/)?.[1] || '')
+      .split(',').map((s) => s.trim().split(/\s+as\s+/).pop()).filter(Boolean),
+  );
+  const defined = new Set([...src.matchAll(/(?:function|const|let|var)\s+([A-Za-z_$][\w$]*)/g)].map((x) => x[1]));
+  // the QR helpers specifically — the ones that live in lib/qr.js
+  const QR_HELPERS = ['drawMod', 'drawFinderReal', 'renderReal', 'getMatrix', 'buildSVG', 'buildPayload', 'bakeLogo', 'traceRR'];
+  const broken = QR_HELPERS.filter((h) => new RegExp(`\\b${h}\\s*\\(`).test(src) && !imported.has(h) && !defined.has(h));
+  assert.deepEqual(broken, [], `called but neither imported nor defined: ${broken.join(', ')}`);
+});

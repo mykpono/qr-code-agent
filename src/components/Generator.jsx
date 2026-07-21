@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { buildPayload, getMatrix, buildSVG, renderReal, hasContent as hasContentFor } from '../lib/qr.js';
+import { buildPayload, getMatrix, buildSVG, renderReal, drawMod, drawFinderReal, hasContent as hasContentFor } from '../lib/qr.js';
 import { MOBILE_BREAKPOINT } from '../lib/mobile.js';
 
 /*
