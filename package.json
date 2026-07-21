@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build && node scripts/gen-sitemap.mjs",
     "preview": "astro preview",
-    "test": "node --test test/",
+    "test": "node --test test/ src/lib/",
     "verify": "npm test && npm run build && node scripts/check-build.mjs",
     "scan-sheet": "node scripts/scan-test-sheet.mjs",
     "i18n:extract": "node scripts/i18n-extract.mjs",
