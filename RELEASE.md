@@ -4,6 +4,55 @@ Newest first. The v1.0 record follows below.
 
 ---
 
+# 2026-07-21 — email QR code page + `mailto:` generator mode
+
+Shipped to production on `main` (commit `1c9feba`, deploy `dpl_83KWXunmkn61PPyJNMLGkiDAYDEj`,
+state READY). Live in all three production locales — English, German, Spanish are now merged, so
+the page ships across every live locale in the same change (D-007).
+
+## What ships
+
+### `/email-qr-code` — a new `type` page
+The highest-scoring gap in `docs/FINAL-TAXONOMY.md` (msv 170, kd 23) and the only planned type
+page that needed engineering rather than just content: it required a generator mode that did not
+exist. Full type-page treatment — hero, embedded generator, how-to, benefits, FAQ, and
+`SoftwareApplication`/`BreadcrumbList`/`HowTo`/`FAQPage` schema — in English, German and Spanish.
+
+### A `mailto:` generator mode
+New `email` mode in `lib/qr.js`: one scan opens a new draft addressed to you, with an optional
+prefilled subject and body. Wired into the widget as a three-field form (address, subject,
+message), with an a11y `describe()` branch and `ui.json` field/a11y strings translated into de/es.
+
+Encoding decision that would have shipped silently broken:
+- Subject and body are **percent-encoded**. A raw `&` or space in either would truncate the link
+  or split it into a bogus second header, so `encodeURIComponent` is applied to each; the address
+  itself is passed through untouched.
+
+### Internal linking
+`/email-qr-code` is linked from `/url-qr-code` and `/vcard-qr-code` `related` rails so it is not an
+orphan; it links back to `/vcard-qr-code`, `/url-qr-code` and `/qr-codes-for-marketing`.
+
+### Rule change
+Dropped the **native-review-before-merge** requirement from CLAUDE.md rule 9. The rest of D-007 is
+intact: a locale still ships only when every page is translated, and no partial bundle may merge.
+
+`/qr-codes-for-marketing` and `/qr-codes-for-education` were **not** touched — both already exist as
+built, translated `industry` pages (the taxonomy records they were built after the Semrush pull).
+
+## Verified before release
+
+- **108 tests pass** (was 91). New: real jsQR decode of a `mailto:` payload at all four ECC levels,
+  plus `buildPayload`/`hasContent` cases for the email mode.
+- `npm run i18n:coverage` clean (47 pages); `npm run build` green at **141 pages** (47 × 3 locales);
+  `check-build.mjs` all-pass.
+- Generator driven in-browser on `/email-qr-code`: email mode renders with **no console errors**;
+  the live region reports `QR code for email to hello@example.com … scannable`.
+- **Live production check, not assumed**: `/email-qr-code`, `/de/email-qr-code` and
+  `/es/email-qr-code` each return HTTP 200; the English page carries the correct `<title>` and
+  hreflang cross-linking en/de/es plus x-default.
+
+---
+
 # 2026-07-21 — v5 generator, generator modes, i18n foundation
 
 Shipped to production on `main`. English-only in production; German and Spanish exist as
