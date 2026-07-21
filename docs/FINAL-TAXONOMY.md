@@ -13,19 +13,20 @@ Axes: **type** (QR data type) · **feature** (differentiator) · **industry** (I
 
 | | Count |
 |---|---:|
-| **Built and live** | **46** |
-| Planned, not built | 14 |
+| **Built and live** | **47** |
+| Planned, not built | 13 |
 | Total if everything ships | 60 |
 
-Production is English-only. German and Spanish bundles are complete on `origin/i18n/de` and
-`origin/i18n/es`, pending native review (decision D-007) — merging either takes the build to 92
-pages, both to 138.
+Three locales are live in production: English, German and Spanish. Both bundles cover all 47 pages
+(D-007 — a locale ships only when every page is translated), so the build is **47 × 3 = 141 pages**.
+The native-review-before-merge requirement was dropped on 2026-07-21 (CLAUDE.md rule 9); the
+all-or-nothing completeness rule still holds.
 
 ---
 
-## Built — 46 pages ✅
+## Built — 47 pages ✅
 
-### Home, feature, type (20)
+### Home, feature, type (21)
 
 | URL | Archetype | Validated primary | MSV | KD | Priority |
 |---|---|---|---:|---:|:-:|
@@ -47,6 +48,7 @@ pages, both to 138.
 | `/phone-qr-code` | type | phone number qr code | 320 | 18 | 0.5 |
 | `/text-qr-code` | type | text qr code | 320 | 72 | 0.4 |
 | `/sms-qr-code` | type | sms qr code | 260 | 24 | 0.4 |
+| `/email-qr-code` | type | email qr code | 170 | 23 | 0.8 |
 | `/app-download-qr-code` | type | app store qr code | 170 | 34 | 0.5 |
 | `/event-qr-code` | type | event qr code | 140 | 15 | 0.5 |
 
@@ -100,14 +102,13 @@ The ten articles were never listed in this document. They are the site's deepest
 
 ---
 
-## Planned, not built — 14 pages
+## Planned, not built — 13 pages
 
 Ranked by **Opportunity Score = MSV ÷ KD**. Rows without validated data cannot be scored and are
 listed after; that is a gap in the research, not evidence of low value.
 
 | URL | Archetype | Validated primary | MSV | KD | Score | Note |
 |---|---|---|---:|---:|---:|---|
-| `/email-qr-code` | type | email qr code | 170 | 23 | **7.4** | needs a `mailto:` generator mode |
 | `/google-maps-qr-code` | type | google maps qr code | 110 | 19 | **5.8** | URL mode is sufficient |
 | `/svg-qr-code-generator` | feature | svg qr code generator | 260 | 71 | 3.7 | SVG export already ships |
 | `/qr-codes-for-reviews` | usecase | qr code for reviews | 110 | 50 | 2.2 | overlaps `/google-review-qr-code` — check cannibalization first |
@@ -126,15 +127,16 @@ The six unvalidated industry hubs all have matching **generator presets already 
 Coffee shop, Gym, Salon & spa, Nonprofit, Food truck in the Industry template rail), so the
 product side exists; only the page does not.
 
-`/email-qr-code` is the highest-scoring gap and the only one needing engineering: a `mailto:`
-payload builder. The `tel`/`sms`/`text`/`crypto` modes shipped 2026-07-21 and are the pattern to
-follow.
+`/email-qr-code` was the highest-scoring gap and the only one that needed engineering — a `mailto:`
+payload builder. **It shipped 2026-07-21** (email mode with optional percent-encoded subject/body,
+en/de/es) and moved to the built table above. `/google-maps-qr-code` now tops the list, and unlike
+email it needs no new mode: URL mode is sufficient.
 
 ---
 
 ## Localization
 
-**46 built pages × 11 locales = 506 URLs** at full rollout (the older "48 × 11 = 528" figure
+**47 built pages × 11 locales = 517 URLs** at full rollout (the older "48 × 11 = 528" figure
 counted pages that were never built and omitted the ten articles).
 
 A locale is all-or-nothing: `getStaticPaths` emits every page under a live locale's prefix and
@@ -143,7 +145,8 @@ under a locale prefix while hreflang claims otherwise. See D-007 / CLAUDE.md rul
 `docs/I18N-RUNBOOK.md`.
 
 Rollout order (`LOCALE_ORDER` in `src/lib/content.js`, by validated head-term opportunity):
-`en, de, id, pt-br, ja, pl, it, fr, uk, es, ru`.
+`en, de, id, pt-br, ja, pl, it, fr, uk, es, ru`. **Live today: `en, de, es`** (3 of 11) — es was
+promoted ahead of the ordering because its bundle was ready.
 
 **Keywords are not localized.** The de/es bundles render the English page's intent; `primary`,
 `secondaries`, `msv` and `kd` above are English-market figures and are deliberately not
