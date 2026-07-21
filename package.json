@@ -9,7 +9,10 @@
     "preview": "astro preview",
     "test": "node --test test/",
     "verify": "npm test && npm run build && node scripts/check-build.mjs",
-    "scan-sheet": "node scripts/scan-test-sheet.mjs"
+    "scan-sheet": "node scripts/scan-test-sheet.mjs",
+    "i18n:extract": "node scripts/i18n-extract.mjs",
+    "i18n:merge": "node scripts/i18n-merge.mjs",
+    "i18n:coverage": "node scripts/i18n-coverage.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^3.6.0",

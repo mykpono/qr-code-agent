@@ -5,3 +5,7 @@ dist/
 .DS_Store
 .vercel/
 .vercel
+
+# Translation working directory — extracted chunks and in-flight translations.
+# Only the finished bundle in src/content/i18n/ is committed.
+.i18n-work/
