@@ -132,4 +132,11 @@ benefits → directory/related → FAQ → footer.
 - Analytics + Stripe wiring in place (env-driven). EN-only sitemap emitted at build.
 - Build is clean, no console errors.
 
-See **`BACKLOG.md`** for prioritized remaining work.
+See **`NEXT-PHASES.md`** for what to do next — it is the current handoff and
+supersedes `BACKLOG.md` where they disagree. `RELEASE.md` records what shipped
+and how it was verified.
+
+**Before finishing any change to `Generator.jsx` or `lib/qr.js`, load a tool page
+in a browser and confirm the generator renders with no console errors.** A
+refactor that passed the build and all 58 tests once took the generator off every
+page of the live site — nothing in CI boots the app. See NEXT-PHASES.md.
