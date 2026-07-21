@@ -24,10 +24,11 @@ const badge = a === 'usecase' ? 'Use-case guide' : a === 'industry' ? `For ${pag
 const glyphs = ['✎', '◉', '∞', '⌂', '⚡', '◇', '✓'];
 const canonical = guide && page.related ? page.related[0] : null;
 
-// trust pills — exact folder set
+// trust pills — surfaced on home + type pages
 const TRUST = [
   { i: '✓', b: 'Free forever', s: 'no sign-up' },
-  { i: '∞', b: 'Never expires', s: 'static code' },
+  { i: '◻', b: 'No watermark', s: 'clean output' },
+  { i: '∞', b: 'Unlimited codes', s: 'no daily cap' },
   { i: '⌂', b: 'In your browser', s: 'nothing uploaded' },
 ];
 ---
@@ -163,6 +164,19 @@ const TRUST = [
   </div></div></section>
 ) : null}
 
+{a === 'type' && page.intro && (
+  <section class="blk" style="padding-top:0;"><div class="wrap narrow">
+    <div class="prose-sec" style="margin-top:0;"><p>{page.intro}</p></div>
+  </div></section>
+)}
+
+{page.whereToUse && (
+  <section class="blk" style="padding-top:0;"><div class="wrap narrow">
+    <h2>Where to use {page.h1.replace(/ generator$/i, '').replace(/QR code/i, 'QR codes')}</h2>
+    <div class="prose-sec" style="margin-top:12px;"><ul>{page.whereToUse.map((li) => <li>{li}</li>)}</ul></div>
+  </div></section>
+)}
+
 {page.howto && (
   <section class="blk" style="padding-top:0;"><div class={guide ? 'wrap narrow' : 'wrap'}>
     <h2>{page.howto.title}</h2>
@@ -178,6 +192,13 @@ const TRUST = [
     <div class="bens">
       {page.benefits.map((b, i) => <div class="ben"><span class="bi">{glyphs[i % glyphs.length]}</span><h4>{b.h}</h4><p>{b.t}</p></div>)}
     </div>
+  </div></section>
+)}
+
+{page.tips && (
+  <section class="blk" style="padding-top:0;"><div class="wrap narrow">
+    <h2>Tips and best practices</h2>
+    <div class="prose-sec" style="margin-top:12px;"><ul>{page.tips.map((li) => <li>{li}</li>)}</ul></div>
   </div></section>
 )}
 
@@ -214,9 +235,15 @@ const TRUST = [
   </div></section>
 )}
 
+{page.other_generators && (
+  <section class="blk" style="padding-top:0;"><div class="wrap dir">
+    <div><div class="micro" style="margin-bottom:11px;">Other free QR code generators</div><div class="dchips">{page.other_generators.map((h, i) => <a class={`dchip${i === 0 ? ' a' : ''}`} href={L(h)}>{labelFor(h, locale)}</a>)}</div></div>
+  </div></section>
+)}
+
 {page.related && (
   <section class="blk" style="padding-top:0;"><div class={guide ? 'wrap narrow' : 'wrap dir'}>
-    <div><div class="micro" style="margin-bottom:11px;">{guide ? 'Related' : 'Related QR types'}</div><div class="dchips">{page.related.map((h, i) => <a class={`dchip${i === 0 && !guide ? ' a' : ''}`} href={L(h)}>{labelFor(h, locale)}</a>)}</div></div>
+    <div><div class="micro" style="margin-bottom:11px;">{guide ? 'Related' : 'Related guides'}</div><div class="dchips">{page.related.map((h, i) => <a class={`dchip${i === 0 && !guide ? ' a' : ''}`} href={L(h)}>{labelFor(h, locale)}</a>)}</div></div>
   </div></section>
 )}
 
