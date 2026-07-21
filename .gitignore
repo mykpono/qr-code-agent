@@ -22,3 +22,8 @@ test-results/
 playwright-report/
 /blob-report/
 .playwright/
+
+# Google service-account keys — NEVER commit
+*service-account*.json
+gsc-key*.json
+*.gcp-key.json

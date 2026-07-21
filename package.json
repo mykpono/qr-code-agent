@@ -14,7 +14,8 @@
     "i18n:extract": "node scripts/i18n-extract.mjs",
     "i18n:merge": "node scripts/i18n-merge.mjs",
     "i18n:coverage": "node scripts/i18n-coverage.mjs",
-    "og": "node scripts/gen-og.mjs"
+    "og": "node scripts/gen-og.mjs",
+    "gsc:submit": "node scripts/gsc-submit.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^3.6.0",
