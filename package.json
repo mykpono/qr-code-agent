@@ -8,6 +8,7 @@
     "build": "node scripts/gen-og.mjs && astro build && node scripts/gen-sitemap.mjs",
     "preview": "astro preview",
     "test": "node --test test/ src/lib/",
+    "test:e2e": "playwright test",
     "verify": "npm test && npm run build && node scripts/check-build.mjs",
     "scan-sheet": "node scripts/scan-test-sheet.mjs",
     "i18n:extract": "node scripts/i18n-extract.mjs",
@@ -23,6 +24,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@resvg/resvg-js": "^2.6.2",
     "jsqr": "^1.4.0",
     "wawoff2": "^2.0.1"

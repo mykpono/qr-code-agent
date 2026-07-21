@@ -52,11 +52,18 @@ Two rules follow, and they are not optional:
    browser and confirm the generator renders with no console errors.** Use a
    *fresh tab* — the console buffer persists across navigations and will show
    you stale errors, or stale silence.
-2. **A green test suite is not evidence the app runs.** It is evidence the code
-   it imports behaves. Nothing in CI currently boots the app.
+2. **A green unit suite is not by itself evidence the app runs** — it is evidence
+   the code it imports behaves. As of 2026-07-20, CI does now boot the app:
+   `npm run test:e2e` (Playwright, `e2e/smoke.spec.mjs`) loads the built site in a
+   real browser and asserts the generator hydrates on three archetypes. Rule 1
+   still stands — the smoke test covers three pages and one class of failure, not
+   every change you might make.
 
-There is now a guard test (`lib/qr.js exports everything Generator.jsx imports`)
-that fails on exactly this bug. It does not cover the general case.
+Two backstops now fail on this bug: the guard test
+(`lib/qr.js exports everything Generator.jsx imports`) catches the specific
+missing-export case at the unit level, and the e2e smoke test catches the general
+case — any runtime throw during hydration, however caused — because it actually
+mounts the island in a browser.
 
 ---
 
@@ -199,7 +206,7 @@ link down.
 | Gap | Status |
 |---|---|
 | **No screen-reader pass** | Names, roles, focus and contrast are verified programmatically. Nobody has run VoiceOver/NVDA, so whether the QR announcement is *useful* is unproven. ~20 min to close. |
-| **Nothing boots the app in CI** | Tests cover `lib/qr.js` and `pages.json`; `check-build.mjs` covers static HTML. A hydration crash passes all of them. A smoke test (Playwright: load a page, assert `.genflag` exists, assert zero console errors) would close the exact hole that caused the outage. |
+| ~~**Nothing boots the app in CI**~~ | **Closed 2026-07-20.** `e2e/smoke.spec.mjs` (Playwright) boots the built site and asserts the generator island hydrates, stays mounted and responds to input on three archetypes, with zero page/console errors. Wired into `.github/workflows/ci.yml` as `npm run test:e2e`. Verified it fails on a re-injected hydration crash that the build, the full `npm test` suite and `check-build.mjs` all pass. **Still not gated:** CI runs it but Vercel deploys regardless (Phase 2.3). |
 | **No analytics data at all** | Until 2.1 is done, there is no traffic baseline and no way to measure anything, including the outage's impact. |
 | **Logo in SVG is raster** | Unavoidable — the user supplies a PNG. The QR pattern itself is true vector. |
 | **`docs/STRIPE-PLAN.md` slightly stale** | PR #8 removed `offerSupport()` from the SVG download path, so the post-download prompt now fires on PNG only. The doc still says "after a successful download". |
@@ -232,8 +239,10 @@ Each has a test. If one of these tests fails, read this list before "fixing" it.
 
 ```bash
 npm run dev          # localhost:4321
-npm test             # 58 tests
+npm test             # unit: real QR decode + content invariants
 npm run verify       # test + build + dist checks — run before every push
+npm run test:e2e     # Playwright smoke: boots dist/, proves the generator hydrates
+                     #   (needs `npm run build` first, and `npx playwright install chromium` once)
 npm run scan-sheet   # printable phone-scan test
 npm run build
 

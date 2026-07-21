@@ -3,7 +3,9 @@ name: CI
 # Runs on every push and PR. Vercel builds the site regardless of whether these
 # pass, so this is the gate that catches what a successful build does not: a QR
 # that no longer decodes, a quiet zone that drifted, a duplicate title, an orphan
-# page, a keyword collision.
+# page, a keyword collision — and, via the e2e smoke step, a hydration crash that
+# takes the generator off the live site while every other check stays green
+# (see NEXT-PHASES.md: the `drawMod` outage).
 on:
   push:
     branches: [main]
@@ -25,3 +27,14 @@ jobs:
         run: npm run build
       - name: Verify built output
         run: node scripts/check-build.mjs
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: Smoke test (boot the app, prove the generator hydrates)
+        run: npm run test:e2e
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

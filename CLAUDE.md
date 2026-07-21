@@ -59,8 +59,10 @@ npm install
 npm run dev        # http://localhost:4321
 npm run build      # → dist/ (static) + dist/sitemap.xml (EN-only, built pages)
 npm run preview
-npm test           # 56 tests: real QR decode (jsQR) + content invariants
+npm test           # unit: real QR decode (jsQR) + content invariants
 npm run verify     # test + build + check-build.mjs — run before every push
+npm run test:e2e   # Playwright smoke — boots dist/ and proves the generator hydrates
+                   #   (run `npm run build` first; `npx playwright install chromium` once)
 npm run scan-sheet # → dist/scan-test.html, print at 100% and scan with a phone
 ```
 
