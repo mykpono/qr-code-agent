@@ -75,35 +75,62 @@ const SOCIAL = [
   { name: 'Instagram', fg: '#c1358a', bg: '#fdeef6', dot: 'circle', finder: 'rounded', seed: 43, img: '/assets/logos/instagram.png' },
   { name: 'YouTube', fg: '#e60000', bg: '#fff0f0', dot: 'square', finder: 'rounded', seed: 44, img: '/assets/logos/youtube.png' },
 ];
+/* v5: Industry/Use-case templates are FULL design presets — they carry ecc, logo
+   on/off, logo shape and border alongside colour/dot/finder, plus the `group`
+   chip shown next to the URL. Verbatim from examplesData() in the v5 handoff. */
 const INDUSTRY = [
-  { name: 'Restaurant', content: 'https://your-restaurant.com/menu', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 61 },
-  { name: 'Bar', content: 'https://your-bar.com/drinks', fg: '#8b5cf6', bg: '#0b0b12', dot: 'star', finder: 'circle', seed: 62 },
-  { name: 'Coffee shop', content: 'https://your-cafe.com/order', fg: '#6f4e37', bg: '#f3e9dd', dot: 'square', finder: 'rounded', seed: 63 },
-  { name: 'Small business', content: 'https://your-business.com', fg: '#111111', bg: '#f5f4f1', dot: 'star', finder: 'rounded', seed: 64 },
-  { name: 'Hotel', content: 'https://your-hotel.com/guest-wifi', fg: '#0e7490', bg: '#ecfeff', dot: 'dot', finder: 'circle', seed: 66 },
-  { name: 'Real estate', content: 'https://listings.com/123-main-st', fg: '#14532d', bg: '#f6faf4', dot: 'rounded', finder: 'square', seed: 67 },
-  { name: 'Gym', content: 'https://your-gym.com/join', fg: '#2563eb', bg: '#eef4ff', dot: 'dot', finder: 'circle', seed: 68 },
-  { name: 'Salon & spa', content: 'https://your-salon.com/book', fg: '#9d174d', bg: '#fdf2f8', dot: 'rounded', finder: 'rounded', seed: 69 },
-  { name: 'Nonprofit', content: 'https://donate.org/give', fg: '#2f7d32', bg: '#eff7ef', dot: 'rounded', finder: 'rounded', seed: 70 },
-  { name: 'Food truck', content: 'https://find-our-truck.com', fg: '#ea580c', bg: '#fff3e2', dot: 'circle', finder: 'rounded', seed: 71 },
-  { name: 'Event', content: 'https://your-event.com/tickets', fg: '#8b5cf6', bg: '#0b0b12', dot: 'diamond', finder: 'circle', seed: 72 },
+  { name: 'Restaurant', group: 'Restaurants', content: 'https://your-restaurant.com/menu', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 61, ecc: 'M', logo: false },
+  { name: 'Bar', group: 'Bars', content: 'https://your-bar.com/drinks', fg: '#8b5cf6', bg: '#0b0b12', dot: 'star', finder: 'circle', seed: 62, ecc: 'Q', logo: true, shape: 'circle', border: 'border' },
+  { name: 'Coffee shop', group: 'Coffee shops', content: 'https://your-cafe.com/order', fg: '#6f4e37', bg: '#f3e9dd', dot: 'square', finder: 'rounded', seed: 63, ecc: 'M', logo: true, shape: 'circle', border: 'none' },
+  { name: 'Small business', group: 'Small business', content: 'https://your-business.com', fg: '#111111', bg: '#f5f4f1', dot: 'star', finder: 'rounded', seed: 64, ecc: 'H', logo: true, shape: 'square', border: 'border' },
+  { name: 'Hotel', group: 'Hotels', content: 'https://your-hotel.com/guest-wifi', fg: '#0e7490', bg: '#ecfeff', dot: 'dot', finder: 'circle', seed: 66, ecc: 'Q', logo: false },
+  { name: 'Real estate', group: 'Real estate', content: 'https://listings.com/123-main-st', fg: '#14532d', bg: '#f6faf4', dot: 'rounded', finder: 'square', seed: 67, ecc: 'M', logo: true, shape: 'square', border: 'none' },
+  { name: 'Gym', group: 'Gyms', content: 'https://your-gym.com/join', fg: '#2563eb', bg: '#eef4ff', dot: 'dot', finder: 'circle', seed: 68, ecc: 'Q', logo: true, shape: 'circle', border: 'border' },
+  { name: 'Salon & spa', group: 'Salons & spas', content: 'https://your-salon.com/book', fg: '#9d174d', bg: '#fdf2f8', dot: 'rounded', finder: 'rounded', seed: 69, ecc: 'H', logo: true, shape: 'circle', border: 'none' },
+  { name: 'Nonprofit', group: 'Nonprofits', content: 'https://donate.org/give', fg: '#2f7d32', bg: '#eff7ef', dot: 'rounded', finder: 'rounded', seed: 70, ecc: 'M', logo: false },
+  { name: 'Food truck', group: 'Food trucks', content: 'https://find-our-truck.com', fg: '#ea580c', bg: '#fff3e2', dot: 'circle', finder: 'rounded', seed: 71, ecc: 'Q', logo: true, shape: 'circle', border: 'border' },
+  { name: 'Event', group: 'Events', content: 'https://your-event.com/tickets', fg: '#8b5cf6', bg: '#0b0b12', dot: 'diamond', finder: 'circle', seed: 72, ecc: 'H', logo: false },
 ];
 const USECASE = [
-  { name: 'Menu', content: 'https://your-restaurant.com/menu', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 81 },
-  { name: 'Promotion', content: 'https://shop.com/promo?code=SAVE20', fg: '#ea580c', bg: '#fff3e2', dot: 'circle', finder: 'rounded', seed: 82 },
-  { name: 'Business card', content: 'https://your-name.com/contact', fg: '#1c1c1c', bg: '#ffffff', dot: 'rounded', finder: 'rounded', seed: 83 },
-  { name: 'Reviews', content: 'https://g.page/r/your-place/review', fg: '#2f7d32', bg: '#eff7ef', dot: 'rounded', finder: 'rounded', seed: 84 },
-  { name: 'Feedback', content: 'https://forms.gle/your-feedback', fg: '#0e7490', bg: '#ecfeff', dot: 'dot', finder: 'circle', seed: 85 },
-  { name: 'Flyer', content: 'https://your-event.com/info', fg: '#9d174d', bg: '#fdf2f8', dot: 'diamond', finder: 'rounded', seed: 86 },
-  { name: 'Packaging', content: 'https://brand.com/product/setup', fg: '#6f4e37', bg: '#f3e9dd', dot: 'square', finder: 'rounded', seed: 87 },
-  { name: 'Table tent', content: 'https://your-restaurant.com/menu', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 88 },
-  { name: 'Social', content: 'https://instagram.com/yourhandle', fg: '#c1358a', bg: '#fdeef6', dot: 'circle', finder: 'rounded', seed: 89 },
+  { name: 'Menu', group: 'Menus', content: 'https://your-restaurant.com/menu', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 81, ecc: 'M', logo: false },
+  { name: 'Promotion', group: 'Promotions', content: 'https://shop.com/promo?code=SAVE20', fg: '#ea580c', bg: '#fff3e2', dot: 'circle', finder: 'rounded', seed: 82, ecc: 'Q', logo: true, shape: 'circle', border: 'border' },
+  { name: 'Business card', group: 'Business cards', content: 'https://your-name.com/contact', fg: '#1c1c1c', bg: '#ffffff', dot: 'rounded', finder: 'rounded', seed: 83, ecc: 'M', logo: true, shape: 'square', border: 'none' },
+  // Not in the v5 preset list, but shipped since launch and counted in the
+  // "36 presets" label — kept, with no ecc/logo keys so it leaves those as-is.
+  { name: 'Reviews', group: 'Reviews', content: 'https://g.page/r/your-place/review', fg: '#2f7d32', bg: '#eff7ef', dot: 'rounded', finder: 'rounded', seed: 84 },
+  { name: 'Feedback', group: 'Feedback', content: 'https://forms.gle/your-feedback', fg: '#0e7490', bg: '#ecfeff', dot: 'dot', finder: 'circle', seed: 85, ecc: 'Q', logo: false },
+  { name: 'Flyer', group: 'Flyers', content: 'https://your-event.com/info', fg: '#9d174d', bg: '#fdf2f8', dot: 'diamond', finder: 'rounded', seed: 86, ecc: 'H', logo: true, shape: 'circle', border: 'none' },
+  { name: 'Packaging', group: 'Packaging', content: 'https://brand.com/product/setup', fg: '#6f4e37', bg: '#f3e9dd', dot: 'square', finder: 'rounded', seed: 87, ecc: 'H', logo: true, shape: 'square', border: 'border' },
+  { name: 'Table tent', group: 'Table tents', content: 'https://your-restaurant.com/menu', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 88, ecc: 'M', logo: false },
+  { name: 'Social', group: 'Social media', content: 'https://instagram.com/yourhandle', fg: '#c1358a', bg: '#fdeef6', dot: 'circle', finder: 'rounded', seed: 89, ecc: 'Q', logo: true, shape: 'circle', border: 'none' },
 ];
 const PRESET_COUNT = CREATIVE.length + SOCIAL.length + INDUSTRY.length + USECASE.length;
 const FG_PRESETS = ['#2563eb', '#1c1c1c', '#6d4dff', '#0e7490', '#e11d74', '#2f7d32'];
 const BG_PRESETS = ['#ffffff', '#eef4ff', '#f3e9dd', '#fdf2f8', '#ecfeff', '#141414'];
-const ECC_DATA = { L: { n: 'Low', r: '7% recovery', f: '25%' }, M: { n: 'Medium', r: '15% recovery', f: '50%' }, Q: { n: 'Quartile', r: '25% recovery · best with a logo', f: '75%' }, H: { n: 'High', r: '30% recovery', f: '100%' } };
+const ECC_DATA = {
+  L: { n: 'Low', p: '7%', r: '7% recovery', f: '25%' },
+  M: { n: 'Medium', p: '15%', r: '15% recovery', f: '50%' },
+  Q: { n: 'Quartile', p: '25%', r: '25% recovery · best with a logo', f: '75%' },
+  H: { n: 'High', p: '30%', r: '30% recovery', f: '100%' },
+};
 const THEMES = [{ n: 'cream', c: '#faf6ec' }, { n: 'sand', c: '#e7dcc4' }, { n: 'olive', c: '#59603c' }, { n: 'slate', c: '#302c3b' }];
+/* v5: the rail is tabbed and Social is the default tab. */
+const TABS = [{ k: 'social', l: 'Social' }, { k: 'industry', l: 'Industry' }, { k: 'usecase', l: 'Use case' }, { k: 'themes', l: 'Themes' }];
+const DOT_NAMES = { star: 'Plus', realstar: 'Star', diamond: 'Diamond', circle: 'Circle', square: 'Square', dot: 'Dot', rounded: 'Rounded' };
+const FINDER_NAMES = { circle: 'Circle', rounded: 'Rounded', square: 'Square', leaf: 'Leaf', cushion: 'Cushion' };
+
+/* WCAG relative-luminance contrast ratio. v5 warns below 3.5 — scanners need a
+   real light/dark split between modules and background, not just "different". */
+function contrastRatio(a, b) {
+  const lum = (h) => {
+    const m = (h || '#000').replace('#', '');
+    const n = m.length === 3 ? m.split('').map((x) => x + x).join('') : m;
+    const ch = (i) => { const v = parseInt(n.slice(i, i + 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+    return 0.2126 * ch(0) + 0.7152 * ch(2) + 0.0722 * ch(4);
+  };
+  const l1 = lum(a), l2 = lum(b);
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+}
 
 /* ---------------- component ---------------- */
 export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }) {
@@ -112,6 +139,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   const bodyRef = useRef(null);
   const cfgScrollRef = useRef(null);
   const cfgFooterRef = useRef(null);
+  const pulseRef = useRef(false);
   const [fields, setFields] = useState({ url: 'https://qrcodeagent.net', enc: 'WPA', utm: {} });
   const [dot, setDot] = useState('star');
   const [finder, setFinder] = useState('circle');
@@ -133,6 +161,8 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   // from scratch. The effect below collapses the rail on mobile after mount, which
   // is the SSR-safe way to do the same thing.
   const [railOpen, setRailOpen] = useState(true);
+  const [templateTab, setTemplateTab] = useState('social');
+  const [exampleTag, setExampleTag] = useState('');
   const [sel, setSel] = useState('Rain');
   const [theme, setTheme] = useState('cream');
   const [scannable, setScannable] = useState(true);
@@ -174,7 +204,9 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   // blank — you could export a code encoding an empty contact card. Gate the
   // export on real user content instead.
   const hasContent = useMemo(() => hasContentFor(mode, fields), [mode, fields]);
-  const setF = (k, v) => setFields((f) => ({ ...f, [k]: v }));
+  // Typing your own URL means you are no longer on a template's example content,
+  // so the example-tag chip goes away.
+  const setF = (k, v) => { if (k === 'url') setExampleTag(''); setFields((f) => ({ ...f, [k]: v })); };
   const setUtm = (k, v) => setFields((f) => ({ ...f, utm: { ...f.utm, [k]: v } }));
 
   // main preview (real)
@@ -183,9 +215,25 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
     if (!payload) { setScannable(false); return; }
     let m, ok = true; try { m = getMatrix(payload, ecc); } catch { try { m = getMatrix(payload, 'H'); } catch { ok = false; } }
     if (!ok) { setScannable(false); return; }
-    setScannable(!(useLogo && logoImg) || ecc === 'Q' || ecc === 'H');
     renderReal(c, m, size, fg, bg, dot, finder, (useLogo && logoImg) ? logoImg : null, logoShape, logoBorder);
+    // v5 redraw pulse — a 200ms fade+scale so a style change reads as a redraw
+    // rather than a silent swap. Only fires for style changes, never for typing.
+    if (pulseRef.current) {
+      pulseRef.current = false;
+      if (c.animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        c.animate([{ opacity: .35, transform: 'scale(.98)' }, { opacity: 1, transform: 'scale(1)' }],
+          { duration: 200, easing: 'cubic-bezier(.2,.7,.3,1)' });
+      }
+    }
   }, [payload, dot, finder, fg, bg, size, ecc, logoImg, useLogo, logoShape, logoBorder]);
+
+  // v5 scannability: WCAG contrast between modules and background must clear 3.5,
+  // AND a baked-in logo still needs Q/H error correction to survive the occlusion.
+  const contrast = useMemo(() => contrastRatio(fg, bg), [fg, bg]);
+  useEffect(() => {
+    const logoRisk = useLogo && logoImg && ecc !== 'Q' && ecc !== 'H';
+    setScannable(contrast >= 3.5 && !logoRisk);
+  }, [contrast, useLogo, logoImg, ecc]);
 
   // decorative swatches + thumbnails
   useEffect(() => {
@@ -215,7 +263,31 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
 
   function applyTheme(t) { setTheme(t); try { document.documentElement.setAttribute('data-theme', t === 'cream' ? '' : t); } catch {} track('theme_switch', { theme: t }); }
   function onLogo(e) { const file = e.target.files?.[0]; if (!file) return; const rd = new FileReader(); rd.onload = (ev) => { const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = ev.target.result; }; rd.readAsDataURL(file); }
-  function pickTemplate(t) { setSel(t.name); setFg(t.fg); setBg(t.bg); setDot(t.dot); setFinder(t.finder); if (t.content) setF('url', t.content); track('template_selected', { name: t.name }); }
+  /* v5: templates are complete looks, not recolours. A template applies colour,
+     dot, finder AND error correction, logo on/off, logo shape and border, plus
+     its example URL and the group chip. Keys the preset omits are left as-is. */
+  function pickTemplate(t) {
+    pulseRef.current = true;
+    setSel(t.name); setFg(t.fg); setBg(t.bg); setDot(t.dot); setFinder(t.finder);
+    if (t.ecc) setEcc(t.ecc);
+    if (t.shape) setLogoShape(t.shape);
+    if (t.border) setLogoBorder(t.border);
+    if (t.content) { setFields((f) => ({ ...f, url: t.content })); setExampleTag(t.group || ''); }
+    if (t.img) {
+      // Social presets ship a real brand mark; load it as the actual centre logo
+      // so it is baked into the PNG/SVG export, not just drawn over the preview.
+      const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = t.img;
+      setFields((f) => ({ ...f, utm: { ...f.utm, source: t.name.toLowerCase(), medium: 'social' } }));
+    } else if (t.logo !== undefined) {
+      setUseLogo(t.logo);
+    }
+    track('template_selected', { name: t.name });
+  }
+  // Style controls pulse the canvas; typing does not.
+  const pickDot = (k) => { pulseRef.current = true; setDot(k); };
+  const pickFinder = (k) => { pulseRef.current = true; setFinder(k); };
+  const pickFg = (c) => { pulseRef.current = true; setFg(c); };
+  const pickBg = (c) => { pulseRef.current = true; setBg(c); };
 
   function downloadPNG() { const a = document.createElement('a'); a.download = 'qrcode.png'; a.href = mainRef.current.toDataURL('image/png'); a.click(); track('download_png', { mode }); }
   function downloadSVG() {
@@ -278,12 +350,16 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
 
   const ecd = ECC_DATA[ecc];
   const dotBtn = (on) => `dotbtn${on ? ' on' : ''}`;
+  // v5 dynamic subtitle — reflects the current selection.
+  const headerSub = `${DOT_NAMES[dot] || 'Custom'} dots · ${FINDER_NAMES[finder] || 'Custom'} finders · ${useLogo ? 'Logo on' : 'No logo'}`;
+  const TAB_ITEMS = { social: SOCIAL, industry: INDUSTRY, usecase: USECASE, themes: CREATIVE };
+  const TAB_TITLES = { social: 'Social', industry: 'By industry', usecase: 'By use case', themes: 'Creative themes' };
 
   return (
     <div className="genflag" ref={rootRef}>
       {/* top bar */}
       <div className="gf-top">
-        <div className="gf-brand"><span className="gf-tile">QR</span><span><b>Custom QR Codes</b><i>Styled dots · Circular finders · Logo overlay</i></span></div>
+        <div className="gf-brand"><span className="gf-tile">QR</span><span><b>Custom QR Codes</b><i>{headerSub}</i></span></div>
         <div className="gf-themes">{THEMES.map((t) => <button key={t.n} className={theme === t.n ? 'on' : ''} style={{ background: t.c }} title={t.n} onClick={() => applyTheme(t.n)} />)}</div>
       </div>
 
@@ -291,6 +367,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
       <div className="gf-content">
         <div className="gf-crow">
           <ModeFields mode={mode} fields={fields} setF={setF} />
+          {exampleTag && <span className="gf-exampletag">{exampleTag}</span>}
           {mode === 'url' && <button className="gf-utm" onClick={() => setUtmOpen((v) => !v)}>UTM TRACKING <span>{utmOpen ? '▴' : '▾'}</span></button>}
         </div>
         {mode === 'url' && utmOpen && (
@@ -303,21 +380,23 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
       </div>
 
       {/* body */}
-      <div className="gf-body" ref={bodyRef}>
+      {/* rail-closed reserves the rail's width in the preview column so the QR
+          never resizes when the rail is toggled — see .gf-preview in app.css */}
+      <div className={`gf-body${railOpen ? '' : ' rail-closed'}`} ref={bodyRef}>
         {/* config */}
         <div className="gf-config">
           <div className="gf-cfg-scroll" ref={cfgScrollRef}>
             <div>
               <div className="lab">Dot style</div>
-              <div className="gf-grid5">{DOTS.map((d) => <button key={d.k} type="button" aria-pressed={dot === d.k} className={dotBtn(dot === d.k)} onClick={() => setDot(d.k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="dot" data-style={d.k} style={{ width: 28, height: 28 }} />{d.l}</button>)}</div>
+              <div className="gf-grid5">{DOTS.map((d) => <button key={d.k} type="button" aria-pressed={dot === d.k} className={dotBtn(dot === d.k)} onClick={() => pickDot(d.k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="dot" data-style={d.k} style={{ width: 28, height: 28 }} />{d.l}</button>)}</div>
             </div>
             <div>
               <div className="lab">Finder pattern</div>
-              <div className="gf-grid5">{FINDERS.map((f) => <button key={f.k} type="button" aria-pressed={finder === f.k} className={dotBtn(finder === f.k)} onClick={() => setFinder(f.k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="finder" data-style={f.k} style={{ width: 28, height: 28 }} />{f.l}</button>)}</div>
+              <div className="gf-grid5">{FINDERS.map((f) => <button key={f.k} type="button" aria-pressed={finder === f.k} className={dotBtn(finder === f.k)} onClick={() => pickFinder(f.k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="finder" data-style={f.k} style={{ width: 28, height: 28 }} />{f.l}</button>)}</div>
             </div>
             <div className="g2">
-              <ColorField label="Foreground" val={fg} open={fgOpen} setOpen={(v) => { setFgOpen(v); setBgOpen(false); }} onPick={setFg} presets={FG_PRESETS} align="left" />
-              <ColorField label="Background" val={bg} open={bgOpen} setOpen={(v) => { setBgOpen(v); setFgOpen(false); }} onPick={setBg} presets={BG_PRESETS} align="right" />
+              <ColorField label="Foreground" val={fg} open={fgOpen} setOpen={(v) => { setFgOpen(v); setBgOpen(false); }} onPick={pickFg} presets={FG_PRESETS} align="left" />
+              <ColorField label="Background" val={bg} open={bgOpen} setOpen={(v) => { setBgOpen(v); setFgOpen(false); }} onPick={pickBg} presets={BG_PRESETS} align="right" />
             </div>
             <div>
               <div className="lab spread"><span>Output size</span><span className="accent">{size} px</span></div>
@@ -328,21 +407,29 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
             </div>
             <div>
               <div className="lab tiprow"><span>Error correction</span><button className="gf-i" onMouseEnter={() => setEccTip(true)} onMouseLeave={() => setEccTip(false)}>i</button>{eccTip && <span className="gf-tip">Error correction bakes in redundant data so the code still scans when part of it is covered. Higher levels recover more but pack denser dots — pick Q or H when you add a center logo.</span>}</div>
-              <div className="gf-seg">{['L', 'M', 'Q', 'H'].map((l) => <button key={l} type="button" aria-pressed={ecc === l} aria-label={`Error correction ${l} — ${ECC_DATA[l].n}, ${ECC_DATA[l].r}`} className={ecc === l ? 'on' : ''} onClick={() => setEcc(l)}>{l}</button>)}</div>
+              {/* v5: four explicit option cards — letter + recovery % + name — so the
+                  trade-off is legible without hovering the info tip. */}
+              <div className="gf-eccgrid">{['L', 'M', 'Q', 'H'].map((l) => (
+                <button key={l} type="button" aria-pressed={ecc === l} aria-label={`Error correction ${l} — ${ECC_DATA[l].n}, ${ECC_DATA[l].r}`} className={`gf-ecc${ecc === l ? ' on' : ''}`} onClick={() => setEcc(l)}>
+                  <span className="e-l">{l}</span><span className="e-p">{ECC_DATA[l].p}</span><span className="e-n">{ECC_DATA[l].n}</span>
+                </button>
+              ))}</div>
               <div className="gf-bar"><span style={{ width: ecd.f }} /></div>
               <div className="gf-cap">{ecc} — {ecd.n} · {ecd.r}</div>
             </div>
             <div>
               <div className="lab spread"><span>Center logo</span><button type="button" role="switch" aria-checked={useLogo} aria-label="Center logo" className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => setUseLogo((v) => !v)}><span /></button></div>
-              {useLogo && (
-                <div className="gf-logo">
-                  <label className="gf-drop">Drop image or click to upload<i>PNG with transparency</i><input type="file" accept="image/*" hidden onChange={onLogo} /></label>
-                  <div className="g2">
-                    <div><div className="micro">SHAPE</div><div className="gf-seg sm">{['circle', 'square'].map((s) => <button key={s} type="button" aria-pressed={logoShape === s} aria-label={`Logo shape ${s}`} className={logoShape === s ? 'on' : ''} onClick={() => setLogoShape(s)}>{s === 'circle' ? '◉' : '▣'} {s.toUpperCase()}</button>)}</div></div>
-                    <div><div className="micro">BORDER</div><div className="gf-seg sm">{['none', 'border'].map((b) => <button key={b} type="button" aria-pressed={logoBorder === b} aria-label={`Logo border ${b}`} className={logoBorder === b ? 'on' : ''} onClick={() => setLogoBorder(b)}>{b === 'none' ? '◼' : '▢'} {b.toUpperCase()}</button>)}</div></div>
-                  </div>
+              {/* v5: the logo controls stay visible when the toggle is off — greyed
+                  out rather than hidden, so the column height never jumps and you
+                  can see what turning it on would give you. `inert` (with the CSS
+                  pointer-events fallback) also keeps them out of the tab order. */}
+              <div className={`gf-logo${useLogo ? '' : ' off'}`} inert={useLogo ? undefined : ''}>
+                <label className="gf-drop">Drop image or click to upload<i>PNG with transparency</i><input type="file" accept="image/*" hidden onChange={onLogo} /></label>
+                <div className="g2">
+                  <div><div className="micro">SHAPE</div><div className="gf-seg sm">{['circle', 'square'].map((s) => <button key={s} type="button" aria-pressed={logoShape === s} aria-label={`Logo shape ${s}`} className={logoShape === s ? 'on' : ''} onClick={() => setLogoShape(s)}>{s === 'circle' ? '◉' : '▣'} {s.toUpperCase()}</button>)}</div></div>
+                  <div><div className="micro">BORDER</div><div className="gf-seg sm">{['none', 'border'].map((b) => <button key={b} type="button" aria-pressed={logoBorder === b} aria-label={`Logo border ${b}`} className={logoBorder === b ? 'on' : ''} onClick={() => setLogoBorder(b)}>{b === 'none' ? '◼' : '▢'} {b.toUpperCase()}</button>)}</div></div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
           {/* The preview is live, so there is nothing to "generate" — this button
@@ -375,7 +462,9 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
           <p className="sr-only" role="status" aria-live="polite">{qrDescription}</p>
           <div className="gf-chips">
             <span className="chip">{size} × {size} px</span><span className="chip">ECC · {ecc}</span><span className="chip">{finder} finders</span>
-            <span className={`chip ${scannable ? 'ok' : 'warn'}`}>{scannable ? '✓ Scannable' : '⚠ At risk'}</span>
+            <span className={`chip ${scannable ? 'ok' : 'warn'}`}>
+              {scannable ? '✓ Scannable' : contrast < 3.5 ? '⚠ Low contrast — may not scan' : '⚠ Logo needs ECC Q or H'}
+            </span>
           </div>
           <div className="gf-dl"><button type="button" className="dl" onClick={downloadPNG} disabled={!hasContent}>↓ DOWNLOAD PNG</button><button type="button" className="dl primary" onClick={downloadSVG} disabled={!hasContent}>↓ DOWNLOAD SVG</button></div>
         </div>
@@ -425,14 +514,20 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
         )}
 
         {/* templates rail */}
-        <div className={`gf-rail${railOpen ? ' open' : ''}`} style={{ flexBasis: railOpen ? 306 : 0, width: railOpen ? 306 : 0 }}>
+        <div className={`gf-rail${railOpen ? ' open' : ''}`} style={{ flexBasis: railOpen ? 268 : 0, width: railOpen ? 268 : 0 }}>
           <div className="gf-railinner">
-            <div className="gf-railhead"><div><b>Templates</b> <i>{PRESET_COUNT} presets</i></div><button onClick={() => setRailOpen(false)}>›</button></div>
-            <div className="gf-railscroll">
-              <RailGroup title="By industry" items={INDUSTRY} sel={sel} onPick={pickTemplate} />
-              <RailGroup title="By use case" items={USECASE} sel={sel} onPick={pickTemplate} />
-              <RailGroup title="Social" items={SOCIAL} sel={sel} onPick={pickTemplate} social />
-              <RailGroup title="Creative themes" items={CREATIVE} sel={sel} onPick={pickTemplate} />
+            <div className="gf-railhead"><div><b>Templates</b> <i>{PRESET_COUNT} presets</i></div><button onClick={() => setRailOpen(false)} aria-label="Minimize templates">›</button></div>
+            {/* v5: category tabs replace the old four-group scroll — only the active
+                category's grid renders, so Social (the default) is reachable without
+                scrolling past 30 other presets. */}
+            <div className="gf-tabs" role="tablist" aria-label="Template categories">
+              {TABS.map((t) => (
+                <button key={t.k} role="tab" id={`gf-tab-${t.k}`} aria-selected={templateTab === t.k} aria-controls={`gf-tabpanel-${t.k}`}
+                  className={`gf-tab${templateTab === t.k ? ' on' : ''}`} onClick={() => setTemplateTab(t.k)}>{t.l}</button>
+              ))}
+            </div>
+            <div className="gf-railscroll" role="tabpanel" id={`gf-tabpanel-${templateTab}`} aria-labelledby={`gf-tab-${templateTab}`}>
+              <RailGroup title={TAB_TITLES[templateTab]} items={TAB_ITEMS[templateTab]} sel={sel} onPick={pickTemplate} social={templateTab === 'social'} />
             </div>
           </div>
         </div>
