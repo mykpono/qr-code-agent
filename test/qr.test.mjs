@@ -56,6 +56,7 @@ const PAYLOADS = [
   ['unicode', 'https://example.com/café-münchen-日本語'],
   ['tel', 'tel:+14155550123'],
   ['sms', 'SMSTO:+14155550123:Table for two at 7?'],
+  ['email', 'mailto:hello@example.com?subject=Order%20update&body=Hi%20there'],
   ['text', 'Gate code 4821 — ring bell twice'],
   ['crypto', 'bitcoin:bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq?amount=0.015&label=Tip%20jar'],
 ];
@@ -139,6 +140,19 @@ test('sms uses SMSTO and keeps the message optional', () => {
     'SMSTO:+14155550123:Table for two?');
   assert.equal(buildPayload('sms', { number: '+14155550123' }), 'SMSTO:+14155550123');
   assert.equal(buildPayload('sms', { message: 'orphan' }), '');
+});
+
+test('email builds a mailto with encoded subject and body', () => {
+  assert.equal(buildPayload('email', { email: 'hi@ex.com' }), 'mailto:hi@ex.com');
+  assert.equal(
+    buildPayload('email', { email: 'hi@ex.com', subject: 'Spring sale', body: 'Save 20%' }),
+    'mailto:hi@ex.com?subject=Spring%20sale&body=Save%2020%25');
+  // subject/body are independent — either may be present alone.
+  assert.equal(buildPayload('email', { email: 'hi@ex.com', body: 'just a body' }),
+    'mailto:hi@ex.com?body=just%20a%20body');
+  assert.equal(buildPayload('email', { subject: 'orphan' }), '');
+  assert.equal(hasContent('email', { email: '  ' }), false);
+  assert.equal(hasContent('email', { email: 'a@b.co' }), true);
 });
 
 test('text encodes verbatim, no URL scheme bolted on', () => {

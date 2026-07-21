@@ -171,7 +171,10 @@
     "textAria": "Text to encode",
     "bitcoinAddress": "Bitcoin address",
     "amountBtc": "Amount in BTC (optional)",
-    "label": "Label (optional)"
+    "label": "Label (optional)",
+    "emailAddress": "Email address",
+    "emailSubject": "Subject (optional)",
+    "emailBody": "Message (optional)"
   },
   "a11y": {
     "qrEmpty": "QR code preview. Nothing encoded yet — fill in the fields above.",
@@ -188,6 +191,7 @@
     "smsTo": "text message to",
     "theText": "the text",
     "bitcoinTo": "Bitcoin payment to",
+    "emailTo": "email to",
     "noNameYet": "(no name yet)",
     "noNumberYet": "(no number yet)",
     "noneYet": "(none yet)",

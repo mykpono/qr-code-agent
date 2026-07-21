@@ -171,7 +171,10 @@
       "textAria": "Texto que se va a codificar",
       "bitcoinAddress": "Dirección de Bitcoin",
       "amountBtc": "Importe en BTC (opcional)",
-      "label": "Etiqueta (opcional)"
+      "label": "Etiqueta (opcional)",
+      "emailAddress": "Dirección de email",
+      "emailSubject": "Asunto (opcional)",
+      "emailBody": "Mensaje (opcional)"
     },
     "a11y": {
       "qrEmpty": "Vista previa del código QR. Todavía no hay nada codificado — rellena los campos de arriba.",
@@ -202,7 +205,8 @@
       "templateCategories": "Categorías de plantillas",
       "colourPicker": "selector de color",
       "colourCurrently": "color, actualmente",
-      "today": "hoy"
+      "today": "hoy",
+      "emailTo": "correo a"
     },
     "footer": {
       "language": "Idioma",
@@ -3909,6 +3913,62 @@
           }
         ]
       }
+    },
+    "email-qr-code": {
+      "title": "Generador de Códigos QR de Email — Gratis",
+      "meta": "Crea gratis un código QR de email. Un escaneo abre un correo nuevo a tu dirección con el asunto y el mensaje ya rellenados. Sin registro.",
+      "h1": "Generador de códigos QR de email",
+      "subhead": "Escanea y escribe: la dirección, el asunto y el mensaje ya vienen rellenados. Gratis y con tu marca.",
+      "intro": "Un código QR de email abre un mensaje nuevo a tu dirección con el asunto y el cuerpo ya escritos, así que solo hay que pulsar enviar. Útil para solicitudes de soporte, opiniones, confirmaciones y consultas de venta desde el papel. Escribe la dirección, añade un asunto y un mensaje, personaliza el código y descárgalo gratis.",
+      "howto": {
+        "title": "Cómo crear un código QR de email",
+        "steps": [
+          {
+            "name": "Escribe la dirección",
+            "text": "El correo que debe recibir el mensaje, como hola@tuempresa.com."
+          },
+          {
+            "name": "Añade un asunto y un mensaje",
+            "text": "Opcional: predefine el asunto y el cuerpo para que la persona solo pulse enviar."
+          },
+          {
+            "name": "Personaliza y descarga",
+            "text": "Añade colores y un logo, y exporta en PNG o SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Asunto predefinido",
+          "t": "Define el asunto y el cuerpo para que el remitente solo tenga que pulsar enviar."
+        },
+        {
+          "h": "Ideal para soporte",
+          "t": "Imprímelo donde surgen las preguntas: envases, recibos, señalización."
+        },
+        {
+          "h": "Con tu marca",
+          "t": "Los colores y un logo lo mantienen fiel a tu identidad."
+        },
+        {
+          "h": "Gratis",
+          "t": "Sin cuenta y sin caducidad."
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Envía el correo automáticamente?",
+          "a": "No. Abre un borrador nuevo en la app de correo de la persona con la dirección, el asunto y el mensaje rellenados, y ella pulsa enviar."
+        },
+        {
+          "q": "¿Puedo predefinir el asunto y el cuerpo?",
+          "a": "Sí. Ambos son opcionales: rellena uno, los dos o ninguno. Si los dejas vacíos, al escanear se abre un correo nuevo a tu dirección."
+        },
+        {
+          "q": "¿Es gratis?",
+          "a": "Sí, sin registro ni marca de agua."
+        }
+      ]
     }
   }
 }

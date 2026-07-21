@@ -367,6 +367,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
       : mode === 'whatsapp' ? `${t.a11y.whatsappTo} ${fields.number || t.a11y.noNumberYet}`
       : mode === 'tel' ? `${t.a11y.phoneNumberIs} ${fields.phone || t.a11y.noneYet}`
       : mode === 'sms' ? `${t.a11y.smsTo} ${fields.number || t.a11y.noNumberYet}`
+      : mode === 'email' ? `${t.a11y.emailTo} ${fields.email || t.a11y.noAddressYet}`
       : mode === 'text' ? `${t.a11y.theText} "${fields.text || ''}"`
       : mode === 'crypto' ? `${t.a11y.bitcoinTo} ${fields.address || t.a11y.noAddressYet}`
       : `${t.a11y.linkTo} ${payload}`;
@@ -647,6 +648,13 @@ function ModeFields({ mode, fields, setF, urlValue, onUrlInput, t }) {
     <div className="gf-modefields">
       <input type="tel" value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder={t.field.phoneNumber} aria-label={t.field.phoneAria} />
       <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder={t.field.prefilledMessage} aria-label={t.field.prefilledMessage} />
+    </div>
+  );
+  if (mode === 'email') return (
+    <div className="gf-modefields">
+      <input type="email" value={fields.email || ''} onChange={(e) => setF('email', e.target.value)} placeholder={t.field.emailAddress} aria-label={t.field.emailAddress} spellCheck="false" autoCapitalize="none" />
+      <input value={fields.subject || ''} onChange={(e) => setF('subject', e.target.value)} placeholder={t.field.emailSubject} aria-label={t.field.emailSubject} />
+      <input value={fields.body || ''} onChange={(e) => setF('body', e.target.value)} placeholder={t.field.emailBody} aria-label={t.field.emailBody} />
     </div>
   );
   if (mode === 'text') return (

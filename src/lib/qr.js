@@ -52,6 +52,17 @@ function buildPayload(mode, f) {
     if (!n) return '';
     return f.message ? `SMSTO:${n}:${f.message}` : `SMSTO:${n}`;
   }
+  if (mode === 'email') {
+    // mailto: — one scan opens a new draft. subject and body are optional and
+    // must be percent-encoded (a raw "&" or space in either would truncate the
+    // link or split it into a bogus second header).
+    const addr = (f.email || '').trim();
+    if (!addr) return '';
+    const q = [];
+    if ((f.subject || '').trim()) q.push(`subject=${encodeURIComponent(f.subject.trim())}`);
+    if ((f.body || '').trim()) q.push(`body=${encodeURIComponent(f.body.trim())}`);
+    return `mailto:${addr}${q.length ? `?${q.join('&')}` : ''}`;
+  }
   if (mode === 'text') return (f.text || '').trim();
   if (mode === 'crypto') {
     // BIP-21. The address is case-sensitive (bech32 and base58 both), so it is
@@ -257,6 +268,7 @@ export function hasContent(mode, f = {}) {
   if (mode === 'whatsapp') return (f.number || '').replace(/[^\d]/g, '').length > 0;
   if (mode === 'tel') return !!telDigits(f.phone);
   if (mode === 'sms') return !!telDigits(f.number);
+  if (mode === 'email') return !!(f.email || '').trim();
   if (mode === 'text') return !!(f.text || '').trim();
   if (mode === 'crypto') return !!(f.address || '').trim();
   return !!(f.url || '').trim();

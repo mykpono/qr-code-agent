@@ -171,7 +171,10 @@
       "textAria": "Zu codierender Text",
       "bitcoinAddress": "Bitcoin-Adresse",
       "amountBtc": "Betrag in BTC (optional)",
-      "label": "Bezeichnung (optional)"
+      "label": "Bezeichnung (optional)",
+      "emailAddress": "E-Mail-Adresse",
+      "emailSubject": "Betreff (optional)",
+      "emailBody": "Nachricht (optional)"
     },
     "a11y": {
       "qrEmpty": "QR-Code-Vorschau. Noch nichts codiert — füllen Sie die Felder oben aus.",
@@ -202,7 +205,8 @@
       "templateCategories": "Vorlagenkategorien",
       "colourPicker": "Farbwähler",
       "colourCurrently": "Farbe, aktuell",
-      "today": "heute"
+      "today": "heute",
+      "emailTo": "E-Mail an"
     },
     "footer": {
       "language": "Sprache",
@@ -3907,6 +3911,62 @@
         },
         {
           "q": "Ist das kostenlos?",
+          "a": "Ja, ohne Anmeldung und ohne Wasserzeichen."
+        }
+      ]
+    },
+    "email-qr-code": {
+      "title": "E-Mail-QR-Code-Generator — kostenlos, ohne Anmeldung",
+      "meta": "Erstelle kostenlos einen E-Mail-QR-Code. Ein Scan öffnet eine neue E-Mail an deine Adresse mit vorausgefülltem Betreff und Text. Ohne Anmeldung.",
+      "h1": "E-Mail-QR-Code-Generator",
+      "subhead": "Scannen und schreiben: Adresse, Betreff und Nachricht sind schon ausgefüllt. Kostenlos und mit deiner Marke.",
+      "intro": "Ein E-Mail-QR-Code öffnet eine neue Nachricht an deine Adresse mit bereits geschriebenem Betreff und Text – man muss nur noch auf Senden tippen. Praktisch für Supportanfragen, Feedback, Zusagen und Verkaufsanfragen aus Printmedien. Adresse eingeben, Betreff und Nachricht ergänzen, den Code personalisieren und kostenlos herunterladen.",
+      "howto": {
+        "title": "So erstellst du einen E-Mail-QR-Code",
+        "steps": [
+          {
+            "name": "Adresse eingeben",
+            "text": "Die E-Mail, die die Nachricht erhalten soll, z. B. hallo@deinunternehmen.de."
+          },
+          {
+            "name": "Betreff und Nachricht ergänzen",
+            "text": "Optional – Betreff und Text vorausfüllen, damit die Person nur noch auf Senden tippt."
+          },
+          {
+            "name": "Gestalten und herunterladen",
+            "text": "Farben und ein Logo hinzufügen, dann als PNG oder SVG exportieren."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Vorausgefüllter Betreff",
+          "t": "Lege Betreff und Text fest, sodass der Absender nur noch auf Senden tippen muss."
+        },
+        {
+          "h": "Gut für Support",
+          "t": "Drucke ihn dort, wo Fragen entstehen – Verpackung, Belege, Beschilderung."
+        },
+        {
+          "h": "Mit deiner Marke",
+          "t": "Farben und ein Logo halten ihn markengerecht."
+        },
+        {
+          "h": "Kostenlos",
+          "t": "Kein Konto, kein Ablaufdatum."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Wird die E-Mail automatisch gesendet?",
+          "a": "Nein. Es öffnet einen neuen Entwurf in der E-Mail-App der Person mit ausgefüllter Adresse, Betreff und Nachricht, und sie tippt auf Senden."
+        },
+        {
+          "q": "Kann ich Betreff und Text vorausfüllen?",
+          "a": "Ja. Beides ist optional – fülle eines, beides oder nichts aus. Bleibt es leer, öffnet ein Scan einfach eine neue E-Mail an deine Adresse."
+        },
+        {
+          "q": "Ist es kostenlos?",
           "a": "Ja, ohne Anmeldung und ohne Wasserzeichen."
         }
       ]

@@ -704,6 +704,7 @@
       "related": [
         "/qr-codes-for-business-cards",
         "/qr-code-with-logo",
+        "/email-qr-code",
         "/qr-codes-for-small-business"
       ],
       "faq": [
@@ -1912,6 +1913,7 @@
         "/",
         "/custom-qr-code-generator",
         "/pdf-qr-code",
+        "/email-qr-code",
         "/learn/static-vs-dynamic-qr-codes"
       ],
       "faq": [
@@ -2326,6 +2328,87 @@
         {
           "q": "How much text can it hold?",
           "a": "A few hundred characters is comfortable. More text makes the pattern denser and harder to scan, so keep it brief."
+        },
+        {
+          "q": "Is it free?",
+          "a": "Yes, with no sign-up or watermark."
+        }
+      ],
+      "schema": [
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "HowTo",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "email-qr-code",
+      "archetype": "type",
+      "phase": "2",
+      "primary": "email qr code",
+      "msv": 170,
+      "kd": 23,
+      "secondaries": [
+        "email qr code generator",
+        "mailto qr code"
+      ],
+      "title": "Email QR Code Generator — Free, No Sign-Up",
+      "meta": "Make a free email QR code. One scan opens a new email to your address with the subject and message prefilled. Brand it, download PNG or SVG. No sign-up.",
+      "h1": "Email QR Code Generator",
+      "subhead": "Scan to email you — the address, subject and message are already filled in. Free and branded.",
+      "tool": {
+        "mode": "email",
+        "note": "URL mode encoding a mailto: link. Helper: address plus an optional prefilled subject and body → mailto:hello@company.com?subject=…&body=…. Standard style + download."
+      },
+      "intro": "An email QR code opens a new message to your address with the subject and body already written, so people just hit send. Useful for support requests, feedback, RSVPs, and sales enquiries from print. Enter the address, add a subject and message, brand the code, and download it free.",
+      "howto": {
+        "title": "How to make an email QR code",
+        "steps": [
+          {
+            "name": "Enter the address",
+            "text": "The email that should receive the message, like hello@yourcompany.com."
+          },
+          {
+            "name": "Add a subject and message",
+            "text": "Optional — prefill a subject line and body so the sender only taps send."
+          },
+          {
+            "name": "Style and download",
+            "text": "Add colors and a logo, then export PNG or SVG."
+          }
+        ]
+      },
+      "benefits": [
+        {
+          "h": "Prefilled subject",
+          "t": "Set the subject and body so the sender only has to hit send."
+        },
+        {
+          "h": "Good for support",
+          "t": "Print it where questions come up — packaging, receipts, signage."
+        },
+        {
+          "h": "Branded",
+          "t": "Colors and a logo keep it on-brand."
+        },
+        {
+          "h": "Free",
+          "t": "No account, no expiry."
+        }
+      ],
+      "related": [
+        "/vcard-qr-code",
+        "/url-qr-code",
+        "/qr-codes-for-marketing"
+      ],
+      "faq": [
+        {
+          "q": "Does it send the email automatically?",
+          "a": "No. It opens a new draft in the person's email app with the address, subject and message filled in, and they tap send."
+        },
+        {
+          "q": "Can I prefill the subject and body?",
+          "a": "Yes. Both are optional — fill in either, both, or neither. Left blank, a scan just opens a new email to your address."
         },
         {
           "q": "Is it free?",
