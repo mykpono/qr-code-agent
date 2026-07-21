@@ -3025,6 +3025,27 @@
           "text": "Set up guest WiFi once, print it on the table tent, and stop reading passwords aloud.",
           "meta": "6 min read",
           "href": "/learn/wifi-qr-codes-cafes-hotels"
+        },
+        {
+          "cat": "Basics",
+          "title": "QR code vs NFC tag: which should you use?",
+          "text": "One is free to reproduce and works on any camera. The other costs money per unit. When each wins.",
+          "meta": "7 min read",
+          "href": "/learn/qr-code-vs-nfc"
+        },
+        {
+          "cat": "Basics",
+          "title": "Why did my QR code stop working?",
+          "text": "Six reasons a code that scanned fine last month suddenly does not — and which ones need a reprint.",
+          "meta": "8 min read",
+          "href": "/learn/qr-code-not-working"
+        },
+        {
+          "cat": "Basics",
+          "title": "Are QR codes safe? What a scan can and cannot do",
+          "text": "A code is just text. It cannot install anything. The risk is the destination — here is how to check it.",
+          "meta": "7 min read",
+          "href": "/learn/are-qr-codes-safe"
         }
       ],
       "related": [
@@ -4455,6 +4476,426 @@
         {
           "q": "Does the file format affect whether the code scans?",
           "a": "Only through sharpness and contrast. The encoded data is identical in both files, but a soft, upscaled PNG gives a scanner more work to do than a clean vector print."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/qr-code-vs-nfc",
+      "archetype": "article",
+      "phase": "4",
+      "primary": "qr code vs nfc",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "nfc tag vs qr code",
+        "qr or nfc for menus",
+        "nfc tag cost",
+        "does nfc need an app"
+      ],
+      "cat": "Basics",
+      "reading": "7 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "QR Code vs NFC Tag: Which Should You Use?",
+      "meta": "QR codes are free to reproduce and work on any camera phone. NFC tags cost money per unit but need only a tap. Where each one genuinely wins.",
+      "h1": "QR code vs NFC tag: which should you use?",
+      "subhead": "One is a picture you can print a million times for free. The other is a physical object you buy one at a time.",
+      "sections": [
+        {
+          "h": "The short answer",
+          "p": [
+            "Use a QR code unless you have a specific reason not to. It costs nothing to make, nothing to reproduce, and it works on every phone sold in the last decade without an app. NFC costs money for every single tag and quietly excludes part of your audience.",
+            "NFC is the better tool in a narrow set of cases: when the thing being tapped is reusable rather than printed, when it has to work in the dark, or when you want the interaction to feel like one motion instead of two. Those cases are real, but they are the minority."
+          ],
+          "callout": "The honest test: if you would be printing the thing anyway, print a QR code. If you are buying a physical object for each customer or location, price NFC and compare."
+        },
+        {
+          "h": "What each one actually is",
+          "p": [
+            "A QR code is a picture. It is a pattern of dark and light squares encoding a short piece of text, usually a web address, and any camera that can focus on it can read it. There is no chip, no battery and no radio. Reproducing it costs whatever the ink costs.",
+            "An NFC tag is a physical object: a tiny antenna and chip, normally inside a sticker or card, holding a similar short piece of text. A phone held within about four centimetres draws just enough power from its own radio field to read the chip. Nothing is stored on the tag beyond that text and, like a QR code, it does not run software on the phone.",
+            "The consequence that decides most projects is where the cost lives. Duplicating a QR code is free forever. Duplicating an NFC tag means buying another tag."
+          ]
+        },
+        {
+          "h": "How they compare",
+          "table": {
+            "head": [
+              "What you need",
+              "QR code",
+              "NFC tag"
+            ],
+            "rows": [
+              [
+                "Making the first one",
+                "Free",
+                "Free, but you buy the tag"
+              ],
+              [
+                "Each additional unit",
+                "Ink only",
+                "The price of another tag"
+              ],
+              [
+                "100 table tents",
+                "One print run",
+                "One print run plus 100 tags"
+              ],
+              [
+                "Works on an older phone",
+                "Yes, any camera",
+                "Only if the phone has NFC"
+              ],
+              [
+                "Works from across a room",
+                "Yes, if printed large enough",
+                "No, it needs a touch"
+              ],
+              [
+                "Works in the dark",
+                "No",
+                "Yes"
+              ],
+              [
+                "Survives a photocopy or screenshot",
+                "Yes",
+                "No"
+              ]
+            ]
+          },
+          "p": [
+            "Tag prices move and vary by quantity, so the useful comparison is not a number but a shape: QR scales to any quantity at no extra cost, and NFC does not."
+          ]
+        },
+        {
+          "h": "Where NFC genuinely wins",
+          "p": [
+            "The pattern is consistent. NFC earns its cost when the object is permanent rather than printed, when it is handled repeatedly, or when the conditions make a camera struggle. In those situations the per-unit price stops being the deciding number."
+          ],
+          "list": [
+            "Reusable objects — a staff badge, a membership card, a hotel room folder insert.",
+            "Low light. A camera needs to see the code; a radio field does not care.",
+            "One-handed interactions with no aiming, such as tapping a phone against a display while carrying something.",
+            "Places where a printed square would be covered, vandalised or replaced with someone else's sticker.",
+            "Premium packaging, where the tap itself is part of the experience being sold."
+          ],
+          "callout": "That last case is a design argument rather than a technical one. Paying for a tap because it feels premium is a legitimate reason to spend the money — just be clear with yourself that you are buying a feeling rather than a capability."
+        },
+        {
+          "h": "Where QR codes win",
+          "p": [
+            "Everything printed at volume. Menus, flyers, posters, receipts, shipping labels, business cards, packaging, table tents, window stickers, badges for a one-day event. In each of those the marginal cost of a code is zero, which is a hard number to compete with.",
+            "Reach is the other half. Every iPhone since iOS 11 and effectively every current Android phone scans QR codes from the native camera app with nothing to download. NFC hardware is widespread but not universal, it can be switched off, and the tap point sits in a different place on the back of different handsets — exactly the kind of small friction that makes a customer give up and walk away.",
+            "A QR code also survives being screenshotted, forwarded, photocopied and put on a web page. An NFC tag cannot leave the object it is stuck to."
+          ]
+        },
+        {
+          "h": "Using both on one surface",
+          "p": [
+            "On a single high-value surface — a counter card, a display unit, a hotel room folder — adding an NFC tag beside a printed QR code costs one tag and no extra printing. People use whichever they already understand, and there is no technical conflict between them.",
+            "What you should not do is point them at different destinations. Two codes on one surface leading to two different pages is the kind of detail nobody notices until the analytics stop making sense."
+          ]
+        },
+        {
+          "h": "Making the QR side of it",
+          "p": [
+            "QR Code Agent generates codes in your browser with no account and no watermark. The codes are static, so the destination is encoded in the pattern itself and nobody can switch them off later. Download SVG for anything printed and PNG for screens.",
+            "If you are considering NFC because you were told a QR code carries a monthly fee, that fee belongs to dynamic codes, which are a different product with a redirect in the middle. It is worth understanding what the fee actually buys before changing technology to escape it."
+          ]
+        }
+      ],
+      "related": [
+        "/menu-qr-code",
+        "/qr-codes-for-restaurants",
+        "/qr-codes-for-retail",
+        "/learn/static-vs-dynamic-qr-codes",
+        "/learn"
+      ],
+      "cta_href": "/",
+      "faq": [
+        {
+          "q": "Is NFC more secure than a QR code?",
+          "a": "Not meaningfully. Both carry a short piece of text and neither can install anything. A QR code can be covered with a sticker showing a different code; a cheap NFC tag can often be rewritten unless it was locked when it was made. In both cases the risk is the destination, not the technology."
+        },
+        {
+          "q": "Do people need an app to use NFC?",
+          "a": "No. Modern iPhones and Android phones read tags from the lock screen. They do need NFC hardware and it has to be switched on, which is where the coverage gap with QR codes comes from."
+        },
+        {
+          "q": "Which is better for a restaurant menu?",
+          "a": "QR codes, comfortably. You need one per table, menus get reprinted, and it has to work for every guest including the ones with older phones. Buying a tag for every table is a recurring hardware cost for no real gain."
+        },
+        {
+          "q": "How much does an NFC tag cost?",
+          "a": "Small quantities are typically well under a dollar each and bulk is cheaper, but the exact figure matters less than the structure: NFC costs per unit, while a QR code costs per print run no matter how many you make."
+        },
+        {
+          "q": "Can one surface have both?",
+          "a": "Yes, and it is a reasonable choice on a permanent, high-traffic surface. Point them at the same address so your numbers stay readable."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/qr-code-not-working",
+      "archetype": "article",
+      "phase": "4",
+      "primary": "qr code not working",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "qr code stopped working",
+        "why wont my qr code scan",
+        "qr code wont scan",
+        "fix a qr code"
+      ],
+      "cat": "Basics",
+      "reading": "8 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "Why Did My QR Code Stop Working?",
+      "meta": "Six reasons a code that scanned fine last month suddenly does not: a lapsed plan, a moved page, a cropped margin, weak contrast, wrong size, or wear.",
+      "h1": "Why did my QR code stop working?",
+      "subhead": "Work out which half broke before you reprint anything — the pattern and the destination fail in completely different ways.",
+      "sections": [
+        {
+          "h": "First, find out which half broke",
+          "p": [
+            "A QR code has two parts that fail in unrelated ways: the printed pattern, and the place it points to. Before changing anything, scan it with your own phone from about 20 centimetres away in good light.",
+            "If the phone does not recognise anything at all, the pattern is the problem — size, contrast, damage or a cropped margin. If it recognises the code instantly but the page will not load, the pattern is perfect and the destination is the problem. That one test regularly saves people from reprinting something that never needed reprinting."
+          ],
+          "callout": "If it scans on your phone but not on a customer's, it is usually size or contrast. You are testing under better conditions than they are — closer, brighter, newer camera."
+        },
+        {
+          "h": "The most common cause: the code was rented, not owned",
+          "p": [
+            "By far the most frequent reason a code that worked for months stops overnight is that it was a dynamic code on a trial or a lapsed subscription. A dynamic code does not contain your web address. It contains an address on the provider's domain, which redirects to yours. When the trial ends or the card on file fails, the provider stops redirecting — and every code you printed breaks at the same moment.",
+            "You can usually recognise this from the destination: if scanning shows a short link on a domain you do not own, the code was never entirely yours. Nothing about the printed pattern is damaged, and reprinting the same artwork will not help, because the redirect is what disappeared.",
+            "The fix is to reprint with a static code that carries your address directly, with no third party in the middle. That is what this generator makes, and it is the reason a code from here cannot be switched off by anyone, including us."
+          ]
+        },
+        {
+          "h": "The destination moved",
+          "p": [
+            "The second most common cause is simpler and entirely in your own hands: the page no longer exists. A menu PDF was re-uploaded under a new filename, a site was rebuilt with different URLs, a booking system was replaced, or a certificate expired and the browser now shows a warning instead of the page.",
+            "Nothing about the code changed. Open the address in a browser and you will know within seconds. If the page merely moved, the cheapest fix is almost always a redirect from the old address rather than a reprint."
+          ],
+          "callout": "Point printed codes at an address you control and can redirect later — a page on your own domain, not a link produced by whatever tool you happened to use that month."
+        },
+        {
+          "h": "Something cropped the quiet zone",
+          "p": [
+            "A QR code needs a clear margin of four modules on all four sides. Scanners use that blank border to find where the code begins and ends. Designers trim it constantly, because in a tight layout it looks like wasted space.",
+            "This produces the most confusing failure of the lot: the code works in the design file and on the proof, then fails on the finished piece where it sits flush against a coloured panel, a fold or the edge of the paper. If your code recently moved into a new layout and stopped scanning, check the margin before anything else."
+          ]
+        },
+        {
+          "h": "The contrast is wrong, or got inverted",
+          "p": [
+            "Scanners need dark modules on a light background with real contrast between them. Codes designed in brand colours often sit close to the edge of what works, then get printed on coloured stock or reversed to light-on-dark by someone tidying up a layout, and fall over that edge.",
+            "Light-on-dark codes do decode on many modern phones, but not on all of them and not reliably in poor light. If a code fails on some phones and works on others, contrast is the first suspect."
+          ]
+        },
+        {
+          "h": "It is too small for where it ended up",
+          "p": [
+            "The working rule is that scan distance is roughly ten times the width of the code. A 2 cm code is built to be read from about 20 cm, which is fine on a business card and useless on a wall two metres away. Artwork gets reused across materials without resizing, and a code that was correct on a flyer becomes unreadable when the same file is scaled onto a window sticker or a vehicle.",
+            "Below about 1.5 cm, printing tolerances start to matter more than anything you control in the design, and results become unpredictable from phone to phone."
+          ]
+        },
+        {
+          "h": "Wear, glare and the surface itself",
+          "p": [
+            "If the code is the right size, the contrast is good and the margin is intact, what is left is the physical object it was printed on. This category causes more failures than it gets blamed for, because the damage accumulates slowly enough that nobody notices a day it stopped working."
+          ],
+          "list": [
+            "Laminate and gloss reflect ceiling lights straight back into the camera. Matte stock scans far more reliably.",
+            "Ink spread on uncoated or absorbent paper thickens the dark modules and can close the gaps between them.",
+            "Curved surfaces such as bottles and cups distort the pattern. Keep codes on the flattest area available.",
+            "Wear counts for more than it looks. A scuffed table tent or a sun-faded window sticker loses contrast gradually until it crosses the threshold."
+          ],
+          "callout": "Error correction hides a surprising amount of this. A code at high error correction can lose up to about 30 percent of its area and still decode, which is why physical damage produces intermittent failures rather than clean ones — and why intermittent failure is a signal to reprint, not to keep testing."
+        },
+        {
+          "h": "A static code does not expire",
+          "p": [
+            "Worth stating plainly, because the opposite is widely assumed. A static QR code holds your data inside the pattern. No server is involved once it is printed, no account is attached to it, and there is nothing anyone can switch off. If it scanned on the day it was printed and the physical code is undamaged, it will scan in ten years.",
+            "So everything on this page is either something in the world that changed — the print, the surface, the destination — or a third party who was sitting in the middle and left."
+          ]
+        }
+      ],
+      "related": [
+        "/learn/static-vs-dynamic-qr-codes",
+        "/learn/qr-code-print-size",
+        "/learn/qr-code-colors-that-scan",
+        "/learn/add-logo-without-breaking-qr-code",
+        "/learn"
+      ],
+      "cta_href": "/",
+      "faq": [
+        {
+          "q": "My QR code opens an error page. Is the code broken?",
+          "a": "No. If a phone recognises the code and opens something, the printed pattern is fine. The address inside it is no longer serving a page, so fix the destination rather than the print."
+        },
+        {
+          "q": "Why did my code stop working when the free trial ended?",
+          "a": "It was a dynamic code. It held a link on the provider's domain that redirected to yours, and that redirect stopped. Reprinting the same artwork changes nothing — you need a static code carrying your address directly."
+        },
+        {
+          "q": "It scans on my phone but not on my customers'. Why?",
+          "a": "You are testing under better conditions. The usual causes are a code printed too small for the distance, weak contrast, or glare from laminate under bright lights."
+        },
+        {
+          "q": "Can a QR code wear out?",
+          "a": "The pattern cannot, but the print can. Scuffing, fading and ink spread reduce contrast until scanners begin failing intermittently. Intermittent failure means it is time to reprint."
+        },
+        {
+          "q": "Will generating the code again fix it?",
+          "a": "Only if the original was damaged or printed too small. The same address produces the same pattern, so if the destination is broken, a freshly generated code fails in exactly the same way."
+        }
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/are-qr-codes-safe",
+      "archetype": "article",
+      "phase": "4",
+      "primary": "are qr codes safe",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "qr code scams",
+        "quishing",
+        "is it safe to scan a qr code",
+        "qr code virus"
+      ],
+      "cat": "Basics",
+      "reading": "7 min read",
+      "updated": "July 2026",
+      "published": "2026-07-20",
+      "updated_iso": "2026-07-20",
+      "title": "Are QR Codes Safe? What a Scan Can and Cannot Do",
+      "meta": "A QR code is text. It cannot install anything or read your phone. The risk is the page it sends you to — how to check that, and how to print codes safely.",
+      "h1": "Are QR codes safe? What a scan can and cannot do",
+      "subhead": "The code is only a delivery method. Every real risk lives at the destination, and your phone shows you that before it opens it.",
+      "sections": [
+        {
+          "h": "What a QR code actually contains",
+          "p": [
+            "A QR code is a way of writing text down. The pattern encodes a few hundred characters — nearly always a web address, sometimes a phone number, a WiFi password or contact details. That is the entire contents. There is no program, no attachment and nothing executable inside it.",
+            "This sets a hard limit on what any QR code can do to you. A scanner reads the text and hands it to your phone, and what happens next is whatever your phone does with a piece of text of that type. For a web address, that means offering to open it."
+          ]
+        },
+        {
+          "h": "What a scan cannot do",
+          "p": [
+            "The limits below follow directly from that. None of them depend on your phone being up to date, on a security app, or on you being especially careful — they are consequences of the format holding nothing but text."
+          ],
+          "list": [
+            "It cannot install an app. Installing requires the app store and your confirmation.",
+            "It cannot run a program. There is nothing executable to run.",
+            "It cannot read your contacts, photos or messages. The scanner is a camera reading a picture.",
+            "It cannot take a payment. That needs your banking app and your authentication.",
+            "It cannot tell the person who printed it who you are. A static code has no idea it was scanned at all."
+          ],
+          "callout": "Modern phones also show you the destination before opening it, which is the single most useful safety feature in the whole system. Reading that preview is most of what safe scanning consists of."
+        },
+        {
+          "h": "The real risk is the destination",
+          "p": [
+            "A QR code is a link you cannot read. That is the honest summary. On a screen you can hover over a link and see where it goes, but a printed square tells you nothing until the camera is already pointed at it.",
+            "So every risk attached to QR codes is a risk attached to links: a page imitating your bank and asking you to sign in, a fake parking or delivery payment form, a page pushing you toward installing something from outside the app store. The technique has a name now — quishing — but nothing about it is new. The code is the envelope, not the threat.",
+            "The one thing the format genuinely adds is trust by placement. A sticker on a parking meter or a restaurant table borrows the credibility of the surface it is stuck to, and that is exactly what makes it work."
+          ]
+        },
+        {
+          "h": "Stickers over stickers",
+          "p": [
+            "The common real-world attack is physical rather than technical. Someone prints a code and sticks it over the legitimate one on a parking meter, a charging point, a poster or a payment terminal. The surface still looks official, because it is official. Only the square changed.",
+            "Checking takes a second: run a finger across the code. A sticker applied over a printed surface has an edge you can feel, and often a slight mismatch in colour or gloss. Anywhere money is involved, that check is worth making."
+          ]
+        },
+        {
+          "h": "Scanning safely",
+          "p": [
+            "Almost all of it reduces to one habit: look at the destination before you tap it. The rest is knowing which situations deserve more than a glance."
+          ],
+          "list": [
+            "Read the preview before opening it. If the domain is not the one you expected, stop there.",
+            "Never enter card details, passwords or a bank login on a page you reached from a printed code. Go to the site or app yourself instead.",
+            "Treat urgency as a warning sign. Fines, failed deliveries and expiring offers exist to stop you checking.",
+            "On anything public, especially payment terminals and parking machines, look for a sticker layered over the original.",
+            "Do not install anything a scanned page suggests. Go to the app store and search for it.",
+            "Be wary of shortened links inside codes, which hide the destination a second time."
+          ],
+          "callout": "None of this needs a security app. Your phone's own preview and a moment of attention cover the overwhelming majority of it."
+        },
+        {
+          "h": "If you are the one printing codes",
+          "p": [
+            "You inherit part of the responsibility, because you are training your customers to scan things. Point codes at your own domain rather than a shortener, so the preview shows something recognisable. Print the address in small type beside the code so anyone cautious has a way to reach the page without scanning at all.",
+            "Then check your codes physically from time to time. If yours are in public, someone needs to look at them, because a sticker placed over your code becomes your problem in the customer's mind regardless of who put it there."
+          ],
+          "callout": "Printing the destination beside the code in small type costs nothing and lets a cautious customer bypass the code entirely."
+        },
+        {
+          "h": "Two cases worth thinking about",
+          "p": [
+            "A WiFi code contains the network name and password in plain text, so anyone who photographs it has your password. That is fine for a guest network and a bad idea for the network your till runs on.",
+            "A contact code contains whatever details you put into it. Printing a personal mobile number on a public poster is a reasonable decision in some situations and a regrettable one in others, but it should be a decision rather than an accident."
+          ]
+        },
+        {
+          "h": "What happens when you make a code here",
+          "p": [
+            "QR Code Agent builds the pattern in your browser. What you type never leaves your device, is not sent to a server and is not stored, because there is no account to store it against.",
+            "The codes are static, so they carry your address directly with no redirect in the middle that could later be changed or taken over. The trade-off is that we cannot see, edit or disable a code once you have made it — which in security terms falls mostly on the good side, because there is no middle to compromise."
+          ]
+        }
+      ],
+      "related": [
+        "/learn/static-vs-dynamic-qr-codes",
+        "/learn/wifi-qr-codes-cafes-hotels",
+        "/privacy",
+        "/about",
+        "/learn"
+      ],
+      "cta_href": "/",
+      "faq": [
+        {
+          "q": "Can scanning a QR code give my phone a virus?",
+          "a": "Not by itself. The code holds text and the scan opens a link. Malware would still need you to install something, which takes several deliberate confirmations."
+        },
+        {
+          "q": "Can someone track me through a QR code?",
+          "a": "A static code cannot — it has no idea it was scanned. A dynamic code passes through the provider's server, which can log the time, rough location and device type, though not who you are."
+        },
+        {
+          "q": "What is quishing?",
+          "a": "Phishing delivered by QR code: a printed code leading to a page that imitates a real one to collect your login or card details. The defence is the same as for email phishing — check the domain, and never sign in from a link you did not go looking for."
+        },
+        {
+          "q": "How do I check where a QR code goes before opening it?",
+          "a": "Your phone shows the destination as a banner or notification after it reads the code. Read it before tapping. If the domain is unfamiliar, or the code was stuck on a payment terminal, do not open it."
+        },
+        {
+          "q": "Are the codes made here safe to use?",
+          "a": "They are generated in your browser and contain exactly the address you typed, with no redirect and no tracking. The safety of what people find at the other end still depends on the page you point them at."
         }
       ],
       "schema": [

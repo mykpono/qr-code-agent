@@ -16,7 +16,7 @@ per-item list; where the two disagree, **this file is current**.
 | Repo | `github.com/mykpono/qr-code-agent`, branch `main` |
 | Vercel project | `qr-generator` in scope **`mykola-5698s-projects`** (not `balloonbay-project`) |
 | Deploy trigger | **every push to `main` goes straight to production** |
-| Live pages | 41 (34 of the 48-page taxonomy + 7 `/learn` articles) |
+| Live pages | 44 (34 of the 48-page taxonomy + 10 `/learn` articles) |
 | Tests | 58, `npm test` |
 | Backup of the old prototype | branch `pre-astro-backup` (`358e000`) |
 
@@ -164,10 +164,18 @@ target the review head term.
 
 ### More `/learn` articles
 
-Seven exist. The comparison format earns the largest share of AI citations, and
-only one comparison exists (`static-vs-dynamic-qr-codes`). Candidates:
-QR vs NFC/barcode/short-link, "why did my QR code stop working", "QR code
-security: what a scan can and cannot do".
+Ten exist. Three were added 2026-07-20 — `/learn/qr-code-vs-nfc`,
+`/learn/qr-code-not-working` and `/learn/are-qr-codes-safe` — chosen because the
+comparison and question formats earn the largest share of AI citations. Their
+keywords are **reasoned, not measured**: no Semrush pull was run for them, so
+`msv`/`kd` are null as with the original seven.
+
+Remaining candidates: QR vs barcode, QR vs short-link.
+
+Note for anyone writing more: `Page.astro` renders a section's `p` **before** its
+`list`, so a paragraph written as a follow-up to a list will appear above it.
+Put closing remarks in `callout` (which renders last) — and remember `callout`
+text does not count toward the 600-word minimum in `content.test.mjs`.
 
 **Every new article must respect the cannibalization table** in the article spec
 — money pages own their head terms; articles take question/comparison intent and
