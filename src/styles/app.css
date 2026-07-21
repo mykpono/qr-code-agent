@@ -86,7 +86,8 @@ a:hover { color: var(--brand-600); }
 .langpop a[aria-current] { color: var(--brand-500); background: var(--brand-soft); }
 .sw { display: flex; gap: 6px; }
 .sw span { width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--border-2); position: relative; cursor: pointer; }
-.sw .on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 10px; }
+.sw span:not(.on)::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
+.sw .on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 10px; width: auto; height: auto; left: auto; top: auto; transform: none; }
 
 /* hero */
 .hero { text-align: center; padding: 44px 0 8px; }
@@ -128,7 +129,8 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .gf-brand i { display: block; font: 500 12px var(--font-mono); color: var(--muted-2); letter-spacing: .04em; margin-top: 4px; font-style: normal; }
 .gf-themes { display: flex; gap: 7px; }
 .gf-themes button { position: relative; width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--border-2); cursor: pointer; }
-.gf-themes button.on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 10px; }
+.gf-themes button:not(.on)::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
+.gf-themes button.on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 10px; width: auto; height: auto; left: auto; top: auto; transform: none; }
 
 /* content row */
 .gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px; border-bottom: 1px solid var(--border-soft); }
@@ -433,12 +435,10 @@ details[open].qa .q span::after { content: "–"; }
 .ditem .dacts button,
 .gf-drawer .dhead .x,
 .gf-support-acts button,
-.gf-themes button,
 .gf-i { position: relative; }
 .ditem .dacts button::after,
 .gf-drawer .dhead .x::after,
 .gf-support-acts button::after,
-.gf-themes button::after,
 .gf-i::after {
   content: ''; position: absolute; left: 50%; top: 50%;
   width: 44px; height: 44px; transform: translate(-50%, -50%);
