@@ -42,6 +42,8 @@
   --label: #766d56;             /* section labels (mono, uppercase) (a11y: was #a2977f, 2.68:1) */
   --label-2: #6d614c;           /* faintest micro-labels (a11y: was #b3a892, 2.18:1 — solved against --page, the darkest surface it lands on) */
   --on-brand: #ffffff;          /* text on accent gradient */
+  --focus-ring: #5c38ff;        /* keyboard focus outline */
+  --focus-ring-invert: #ffffff; /* focus outline on brand-gradient surfaces */
 
   /* ── Preview mat ──────────────────────────────────── */
   --preview: linear-gradient(160deg, #f6f1e4, #efe8d7);

@@ -41,8 +41,23 @@ Golden Rules in `CLAUDE.md` (use folder layouts, real encoder, no invented QR de
 - [x] Localize the header language switcher DONE — `<details>` menu listing live locales (the folder draws the chip but never the menu). (currently static `◉ EN ▾`).
 
 ## P3 — polish & Phase-2
-- [ ] **a11y pass** (WCAG AA): contrast on dark themes (Olive/Slate), 44px targets, focus states,
-      keyboard-operable generator, canvas text alternative. Run the `design:accessibility-review`.
+- [x] **a11y pass** (WCAG AA) DONE.
+      - Contrast: measured every text node in all 4 themes with alpha compositing. Was 20+
+        failures (worst 2.12:1); now 0/147 per theme. Light themes were worse than dark —
+        the opposite of what the backlog assumed. Token lightness only; hue/sat preserved.
+      - Focus: 3 rules set `outline: none` on text inputs incl. the main content field, and
+        the site had ONE `:focus-visible` rule. Now a global ring on all interactive
+        elements, inverted on brand-gradient surfaces so it stays visible.
+      - Canvas: the QR was a bare `<canvas>` — nothing for screen readers. Now `role="img"`
+        with a description of what is encoded, plus a polite live region announcing changes.
+        All 46 decorative canvases `aria-hidden`.
+      - Names: 4 unnamed controls (2 inputs, slider, logo toggle) -> 0 of 61 focusables.
+        21 `aria-pressed`, logo toggle is a `role="switch"`.
+      - Keyboard: Escape closes drawer and colour popovers; drawer is `role="dialog"`,
+        takes focus on open, returns it to the trigger on close.
+      - Targets: 24px icon buttons padded to a 44px hit area via `::after`. Verified all
+        controls still hit themselves (31px pitch vs 22px reach — no neighbour theft).
+      - `prefers-reduced-motion` respected.
 - [x] **Widen the QR quiet zone.** DONE — was `pad = out*0.04`, a fraction of output size, so
       the quiet zone shrank in module terms as codes got denser (~1.3 modules on a typical URL,
       spec requires 4). Now sized in modules: `cell = out/(n+8)`, `pad = 4*cell`. Verified with

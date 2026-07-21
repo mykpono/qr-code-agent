@@ -26,6 +26,7 @@
 
 /* ── Olive — dark, warm green ────────────────────────── */
 [data-theme="olive"] {
+  --focus-ring: #ffffff;        /* dark theme: white ring reads on every surface */
   --page: #3d4029;
   --surface: #4a4d33;
   --surface-2: #55583b;
@@ -49,6 +50,7 @@
 
 /* ── Slate — dark, cool violet ───────────────────────── */
 [data-theme="slate"] {
+  --focus-ring: #ffffff;        /* dark theme: white ring reads on every surface */
   --page: #1b1922;
   --surface: #262330;
   --surface-2: #302c3b;

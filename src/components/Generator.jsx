@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import qrcode from 'qrcode-generator';
+import { defaultTemplatesOpen, MOBILE_BREAKPOINT } from '../lib/mobile.js';
 
 /*
   Generator island — visually matches the flagship design (QR Generator.dc.html):
@@ -219,12 +220,16 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   const [bgOpen, setBgOpen] = useState(false);
   const [utmOpen, setUtmOpen] = useState(false);
   const [eccTip, setEccTip] = useState(false);
-  const [railOpen, setRailOpen] = useState(true);
+  const [railOpen, setRailOpen] = useState(() =>
+    typeof window === 'undefined' ? true : defaultTemplatesOpen(window.innerWidth),
+  );
   const [sel, setSel] = useState('Rain');
   const [theme, setTheme] = useState('cream');
   const [scannable, setScannable] = useState(true);
   const [saved, setSaved] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const drawerTriggerRef = useRef(null);
+  const drawerRef = useRef(null);
   const [editing, setEditing] = useState(null);
   const [toast, setToast] = useState(false);
 
@@ -243,6 +248,14 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
     ro.observe(scroll); ro.observe(footer);
     window.addEventListener('resize', fit);
     return () => { ro.disconnect(); window.removeEventListener('resize', fit); };
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    const onChange = (e) => { if (e.matches) setRailOpen(false); };
+    if (mq.matches) setRailOpen(false);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
   }, []);
 
   const payload = useMemo(() => buildPayload(mode, fields), [mode, fields]);
@@ -266,11 +279,24 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
     root.querySelectorAll('canvas.thumb').forEach(drawThumb);
   });
 
-  // close popovers on outside click
+  // close popovers on outside click, and on Escape for keyboard users
   useEffect(() => {
     const h = (e) => { if (!e.target.closest('[data-pop]')) { setFgOpen(false); setBgOpen(false); } };
-    document.addEventListener('mousedown', h); return () => document.removeEventListener('mousedown', h);
-  }, []);
+    // Escape closes whatever transient surface is open — expected keyboard
+    // behaviour, and without it there is no way out of the drawer or a colour
+    // popover except by clicking elsewhere.
+    const esc = (e) => {
+      if (e.key !== 'Escape') return;
+      if (fgOpen || bgOpen) { setFgOpen(false); setBgOpen(false); }
+      else if (drawerOpen) { setDrawerOpen(false); drawerTriggerRef.current?.focus(); }
+    };
+    document.addEventListener('mousedown', h);
+    window.addEventListener('keydown', esc);
+    return () => { document.removeEventListener('mousedown', h); window.removeEventListener('keydown', esc); };
+  }, [fgOpen, bgOpen, drawerOpen]);
+
+  // move focus into the drawer when it opens so keyboard users land inside it
+  useEffect(() => { if (drawerOpen) drawerRef.current?.focus(); }, [drawerOpen]);
 
   function applyTheme(t) { setTheme(t); try { document.documentElement.setAttribute('data-theme', t === 'cream' ? '' : t); } catch {} track('theme_switch', { theme: t }); }
   function onLogo(e) { const file = e.target.files?.[0]; if (!file) return; const rd = new FileReader(); rd.onload = (ev) => { const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = ev.target.result; }; rd.readAsDataURL(file); }
@@ -315,6 +341,19 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
       : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   };
 
+  // The QR canvas is the core feature and was previously invisible to assistive
+  // tech — a bare <canvas> exposes nothing. Describe what the code encodes and
+  // whether it is scannable, and announce changes politely.
+  const describe = () => {
+    if (!payload) return 'QR code preview. Nothing encoded yet — fill in the fields above.';
+    const what = mode === 'wifi' ? `WiFi network ${fields.ssid || '(no name yet)'}`
+      : mode === 'vcard' ? `contact card for ${[fields.first, fields.last].filter(Boolean).join(' ') || '(no name yet)'}`
+      : mode === 'whatsapp' ? `WhatsApp message to ${fields.number || '(no number yet)'}`
+      : `link to ${payload}`;
+    return `QR code for ${what}. ${size} by ${size} pixels, error correction ${ecc}, ${scannable ? 'scannable' : 'may not scan reliably'}.`;
+  };
+  const qrDescription = describe();
+
   const ecd = ECC_DATA[ecc];
   const dotBtn = (on) => `dotbtn${on ? ' on' : ''}`;
 
@@ -334,8 +373,8 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
         </div>
         {mode === 'url' && utmOpen && (
           <div className="gf-utmpanel">
-            <div className="g3">{['source', 'medium', 'campaign'].map((k) => (<label key={k}><span>utm_{k} *</span><input value={fields.utm[k] || ''} onChange={(e) => setUtm(k, e.target.value)} placeholder={k === 'source' ? 'newsletter' : k === 'medium' ? 'social' : 'spring_launch'} /></label>))}</div>
-            <div className="g2">{['term', 'content'].map((k) => (<label key={k}><span>utm_{k}</span><input value={fields.utm[k] || ''} onChange={(e) => setUtm(k, e.target.value)} placeholder="optional" /></label>))}</div>
+            <div className="g3">{['source', 'medium', 'campaign'].map((k) => (<label key={k}><span>utm_{k} *</span><input value={fields.utm[k] || ''} aria-label={`UTM ${k}`} onChange={(e) => setUtm(k, e.target.value)} placeholder={k === 'source' ? 'newsletter' : k === 'medium' ? 'social' : 'spring_launch'} /></label>))}</div>
+            <div className="g2">{['term', 'content'].map((k) => (<label key={k}><span>utm_{k}</span><input value={fields.utm[k] || ''} aria-label={`UTM ${k}`} onChange={(e) => setUtm(k, e.target.value)} placeholder="optional" aria-label="optional" /></label>))}</div>
             <div className="gf-encoded"><span className="k">ENCODED</span><span className="v">{payload}</span></div>
           </div>
         )}
@@ -348,11 +387,11 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
           <div className="gf-cfg-scroll" ref={cfgScrollRef}>
             <div>
               <div className="lab">Dot style</div>
-              <div className="gf-grid5">{DOTS.map((d) => <button key={d.k} className={dotBtn(dot === d.k)} onClick={() => setDot(d.k)}><canvas className="swx" data-px="28" data-kind="dot" data-style={d.k} style={{ width: 28, height: 28 }} />{d.l}</button>)}</div>
+              <div className="gf-grid5">{DOTS.map((d) => <button key={d.k} type="button" aria-pressed={dot === d.k} className={dotBtn(dot === d.k)} onClick={() => setDot(d.k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="dot" data-style={d.k} style={{ width: 28, height: 28 }} />{d.l}</button>)}</div>
             </div>
             <div>
               <div className="lab">Finder pattern</div>
-              <div className="gf-grid5">{FINDERS.map((f) => <button key={f.k} className={dotBtn(finder === f.k)} onClick={() => setFinder(f.k)}><canvas className="swx" data-px="28" data-kind="finder" data-style={f.k} style={{ width: 28, height: 28 }} />{f.l}</button>)}</div>
+              <div className="gf-grid5">{FINDERS.map((f) => <button key={f.k} type="button" aria-pressed={finder === f.k} className={dotBtn(finder === f.k)} onClick={() => setFinder(f.k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="finder" data-style={f.k} style={{ width: 28, height: 28 }} />{f.l}</button>)}</div>
             </div>
             <div className="g2">
               <ColorField label="Foreground" val={fg} open={fgOpen} setOpen={(v) => { setFgOpen(v); setBgOpen(false); }} onPick={setFg} presets={FG_PRESETS} align="left" />
@@ -362,23 +401,23 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
               <div className="lab spread"><span>Output size</span><span className="accent">{size} px</span></div>
               <div className="gf-slider">
                 <span className="track" /><span className="fill" style={{ width: `${((size - 200) / 1800) * 100}%` }} /><span className="knob" style={{ left: `${((size - 200) / 1800) * 100}%` }} />
-                <input type="range" min="200" max="2000" step="8" value={size} onChange={(e) => setSize(+e.target.value)} />
+                <input type="range" min="200" max="2000" step="8" value={size} aria-label="Output size in pixels" aria-valuetext={`${size} pixels`} onChange={(e) => setSize(+e.target.value)} />
               </div>
             </div>
             <div>
               <div className="lab tiprow"><span>Error correction</span><button className="gf-i" onMouseEnter={() => setEccTip(true)} onMouseLeave={() => setEccTip(false)}>i</button>{eccTip && <span className="gf-tip">Error correction bakes in redundant data so the code still scans when part of it is covered. Higher levels recover more but pack denser dots — pick Q or H when you add a center logo.</span>}</div>
-              <div className="gf-seg">{['L', 'M', 'Q', 'H'].map((l) => <button key={l} className={ecc === l ? 'on' : ''} onClick={() => setEcc(l)}>{l}</button>)}</div>
+              <div className="gf-seg">{['L', 'M', 'Q', 'H'].map((l) => <button key={l} type="button" aria-pressed={ecc === l} aria-label={`Error correction ${l} — ${ECC_DATA[l].n}, ${ECC_DATA[l].r}`} className={ecc === l ? 'on' : ''} onClick={() => setEcc(l)}>{l}</button>)}</div>
               <div className="gf-bar"><span style={{ width: ecd.f }} /></div>
               <div className="gf-cap">{ecc} — {ecd.n} · {ecd.r}</div>
             </div>
             <div>
-              <div className="lab spread"><span>Center logo</span><button className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => setUseLogo((v) => !v)}><span /></button></div>
+              <div className="lab spread"><span>Center logo</span><button type="button" role="switch" aria-checked={useLogo} aria-label="Center logo" className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => setUseLogo((v) => !v)}><span /></button></div>
               {useLogo && (
                 <div className="gf-logo">
                   <label className="gf-drop">Drop image or click to upload<i>PNG with transparency</i><input type="file" accept="image/*" hidden onChange={onLogo} /></label>
                   <div className="g2">
-                    <div><div className="micro">SHAPE</div><div className="gf-seg sm">{['circle', 'square'].map((s) => <button key={s} className={logoShape === s ? 'on' : ''} onClick={() => setLogoShape(s)}>{s === 'circle' ? '◉' : '▣'} {s.toUpperCase()}</button>)}</div></div>
-                    <div><div className="micro">BORDER</div><div className="gf-seg sm">{['none', 'border'].map((b) => <button key={b} className={logoBorder === b ? 'on' : ''} onClick={() => setLogoBorder(b)}>{b === 'none' ? '◼' : '▢'} {b.toUpperCase()}</button>)}</div></div>
+                    <div><div className="micro">SHAPE</div><div className="gf-seg sm">{['circle', 'square'].map((s) => <button key={s} type="button" aria-pressed={logoShape === s} aria-label={`Logo shape ${s}`} className={logoShape === s ? 'on' : ''} onClick={() => setLogoShape(s)}>{s === 'circle' ? '◉' : '▣'} {s.toUpperCase()}</button>)}</div></div>
+                    <div><div className="micro">BORDER</div><div className="gf-seg sm">{['none', 'border'].map((b) => <button key={b} type="button" aria-pressed={logoBorder === b} aria-label={`Logo border ${b}`} className={logoBorder === b ? 'on' : ''} onClick={() => setLogoBorder(b)}>{b === 'none' ? '◼' : '▢'} {b.toUpperCase()}</button>)}</div></div>
                   </div>
                 </div>
               )}
@@ -393,12 +432,15 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
             <span className="lab">Live preview</span>
             <div className="gf-savebtns">
               <button className="save" onClick={saveDesign} title="Save this design to this browser">♥ SAVE DESIGN</button>
-              {saved.length > 0 && <button className="open" onClick={() => setDrawerOpen(true)}>SAVED · {saved.length} ›</button>}
+              {saved.length > 0 && <button type="button" ref={drawerTriggerRef} aria-expanded={drawerOpen} className="open" onClick={() => setDrawerOpen(true)}>SAVED · {saved.length} ›</button>}
               {!railOpen && <button className="gf-railtoggle" onClick={() => setRailOpen(true)}>TEMPLATES ‹</button>}
             </div>
           </div>
           {toast && <div className="gf-toast">✓ Saved to this browser</div>}
-          <div className="gf-stage"><div className="gf-mat"><canvas ref={mainRef} /></div></div>
+          <div className="gf-stage"><div className="gf-mat">
+            <canvas ref={mainRef} role="img" aria-label={qrDescription} />
+          </div></div>
+          <p className="sr-only" role="status" aria-live="polite">{qrDescription}</p>
           <div className="gf-chips">
             <span className="chip">{size} × {size} px</span><span className="chip">ECC · {ecc}</span><span className="chip">{finder} finders</span>
             <span className={`chip ${scannable ? 'ok' : 'warn'}`}>{scannable ? '✓ Scannable' : '⚠ At risk'}</span>
@@ -408,7 +450,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
 
         {/* saved-designs drawer — ported from ui_kits/website/saved-designs.html */}
         {drawerOpen && (
-          <div className="gf-drawer">
+          <div className="gf-drawer" ref={drawerRef} role="dialog" aria-label="Saved designs" tabIndex={-1}>
             <div className="dhead">
               <div className="l"><b>Saved designs</b><span>{saved.length} of ∞</span></div>
               <button className="x" onClick={() => setDrawerOpen(false)} aria-label="Close saved designs">✕</button>
@@ -421,7 +463,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
                   </button>
                   {editing === s.id ? (
                     <div className="dmeta">
-                      <input className="nm-input" defaultValue={s.name} autoFocus
+                      <input className="nm-input" aria-label="Rename saved design" defaultValue={s.name} autoFocus
                         onKeyDown={(e) => { if (e.key === 'Enter') renameSaved(s.id, e.target.value); if (e.key === 'Escape') setEditing(null); }} />
                     </div>
                   ) : (
@@ -451,7 +493,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
         )}
 
         {/* templates rail */}
-        <div className="gf-rail" style={{ flexBasis: railOpen ? 306 : 0, width: railOpen ? 306 : 0 }}>
+        <div className={`gf-rail${railOpen ? ' open' : ''}`} style={{ flexBasis: railOpen ? 306 : 0, width: railOpen ? 306 : 0 }}>
           <div className="gf-railinner">
             <div className="gf-railhead"><div><b>Templates</b> <i>{PRESET_COUNT} presets</i></div><button onClick={() => setRailOpen(false)}>›</button></div>
             <div className="gf-railscroll">
@@ -479,11 +521,11 @@ function ColorField({ label, val, open, setOpen, onPick, presets, align }) {
     <div>
       <div className="lab">{label}</div>
       <div className="gf-colorpop" data-pop>
-        <button className="gf-colorbtn" onClick={() => setOpen(!open)}><span className="sw" style={{ background: val }} /><span className="hex">{val.toUpperCase()}</span><span className="chev">{open ? '▴' : '▾'}</span></button>
+        <button type="button" aria-expanded={open} aria-label={`${label} colour, currently ${val.toUpperCase()}`} className="gf-colorbtn" onClick={() => setOpen(!open)}><span className="sw" style={{ background: val }} /><span className="hex">{val.toUpperCase()}</span><span className="chev">{open ? '▴' : '▾'}</span></button>
         {open && (
           <div className={`gf-popover ${align}`}>
             <div className="gf-pophead"><span className="big" style={{ background: val }} /><div><b>{val.toUpperCase()}</b><i>Drag the bar to pick any color</i></div></div>
-            <label className="gf-bar-input"><span className="rainbow" /><input type="color" value={val} onChange={(e) => onPick(e.target.value)} /></label>
+            <label className="gf-bar-input"><span className="rainbow" /><input type="color" aria-label={`${label} colour picker`} value={val} onChange={(e) => onPick(e.target.value)} /></label>
             <div className="gf-presets"><div className="micro">Presets</div><div className="g6">{presets.map((c) => <button key={c} className={c === val.toLowerCase() ? 'on' : ''} style={{ background: c }} onClick={() => onPick(c)} />)}</div></div>
           </div>
         )}
@@ -500,7 +542,7 @@ function RailGroup({ title, items, sel, onPick, social }) {
         {items.map((t) => (
           <button key={t.name} className={`gf-card${sel === t.name ? ' on' : ''}`} onClick={() => onPick(t)} title={t.content || t.name}>
             <span className="thumbwrap">
-              <canvas className="thumb" data-px="110" data-fg={t.fg} data-bg={t.bg} data-dot={t.dot} data-finder={t.finder} data-seed={t.seed} />
+              <canvas aria-hidden="true" className="thumb" data-px="110" data-fg={t.fg} data-bg={t.bg} data-dot={t.dot} data-finder={t.finder} data-seed={t.seed} />
               {social && t.img && <span className="thumblogo"><img src={t.img} alt={t.name} /></span>}
             </span>
             <span className="tname">{t.name}</span>
@@ -515,26 +557,26 @@ function ModeFields({ mode, fields, setF }) {
   if (mode === 'wifi') return (
     <div className="gf-modefields">
       <span className="lab flat">WiFi</span>
-      <input value={fields.ssid || ''} onChange={(e) => setF('ssid', e.target.value)} placeholder="Network name (SSID)" />
-      <div className="gf-seg sm inline">{['WPA', 'WEP', 'nopass'].map((v) => <button key={v} className={(fields.enc || 'WPA') === v ? 'on' : ''} onClick={() => setF('enc', v)}>{v === 'nopass' ? 'NONE' : v}</button>)}</div>
-      <input value={fields.pass || ''} onChange={(e) => setF('pass', e.target.value)} placeholder="Password" />
+      <input value={fields.ssid || ''} onChange={(e) => setF('ssid', e.target.value)} placeholder="Network name (SSID)" aria-label="Network name (SSID)" />
+      <div className="gf-seg sm inline">{['WPA', 'WEP', 'nopass'].map((v) => <button key={v} type="button" aria-pressed={(fields.enc || 'WPA') === v} aria-label={`Encryption ${v === 'nopass' ? 'none' : v}`} className={(fields.enc || 'WPA') === v ? 'on' : ''} onClick={() => setF('enc', v)}>{v === 'nopass' ? 'NONE' : v}</button>)}</div>
+      <input type="password" value={fields.pass || ''} onChange={(e) => setF('pass', e.target.value)} placeholder="Password" aria-label="Password" />
     </div>
   );
   if (mode === 'vcard') return (
     <div className="gf-modefields grid">
-      <input value={fields.first || ''} onChange={(e) => setF('first', e.target.value)} placeholder="First name" />
-      <input value={fields.last || ''} onChange={(e) => setF('last', e.target.value)} placeholder="Last name" />
-      <input value={fields.phone || ''} onChange={(e) => setF('phone', e.target.value)} placeholder="Phone" />
-      <input value={fields.email || ''} onChange={(e) => setF('email', e.target.value)} placeholder="Email" />
-      <input value={fields.company || ''} onChange={(e) => setF('company', e.target.value)} placeholder="Company" />
-      <input value={fields.website || ''} onChange={(e) => setF('website', e.target.value)} placeholder="Website" />
+      <input value={fields.first || ''} onChange={(e) => setF('first', e.target.value)} placeholder="First name" aria-label="First name" />
+      <input value={fields.last || ''} onChange={(e) => setF('last', e.target.value)} placeholder="Last name" aria-label="Last name" />
+      <input value={fields.phone || ''} onChange={(e) => setF('phone', e.target.value)} placeholder="Phone" aria-label="Phone" />
+      <input value={fields.email || ''} onChange={(e) => setF('email', e.target.value)} placeholder="Email" aria-label="Email" />
+      <input value={fields.company || ''} onChange={(e) => setF('company', e.target.value)} placeholder="Company" aria-label="Company" />
+      <input value={fields.website || ''} onChange={(e) => setF('website', e.target.value)} placeholder="Website" aria-label="Website" />
     </div>
   );
   if (mode === 'whatsapp') return (
     <div className="gf-modefields">
-      <input value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder="WhatsApp number (with country code)" />
-      <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder="Pre-filled message (optional)" />
+      <input value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder="WhatsApp number (with country code)" aria-label="WhatsApp number (with country code)" />
+      <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder="Pre-filled message (optional)" aria-label="Pre-filled message (optional)" />
     </div>
   );
-  return (<><span className="gf-clabel">Content / URL</span><input className="gf-cinput" value={fields.url || ''} onChange={(e) => setF('url', e.target.value)} placeholder="https://your-link.com" /></>);
+  return (<><span className="gf-clabel">Content / URL</span><input className="gf-cinput" value={fields.url || ''} onChange={(e) => setF('url', e.target.value)} placeholder="https://your-link.com" aria-label="https://your-link.com" /></>);
 }
