@@ -195,9 +195,6 @@
       "linkedin": "https://www.linkedin.com/in/mykolaponomarenko",
       "github": "https://github.com/mykpono/qr-code-agent"
     },
-    "contact": {
-      "email": "hi@qrcodeagent.net"
-    },
     "save": {
       "phase1": {
         "mode": "local",

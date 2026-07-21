@@ -40,12 +40,24 @@ const langs = LIVE_LOCALES.map((l) => ({
   </div>
 </header>
 <script>
-  document.querySelectorAll('[data-theme-set]').forEach((b) => {
+  // Single source of truth for the app theme. Base.astro re-applies the stored
+  // value before paint; this keeps the swatch indicator in step and persists the
+  // choice, which previously reset on every navigation.
+  const swatches = document.querySelectorAll('[data-theme-set]');
+  const mark = (t) => swatches.forEach((x) => x.classList.toggle('on', x.getAttribute('data-theme-set') === t));
+
+  let saved = 'cream';
+  try { saved = localStorage.getItem('qra:theme') || 'cream'; } catch (e) {}
+  mark(saved);
+
+  swatches.forEach((b) => {
     b.addEventListener('click', () => {
       const t = b.getAttribute('data-theme-set');
       document.documentElement.setAttribute('data-theme', t === 'cream' ? '' : t);
-      document.querySelectorAll('[data-theme-set]').forEach((x) => x.classList.remove('on'));
-      b.classList.add('on');
+      try { localStorage.setItem('qra:theme', t); } catch (e) {}
+      mark(t);
+      try { if (window.umami) window.umami.track('theme_switch', { theme: t }); } catch (e) {}
+      try { if (window.gtag) window.gtag('event', 'theme_switch', { theme: t }); } catch (e) {}
     });
   });
 </script>

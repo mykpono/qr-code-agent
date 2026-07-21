@@ -16,7 +16,7 @@ a:hover { color: var(--brand-600); }
 .t1 { font: 700 18px var(--font-sans); line-height: 1; }
 .t2 { font: 500 11px var(--font-mono); color: var(--muted-2); margin-top: 3px; }
 .site-header nav { display: flex; gap: 18px; }
-.site-header nav a { font: 600 13px var(--font-sans); color: var(--ink-2); cursor: pointer; }
+.site-header nav a { font: 600 14px var(--font-sans); color: var(--ink-2); cursor: pointer; }
 .hright { display: flex; align-items: center; gap: 9px; }
 /* Both are fixed-height 30px chips, so their label must never wrap — when the
    header got tight the text broke onto a second line and spilled out of the
@@ -130,10 +130,6 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .gf-tile { width: 40px; height: 40px; border-radius: 12px; background: var(--brand-gradient); display: grid; place-items: center; font: 700 17px var(--font-sans); color: #fff; }
 .gf-brand b { display: block; font: 700 20px var(--font-sans); color: var(--ink); line-height: 1; }
 .gf-brand i { display: block; font: 500 12px var(--font-mono); color: var(--muted-2); letter-spacing: .04em; margin-top: 4px; font-style: normal; }
-.gf-themes { display: flex; gap: 7px; }
-.gf-themes button { position: relative; width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--border-2); cursor: pointer; }
-.gf-themes button:not(.on)::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
-.gf-themes button.on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 10px; width: auto; height: auto; left: auto; top: auto; transform: none; }
 
 /* content row */
 .gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px; border-bottom: 1px solid var(--border-soft); }
@@ -416,7 +412,6 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
   .gf-rail { order: 1; }
 
   .gf-top { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 16px; padding-bottom: 16px; }
-  .gf-themes { display: none; }
   .gf-brand i { display: none; }
 
   .gf-plabel { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
@@ -436,16 +431,14 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
   .steps, .tools, .scen, .arts, .feat, .fgrid { grid-template-columns: 1fr; }
   .bens { grid-template-columns: 1fr; }
 
-  /* Header on phones: brand + Support + language must fit 343px of usable width.
-     The four theme swatches alone are 114px and pushed the bar ~21px past the
-     viewport, which squeezed "QR Code Agent" onto three lines and gave every
-     page a sideways scroll. Drop them here — the generator's own swatch row
-     (.gf-themes) is already hidden at this breakpoint, so this keeps the two
-     theme switchers consistent rather than leaving a stray one behind. */
+  /* Header on phones. Brand + Support + language + the four theme swatches need
+     ~420px and only 343px is usable, which is what pushed the bar past the
+     viewport and broke the title onto three lines. The swatches are now the
+     site's ONLY theme control, so they have to stay reachable here — let the bar
+     wrap to a second row instead of dropping anything. */
   .site-header nav { display: none; }
-  .hbar { gap: 10px; }
-  .hright { gap: 7px; min-width: 0; }
-  .hright .sw { display: none; }
+  .hbar { gap: 10px; flex-wrap: wrap; }
+  .hright { gap: 7px; min-width: 0; margin-left: auto; }
   .lock { min-width: 0; gap: 9px; }
   .lock .tile { flex: 0 0 38px; }
   .t1 { white-space: nowrap; }

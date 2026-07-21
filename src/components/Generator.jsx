@@ -113,7 +113,6 @@ const ECC_DATA = {
   Q: { n: 'Quartile', p: '25%', r: '25% recovery · best with a logo', f: '75%' },
   H: { n: 'High', p: '30%', r: '30% recovery', f: '100%' },
 };
-const THEMES = [{ n: 'cream', c: '#faf6ec' }, { n: 'sand', c: '#e7dcc4' }, { n: 'olive', c: '#59603c' }, { n: 'slate', c: '#302c3b' }];
 /* v5: the rail is tabbed and Social is the default tab. */
 const TABS = [{ k: 'social', l: 'Social' }, { k: 'industry', l: 'Industry' }, { k: 'usecase', l: 'Use case' }, { k: 'themes', l: 'Themes' }];
 const DOT_NAMES = { star: 'Plus', realstar: 'Star', diamond: 'Diamond', circle: 'Circle', square: 'Square', dot: 'Dot', rounded: 'Rounded' };
@@ -164,7 +163,6 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   const [templateTab, setTemplateTab] = useState('social');
   const [exampleTag, setExampleTag] = useState('');
   const [sel, setSel] = useState('Rain');
-  const [theme, setTheme] = useState('cream');
   const [scannable, setScannable] = useState(true);
   const [saved, setSaved] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -266,7 +264,6 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   // move focus into the drawer when it opens so keyboard users land inside it
   useEffect(() => { if (drawerOpen) drawerRef.current?.focus(); }, [drawerOpen]);
 
-  function applyTheme(t) { setTheme(t); try { document.documentElement.setAttribute('data-theme', t === 'cream' ? '' : t); } catch {} track('theme_switch', { theme: t }); }
   function onLogo(e) { const file = e.target.files?.[0]; if (!file) return; const rd = new FileReader(); rd.onload = (ev) => { const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = ev.target.result; }; rd.readAsDataURL(file); }
   /* v5: templates are complete looks, not recolours. A template applies colour,
      dot, finder AND error correction, logo on/off, logo shape and border, plus
@@ -365,7 +362,10 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
       {/* top bar */}
       <div className="gf-top">
         <div className="gf-brand"><span className="gf-tile">QR</span><span><b>Custom QR Codes</b><i>{headerSub}</i></span></div>
-        <div className="gf-themes">{THEMES.map((t) => <button key={t.n} className={theme === t.n ? 'on' : ''} style={{ background: t.c }} title={t.n} onClick={() => applyTheme(t.n)} />)}</div>
+        {/* The app-theme swatches live in the site header only. Having a second
+            set here meant two controls for one global setting whose "selected"
+            dots drifted apart, and the widget is absent from learn/trust/article
+            pages, so the header is the copy that works everywhere. */}
       </div>
 
       {/* content row */}

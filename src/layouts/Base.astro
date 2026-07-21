@@ -30,6 +30,17 @@ const GA = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {/* Re-apply the visitor's saved theme before first paint. The site is static,
+      so every navigation serves the default theme in the HTML; without this the
+      chosen theme was lost on each page load. Must stay inline and render-
+      blocking here — moving it into a module or the footer reintroduces a flash
+      of the default theme. */}
+  <script is:inline>
+    try {
+      var t = localStorage.getItem('qra:theme');
+      if (t && t !== 'cream') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>{page.title}</title>
   <meta name="description" content={page.meta} />
