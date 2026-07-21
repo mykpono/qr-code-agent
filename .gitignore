@@ -9,3 +9,6 @@ dist/
 # Translation working directory — extracted chunks and in-flight translations.
 # Only the finished bundle in src/content/i18n/ is committed.
 .i18n-work/
+
+# OG font staging — woff2 decompressed to ttf for the rasterizer.
+.og-fonts/

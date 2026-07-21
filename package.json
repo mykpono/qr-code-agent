@@ -5,14 +5,15 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/gen-sitemap.mjs",
+    "build": "node scripts/gen-og.mjs && astro build && node scripts/gen-sitemap.mjs",
     "preview": "astro preview",
     "test": "node --test test/ src/lib/",
     "verify": "npm test && npm run build && node scripts/check-build.mjs",
     "scan-sheet": "node scripts/scan-test-sheet.mjs",
     "i18n:extract": "node scripts/i18n-extract.mjs",
     "i18n:merge": "node scripts/i18n-merge.mjs",
-    "i18n:coverage": "node scripts/i18n-coverage.mjs"
+    "i18n:coverage": "node scripts/i18n-coverage.mjs",
+    "og": "node scripts/gen-og.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^3.6.0",
@@ -22,6 +23,8 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "jsqr": "^1.4.0"
+    "@resvg/resvg-js": "^2.6.2",
+    "jsqr": "^1.4.0",
+    "wawoff2": "^2.0.1"
   }
 }
