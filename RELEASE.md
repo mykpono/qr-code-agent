@@ -1,3 +1,123 @@
+# Release log
+
+Newest first. The v1.0 record follows below.
+
+---
+
+# 2026-07-21 — v5 generator, generator modes, i18n foundation
+
+Shipped to production on `main`. English-only in production; German and Spanish exist as
+reviewable branches and are **not** merged (see *Held back* below).
+
+## What ships
+
+### The v5 / "1e" generator design
+Rebuilt the flagship widget against `design_handoff_qr_generator/`:
+
+- **Tabbed templates rail** — Social (default), Industry, Use case, Themes. Only the active
+  category renders, replacing a four-group scroll.
+- **Templates are full design presets**, not recolours: picking one applies `ecc`, logo on/off,
+  logo shape and border alongside colour/dot/finder, plus the example URL and a group chip.
+- Social presets bake the real brand PNG as the centre logo, so it lands in the PNG/SVG export
+  rather than only the preview.
+- Dynamic header subtitle; ECC as four option cards; logo controls greyed rather than hidden;
+  flat-white preview column; 200ms redraw pulse honouring `prefers-reduced-motion`.
+- Scannable pill now uses the v5 WCAG contrast rule (≥3.5) **and** keeps the logo-with-low-ECC
+  warning.
+
+### Five type pages now serve the right generator
+`/whatsapp-qr-code`, `/crypto-qr-code`, `/phone-qr-code`, `/text-qr-code`, `/sms-qr-code` ranked
+for a specific data type but rendered the generic URL box. Each page's own `tool.note` already
+described the intended behaviour; the modes had never been built. WhatsApp was worse — the mode
+was fully implemented and tested, and **no page enabled it**.
+
+Encoding decisions that would have shipped silently broken:
+- `tel`/`sms` keep a leading `+`. The obvious `replace(/\D/g,'')` turns `+1 415…` into a
+  domestic-looking number that will not dial from abroad.
+- `sms` uses `SMSTO:`, the ZXing convention scanners recognise. `sms:` is not portable — iOS wants
+  `&body=`, Android `?body=`.
+- `crypto` emits BIP-21 and never normalises address case; base58 and bech32 are both
+  case-sensitive, so folding case yields a valid-*looking* address that sends funds nowhere.
+
+`/event-qr-code` was **not** changed: its H1, subhead and intro all describe linking to a ticket
+page, so it is intent-consistent on `url` mode already. The VEVENT builder written for it was
+deleted rather than shipped unused.
+
+### UTM
+The URL field now shows the tagged link as parameters are entered. `fields.url` stays the
+*untagged* base, so editing a UTM value recomposes rather than appending to an already-tagged
+string; edits typed into the field are split back apart by `splitUtm()`.
+
+Two pre-existing bugs fixed, both producing broken tracking links:
+- A base with an existing query got a second `?` — `...promo?code=SAVE20?utm_source=nl` is
+  malformed and `code` stops parsing. This hit the shipped **Promotion** preset.
+- Params were appended *after* any `#fragment`, so no analytics tool ever saw them.
+
+### Chrome and layout
+- Theme switcher consolidated into the generator widget and **persisted** (`qra:theme`,
+  re-applied before paint). Previously two controls existed whose indicators never synced, and
+  neither persisted — the theme reset on every navigation, making the feature decorative.
+- Mobile header overflow fixed (three stacked bugs: swatch overflow, a three-line title, and
+  chips wrapping out of their fixed-height boxes).
+- Preview canvas sized from the *card* via a container query, so collapsing the templates rail
+  expands the preview area without resizing the QR.
+- Contact email removed from the footer and `pages.json`.
+- Nav 13px → 14px; header subtitle → "Free QR Code Generator".
+
+### i18n foundation (infrastructure only — no locale is live)
+- `npm run i18n:extract | i18n:merge | i18n:coverage` — extract → translate → merge, with
+  validation that refuses to write an incomplete or malformed bundle.
+- ~190 UI chrome strings moved out of components into `src/content/ui.json`, read via
+  `uiStrings()`. Before this, a locale could translate its page copy and still render inside an
+  English app.
+- `localizedPage()` and `uiStrings()` now deep-merge: a bundle carries prose only, so a shallow
+  spread dropped structural siblings (`directory` lost its `links`, and the template hit `.map()`
+  on undefined).
+- Footer language row, driven by `LIVE_LOCALES` so it can never link to a page that was not built.
+- `llms.txt` lists the canonical English set plus a Languages section.
+- **Decision D-007 / CLAUDE.md rule 9**: a locale ships only when every page is translated. This
+  is architecturally enforced — a partial bundle does not skip pages, it publishes them in English
+  under the locale prefix while hreflang claims otherwise.
+
+## Verified before release
+
+- **91 tests pass** (was 58). New: real jsQR decode of every new payload type at all four ECC
+  levels, `buildPayload`/`splitUtm` round-trip, D-007 bundle completeness, and UI-string
+  enforcement.
+- `npm run verify` clean across **46 pages**; 138 when both locale branches are merged (tested).
+- **Live production check, not assumed**: all 46 sitemap URLs fetched individually — every one
+  carries the Umami tag. Sitemap is 46/46, matching the built page set.
+- Generator driven in-browser on each changed page; URL-mode pages confirmed unchanged; no console
+  errors.
+- Every commit on `main` builds and tests standalone, so `git bisect` stays usable.
+
+## Held back
+
+- **German and Spanish** (~27,600 words each, plus UI chrome) are complete on `origin/i18n/de`
+  and `origin/i18n/es` — each a single-file diff. **Neither is merged**: no native speaker has
+  reviewed them, and Google's scaled-content-abuse policy explicitly names automated translation
+  published without human review. A penalty would reach the English pages too.
+- **Keywords are not localized.** The bundles render the English page's intent; they are not
+  targeted at researched German or Spanish keywords. `primary`/`msv`/`kd` remain English-market
+  figures. Per-locale keyword research is a separate job — and likely the higher-value one.
+- **Register differs by language** — formal *Sie* in German, informal *tú* in Spanish. Both are
+  normal for their language here, but it is a deliberate choice a reviewer should confirm.
+- Preview deployments of the locale branches serve unreviewed machine translation. Confirm
+  `X-Robots-Tag: noindex` on them before sharing the links.
+
+## Known issues, unfixed
+
+- **10px horizontal overflow in the 900–1120px range.** Pre-existing; reproduced against a clean
+  checkout. No element overflows, so it is likely the `.tool-scroll` padding in that band.
+- The design handoff is internally inconsistent on the preview canvas: it specifies 500px, but at
+  its own stated 1120px minimum card width the preview column is only 388px. Sized fluidly instead.
+- `docs/FINAL-TAXONOMY.md` is stale — 14 of its 48 planned pages are unbuilt, and two built pages
+  (`/qr-codes-for-education`, `/qr-codes-for-marketing`) are absent from it.
+- The design system folder `../QR code generator redesign/` that CLAUDE.md names as the source of
+  truth for header/footer layouts is **not on disk**; the zip contains only the generator handoff.
+
+---
+
 # Release — qrcodeagent.net v1.0 (Phase 1)
 
 Prepared 2026-07-20. Scope: **Phase 1 + Phase 1b**, English only.
