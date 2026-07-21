@@ -13,7 +13,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import jsQR from 'jsqr';
 import {
-  buildPayload, getMatrix, buildSVG, hasContent, QUIET_MODULES,
+  buildPayload, splitUtm, getMatrix, buildSVG, hasContent, QUIET_MODULES,
 } from '../src/lib/qr.js';
 
 const SCALE = 8; // px per module — well above the decoder's floor
@@ -127,6 +127,52 @@ test('utm params only apply when there is a base url', () => {
     buildPayload('url', { url: 'https://a.co', utm: { source: 'news letter' } }),
     'https://a.co?utm_source=news_letter',
   );
+});
+
+// A base that already has a query needs "&" — the Promotion preset ships
+// "?code=SAVE20", and a second "?" makes the tracking link malformed.
+test('utm appends to a base that already has a query string', () => {
+  assert.equal(
+    buildPayload('url', { url: 'https://shop.com/promo?code=SAVE20', utm: { source: 'nl' } }),
+    'https://shop.com/promo?code=SAVE20&utm_source=nl',
+  );
+});
+
+// Params after a #fragment are part of the fragment; no analytics tool sees them.
+test('utm goes before the fragment, not after it', () => {
+  assert.equal(
+    buildPayload('url', { url: 'https://a.co/page#pricing', utm: { source: 'nl' } }),
+    'https://a.co/page?utm_source=nl#pricing',
+  );
+});
+
+test('splitUtm pulls utm out and keeps everything else on the base', () => {
+  assert.deepEqual(splitUtm('https://a.co'), { base: 'https://a.co', utm: {} });
+  assert.deepEqual(
+    splitUtm('https://a.co?utm_source=nl&utm_medium=email'),
+    { base: 'https://a.co', utm: { source: 'nl', medium: 'email' } },
+  );
+  // non-utm params and the fragment survive
+  assert.deepEqual(
+    splitUtm('https://shop.com/p?code=SAVE20&utm_source=nl#buy'),
+    { base: 'https://shop.com/p?code=SAVE20#buy', utm: { source: 'nl' } },
+  );
+  // encoded values come back decoded
+  assert.deepEqual(
+    splitUtm('https://a.co?utm_campaign=spring%20launch'),
+    { base: 'https://a.co', utm: { campaign: 'spring launch' } },
+  );
+});
+
+// The URL field displays buildPayload's output and feeds edits back through
+// splitUtm, so the pair must round-trip or editing a tagged link corrupts it.
+test('buildPayload and splitUtm round-trip', () => {
+  for (const url of ['https://a.co', 'https://shop.com/p?code=SAVE20', 'https://a.co/x#buy']) {
+    const utm = { source: 'nl', medium: 'email', campaign: 'spring_launch' };
+    const { base, utm: back } = splitUtm(buildPayload('url', { url, utm }));
+    assert.equal(base, url, `base survives for ${url}`);
+    assert.deepEqual(back, utm, `utm survives for ${url}`);
+  }
 });
 
 /* ---------------- export gating ---------------- */

@@ -12,6 +12,8 @@ import qrcode from 'qrcode-generator';
 qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8'];
 
 /* ---------------- payload builders ---------------- */
+const UTM_KEYS = ['source', 'medium', 'campaign', 'term', 'content'];
+
 function buildPayload(mode, f) {
   if (mode === 'wifi') {
     const esc = (s) => (s || '').replace(/([\\;,":])/g, '\\$1');
@@ -30,10 +32,44 @@ function buildPayload(mode, f) {
     return num ? `https://wa.me/${num}${q}` : '';
   }
   // url mode + optional UTM
-  let base = (f.url || '').trim(); const u = f.utm || {};
+  const raw = (f.url || '').trim(); const u = f.utm || {};
   const parts = []; const enc = (v) => encodeURIComponent(v.trim().replace(/\s+/g, '_'));
-  ['source', 'medium', 'campaign', 'term', 'content'].forEach((k) => { if (u[k]) parts.push(`utm_${k}=${enc(u[k])}`); });
-  return parts.length && base ? `${base}?${parts.join('&')}` : base;
+  UTM_KEYS.forEach((k) => { if (u[k]) parts.push(`utm_${k}=${enc(u[k])}`); });
+  if (!parts.length || !raw) return raw;
+  // Two things this must not get wrong. A base that already carries a query
+  // ("...?code=SAVE20" — the Promotion preset) needs "&", not a second "?", or
+  // the link is malformed. And params must go BEFORE any #fragment, otherwise
+  // they are part of the fragment and no analytics tool ever sees them.
+  const hashAt = raw.indexOf('#');
+  const head = hashAt >= 0 ? raw.slice(0, hashAt) : raw;
+  const hash = hashAt >= 0 ? raw.slice(hashAt) : '';
+  return head + (head.includes('?') ? '&' : '?') + parts.join('&') + hash;
+}
+
+/* Inverse of the UTM composition above: pull utm_* out of a full URL, returning
+   the untagged base plus the structured params. Lets the URL field display the
+   tagged link while the UTM panel keeps editing discrete values. Non-utm query
+   params and any fragment are preserved on the base. */
+function splitUtm(full) {
+  const s = (full || '').trim();
+  const utm = {};
+  const hashAt = s.indexOf('#');
+  const head = hashAt >= 0 ? s.slice(0, hashAt) : s;
+  const hash = hashAt >= 0 ? s.slice(hashAt) : '';
+  const qAt = head.indexOf('?');
+  if (qAt < 0) return { base: head + hash, utm };
+  const path = head.slice(0, qAt);
+  const kept = [];
+  head.slice(qAt + 1).split('&').forEach((pair) => {
+    if (!pair) return;
+    const eq = pair.indexOf('=');
+    const k = eq >= 0 ? pair.slice(0, eq) : pair;
+    const v = eq >= 0 ? pair.slice(eq + 1) : '';
+    const m = /^utm_(source|medium|campaign|term|content)$/.exec(k);
+    if (!m) { kept.push(pair); return; }
+    try { utm[m[1]] = decodeURIComponent(v); } catch { utm[m[1]] = v; }
+  });
+  return { base: path + (kept.length ? `?${kept.join('&')}` : '') + hash, utm };
 }
 
 /* ---------------- REAL encoder + styled render ---------------- */
@@ -193,6 +229,6 @@ export function hasContent(mode, f = {}) {
 // drawMod and drawFinderReal are also used by the decorative rail-thumbnail
 // drawer in Generator.jsx, so they must be exported, not module-private.
 export {
-  buildPayload, getMatrix, buildSVG, renderReal, QUIET_MODULES,
+  buildPayload, splitUtm, UTM_KEYS, getMatrix, buildSVG, renderReal, QUIET_MODULES,
   rrPathD, modSVG, finderSVG, drawMod, drawFinderReal,
 };

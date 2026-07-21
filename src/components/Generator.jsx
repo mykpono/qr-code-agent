@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { buildPayload, getMatrix, buildSVG, renderReal, drawMod, drawFinderReal, hasContent as hasContentFor } from '../lib/qr.js';
+import { buildPayload, splitUtm, getMatrix, buildSVG, renderReal, drawMod, drawFinderReal, hasContent as hasContentFor } from '../lib/qr.js';
 import { MOBILE_BREAKPOINT } from '../lib/mobile.js';
 
 /*
@@ -207,6 +207,11 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   // Typing your own URL means you are no longer on a template's example content,
   // so the example-tag chip goes away.
   const setF = (k, v) => { if (k === 'url') setExampleTag(''); setFields((f) => ({ ...f, [k]: v })); };
+  /* The URL field shows the TAGGED link, so what the user sees is what the QR
+     encodes and what they can copy. `fields.url` stays the untagged base, so
+     editing a UTM value recomposes from the base instead of appending to an
+     already-tagged string. Edits typed into the field are split back apart. */
+  const onUrlInput = (v) => { setExampleTag(''); const { base, utm } = splitUtm(v); setFields((f) => ({ ...f, url: base, utm })); };
   const setUtm = (k, v) => setFields((f) => ({ ...f, utm: { ...f.utm, [k]: v } }));
 
   // main preview (real)
@@ -366,7 +371,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
       {/* content row */}
       <div className="gf-content">
         <div className="gf-crow">
-          <ModeFields mode={mode} fields={fields} setF={setF} />
+          <ModeFields mode={mode} fields={fields} setF={setF} urlValue={payload} onUrlInput={onUrlInput} />
           {exampleTag && <span className="gf-exampletag">{exampleTag}</span>}
           {mode === 'url' && <button className="gf-utm" onClick={() => setUtmOpen((v) => !v)}>UTM TRACKING <span>{utmOpen ? '▴' : '▾'}</span></button>}
         </div>
@@ -580,7 +585,7 @@ function RailGroup({ title, items, sel, onPick, social }) {
   );
 }
 
-function ModeFields({ mode, fields, setF }) {
+function ModeFields({ mode, fields, setF, urlValue, onUrlInput }) {
   if (mode === 'wifi') return (
     <div className="gf-modefields">
       <span className="lab flat">WiFi</span>
@@ -605,5 +610,5 @@ function ModeFields({ mode, fields, setF }) {
       <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder="Pre-filled message (optional)" aria-label="Pre-filled message (optional)" />
     </div>
   );
-  return (<><span className="gf-clabel">Content / URL</span><input className="gf-cinput" value={fields.url || ''} onChange={(e) => setF('url', e.target.value)} placeholder="https://your-link.com" aria-label="https://your-link.com" /></>);
+  return (<><span className="gf-clabel">Content / URL</span><input className="gf-cinput" value={urlValue ?? (fields.url || '')} onChange={(e) => onUrlInput(e.target.value)} placeholder="https://your-link.com" aria-label="Content or URL" /></>);
 }
