@@ -1255,8 +1255,8 @@
       "h1": "WhatsApp QR Code Generator",
       "subhead": "Let customers start a WhatsApp chat with one scan — no saving your number first. Free and branded.",
       "tool": {
-        "mode": "url",
-        "note": "URL mode building a wa.me link, helper: 'enter your number (with country code) and an optional pre-filled message'. Could be a light build. Standard style + download."
+        "mode": "whatsapp",
+        "note": "Dedicated whatsapp mode: number (with country code) + optional pre-filled message, encoded to a wa.me link by buildPayload. The note previously said 'could be a light build' — that build shipped, but this stayed on url mode."
       },
       "intro": "A WhatsApp QR code opens a chat with your business number instantly — no saving the contact, no typing. Great for support, orders, and lead capture. Enter your number and an optional pre-filled message, brand the code, and download it free.",
       "howto": {
