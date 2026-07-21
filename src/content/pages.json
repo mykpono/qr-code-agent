@@ -174,6 +174,11 @@
       ],
       "thankyou": "Free and no ads — if this saved you time, you can buy me a coffee. Totally optional."
     },
+    "creator": {
+      "name": "Myk Pono",
+      "linkedin": "https://www.linkedin.com/in/mykolaponomarenko",
+      "github": "https://github.com/mykpono/qr-code-agent"
+    },
     "save": {
       "phase1": {
         "mode": "local",
@@ -426,7 +431,11 @@
       "related": [
         "/custom-qr-code-generator",
         "/qr-codes-for-business-cards",
-        "/vcard-qr-code"
+        "/vcard-qr-code",
+        "/learn/add-logo-without-breaking-qr-code",
+        "/learn/png-or-svg-qr-code",
+        "/learn/qr-code-print-size",
+        "/learn/qr-code-colors-that-scan"
       ],
       "faq": [
         {
@@ -508,7 +517,8 @@
       "related": [
         "/qr-codes-for-restaurants",
         "/qr-codes-for-menus",
-        "/menu-qr-code"
+        "/menu-qr-code",
+        "/learn/wifi-qr-codes-cafes-hotels"
       ],
       "faq": [
         {
@@ -675,7 +685,9 @@
       "related": [
         "/vcard-qr-code",
         "/qr-code-with-logo",
-        "/qr-codes-for-small-business"
+        "/qr-codes-for-small-business",
+        "/learn/qr-code-print-size",
+        "/learn/png-or-svg-qr-code"
       ],
       "faq": [
         {
@@ -756,7 +768,8 @@
       "related": [
         "/qr-codes-for-restaurants",
         "/qr-codes-for-small-business",
-        "/qr-codes-for-menus"
+        "/qr-codes-for-menus",
+        "/learn/restaurant-qr-code-guide"
       ],
       "faq": [
         {
@@ -914,7 +927,9 @@
       "related": [
         "/qr-codes-for-restaurants",
         "/qr-codes-for-menus",
-        "/wifi-qr-code"
+        "/wifi-qr-code",
+        "/learn/restaurant-qr-code-guide",
+        "/learn/static-vs-dynamic-qr-codes"
       ],
       "faq": [
         {
@@ -1399,7 +1414,9 @@
         "/wifi-qr-code",
         "/google-review-qr-code",
         "/qr-codes-for-menus",
-        "/qr-codes-for-business-cards"
+        "/qr-codes-for-business-cards",
+        "/learn/restaurant-qr-code-guide",
+        "/learn/wifi-qr-codes-cafes-hotels"
       ],
       "faq": [
         {
@@ -1576,7 +1593,9 @@
       "related": [
         "/qr-code-with-logo",
         "/url-qr-code",
-        "/qr-codes-for-business-cards"
+        "/qr-codes-for-business-cards",
+        "/learn/qr-code-colors-that-scan",
+        "/learn/add-logo-without-breaking-qr-code"
       ],
       "faq": [
         {
@@ -1738,7 +1757,8 @@
       "related": [
         "/",
         "/custom-qr-code-generator",
-        "/pdf-qr-code"
+        "/pdf-qr-code",
+        "/learn/static-vs-dynamic-qr-codes"
       ],
       "faq": [
         {
@@ -2566,7 +2586,8 @@
         "/pdf-qr-code",
         "/menu-qr-code",
         "/google-review-qr-code",
-        "/qr-codes-for-restaurants"
+        "/qr-codes-for-restaurants",
+        "/learn/wifi-qr-codes-cafes-hotels"
       ],
       "faq": [
         {
@@ -2817,7 +2838,10 @@
       "related": [
         "/pdf-qr-code",
         "/qr-code-with-logo",
-        "/qr-codes-for-small-business"
+        "/qr-codes-for-small-business",
+        "/learn/qr-code-print-size",
+        "/learn/png-or-svg-qr-code",
+        "/learn/qr-code-colors-that-scan"
       ],
       "faq": [
         {
