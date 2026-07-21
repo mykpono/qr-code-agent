@@ -396,6 +396,9 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
 .flangs [aria-current] { background: var(--brand-soft); border-color: var(--brand-soft-border); color: var(--brand-500); }
 .fbot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 18px 0 30px; border-top: 1px solid var(--border-soft); }
 .fbot span { font: 500 12px var(--font-mono); color: var(--muted-2); }
+.fbot-links { display: flex; align-items: center; gap: 16px; }
+.fbot .fgh { display: inline-flex; align-items: center; color: var(--muted-2); line-height: 0; }
+.fbot .fgh:hover { color: var(--brand-500); }
 
 @media (max-width: 900px) {
   .wrap { padding: 0 16px; }
