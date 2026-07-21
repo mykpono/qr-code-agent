@@ -14,6 +14,11 @@ test('app.css includes mobile quick-win rules', () => {
   assert.ok(css.includes('.gf-themes { display: none; }'));
   assert.ok(css.includes('.gf-rail:not(.open) { display: none; }'));
   assert.ok(css.includes('.gf-support-footer { flex-direction: column;'));
+  assert.ok(css.includes('.gf-support-footer p { flex: 0 0 auto;'));
+  assert.ok(css.includes('justify-content: flex-start; gap: 12px;'));
+  assert.ok(css.includes('section.blk { padding: 28px 0; }'));
+  assert.ok(css.includes('.gf-preview { order: -1; flex: 0 0 auto;'));
+  assert.ok(css.includes('.gf-config { order: 0; border-top: 1px solid var(--border-soft);'));
 });
 
 test('theme swatch selection ring does not share hit-area pseudo-element', () => {

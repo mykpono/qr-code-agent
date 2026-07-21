@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import qrcode from 'qrcode-generator';
-import { defaultTemplatesOpen, MOBILE_BREAKPOINT } from '../lib/mobile.js';
+import { MOBILE_BREAKPOINT } from '../lib/mobile.js';
 
 /*
   Generator island — visually matches the flagship design (QR Generator.dc.html):
@@ -106,6 +106,80 @@ function renderReal(canvas, matrix, out, fg, bg, dot, finder, logoImg, logoShape
   const inFin = (r, c) => (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { if (inFin(r, c) || !matrix[r][c]) continue; drawMod(ctx, pad + c * cell + cell / 2, pad + r * cell + cell / 2, cell, dot, fg); }
   if (logoImg) bakeLogo(ctx, out, grid, logoImg, bg, fg, logoShape, logoBorder);
+}
+
+/* ---------------- true-vector SVG export ----------------
+   The SVG export used to wrap a PNG in an <image>, so it did not scale — while
+   /learn/png-or-svg-qr-code and /learn/qr-code-print-size both tell readers to
+   send SVG to the printer precisely because vector stays sharp at any size.
+   This emits real shapes so that advice is true. Geometry mirrors renderReal
+   exactly, including the 4-module quiet zone. An uploaded logo is still a raster
+   image (it has to be) but the code itself is vector. */
+function rrPathD(x, y, w, h, r) {
+  const [tl, tr, br, bl] = Array.isArray(r) ? r : [r, r, r, r];
+  return `M${x + tl},${y}H${x + w - tr}${tr ? `A${tr},${tr} 0 0 1 ${x + w},${y + tr}` : `L${x + w},${y}`}` +
+    `V${y + h - br}${br ? `A${br},${br} 0 0 1 ${x + w - br},${y + h}` : `L${x + w},${y + h}`}` +
+    `H${x + bl}${bl ? `A${bl},${bl} 0 0 1 ${x},${y + h - bl}` : `L${x},${y + h}`}` +
+    `V${y + tl}${tl ? `A${tl},${tl} 0 0 1 ${x + tl},${y}` : `L${x},${y}`}Z`;
+}
+function modSVG(cx, cy, cell, dot, fill) {
+  const g = cell * 0.84, x = cx - g / 2, y = cy - g / 2, f = ` fill="${fill}"`;
+  if (dot === 'circle') return `<circle cx="${cx}" cy="${cy}" r="${g / 2}"${f}/>`;
+  if (dot === 'dot') return `<circle cx="${cx}" cy="${cy}" r="${g * 0.4}"${f}/>`;
+  if (dot === 'diamond') return `<rect x="${-g * 0.36}" y="${-g * 0.36}" width="${g * 0.72}" height="${g * 0.72}" transform="translate(${cx} ${cy}) rotate(45)"${f}/>`;
+  if (dot === 'rounded') return `<rect x="${x}" y="${y}" width="${g}" height="${g}" rx="${g * 0.32}"${f}/>`;
+  if (dot === 'star') { const t = g * 0.3; return `<rect x="${cx - t / 2}" y="${cy - g / 2}" width="${t}" height="${g}"${f}/><rect x="${cx - g / 2}" y="${cy - t / 2}" width="${g}" height="${t}"${f}/>`; }
+  if (dot === 'realstar') {
+    const R = g * 0.6, ri = R * 0.42, pts = [];
+    for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rad = i % 2 ? ri : R;
+      pts.push(`${(cx + Math.cos(a) * rad).toFixed(2)},${(cy + Math.sin(a) * rad).toFixed(2)}`); }
+    return `<polygon points="${pts.join(' ')}"${f}/>`;
+  }
+  return `<rect x="${x}" y="${y}" width="${g}" height="${g}"${f}/>`;
+}
+function finderSVG(x, y, cell, finder, fg, bg) {
+  const s7 = 7 * cell, ccx = x + s7 / 2, ccy = y + s7 / 2;
+  if (finder === 'circle') {
+    return `<circle cx="${ccx}" cy="${ccy}" r="${s7 / 2}" fill="${fg}"/>` +
+      `<circle cx="${ccx}" cy="${ccy}" r="${s7 * 0.335}" fill="${bg}"/>` +
+      `<circle cx="${ccx}" cy="${ccy}" r="${s7 * 0.2}" fill="${fg}"/>`;
+  }
+  const leaf = finder === 'leaf';
+  const base = finder === 'cushion' ? s7 * 0.46 : finder === 'rounded' ? s7 * 0.28 : leaf ? s7 * 0.46 : 0;
+  const rad = (d) => { const v = Math.max(0, base - d); return leaf ? [v, 0, v, 0] : v; };
+  return `<path d="${rrPathD(x, y, s7, s7, rad(0))}" fill="${fg}"/>` +
+    `<path d="${rrPathD(x + cell, y + cell, s7 - 2 * cell, s7 - 2 * cell, rad(cell))}" fill="${bg}"/>` +
+    `<path d="${rrPathD(x + 2 * cell, y + 2 * cell, s7 - 4 * cell, s7 - 4 * cell, rad(2 * cell))}" fill="${fg}"/>`;
+}
+function buildSVG(matrix, out, fg, bg, dot, finder, logoDataUrl, logoShape, logoBorder) {
+  const n = matrix.length;
+  const cell = out / (n + QUIET_MODULES * 2);
+  const pad = QUIET_MODULES * cell, grid = out - pad * 2;
+  const parts = [`<rect width="${out}" height="${out}" fill="${bg}"/>`];
+  for (const [fr, fc] of [[0, 0], [0, n - 7], [n - 7, 0]]) parts.push(finderSVG(pad + fc * cell, pad + fr * cell, cell, finder, fg, bg));
+  const inFin = (r, c) => (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+    if (inFin(r, c) || !matrix[r][c]) continue;
+    parts.push(modSVG(pad + c * cell + cell / 2, pad + r * cell + cell / 2, cell, dot, fg));
+  }
+  if (logoDataUrl) {
+    const frame = grid * 0.22, gap = logoBorder ? Math.round((out * 35) / 512) : 0;
+    const stroke = logoBorder ? Math.max(2, frame * 0.04) : 0;
+    const size = Math.max(frame - 2 * gap - 2 * stroke, frame * 0.55);
+    const cx = out / 2, cy = out / 2, x = cx - size / 2, y = cy - size / 2;
+    const R = size / 2, corner = size * 0.12, clearR = R + gap + stroke / 2 + frame * 0.1;
+    parts.push(logoShape === 'circle'
+      ? `<circle cx="${cx}" cy="${cy}" r="${clearR}" fill="${bg}"/>`
+      : `<rect x="${cx - clearR}" y="${cy - clearR}" width="${clearR * 2}" height="${clearR * 2}" rx="${corner}" fill="${bg}"/>`);
+    const clip = logoShape === 'circle'
+      ? `<clipPath id="lg"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath>`
+      : `<clipPath id="lg"><rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${corner * 0.7}"/></clipPath>`;
+    parts.push(`<defs>${clip}</defs><image href="${logoDataUrl}" x="${x}" y="${y}" width="${size}" height="${size}" clip-path="url(#lg)"/>`);
+    if (logoBorder) parts.push(logoShape === 'circle'
+      ? `<circle cx="${cx}" cy="${cy}" r="${R + gap + stroke / 2}" fill="none" stroke="${fg}" stroke-width="${stroke}"/>`
+      : `<rect x="${x - gap}" y="${y - gap}" width="${size + gap * 2}" height="${size + gap * 2}" rx="${corner}" fill="none" stroke="${fg}" stroke-width="${stroke}"/>`);
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${out}" height="${out}" viewBox="0 0 ${out} ${out}" shape-rendering="crispEdges">${parts.join('')}</svg>`;
 }
 
 /* ---------------- decorative draws (swatches + rail thumbnails) ---------------- */
@@ -220,9 +294,12 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   const [bgOpen, setBgOpen] = useState(false);
   const [utmOpen, setUtmOpen] = useState(false);
   const [eccTip, setEccTip] = useState(false);
-  const [railOpen, setRailOpen] = useState(() =>
-    typeof window === 'undefined' ? true : defaultTemplatesOpen(window.innerWidth),
-  );
+  // Must match the server render exactly. Reading window.innerWidth here made the
+  // first client render disagree with the SSR HTML on any viewport <= 900px, which
+  // is most phones: React threw a hydration error and re-rendered the whole island
+  // from scratch. The effect below collapses the rail on mobile after mount, which
+  // is the SSR-safe way to do the same thing.
+  const [railOpen, setRailOpen] = useState(true);
   const [sel, setSel] = useState('Rain');
   const [theme, setTheme] = useState('cream');
   const [scannable, setScannable] = useState(true);
@@ -259,6 +336,16 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   }, []);
 
   const payload = useMemo(() => buildPayload(mode, fields), [mode, fields]);
+  // buildPayload always returns the structural scaffolding for vCard and WiFi
+  // (BEGIN:VCARD.../WIFI:T:...), so `payload` is truthy even when every field is
+  // blank — you could export a code encoding an empty contact card. Gate the
+  // export on real user content instead.
+  const hasContent = useMemo(() => {
+    if (mode === 'wifi') return !!(fields.ssid || '').trim();
+    if (mode === 'vcard') return !!(fields.first || fields.last || fields.phone || fields.email || fields.company || fields.website || '');
+    if (mode === 'whatsapp') return (fields.number || '').replace(/[^\d]/g, '').length > 0;
+    return !!(fields.url || '').trim();
+  }, [mode, fields]);
   const setF = (k, v) => setFields((f) => ({ ...f, [k]: v }));
   const setUtm = (k, v) => setFields((f) => ({ ...f, utm: { ...f.utm, [k]: v } }));
 
@@ -303,7 +390,14 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   function pickTemplate(t) { setSel(t.name); setFg(t.fg); setBg(t.bg); setDot(t.dot); setFinder(t.finder); if (t.content) setF('url', t.content); track('template_selected', { name: t.name }); }
 
   function downloadPNG() { const a = document.createElement('a'); a.download = 'qrcode.png'; a.href = mainRef.current.toDataURL('image/png'); a.click(); track('download_png', { mode }); }
-  function downloadSVG() { const c = mainRef.current, s = c.width, d = c.toDataURL('image/png'); const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><image href="${d}" width="${s}" height="${s}"/></svg>`; const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' })); const a = document.createElement('a'); a.download = 'qrcode.svg'; a.href = url; a.click(); URL.revokeObjectURL(url); track('download_svg', { mode }); }
+  function downloadSVG() {
+    if (!hasContent) return;
+    let m; try { m = getMatrix(payload, ecc); } catch { try { m = getMatrix(payload, 'H'); } catch { return; } }
+    const svg = buildSVG(m, size, fg, bg, dot, finder, logoImg && useLogo ? logoImg.src : null, logoShape, logoBorder === 'border');
+    const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+    const a = document.createElement('a'); a.download = 'qrcode.svg'; a.href = url; a.click();
+    URL.revokeObjectURL(url); track('download_svg', { mode }); offerSupport();
+  }
 
   // ---- saved designs (BACKLOG P1, ported from ui_kits/website/saved-designs.html).
   // Local to this browser only — no account, nothing uploaded. Stored under
@@ -345,7 +439,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   // tech — a bare <canvas> exposes nothing. Describe what the code encodes and
   // whether it is scannable, and announce changes politely.
   const describe = () => {
-    if (!payload) return 'QR code preview. Nothing encoded yet — fill in the fields above.';
+    if (!hasContent) return 'QR code preview. Nothing encoded yet — fill in the fields above.';
     const what = mode === 'wifi' ? `WiFi network ${fields.ssid || '(no name yet)'}`
       : mode === 'vcard' ? `contact card for ${[fields.first, fields.last].filter(Boolean).join(' ') || '(no name yet)'}`
       : mode === 'whatsapp' ? `WhatsApp message to ${fields.number || '(no number yet)'}`
@@ -423,7 +517,17 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
               )}
             </div>
           </div>
-          <div className="gf-cfg-footer" ref={cfgFooterRef}><button className="gf-generate" onClick={downloadSVG}>GENERATE QR CODE</button></div>
+          {/* The preview is live, so there is nothing to "generate" — this button
+              previously called downloadSVG, duplicating the SVG button exactly.
+              It is the primary CTA, so it now does the most likely thing: download
+              the PNG. The two format buttons stay for an explicit choice. Disabled
+              while there is no payload rather than exporting an empty code. */}
+          <div className="gf-cfg-footer" ref={cfgFooterRef}>
+            <button type="button" className="gf-generate" onClick={downloadPNG} disabled={!hasContent}
+              aria-label={hasContent ? 'Download QR code as PNG' : 'Enter content first'}>
+              {hasContent ? 'GENERATE QR CODE' : 'ENTER CONTENT FIRST'}
+            </button>
+          </div>
         </div>
 
         {/* preview */}
@@ -445,7 +549,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
             <span className="chip">{size} × {size} px</span><span className="chip">ECC · {ecc}</span><span className="chip">{finder} finders</span>
             <span className={`chip ${scannable ? 'ok' : 'warn'}`}>{scannable ? '✓ Scannable' : '⚠ At risk'}</span>
           </div>
-          <div className="gf-dl"><button className="dl" onClick={downloadPNG}>↓ DOWNLOAD PNG</button><button className="dl primary" onClick={downloadSVG}>↓ DOWNLOAD SVG</button></div>
+          <div className="gf-dl"><button type="button" className="dl" onClick={downloadPNG} disabled={!hasContent}>↓ DOWNLOAD PNG</button><button type="button" className="dl primary" onClick={downloadSVG} disabled={!hasContent}>↓ DOWNLOAD SVG</button></div>
         </div>
 
         {/* saved-designs drawer — ported from ui_kits/website/saved-designs.html */}

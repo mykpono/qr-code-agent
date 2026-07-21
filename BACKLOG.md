@@ -63,8 +63,11 @@ Golden Rules in `CLAUDE.md` (use folder layouts, real encoder, no invented QR de
       spec requires 4). Now sized in modules: `cell = out/(n+8)`, `pad = 4*cell`. Verified with
       BarcodeDetector across 4 payload sizes, all 5 dot styles, all 5 finder styles, all 4 ECC
       levels, and with a baked-in logo — 100% decode, margin measured at exactly 4 modules.
-- [ ] **Generate vs Download** — both currently trigger export since the preview is live. Split if
-      a distinct "Generate" action is wanted.
+- [x] **Generate vs Download** DONE — GENERATE called downloadSVG, duplicating the SVG button
+      exactly. It now downloads the PNG (the likely intent for the primary CTA) and disables with
+      an "ENTER CONTENT FIRST" label when there is nothing encoded. Both download buttons are
+      gated the same way: previously an empty vCard/WiFi form still exported a code, because the
+      payload builders emit BEGIN:VCARD/WIFI: scaffolding even when every field is blank.
 - [ ] **Phase-2 accounts** (post-launch, optional): Supabase Auth + Google provider for cross-device
       saved codes. Design the login/account UI (deferred in `docs/HANDOFF.md` §4.1). Adds backend + DB.
 
