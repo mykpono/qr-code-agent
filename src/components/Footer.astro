@@ -1,8 +1,20 @@
 ---
-import { SITE, localHref, SUPPORT_URL } from '../lib/content.js';
+import { SITE, LIVE_LOCALES, localHref, SUPPORT_URL, urlFor } from '../lib/content.js';
 // Footer ported verbatim from ui_kits/website/*.html (incl. the "Created by Myk Pono" byline).
-const { locale = 'en' } = Astro.props;
+const { locale = 'en', slug = '' } = Astro.props;
 const L = (href) => localHref(href, locale);
+
+// Language row. Driven by LIVE_LOCALES, never by the full 11-locale wish list in
+// site.languages — a locale is live only once its translation bundle exists, so
+// this can never link to a page that was not built (see CLAUDE.md rule 9).
+// Each link points at the SAME page in the other language, not that locale's
+// home page, which is what hreflang declares and what users expect.
+const langs = LIVE_LOCALES.map((loc) => ({
+  code: loc,
+  label: (loc === 'pt-br' ? 'PT-BR' : loc.toUpperCase()),
+  href: new URL(urlFor(slug, loc)).pathname,
+  current: loc === locale,
+}));
 ---
 <footer class="site-footer">
   <div class="wrap fgrid">
@@ -10,6 +22,20 @@ const L = (href) => localHref(href, locale);
       <div><h5>{c.heading}</h5>{c.links.map((l) => <a href={L(l.href)}>{l.label}</a>)}</div>
     ))}
   </div>
+  {langs.length > 1 && (
+    <div class="wrap flangs">
+      <h5>Language</h5>
+      <ul>
+        {langs.map((l) => (
+          <li>
+            {l.current
+              ? <span aria-current="true">{l.label}</span>
+              : <a href={l.href} hreflang={l.code} lang={l.code}>{l.label}</a>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
   <div class="wrap fbot">
     <span>Generated in your browser — nothing is uploaded. · Created by <a href={SITE.creator.linkedin} target="_blank" rel="noopener" style="font-weight:600;">{SITE.creator.name}</a></span>
     <a href={SUPPORT_URL} data-support="footer">☕ Support this tool</a>

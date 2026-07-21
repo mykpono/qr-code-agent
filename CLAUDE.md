@@ -33,6 +33,16 @@ build of **qrcodeagent.net** — a free, no-sign-up QR code generator plus its p
 8. **Voice & casing** (`docs/HANDOFF.md`, design readme): UPPERCASE monospace for labels/buttons/
    chips; sentence-case headings in Space Grotesk; lead with free / no-sign-up / never-expires;
    `☕` is the only emoji (support/donate CTA).
+9. **No page ships until it is translated into every live language** (decision D-007). A locale
+   bundle `src/content/i18n/<locale>.json` must cover **all** pages before it is added, and a new
+   page must be added to **every** live bundle in the same change that ships it. **Never merge a
+   partial bundle.** This is enforced by the architecture, not just editorial policy: a locale goes
+   live purely by having a bundle, `getStaticPaths` then emits every page under that prefix, and
+   `localizedPage()` falls back to the **English** fields for any missing slug. A partial bundle
+   therefore publishes English content at `/es/…` while `alternates()` emits hreflang claiming it is
+   Spanish — duplicate content plus false hreflang, worse than not shipping the locale. Each locale
+   also needs native review before its bundle lands: Google's scaled-content-abuse policy explicitly
+   names automated translation published without human review.
 
 ---
 

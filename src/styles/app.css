@@ -386,6 +386,14 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
 .fgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; padding: 40px 0 20px; }
 .fgrid h5 { font: 600 11px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--label); margin: 0 0 12px; }
 .fgrid a { display: block; font: 500 13px var(--font-sans); color: var(--muted); margin-bottom: 9px; }
+/* Language row. Renders only when a second locale is live, so today it is absent
+   entirely rather than showing a lone "EN" that does nothing. */
+.flangs { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; padding: 4px 0 18px; }
+.flangs h5 { font: 600 11px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--label); margin: 0; }
+.flangs ul { display: flex; flex-wrap: wrap; gap: 7px; list-style: none; margin: 0; padding: 0; }
+.flangs a, .flangs span { display: inline-block; padding: 5px 10px; border-radius: 8px; font: 600 11px var(--font-mono); letter-spacing: .06em; border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); }
+.flangs a:hover { border-color: var(--brand-500); color: var(--brand-500); }
+.flangs [aria-current] { background: var(--brand-soft); border-color: var(--brand-soft-border); color: var(--brand-500); }
 .fbot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 18px 0 30px; border-top: 1px solid var(--border-soft); }
 .fbot span { font: 500 12px var(--font-mono); color: var(--muted-2); }
 
