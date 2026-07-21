@@ -207,7 +207,8 @@
   "footer": {
     "language": "Language",
     "byline": "Generated in your browser — nothing is uploaded. · Created by",
-    "support": "☕ Support this tool"
+    "support": "☕ Support this tool",
+    "github": "GitHub"
   },
   "consent": {
     "allow": "ALLOW",

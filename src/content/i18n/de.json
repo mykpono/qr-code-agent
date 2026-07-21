@@ -207,7 +207,8 @@
     "footer": {
       "language": "Sprache",
       "byline": "In Ihrem Browser erzeugt — nichts wird hochgeladen. · Erstellt von",
-      "support": "☕ Dieses Tool unterstützen"
+      "support": "☕ Dieses Tool unterstützen",
+      "github": "GitHub"
     },
     "consent": {
       "allow": "ERLAUBEN",
