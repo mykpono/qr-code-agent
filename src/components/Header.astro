@@ -30,34 +30,6 @@ const langs = LIVE_LOCALES.map((l) => ({
       ) : (
         <span class="lang">◉ {locale.toUpperCase()} ▾</span>
       )}
-      <div class="sw">
-        <span style="background:#faf6ec" class="on" data-theme-set="cream"></span>
-        <span style="background:#e7dcc4" data-theme-set="sand"></span>
-        <span style="background:#59603c" data-theme-set="olive"></span>
-        <span style="background:#302c3b" data-theme-set="slate"></span>
-      </div>
     </div>
   </div>
 </header>
-<script>
-  // Single source of truth for the app theme. Base.astro re-applies the stored
-  // value before paint; this keeps the swatch indicator in step and persists the
-  // choice, which previously reset on every navigation.
-  const swatches = document.querySelectorAll('[data-theme-set]');
-  const mark = (t) => swatches.forEach((x) => x.classList.toggle('on', x.getAttribute('data-theme-set') === t));
-
-  let saved = 'cream';
-  try { saved = localStorage.getItem('qra:theme') || 'cream'; } catch (e) {}
-  mark(saved);
-
-  swatches.forEach((b) => {
-    b.addEventListener('click', () => {
-      const t = b.getAttribute('data-theme-set');
-      document.documentElement.setAttribute('data-theme', t === 'cream' ? '' : t);
-      try { localStorage.setItem('qra:theme', t); } catch (e) {}
-      mark(t);
-      try { if (window.umami) window.umami.track('theme_switch', { theme: t }); } catch (e) {}
-      try { if (window.gtag) window.gtag('event', 'theme_switch', { theme: t }); } catch (e) {}
-    });
-  });
-</script>

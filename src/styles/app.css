@@ -87,10 +87,6 @@ a:hover { color: var(--brand-600); }
 .langpop a { padding: 8px 10px; border-radius: 8px; font: 500 12px var(--font-sans); color: var(--ink-2); text-decoration: none; }
 .langpop a:hover { background: var(--surface-2); }
 .langpop a[aria-current] { color: var(--brand-500); background: var(--brand-soft); }
-.sw { display: flex; gap: 6px; }
-.sw span { width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--border-2); position: relative; cursor: pointer; }
-.sw span:not(.on)::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
-.sw .on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 10px; width: auto; height: auto; left: auto; top: auto; transform: none; }
 
 /* hero */
 .hero { text-align: center; padding: 44px 0 8px; }
@@ -130,6 +126,12 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .gf-tile { width: 40px; height: 40px; border-radius: 12px; background: var(--brand-gradient); display: grid; place-items: center; font: 700 17px var(--font-sans); color: #fff; }
 .gf-brand b { display: block; font: 700 20px var(--font-sans); color: var(--ink); line-height: 1; }
 .gf-brand i { display: block; font: 500 12px var(--font-mono); color: var(--muted-2); letter-spacing: .04em; margin-top: 4px; font-style: normal; }
+/* App-theme swatches — the site's only theme control, so they stay visible at
+   every breakpoint (the widget's top bar stacks on mobile, leaving room). */
+.gf-themes { display: flex; gap: 7px; }
+.gf-themes button { position: relative; width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--border-2); cursor: pointer; }
+.gf-themes button:not(.on)::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
+.gf-themes button.on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 10px; width: auto; height: auto; left: auto; top: auto; transform: none; }
 
 /* content row */
 .gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px; border-bottom: 1px solid var(--border-soft); }
@@ -165,7 +167,9 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 /* color popover */
 .gf-colorpop { position: relative; }
 .gf-colorbtn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; cursor: pointer; }
-.gf-colorbtn .sw { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border-2); flex: 0 0 auto; }
+/* display is set explicitly: this used to inherit it from a generic `.sw` rule
+   that belonged to the header's theme swatches, which no longer exist. */
+.gf-colorbtn .sw { display: block; width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border-2); flex: 0 0 auto; }
 .gf-colorbtn .hex { flex: 1; text-align: left; font: 500 11px var(--font-mono); color: var(--ink-2); }
 .gf-colorbtn .chev { font: 600 10px var(--font-mono); color: var(--label); }
 .gf-popover { position: absolute; top: calc(100% + 7px); width: 260px; z-index: 40; background: var(--surface-white); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-popover); padding: 14px; }
@@ -431,14 +435,13 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
   .steps, .tools, .scen, .arts, .feat, .fgrid { grid-template-columns: 1fr; }
   .bens { grid-template-columns: 1fr; }
 
-  /* Header on phones. Brand + Support + language + the four theme swatches need
-     ~420px and only 343px is usable, which is what pushed the bar past the
-     viewport and broke the title onto three lines. The swatches are now the
-     site's ONLY theme control, so they have to stay reachable here — let the bar
-     wrap to a second row instead of dropping anything. */
+  /* Header on phones: brand + Support + language, with only 343px usable. The
+     theme swatches used to sit here too and pushed the bar ~21px past the
+     viewport, breaking the title onto three lines; they now live in the
+     generator widget, so the row fits without wrapping or dropping anything. */
   .site-header nav { display: none; }
-  .hbar { gap: 10px; flex-wrap: wrap; }
-  .hright { gap: 7px; min-width: 0; margin-left: auto; }
+  .hbar { gap: 10px; }
+  .hright { gap: 7px; min-width: 0; }
   .lock { min-width: 0; gap: 9px; }
   .lock .tile { flex: 0 0 38px; }
   .t1 { white-space: nowrap; }
