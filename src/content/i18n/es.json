@@ -3200,16 +3200,24 @@
       "scenarios_title": "Dónde los colocan los equipos de marketing",
       "faq": [
         {
-          "q": "¿Puedo medir los escaneos de una campaña impresa?",
-          "a": "Son códigos estáticos, así que no cuentan escaneos por sí mismos. Usa los campos UTM al generar el código y consulta el tráfico en tu herramienta de analítica."
+          "q": "¿Puedo hacer seguimiento de los escaneos de una campaña impresa?",
+          "a": "Estos son códigos estáticos, así que no cuentan los escaneos por sí mismos. Usa los campos UTM cuando generes el código y luego consulta el tráfico en tu herramienta de analítica."
         },
         {
           "q": "¿Puedo personalizar los códigos QR de marketing con un logo?",
-          "a": "Sí. Sube tu logo, elige los colores de tu marca y el estilo de los puntos, y descarga en PNG o SVG: gratis e ilimitado."
+          "a": "Sí. Sube tu logo, elige los colores de marca y los estilos de punto, y descarga en PNG o SVG: gratis y sin límite."
         },
         {
           "q": "¿Es gratis para uso comercial?",
-          "a": "Sí. Sin registro, sin marca de agua y sin límite de códigos descargados."
+          "a": "Sí. Sin registro, sin marca de agua y sin límite en la cantidad de códigos que descargues."
+        },
+        {
+          "q": "¿Cuál es el mejor código QR para una campaña de marketing impresa?",
+          "a": "Un código estático que apunte a una página de destino que tú controles, con parámetros UTM para el seguimiento. El código nunca caduca y, como eres dueño del destino, puedes cambiar lo que hay allí sin reimprimir. Añade un logo y colores de marca para que se vea intencionado, no improvisado."
+        },
+        {
+          "q": "¿Cómo mido los escaneos sin un plan de pago de códigos dinámicos?",
+          "a": "Apunta el código a una URL con parámetros UTM y consulta los resultados en tu analítica. Pierdes las redirecciones dinámicas por escaneo, pero conservas gratis la atribución de campaña, fuente y medio: suficiente para comparar carteles, envíos postales y estands entre sí."
         }
       ],
       "scenarios": [
@@ -3599,12 +3607,20 @@
           "a": "Sí: sin registro, sin marca de agua y con códigos ilimitados para aulas, campus y eventos."
         },
         {
-          "q": "¿El alumnado puede escanear sin ninguna app?",
-          "a": "Sí. Las cámaras de los teléfonos actuales abren de forma nativa los códigos de URL, wifi y texto."
+          "q": "¿Pueden los estudiantes escanear los códigos sin una app?",
+          "a": "Sí. Las cámaras de los teléfonos modernos abren códigos de URL, wifi y texto de forma nativa."
         },
         {
-          "q": "¿Se guardan datos del alumnado en vuestros servidores?",
-          "a": "No. Los códigos se generan en el navegador. Nada de lo que escriben se sube a ningún sitio."
+          "q": "¿Se guardan los datos de los estudiantes en vuestros servidores?",
+          "a": "No. Los códigos se generan en el navegador. Nada de lo que los estudiantes escriben se sube a ningún sitio."
+        },
+        {
+          "q": "¿Es seguro usar códigos QR con los estudiantes?",
+          "a": "Sí, siempre que codifiques un enlace que tú controles y les digas a los estudiantes adónde lleva. Aquí los códigos se generan en el navegador y no se sube nada, así que no interviene ningún dato de los estudiantes al crearlos. Imprime el destino en texto plano junto al código para que escanear sea siempre opcional."
+        },
+        {
+          "q": "¿Pueden los centros educativos usar estos códigos QR gratis?",
+          "a": "Sí: genera, personaliza y descarga códigos ilimitados sin cuenta y sin marca de agua. Son gratis para folletos de clase, señalización de bibliotecas, carteles de eventos y jornadas de puertas abiertas, incluso en instituciones que cobran matrícula."
         }
       ],
       "scenarios": [
@@ -3958,16 +3974,43 @@
       "faq": [
         {
           "q": "¿Envía el correo automáticamente?",
-          "a": "No. Abre un borrador nuevo en la app de correo de la persona con la dirección, el asunto y el mensaje rellenados, y ella pulsa enviar."
+          "a": "No. Abre un nuevo borrador en la app de correo de la persona con la dirección, el asunto y el mensaje ya rellenados, y ella toca enviar."
         },
         {
-          "q": "¿Puedo predefinir el asunto y el cuerpo?",
-          "a": "Sí. Ambos son opcionales: rellena uno, los dos o ninguno. Si los dejas vacíos, al escanear se abre un correo nuevo a tu dirección."
+          "q": "¿Puedo prellenar el asunto y el cuerpo?",
+          "a": "Sí. Ambos son opcionales: rellena uno, los dos o ninguno. Si los dejas en blanco, un escaneo solo abre un correo nuevo dirigido a tu dirección."
         },
         {
           "q": "¿Es gratis?",
           "a": "Sí, sin registro ni marca de agua."
+        },
+        {
+          "q": "¿Qué app de correo se abre cuando alguien lo escanea?",
+          "a": "La que el teléfono use como app de correo predeterminada: Apple Mail, Gmail, Outlook y otras entienden el enlace mailto: que genera un escaneo. El mensaje se abre como borrador con tu dirección, asunto y cuerpo rellenados; no se envía nada hasta que la persona toca enviar."
+        },
+        {
+          "q": "¿Puedo definir el destinatario, el asunto y el mensaje de una sola vez?",
+          "a": "Sí. Introduce la dirección, un asunto opcional y un cuerpo prellenado opcional. El escáner abre un borrador listo para enviar con los tres elementos en su sitio, así que el remitente solo tiene que revisarlo y pulsar enviar."
+        },
+        {
+          "q": "¿Seguirá funcionando el código de correo después de imprimirlo?",
+          "a": "Sí: es un código estático, así que la dirección y el asunto quedan grabados en el patrón y nunca caducan. Solo tienes que reimprimirlo si quieres cambiar la dirección o el asunto; el código impreso en sí sigue funcionando indefinidamente."
         }
+      ],
+      "whereToUse": [
+        "Tarjetas de visita y firmas de correo electrónico: un escaneo abre un mensaje con la dirección ya puesta, sin teclear tu correo en el teléfono",
+        "Mostradores de atención y puntos de ayuda: colócalo en un cartel para que los clientes envíen su pregunta con el asunto ya definido",
+        "Estands de eventos y carteles: recoge consultas dejando que los visitantes envíen un correo prellenado desde su propio teléfono",
+        "Embalajes de productos y manuales: dirige las solicitudes de garantía o soporte al buzón correcto con una línea de asunto lista",
+        "Ofertas de empleo y folletos: permite que los candidatos envíen su candidatura a la dirección correcta con un solo toque",
+        "Carteles inmobiliarios: un escaneo inicia una consulta sobre esa propiedad concreta, con la línea de asunto ya rellenada"
+      ],
+      "tips": [
+        "Define una línea de asunto específica: enruta el mensaje y te dice de qué código o campaña proviene",
+        "Mantén corto el cuerpo prellenado; un cuerpo largo puede empujar el botón de enviar por debajo del área visible en pantallas pequeñas",
+        "Usa una dirección que realmente controles: un escaneo es un contacto interesado, así que las respuestas no deberían quedar en un buzón abandonado",
+        "Deja el cuerpo en blanco si solo quieres rellenar la dirección y el asunto; el remitente escribe su propio mensaje",
+        "Pruébalo tanto en iPhone como en Android: algunas apps de correo antiguas ignoran el parámetro del cuerpo, así que nunca pongas información crítica solo ahí"
       ]
     }
   }

@@ -1560,16 +1560,24 @@
       "intro": "Ein QR-Code macht aus jedem gedruckten oder physischen Kontaktpunkt einen messbaren Tap — ein Plakat, eine Produktverpackung, ein Sticker auf einem Muster, die Abschlussfolie eines Vortrags. Hier sind die Codes, zu denen Marketingteams am häufigsten greifen, jeweils mit einem kostenlosen Generator inklusive Branding. Ohne Anmeldung, ohne Wasserzeichen und mit unbegrenzt vielen Codes.",
       "faq": [
         {
-          "q": "Kann ich Scans aus einer Printkampagne messen?",
-          "a": "Es handelt sich um statische Codes, sie zählen Scans also nicht selbst. Nutzen Sie beim Erstellen die UTM-Felder und werten Sie den Traffic anschließend in Ihrem Analyse-Tool aus."
+          "q": "Kann ich Scans aus einer Printkampagne verfolgen?",
+          "a": "Dies sind statische Codes, daher zählen sie selbst keine Scans. Verwenden Sie die UTM-Felder beim Erstellen des Codes und lesen Sie den Traffic anschließend in Ihrem Analyse-Tool aus."
         },
         {
-          "q": "Kann ich Marketing-QR-Codes mit einem Logo branden?",
+          "q": "Kann ich Marketing-QR-Codes mit einem Logo versehen?",
           "a": "Ja. Laden Sie Ihr Logo hoch, wählen Sie Markenfarben und Punktstile und laden Sie PNG oder SVG herunter — kostenlos und unbegrenzt."
         },
         {
-          "q": "Ist die kommerzielle Nutzung kostenlos?",
-          "a": "Ja. Ohne Anmeldung, ohne Wasserzeichen und ohne Limit für die Anzahl der Downloads."
+          "q": "Ist es für die kommerzielle Nutzung kostenlos?",
+          "a": "Ja. Keine Anmeldung, kein Wasserzeichen und keine Begrenzung, wie viele Codes Sie herunterladen."
+        },
+        {
+          "q": "Welcher QR-Code eignet sich am besten für eine Print-Marketingkampagne?",
+          "a": "Ein statischer Code, der auf eine von Ihnen kontrollierte Landingpage zeigt, mit UTM-Parametern zur Nachverfolgung. Der Code läuft nie ab, und da Ihnen das Ziel gehört, können Sie dessen Inhalt ohne Neudruck ändern. Ergänzen Sie ein Logo und Markenfarben, damit er gewollt wirkt und nicht aufgesetzt."
+        },
+        {
+          "q": "Wie messe ich Scans ohne kostenpflichtigen Tarif für dynamische Codes?",
+          "a": "Richten Sie den Code auf eine URL mit UTM-Parametern und lesen Sie die Ergebnisse in Ihrer Analyse aus. Sie verlieren die dynamische Weiterleitung pro Scan, behalten aber kostenlos die Zuordnung nach Kampagne, Quelle und Medium — genug, um Plakate, Mailings und Stände miteinander zu vergleichen."
         }
       ]
     },
@@ -1619,16 +1627,24 @@
       "intro": "Lehrkräfte und Campus-Teams drucken viel: Lehrpläne, Laborblätter, Raumschilder, Veranstaltungsplakate. Ein QR-Code darauf erspart Studierenden das Abtippen langer URLs oder WLAN-Passwörter. Hier sind die Codes, die Bildungseinrichtungen am häufigsten nutzen, jeweils mit einem kostenlosen Generator — ohne Anmeldung und ohne Wasserzeichen.",
       "faq": [
         {
-          "q": "Ist das für Schulen kostenlos?",
-          "a": "Ja — ohne Anmeldung, ohne Wasserzeichen und mit unbegrenzt vielen Codes für Klassenräume, Campus und Veranstaltungen."
+          "q": "Ist es für Schulen kostenlos?",
+          "a": "Ja — keine Anmeldung, kein Wasserzeichen und unbegrenzt viele Codes für Klassenzimmer, Campus und Veranstaltungen."
         },
         {
-          "q": "Können Studierende die Codes ohne App scannen?",
+          "q": "Können Schüler Codes ohne App scannen?",
           "a": "Ja. Moderne Handykameras öffnen URL-, WLAN- und Text-Codes direkt."
         },
         {
-          "q": "Werden Daten von Studierenden auf Ihren Servern gespeichert?",
-          "a": "Nein. Die Codes entstehen im Browser. Nichts, was eingegeben wird, wird hochgeladen."
+          "q": "Werden Schülerdaten auf Ihren Servern gespeichert?",
+          "a": "Nein. Codes werden im Browser erzeugt. Nichts, was Schüler eingeben, wird hochgeladen."
+        },
+        {
+          "q": "Sind QR-Codes für den Einsatz mit Schülern sicher?",
+          "a": "Ja, wenn Sie einen von Ihnen kontrollierten Link codieren und den Schülern sagen, wohin er führt. Codes werden hier im Browser erzeugt und nichts wird hochgeladen, also sind beim Erstellen keine Schülerdaten beteiligt. Drucken Sie das Ziel im Klartext neben den Code, damit das Scannen stets freiwillig bleibt."
+        },
+        {
+          "q": "Können Schulen diese QR-Codes kostenlos nutzen?",
+          "a": "Ja — erstellen, gestalten und laden Sie unbegrenzt viele Codes herunter, ohne Konto und ohne Wasserzeichen. Sie sind kostenlos für Unterrichtsblätter, Bibliotheksbeschilderung, Veranstaltungsplakate und Tage der offenen Tür, auch an gebührenpflichtigen Einrichtungen."
         }
       ]
     },
@@ -3959,16 +3975,43 @@
       "faq": [
         {
           "q": "Wird die E-Mail automatisch gesendet?",
-          "a": "Nein. Es öffnet einen neuen Entwurf in der E-Mail-App der Person mit ausgefüllter Adresse, Betreff und Nachricht, und sie tippt auf Senden."
+          "a": "Nein. Es öffnet einen neuen Entwurf in der E-Mail-App der Person, in dem Adresse, Betreff und Nachricht ausgefüllt sind, und sie tippt auf Senden."
         },
         {
-          "q": "Kann ich Betreff und Text vorausfüllen?",
-          "a": "Ja. Beides ist optional – fülle eines, beides oder nichts aus. Bleibt es leer, öffnet ein Scan einfach eine neue E-Mail an deine Adresse."
+          "q": "Kann ich Betreff und Nachrichtentext vorausfüllen?",
+          "a": "Ja. Beides ist optional — füllen Sie eines, beides oder keines aus. Bleibt alles leer, öffnet ein Scan einfach eine neue E-Mail an Ihre Adresse."
         },
         {
           "q": "Ist es kostenlos?",
           "a": "Ja, ohne Anmeldung und ohne Wasserzeichen."
+        },
+        {
+          "q": "Welche E-Mail-App öffnet sich, wenn jemand ihn scannt?",
+          "a": "Diejenige, die das Telefon als Standard-Mail-App nutzt — Apple Mail, Gmail, Outlook und andere verstehen alle den mailto:-Link, den ein Scan erzeugt. Die Nachricht öffnet sich als Entwurf mit ausgefüllter Adresse, Betreff und Text; nichts wird gesendet, bis die Person auf Senden tippt."
+        },
+        {
+          "q": "Kann ich Empfänger, Betreff und Nachricht auf einmal festlegen?",
+          "a": "Ja. Geben Sie die Adresse, einen optionalen Betreff und einen optionalen vorausgefüllten Text ein. Der Scanner öffnet einen sendebereiten Entwurf mit allen drei Angaben, sodass der Absender ihn nur prüfen und auf Senden tippen muss."
+        },
+        {
+          "q": "Funktioniert der E-Mail-Code noch, nachdem ich ihn gedruckt habe?",
+          "a": "Ja — es ist ein statischer Code, daher sind Adresse und Betreff fest im Muster verankert und laufen nie ab. Drucken Sie ihn nur neu, wenn Sie Adresse oder Betreff ändern möchten; der gedruckte Code selbst funktioniert unbegrenzt weiter."
         }
+      ],
+      "whereToUse": [
+        "Visitenkarten und E-Mail-Signaturen — ein Scan öffnet eine voradressierte Nachricht, ganz ohne Ihre Adresse ins Telefon einzutippen",
+        "Servicetheken und Empfangsbereiche — bringen Sie ihn auf einem Schild an, damit Kunden eine Frage mit bereits gesetztem Betreff per E-Mail stellen können",
+        "Messestände und Plakate — sammeln Sie Anfragen, indem Besucher vom eigenen Handy aus eine vorausgefüllte E-Mail abschicken",
+        "Produktverpackungen und Handbücher — leiten Sie Garantie- oder Supportanfragen mit fertigem Betreff an das richtige Postfach weiter",
+        "Stellenanzeigen und Flyer — lassen Sie Bewerber ihre Bewerbung mit einem Tipp an die richtige Adresse mailen",
+        "Immobilienschilder — ein Scan startet eine Anfrage zum konkreten Objekt, der Betreff ist bereits ausgefüllt"
+      ],
+      "tips": [
+        "Setzen Sie einen konkreten Betreff — er leitet die Nachricht weiter und verrät Ihnen, von welchem Code oder welcher Kampagne sie stammt",
+        "Halten Sie den vorausgefüllten Nachrichtentext kurz; ein langer Text kann den Senden-Button auf kleinen Bildschirmen unter den sichtbaren Bereich schieben",
+        "Verwenden Sie eine Adresse, die Sie tatsächlich überwachen — ein Scan ist ein warmer Lead, also sollten Antworten nicht in einem toten Postfach liegen bleiben",
+        "Lassen Sie den Nachrichtentext leer, wenn Sie nur Adresse und Betreff vorausfüllen möchten; die Nachricht schreibt der Absender selbst",
+        "Testen Sie auf iPhone und Android — einige ältere Mail-Apps ignorieren den Textparameter, legen Sie daher wichtige Informationen niemals nur dort ab"
       ]
     }
   }

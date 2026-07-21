@@ -2413,6 +2413,18 @@
         {
           "q": "Is it free?",
           "a": "Yes, with no sign-up or watermark."
+        },
+        {
+          "q": "Which email app opens when someone scans it?",
+          "a": "Whatever the phone uses as its default mail app — Apple Mail, Gmail, Outlook, and others all understand the mailto: link a scan produces. The message opens as a draft with your address, subject, and body filled in; nothing is sent until the person taps send."
+        },
+        {
+          "q": "Can I set the recipient, subject, and message all at once?",
+          "a": "Yes. Enter the address, an optional subject, and an optional pre-filled body. The scanner opens a ready-to-send draft with all three in place, so the sender only has to review and hit send."
+        },
+        {
+          "q": "Will the email code still work after I print it?",
+          "a": "Yes — it is a static code, so the address and subject are baked into the pattern and never expire. Reprint only if you want to change the address or subject; the printed code itself keeps working indefinitely."
         }
       ],
       "schema": [
@@ -2420,6 +2432,21 @@
         "BreadcrumbList",
         "HowTo",
         "FAQPage"
+      ],
+      "whereToUse": [
+        "Business cards and email signatures — one scan opens a pre-addressed message, no typing your address into a phone",
+        "Support desks and help counters — put it on a sign so customers can email a question with the subject already set",
+        "Event booths and posters — collect enquiries by letting visitors fire off a pre-filled email from their own phone",
+        "Product packaging and manuals — route warranty or support requests to the right inbox with a ready-made subject line",
+        "Job ads and flyers — let candidates email their application to the correct address in one tap",
+        "Real estate signs — a scan starts an enquiry about the specific listing, subject line already filled"
+      ],
+      "tips": [
+        "Set a specific subject line — it routes the message and tells you which code or campaign it came from",
+        "Keep the pre-filled body short; a long body can push the send button below the fold on small screens",
+        "Use an address you actually monitor — a scan is a warm lead, so replies should not sit in a dead inbox",
+        "Leave the body blank if you only want the address and subject filled; the sender writes their own message",
+        "Test on both iPhone and Android — a few older mail apps ignore the body parameter, so never put critical info only there"
       ]
     },
     {
@@ -2956,6 +2983,14 @@
         {
           "q": "Is it free for commercial use?",
           "a": "Yes. No sign-up, no watermark, and no limit on how many codes you download."
+        },
+        {
+          "q": "What's the best QR code for a print marketing campaign?",
+          "a": "A static code pointing at a landing page you control, with UTM parameters for tracking. The code never expires, and because you own the destination you can change what lives there without reprinting. Add a logo and brand colors so it looks intentional, not bolted on."
+        },
+        {
+          "q": "How do I measure scans without a paid dynamic-code plan?",
+          "a": "Point the code at a URL carrying UTM parameters and read the results in your analytics. You lose per-scan dynamic redirects, but you keep campaign, source, and medium attribution for free — enough to compare posters, mailers, and booths against each other."
         }
       ],
       "schema": [
@@ -3062,6 +3097,14 @@
         {
           "q": "Is student data stored on your servers?",
           "a": "No. Codes are generated in the browser. Nothing students type is uploaded."
+        },
+        {
+          "q": "Are QR codes safe to use with students?",
+          "a": "Yes, when you encode a link you control and tell students where it goes. Codes here are generated in the browser and nothing is uploaded, so no student data is involved in making one. Print the destination in plain text beside the code so scanning is always optional."
+        },
+        {
+          "q": "Can schools use these QR codes for free?",
+          "a": "Yes — generate, brand, and download unlimited codes with no account and no watermark. They are free for classroom handouts, library signage, event posters, and open days, including at institutions that charge tuition."
         }
       ],
       "schema": [
