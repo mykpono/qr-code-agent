@@ -15,3 +15,9 @@ test('app.css includes mobile quick-win rules', () => {
   assert.ok(css.includes('.gf-rail:not(.open) { display: none; }'));
   assert.ok(css.includes('.gf-support-footer { flex-direction: column;'));
 });
+
+test('theme swatch selection ring does not share hit-area pseudo-element', () => {
+  assert.ok(css.includes('.gf-themes button:not(.on)::after'));
+  assert.ok(css.includes('.sw span:not(.on)::after'));
+  assert.ok(!css.includes('.gf-themes button::after,\n.gf-i::after'));
+});
