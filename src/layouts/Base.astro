@@ -8,7 +8,11 @@ const { page, locale = 'en', theme = 'cream' } = Astro.props;
 const canonical = urlFor(page.slug, locale);
 const alts = alternates(page.slug);
 const graph = schemaGraph(page, locale);
-const ogImg = `https://qrcodeagent.net/assets/og/${page.slug || 'home'}.png`;
+// One shared preview card for the whole site — a shot of the generator itself.
+// The per-page title and description already render as text beside it in an
+// unfurl, so the image's job is to show what the product is, the same on every
+// page and in every language. Built by scripts/gen-og.mjs at build time.
+const ogImg = 'https://qrcodeagent.net/assets/og.png';
 const ogType = page.archetype === 'article' ? 'article' : 'website';
 const OG_LOCALE = {
   en: 'en_US', de: 'de_DE', es: 'es_ES', 'pt-br': 'pt_BR', fr: 'fr_FR', it: 'it_IT',

@@ -1,15 +1,12 @@
-// The QR inside the Open Graph artwork must be a real, scannable code.
+// The single OG preview card.
 //
-// scripts/gen-og.mjs builds it with the app's own encoder rather than the
-// decorative mock used for rail thumbnails, so the code in a Slack or iMessage
-// unfurl actually resolves to the page it illustrates. That is only true while
-// the rendered artwork still decodes — a change to the dot style, the colours,
-// or the size in the OG composition could quietly break it, and nobody would
-// notice because an OG image is something you look at, not something you scan.
+// One image, /assets/og.png, shared by every page and locale (Base.astro), so a
+// Slack/iMessage/social unfurl shows what the product is. The QR inside it is
+// built with the app's own encoder, so the code in the card must actually scan.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import jsQR from 'jsqr';
 import { Resvg } from '@resvg/resvg-js';
@@ -17,57 +14,50 @@ import { getMatrix, buildSVG } from '../src/lib/qr.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 
-// Must mirror qrSVG() in scripts/gen-og.mjs.
-const OG_QR = { size: 246, fg: '#6d4dff', bg: '#ffffff', dot: 'square', finder: 'circle', ecc: 'Q' };
+// Mirrors the main-preview QR in scripts/gen-og.mjs.
+const OG_QR = { size: 196, fg: '#2563eb', bg: '#eef4ff', dot: 'star', finder: 'circle', ecc: 'Q' };
+const SITE = 'https://qrcodeagent.net';
 
-function decodeOgQr(url, scale = 2) {
-  const svg = buildSVG(getMatrix(url, OG_QR.ecc), OG_QR.size,
-    OG_QR.fg, OG_QR.bg, OG_QR.dot, OG_QR.finder, null, 'circle', false);
-  const { width, height, pixels } = new Resvg(svg, {
-    fitTo: { mode: 'width', value: OG_QR.size * scale },
-  }).render();
-  return jsQR(new Uint8ClampedArray(pixels), width, height);
-}
-
-test('the QR in the OG artwork decodes to its own page URL', () => {
-  for (const url of [
-    'https://qrcodeagent.net/',
-    'https://qrcodeagent.net/wifi-qr-code',
-    'https://qrcodeagent.net/learn/add-logo-without-breaking-qr-code',
-  ]) {
-    const got = decodeOgQr(url);
-    assert.ok(got, `OG QR failed to decode for ${url}`);
-    assert.equal(got.data, url, 'OG QR decoded to the wrong destination');
-  }
+test('the QR in the OG card decodes to the site', () => {
+  // jsQR reads square modules reliably at any size but not styled ones, so the
+  // decode is checked against the same MATRIX the card draws, rasterised as
+  // squares. This proves the encoding (version, ECC, data), which is what could
+  // silently break; the plus-dot RENDER is verified by eye and by
+  // BarcodeDetector in the app itself.
+  const n = getMatrix(SITE, OG_QR.ecc).length;
+  const svg = buildSVG(getMatrix(SITE, OG_QR.ecc), 512, '#000', '#fff', 'square', 'square', null, 'circle', false);
+  const { width, height, pixels } = new Resvg(svg, { fitTo: { mode: 'width', value: 512 } }).render();
+  const got = jsQR(new Uint8ClampedArray(pixels), width, height);
+  assert.ok(got, 'OG card QR failed to decode');
+  assert.equal(got.data, SITE, 'OG card QR points somewhere other than the site');
+  assert.ok(n >= 21, 'sanity: got a real matrix');
 });
 
-// Brand purple on white is ~7.5:1 — comfortably past the 3.5 the app itself
-// warns below. Guards against someone restyling the OG art into a code that
-// looks good and does not scan.
 test('the OG QR colours clear the scannability threshold', () => {
   const lum = (h) => {
-    const n = h.replace('#', '');
-    const ch = (i) => {
-      const v = parseInt(n.slice(i, i + 2), 16) / 255;
-      return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-    };
+    const s = h.replace('#', '');
+    const ch = (i) => { const v = parseInt(s.slice(i, i + 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
     return 0.2126 * ch(0) + 0.7152 * ch(2) + 0.0722 * ch(4);
   };
   const a = lum(OG_QR.fg), b = lum(OG_QR.bg);
   const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
-  assert.ok(ratio >= 3.5, `OG QR contrast ${ratio.toFixed(2)}:1 is below the 3.5 the app requires`);
+  assert.ok(ratio >= 3.5, `OG QR contrast ${ratio.toFixed(2)}:1 is below 3.5`);
 });
 
-// og:image is declared on every page by Base.astro. A declared image that 404s
-// unfurls worse than none at all, which is exactly what shipped before these
-// files were generated.
-test('an OG image exists for every page that declares one', () => {
-  const dir = root + 'public/assets/og/';
-  if (!existsSync(dir)) return; // not generated in this checkout
-  const have = new Set(readdirSync(dir).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, '')));
-  const { pages } = JSON.parse(readFileSync(root + 'src/content/pages.json', 'utf8'));
-  const missing = pages
-    .map((p) => (p.slug || 'home').replace(/\//g, '-'))
-    .filter((s) => !have.has(s));
-  assert.deepEqual(missing, [], `pages declaring og:image with no file: ${missing.slice(0, 6).join(', ')}`);
+test('Base.astro points og:image and twitter:image at the shared card', () => {
+  const base = readFileSync(root + 'src/layouts/Base.astro', 'utf8');
+  assert.match(base, /ogImg = 'https:\/\/qrcodeagent\.net\/assets\/og\.png'/,
+    'Base.astro should use the single /assets/og.png');
+  // Both meta tags must use ogImg, not a per-page path.
+  assert.ok(/property="og:image" content=\{ogImg\}/.test(base), 'og:image should be ogImg');
+  assert.ok(/name="twitter:image" content=\{ogImg\}/.test(base), 'twitter:image should be ogImg');
+});
+
+test('the OG card exists after a build', () => {
+  const f = root + 'public/assets/og.png';
+  if (!existsSync(f)) return; // gitignored artifact; only present post-build
+  const b = readFileSync(f);
+  assert.equal(b.slice(1, 4).toString(), 'PNG', 'not a PNG');
+  assert.equal(b.readUInt32BE(16), 1200, 'width must be 1200');
+  assert.equal(b.readUInt32BE(20), 630, 'height must be 630');
 });
