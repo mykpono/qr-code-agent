@@ -15,7 +15,7 @@ per-item list; where the two disagree, **this file is current**.
 |---|---|
 | Repo | `github.com/mykpono/qr-code-agent`, branch `main` |
 | Vercel project | `qr-generator` in scope **`mykola-5698s-projects`** (not `balloonbay-project`) |
-| Deploy trigger | **every push to `main` goes straight to production** |
+| Deploy trigger | merge to `main` → production. `main` is protected: PR + green CI (`verify`) required, no direct pushes (set 2026-07-21, see §2.3) |
 | Live pages | 44 (34 of the 48-page taxonomy + 10 `/learn` articles) |
 | Tests | 58, `npm test` |
 | Backup of the old prototype | branch `pre-astro-backup` (`358e000`) |
@@ -110,17 +110,40 @@ instantly everywhere your conditions are too favourable) and **#7 contains
 accented characters** (if it decodes to an empty string, the UTF-8 fix has
 regressed — see below).
 
-### 2.3 Decide whether push-to-prod is what you want
+### 2.3 Deploy is gated on CI — DONE (2026-07-21)
 
-Right now `git push` → production, with nothing in between. The CI workflow
-(`.github/workflows/ci.yml`) runs on push but **does not gate the deploy** —
-Vercel ships regardless of whether tests pass. That is how a broken commit
-reached users within a minute.
+**Resolved: `main` is protected and deploys are gated on CI.** Previously `git
+push` → production with nothing in between; the CI workflow ran but did not gate
+the deploy, so Vercel shipped regardless of whether tests passed. That is how a
+broken commit reached users within a minute.
 
-Options, cheapest first:
-- Turn on **"Only deploy on CI success"** / required status checks on `main`.
-- Protect `main` and deploy from PRs, using Vercel preview URLs to verify.
-- Leave as-is and accept the risk, given rollback is instant.
+The chosen mechanism (of the three options that were on the table) is **PR +
+required status check** — no Vercel secrets, no CI-owned deploy. Branch
+protection on `main`:
+
+- **Require a PR before merging** (0 approvals — solo self-merge is fine).
+- **Require the `verify` status check to pass** before merge.
+- **Require the branch to be up to date** (`strict`) before merge.
+- **Enforced for admins** — the owner is who pushes, so without this the gate
+  would not bite.
+
+`main` therefore only ever receives CI-passing commits, and Vercel's push-to-prod
+stays but only fires on green commits. This did **not** require a PR-review
+culture; it required moving off direct pushes.
+
+**What changed for you day to day:**
+
+- No more `git push origin main`. Branch → PR → `verify` goes green → merge →
+  Vercel deploys prod. Vercel builds a preview for every PR to verify first.
+- Emergency bypass (admin): `gh api -X DELETE
+  repos/mykpono/qr-code-agent/branches/main/protection`, push, then re-apply.
+- Undo entirely: same DELETE command. Relax just the up-to-date rule if `strict`
+  causes friction with concurrent work.
+
+Not chosen, for the record: *CI-owned deploy* (disable Vercel Git auto-deploy via
+`vercel.json`, add a `vercel deploy --prod` job gated on CI) would keep direct
+push-to-main but needs `VERCEL_TOKEN`/`ORG_ID`/`PROJECT_ID` as GitHub secrets.
+Revisit only if the PR flow becomes the bottleneck.
 
 ---
 
