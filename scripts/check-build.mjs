@@ -99,9 +99,24 @@ const extra = [...smUrls].filter((u) => !pages.has(u));
 check('sitemap matches built pages', missing.length === 0 && extra.length === 0,
   `missing ${missing.join(',')} extra ${extra.join(',')}`);
 
+// llms.txt lists the CANONICAL (English) page set plus a Languages section,
+// rather than every locale's copy of every page. Repeating all 46 pages once
+// per locale would pad the file with near-duplicate entries that say nothing a
+// locale prefix does not already convey. So this counts English pages, and
+// separately asserts every live locale is named.
 const llms = readFileSync(join(DIST, 'llms.txt'), 'utf8');
-const llmsCount = (llms.match(/qrcodeagent\.net\//g) || []).length;
-check('llms.txt lists every page', llmsCount === pages.size, `${llmsCount} of ${pages.size}`);
+const enPages = [...pages.keys()].filter((u) => !/^\/[a-z]{2}(-[a-z]{2})?\//.test(u) && !/^\/[a-z]{2}(-[a-z]{2})?$/.test(u));
+const llmsLinks = new Set([...llms.matchAll(/\(https:\/\/qrcodeagent\.net(\/[^)]*)?\)/g)]
+  .map((m) => (m[1] || '/').replace(/\/$/, '') || '/'));
+const llmsMissing = enPages.filter((u) => !llmsLinks.has(u));
+check('llms.txt lists every English page', llmsMissing.length === 0,
+  `missing ${llmsMissing.slice(0, 5).join(',')}`);
+
+const liveLocales = [...new Set([...pages.keys()]
+  .map((u) => (u.match(/^\/([a-z]{2}(?:-[a-z]{2})?)(?:\/|$)/) || [])[1]).filter(Boolean))];
+const localesMissing = liveLocales.filter((l) => !llmsLinks.has(`/${l}`));
+check('llms.txt names every live locale', localesMissing.length === 0,
+  `missing ${localesMissing.join(',')}`);
 
 // --- nothing embarrassing shipped ------------------------------------------
 for (const [pattern, label] of [

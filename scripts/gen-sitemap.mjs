@@ -81,7 +81,11 @@ const llms = `# ${'QR Code Agent'}
 
 ## Key Pages
 - [Home](${BASE}/): Free QR code generator — all types, styling, and logo support.
-${archetypes.map(group).join('')}
+${archetypes.map(group).join('')}${LIVE.length > 1 ? `
+## Languages
+Every page above is also published in ${LIVE.length - 1} other language${LIVE.length > 2 ? 's' : ''} at the same path under a locale prefix.
+${LIVE.filter((l) => l !== 'en').map((l) => `- [${HREFLANG[l]}](${BASE}/${l}): same content, ${HREFLANG[l]}`).join('\n')}
+` : ''}
 ## Credits
 - Created by ${data.site.creator?.name || 'Myk Pono'} — ${data.site.creator?.linkedin || 'https://www.linkedin.com/in/mykolaponomarenko'}
 - All generation is client-side. No account, no tracking of generated codes.
