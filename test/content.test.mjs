@@ -83,6 +83,7 @@ test('every internal link points at a page that exists', () => {
   for (const p of pages) {
     const id = p.slug || '/';
     (p.related || []).forEach((h) => check(h, id));
+    (p.other_generators || []).forEach((h) => check(h, id));
     (p.tools || []).forEach((t) => check(t.href, id));
     (p.directory || []).forEach((d) => (d.links || []).forEach((h) => check(h, id)));
     (p.articles || []).forEach((a) => check(a.href, id));
@@ -100,6 +101,7 @@ test('no page is an orphan', () => {
   const add = (href) => { if (href && internal(href)) linked.add(toSlug(href.split('#')[0])); };
   for (const p of pages) {
     (p.related || []).forEach(add);
+    (p.other_generators || []).forEach(add);
     (p.tools || []).forEach((t) => add(t.href));
     (p.directory || []).forEach((d) => (d.links || []).forEach(add));
     (p.articles || []).forEach((a) => add(a.href));
