@@ -65,6 +65,38 @@ These are the product's *real, in-app* advantages. Every page's value propositio
 
 ---
 
+## 2.1 Competitor landscape (watchlist — analysis pending)
+
+Sites ranking on **page 1 of Google (US) for `free qr code generator`**. Captured 2026-07-21 as a
+watchlist; the analysis columns are **not yet filled in** — this is the input for a later
+competitor pass (the `ultimate-seo-geo` skill has a `competitor-analyzer` that can read this).
+
+**Analyze, don't imitate.** These are here to find gaps we can exploit (what they gate, where their
+UX is worse, keywords they under-serve), not patterns to copy. Our positioning above is the anchor.
+
+| # | Competitor | URL | Type | Analyzed? | Notes to verify |
+|---|---|---|---|:-:|---|
+| 1 | QRCode Monkey | `qrcode-monkey.com` | pure-play | ☐ | Long-standing free/no-signup incumbent — the closest positioning rival |
+| 2 | Canva | `canva.com/qr-code-generator/` | platform feature | ☐ | Huge domain authority; QR is one feature of a design suite |
+| 3 | Adobe Express | `adobe.com/express/feature/image/qr-code-generator/` | platform feature | ☐ | Same pattern as Canva — DA-driven, not a specialist |
+| 4 | qr-code-generator.com | `qr-code-generator.com` | pure-play (freemium) | ☐ | Exact-match domain; likely gates dynamic/tracking behind paywall |
+| 5 | High QR Code Generator | `high-qr-code-generator.com/paypal-qrcode/` | pure-play | ☐ | Ranking via a **type page** (`/paypal-qrcode/`) — validates our type-cluster strategy |
+
+**First read of the set (hypotheses to confirm in the analysis pass):**
+- Two of five are **platform features** (Canva, Adobe) winning on domain authority, not QR specialism
+  — a specialist with better free UX and no gating can out-convert them even from a lower rank.
+- The pure-plays (#1, #4) are the real positioning rivals; #4's exact-match domain and #1's
+  incumbency are the moats to probe.
+- #5 ranking on a **`/paypal-qrcode/` type page** is direct evidence the type-cluster approach in
+  §3 works — a possible `/paypal-qr-code` gap for us to check for validated demand.
+
+**When the analysis runs, capture per competitor:** what's gated vs free (download, resolution,
+dynamic, tracking), sign-up requirement, styling depth (logo/dots/colors/SVG), the keywords they
+rank for that we don't, and any schema/EEAT signals. Fill the "Analyzed?" box and move findings into
+§11 prioritization.
+
+---
+
 ## 3. Site architecture & URL taxonomy
 
 A flat, keyword-bearing URL scheme (best for a new site's topical clarity) organized as a **hub-and-spoke** across four page collections plus a learn hub. Logical hierarchy is expressed via `BreadcrumbList` schema and internal links, not deep folders.
