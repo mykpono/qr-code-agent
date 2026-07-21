@@ -21,6 +21,8 @@ const ogLocale = OG_LOCALE[locale] || 'en_US';
 
 // Public env (client-safe) — set in Vercel. Empty locally = no-op.
 const UMAMI = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+// Proxied via vercel.json → self-hosted Umami on Vercel (same team).
+const UMAMI_SRC = import.meta.env.PUBLIC_UMAMI_SRC || '/stats/script.js';
 const GA = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 ---
 <!DOCTYPE html>
@@ -49,7 +51,7 @@ const GA = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
   <script type="application/ld+json" set:html={JSON.stringify(graph)} />
 
   {/* Umami — cookieless, primary analytics (no consent needed in most reads). */}
-  {UMAMI && <script defer src="https://cloud.umami.is/script.js" data-website-id={UMAMI}></script>}
+  {UMAMI && <script defer src={UMAMI_SRC} data-website-id={UMAMI}></script>}
 
   {/* GA4 — cookie-based, secondary: load only after consent (EU locales). */}
   {GA && (

@@ -3569,7 +3569,7 @@
             "These are the only external services this site contacts:"
           ],
           "list": [
-            "Umami (cloud.umami.is) — cookieless analytics, loaded on every page.",
+            "Umami (self-hosted, proxied at /stats on this domain) — cookieless analytics, loaded on every page.",
             "Google Analytics (googletagmanager.com) — loaded only after you press Allow.",
             "Stripe (buy.stripe.com) — only if you click the support link.",
             "Fonts are self-hosted on this domain, so no font provider sees your visit."

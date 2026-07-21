@@ -115,7 +115,16 @@ for (const [pattern, label] of [
 }
 
 // --- launch-critical config ------------------------------------------------
-check('no SPA rewrite config', !existsSync(fileURLToPath(new URL('../vercel.json', import.meta.url))));
+const vercelPath = fileURLToPath(new URL('../vercel.json', import.meta.url));
+if (existsSync(vercelPath)) {
+  const vercel = JSON.parse(readFileSync(vercelPath, 'utf8'));
+  const rewrites = vercel.rewrites ?? [];
+  const onlyUmamiProxy = rewrites.length > 0 && rewrites.every((r) =>
+    r.source === '/stats/:match*' && typeof r.destination === 'string' && r.destination.includes('umami'));
+  check('vercel.json is Umami proxy only (no SPA rewrite)', onlyUmamiProxy);
+} else {
+  check('no SPA rewrite config', true);
+}
 check('fonts are self-hosted', ![...pages.values()].some((h) => /fonts\.(googleapis|gstatic)/.test(h)));
 check('favicon present', existsSync(join(DIST, 'favicon.svg')));
 const robots = readFileSync(join(DIST, 'robots.txt'), 'utf8');
