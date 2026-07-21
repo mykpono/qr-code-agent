@@ -81,10 +81,12 @@ export function schemaGraph(page, locale = 'en') {
   const want = new Set(page.schema || []);
   const graph = [];
   if (want.has('Organization')) {
+    const sameAs = [SITE.creator?.github, SITE.creator?.linkedin].filter(Boolean);
     graph.push({
       '@type': 'Organization', '@id': `${BASE}/#organization`,
       name: SITE.name, url: `${BASE}/`,
       logo: { '@type': 'ImageObject', url: `${BASE}/assets/logo.png` },
+      ...(sameAs.length ? { sameAs } : {}),
     });
   }
   if (want.has('WebSite')) {
@@ -125,7 +127,11 @@ export function schemaGraph(page, locale = 'en') {
       description: page.meta,
       url: canonical,
       mainEntityOfPage: canonical,
-      author: { '@type': 'Person', name: 'Myk Pono', url: 'https://www.linkedin.com/in/mykolaponomarenko/' },
+      author: {
+        '@type': 'Person',
+        name: SITE.creator?.name || 'Myk Pono',
+        url: SITE.creator?.linkedin,
+      },
       publisher: { '@id': `${BASE}/#organization` },
       isPartOf: { '@id': `${BASE}/#website` },
       ...(page.published ? { datePublished: page.published } : {}),

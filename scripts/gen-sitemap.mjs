@@ -83,7 +83,7 @@ const llms = `# ${'QR Code Agent'}
 - [Home](${BASE}/): Free QR code generator — all types, styling, and logo support.
 ${archetypes.map(group).join('')}
 ## Credits
-- Created by Myk Pono — https://www.linkedin.com/in/mykolaponomarenko/
+- Created by ${data.site.creator?.name || 'Myk Pono'} — ${data.site.creator?.linkedin || 'https://www.linkedin.com/in/mykolaponomarenko'}
 - All generation is client-side. No account, no tracking of generated codes.
 `;
 

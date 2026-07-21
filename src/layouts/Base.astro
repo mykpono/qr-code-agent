@@ -1,7 +1,7 @@
 ---
 import '../styles/styles.css';
 import '../styles/app.css';
-import { alternates, schemaGraph, urlFor } from '../lib/content.js';
+import { alternates, schemaGraph, SITE, urlFor } from '../lib/content.js';
 import Consent from '../components/Consent.astro';
 
 const { page, locale = 'en', theme = 'cream' } = Astro.props;
@@ -9,9 +9,15 @@ const canonical = urlFor(page.slug, locale);
 const alts = alternates(page.slug);
 const graph = schemaGraph(page, locale);
 const ogImg = `https://qrcodeagent.net/assets/og/${page.slug || 'home'}.png`;
+const ogType = page.archetype === 'article' ? 'article' : 'website';
+const OG_LOCALE = {
+  en: 'en_US', de: 'de_DE', es: 'es_ES', 'pt-br': 'pt_BR', fr: 'fr_FR', it: 'it_IT',
+  ja: 'ja_JP', id: 'id_ID', uk: 'uk_UA', pl: 'pl_PL', ru: 'ru_RU',
+};
 
 // hreflang code doubles as the <html lang> value (SEO-BRIEF §8.1).
 const htmlLang = alts.find((a) => a.href === canonical)?.hreflang || 'en';
+const ogLocale = OG_LOCALE[locale] || 'en_US';
 
 // Public env (client-safe) — set in Vercel. Empty locally = no-op.
 const UMAMI = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
@@ -27,12 +33,19 @@ const GA = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
   <meta name="description" content={page.meta} />
   <link rel="canonical" href={canonical} />
   {alts.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content={SITE.name} />
   <meta property="og:title" content={page.title} />
   <meta property="og:description" content={page.meta} />
   <meta property="og:url" content={canonical} />
+  <meta property="og:locale" content={ogLocale} />
   <meta property="og:image" content={ogImg} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={page.title} />
+  <meta name="twitter:description" content={page.meta} />
+  <meta name="twitter:image" content={ogImg} />
   <script type="application/ld+json" set:html={JSON.stringify(graph)} />
 
   {/* Umami — cookieless, primary analytics (no consent needed in most reads). */}
