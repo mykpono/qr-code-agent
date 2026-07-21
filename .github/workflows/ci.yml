@@ -1,0 +1,27 @@
+name: CI
+
+# Runs on every push and PR. Vercel builds the site regardless of whether these
+# pass, so this is the gate that catches what a successful build does not: a QR
+# that no longer decodes, a quiet zone that drifted, a duplicate title, an orphan
+# page, a keyword collision.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Tests (decode + content invariants)
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Verify built output
+        run: node scripts/check-build.mjs

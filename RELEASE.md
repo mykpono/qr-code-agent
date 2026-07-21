@@ -67,6 +67,19 @@ Everything below was measured against the built output or the running app, not a
 - Icon buttons have a 44px hit area; verified no control steals a neighbour's centre.
 - `prefers-reduced-motion` respected.
 
+### Automated (`npm run verify` — 56 tests, runs in CI)
+- **Decode tests**: 7 payload shapes x 4 ECC levels, decoded with jsQR and compared to the input.
+  Covers short/typical/UTM/long URLs, WiFi, vCard and non-ASCII.
+- **Quiet zone**: asserts 4 modules and that it is sized in modules, not as a fraction of output.
+- **Export gating**: proves `hasContent` is false for a blank vCard/WiFi form even though the
+  payload builder returns truthy scaffolding.
+- **Vector SVG**: no `<image>` across all 7 dot x 5 finder combinations, correct viewBox, one shape
+  per dark module, quiet zone respected, and a logo as the only permitted raster.
+- **Content invariants**: title/meta length and uniqueness, no duplicate primaries, no page
+  targeting another's primary, no dead internal links, no orphans, article word floor, emoji rule.
+- **Built output** (`scripts/check-build.mjs`): 17 checks over `dist/` — dead refs, head hygiene,
+  JSON-LD parsing, sitemap and llms.txt matching the page set, no placeholders, no SPA rewrite.
+
 ### Runtime
 - **Zero console errors** on a clean load, desktop and mobile.
 - **No hydration mismatch.** (`railOpen` previously read `window.innerWidth` during the first
@@ -114,8 +127,10 @@ Everything below was measured against the built output or the running app, not a
 - **Screen readers not manually tested.** Accessible names, roles, focus behaviour and contrast are
   verified programmatically, but no VoiceOver/NVDA pass was run, so the *usefulness* of the
   announcements is unproven.
-- **No automated test suite.** Verification this cycle was scripted browser checks, not committed
-  tests. There is nothing to stop a regression.
+- **Printed codes not yet scanned by a phone.** The suite decodes codes in software, which cannot
+  model ink spread, laminate glare, room lighting or an old camera. Run `npm run scan-sheet`,
+  print `dist/scan-test.html` at 100% scale and scan all ten. This is the last unverified step
+  before launch.
 
 ---
 

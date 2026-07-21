@@ -28,6 +28,8 @@ build of **qrcodeagent.net** — a free, no-sign-up QR code generator plus its p
    self-referencing canonical; hreflang set; JSON-LD per archetype. Never reintroduce a catch-all
    SPA rewrite (that was the original blocker — see `docs/SEO-BRIEF.md` §1).
 7. **Content source of truth = `src/content/pages.json`.** Page copy lives there, not in templates.
+7b. **Pure QR logic lives in `src/lib/qr.js`**, not in the component — that is what makes it
+   testable. `Generator.jsx` imports it. Never fork this logic back into the component.
 8. **Voice & casing** (`docs/HANDOFF.md`, design readme): UPPERCASE monospace for labels/buttons/
    chips; sentence-case headings in Space Grotesk; lead with free / no-sign-up / never-expires;
    `☕` is the only emoji (support/donate CTA).
@@ -48,6 +50,9 @@ npm install
 npm run dev        # http://localhost:4321
 npm run build      # → dist/ (static) + dist/sitemap.xml (EN-only, built pages)
 npm run preview
+npm test           # 56 tests: real QR decode (jsQR) + content invariants
+npm run verify     # test + build + check-build.mjs — run before every push
+npm run scan-sheet # → dist/scan-test.html, print at 100% and scan with a phone
 ```
 
 ## Env vars (Vercel → Project → Environment Variables; all client-safe `PUBLIC_`)
