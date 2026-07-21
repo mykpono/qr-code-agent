@@ -396,7 +396,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
     const svg = buildSVG(m, size, fg, bg, dot, finder, logoImg && useLogo ? logoImg.src : null, logoShape, logoBorder === 'border');
     const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
     const a = document.createElement('a'); a.download = 'qrcode.svg'; a.href = url; a.click();
-    URL.revokeObjectURL(url); track('download_svg', { mode }); offerSupport();
+    URL.revokeObjectURL(url); track('download_svg', { mode });
   }
 
   // ---- saved designs (BACKLOG P1, ported from ui_kits/website/saved-designs.html).
