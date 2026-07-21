@@ -1767,7 +1767,7 @@
       "h1": "Bitcoin QR Code Generator",
       "subhead": "Encode a wallet address or payment URI so people can scan instead of typing it. Free and branded.",
       "tool": {
-        "mode": "url",
+        "mode": "crypto",
         "note": "URL mode, helper: 'paste your wallet address or a payment URI such as bitcoin:address?amount=0.01'. Tell the user to copy the address exactly and test the code with their own wallet app before sharing."
       },
       "intro": "Wallet addresses are long strings that are easy to mistype. A QR code lets someone scan the address you already have straight into their wallet app. Paste the address or a full payment URI, style the code, and download it free. Nothing is uploaded, everything is generated in your browser, and the code never expires.",
@@ -2116,7 +2116,7 @@
       "h1": "Phone Number QR Code Generator",
       "subhead": "Scan to call — the number opens in the dialer, ready to ring. Free and branded.",
       "tool": {
-        "mode": "url",
+        "mode": "tel",
         "note": "URL mode encoding a tel: link. Helper: 'enter your number in international format, e.g. +1 415 555 0123' and note that the code becomes tel:+14155550123. Standard style + download."
       },
       "intro": "A phone QR code puts your number into the dialer with one scan, so nobody mistypes it off a flyer or a van door. Enter the number in international format, brand the code, and download it free — no sign-up, and it never expires.",
@@ -2197,7 +2197,7 @@
       "h1": "SMS QR Code Generator",
       "subhead": "Scan to text — your number and message are already filled in. Free and branded.",
       "tool": {
-        "mode": "url",
+        "mode": "sms",
         "note": "URL mode encoding an sms: link. Helper: number in international format plus an optional prefilled message → sms:+14155550123?body=JOIN. Standard style + download."
       },
       "intro": "An SMS QR code opens a new text to your number with the message already written, so people just hit send. Useful for keyword opt-ins, support requests, and table service. Enter the number and message, brand the code, and download it free.",
@@ -2278,7 +2278,7 @@
       "h1": "Text QR Code Generator",
       "subhead": "Show a plain-text message on scan — no link, no connection required. Free and branded.",
       "tool": {
-        "mode": "url",
+        "mode": "text",
         "note": "URL mode with plain text accepted as-is (no URL required). Helper: 'type any text — it is shown on the scanner screen'. Note that shorter text keeps the code easier to scan. Standard style + download."
       },
       "intro": "A text QR code stores words instead of a link, so the message appears on screen the moment someone scans it. Handy for serial numbers, instructions, shelf notes, and event details. Type the text, brand the code, and download it free.",

@@ -14,6 +14,16 @@ qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8'];
 /* ---------------- payload builders ---------------- */
 const UTM_KEYS = ['source', 'medium', 'campaign', 'term', 'content'];
 
+// Keep a leading "+" (it is what makes a number dialable internationally) and
+// drop every other separator. A bare /\D/ strip would silently turn "+1 415…"
+// into a domestic-looking number.
+function telDigits(v) {
+  const raw = (v || '').trim();
+  const digits = raw.replace(/\D/g, '');
+  return digits ? `${raw.startsWith('+') ? '+' : ''}${digits}` : '';
+}
+
+
 function buildPayload(mode, f) {
   if (mode === 'wifi') {
     const esc = (s) => (s || '').replace(/([\\;,":])/g, '\\$1');
@@ -30,6 +40,28 @@ function buildPayload(mode, f) {
     const num = (f.number || '').replace(/[^\d]/g, '');
     const q = f.message ? `?text=${encodeURIComponent(f.message)}` : '';
     return num ? `https://wa.me/${num}${q}` : '';
+  }
+  if (mode === 'tel') {
+    const n = telDigits(f.phone);
+    return n ? `tel:${n}` : '';
+  }
+  if (mode === 'sms') {
+    // SMSTO: is the ZXing convention and the format QR scanner apps recognise
+    // most widely. `sms:` is not portable — iOS wants `&body=`, Android `?body=`.
+    const n = telDigits(f.number);
+    if (!n) return '';
+    return f.message ? `SMSTO:${n}:${f.message}` : `SMSTO:${n}`;
+  }
+  if (mode === 'text') return (f.text || '').trim();
+  if (mode === 'crypto') {
+    // BIP-21. The address is case-sensitive (bech32 and base58 both), so it is
+    // trimmed but never normalised.
+    const addr = (f.address || '').trim();
+    if (!addr) return '';
+    const q = [];
+    if (String(f.amount || '').trim()) q.push(`amount=${encodeURIComponent(String(f.amount).trim())}`);
+    if ((f.label || '').trim()) q.push(`label=${encodeURIComponent(f.label.trim())}`);
+    return `bitcoin:${addr}${q.length ? `?${q.join('&')}` : ''}`;
   }
   // url mode + optional UTM
   const raw = (f.url || '').trim(); const u = f.utm || {};
@@ -223,6 +255,10 @@ export function hasContent(mode, f = {}) {
   if (mode === 'wifi') return !!(f.ssid || '').trim();
   if (mode === 'vcard') return !!(f.first || f.last || f.phone || f.email || f.company || f.website || '');
   if (mode === 'whatsapp') return (f.number || '').replace(/[^\d]/g, '').length > 0;
+  if (mode === 'tel') return !!telDigits(f.phone);
+  if (mode === 'sms') return !!telDigits(f.number);
+  if (mode === 'text') return !!(f.text || '').trim();
+  if (mode === 'crypto') return !!(f.address || '').trim();
   return !!(f.url || '').trim();
 }
 

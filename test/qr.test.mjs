@@ -54,6 +54,10 @@ const PAYLOADS = [
   ['wifi', 'WIFI:T:WPA;S:Cafe Guest;P:hunter2;;'],
   ['vcard', 'BEGIN:VCARD\nVERSION:3.0\nN:Lovelace;Ada;;;\nFN:Ada Lovelace\nEMAIL:ada@example.com\nEND:VCARD'],
   ['unicode', 'https://example.com/café-münchen-日本語'],
+  ['tel', 'tel:+14155550123'],
+  ['sms', 'SMSTO:+14155550123:Table for two at 7?'],
+  ['text', 'Gate code 4821 — ring bell twice'],
+  ['crypto', 'bitcoin:bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq?amount=0.015&label=Tip%20jar'],
 ];
 
 for (const [label, text] of PAYLOADS) {
@@ -119,6 +123,40 @@ test('whatsapp payload strips non-digits and encodes the message', () => {
 
 test('whatsapp with no number yields no payload', () => {
   assert.equal(buildPayload('whatsapp', { message: 'hi' }), '');
+});
+
+// A bare \D strip would turn "+1 415…" into a domestic-looking number that
+// fails to dial from abroad, so the leading + has to survive.
+test('tel keeps the leading + and drops separators', () => {
+  assert.equal(buildPayload('tel', { phone: '+1 (415) 555-0123' }), 'tel:+14155550123');
+  assert.equal(buildPayload('tel', { phone: '020 7946 0958' }), 'tel:02079460958');
+  assert.equal(buildPayload('tel', { phone: '' }), '');
+  assert.equal(hasContent('tel', { phone: '(  )' }), false);
+});
+
+test('sms uses SMSTO and keeps the message optional', () => {
+  assert.equal(buildPayload('sms', { number: '+1 415 555 0123', message: 'Table for two?' }),
+    'SMSTO:+14155550123:Table for two?');
+  assert.equal(buildPayload('sms', { number: '+14155550123' }), 'SMSTO:+14155550123');
+  assert.equal(buildPayload('sms', { message: 'orphan' }), '');
+});
+
+test('text encodes verbatim, no URL scheme bolted on', () => {
+  assert.equal(buildPayload('text', { text: 'Gate code 4821' }), 'Gate code 4821');
+  assert.equal(buildPayload('text', { text: '  padded  ' }), 'padded');
+  assert.equal(hasContent('text', { text: '   ' }), false);
+});
+
+// Bitcoin addresses are case-sensitive in both base58 and bech32 — normalising
+// case would produce an address that silently sends funds nowhere.
+test('crypto builds BIP-21 and never alters address case', () => {
+  const addr = 'bc1QAr0srrr7xfkvy5l643lydnw9re59gtzzw';
+  assert.equal(buildPayload('crypto', { address: addr }), `bitcoin:${addr}`);
+  assert.equal(
+    buildPayload('crypto', { address: addr, amount: '0.015', label: 'Tip jar' }),
+    `bitcoin:${addr}?amount=0.015&label=Tip%20jar`,
+  );
+  assert.equal(buildPayload('crypto', { amount: '1' }), '');
 });
 
 test('utm params only apply when there is a base url', () => {

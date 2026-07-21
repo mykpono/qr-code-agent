@@ -363,6 +363,10 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
     const what = mode === 'wifi' ? `WiFi network ${fields.ssid || '(no name yet)'}`
       : mode === 'vcard' ? `contact card for ${[fields.first, fields.last].filter(Boolean).join(' ') || '(no name yet)'}`
       : mode === 'whatsapp' ? `WhatsApp message to ${fields.number || '(no number yet)'}`
+      : mode === 'tel' ? `phone number ${fields.phone || '(none yet)'}`
+      : mode === 'sms' ? `text message to ${fields.number || '(no number yet)'}`
+      : mode === 'text' ? `the text "${fields.text || ''}"`
+      : mode === 'crypto' ? `Bitcoin payment to ${fields.address || '(no address yet)'}`
       : `link to ${payload}`;
     return `QR code for ${what}. ${size} by ${size} pixels, error correction ${ecc}, ${scannable ? 'scannable' : 'may not scan reliably'}.`;
   };
@@ -629,6 +633,27 @@ function ModeFields({ mode, fields, setF, urlValue, onUrlInput }) {
     <div className="gf-modefields">
       <input value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder="WhatsApp number (with country code)" aria-label="WhatsApp number (with country code)" />
       <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder="Pre-filled message (optional)" aria-label="Pre-filled message (optional)" />
+    </div>
+  );
+  if (mode === 'tel') return (
+    <><span className="gf-clabel">Phone</span>
+      <input className="gf-cinput" type="tel" value={fields.phone || ''} onChange={(e) => setF('phone', e.target.value)} placeholder="+1 415 555 0123" aria-label="Phone number, with country code" /></>
+  );
+  if (mode === 'sms') return (
+    <div className="gf-modefields">
+      <input type="tel" value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder="Phone number (with country code)" aria-label="Phone number, with country code" />
+      <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder="Pre-filled message (optional)" aria-label="Pre-filled message (optional)" />
+    </div>
+  );
+  if (mode === 'text') return (
+    <><span className="gf-clabel">Text</span>
+      <input className="gf-cinput" value={fields.text || ''} onChange={(e) => setF('text', e.target.value)} placeholder="Any text — a note, a code, an address" aria-label="Text to encode" /></>
+  );
+  if (mode === 'crypto') return (
+    <div className="gf-modefields">
+      <input value={fields.address || ''} onChange={(e) => setF('address', e.target.value)} placeholder="Bitcoin address" aria-label="Bitcoin address" spellCheck="false" autoCapitalize="none" />
+      <input value={fields.amount || ''} onChange={(e) => setF('amount', e.target.value)} placeholder="Amount in BTC (optional)" aria-label="Amount in BTC (optional)" inputMode="decimal" />
+      <input value={fields.label || ''} onChange={(e) => setF('label', e.target.value)} placeholder="Label (optional)" aria-label="Label (optional)" />
     </div>
   );
   return (<><span className="gf-clabel">Content / URL</span><input className="gf-cinput" value={urlValue ?? (fields.url || '')} onChange={(e) => onUrlInput(e.target.value)} placeholder="https://your-link.com" aria-label="Content or URL" /></>);
