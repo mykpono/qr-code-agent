@@ -1,4 +1,5 @@
 import data from '../content/pages.json';
+import UI_EN from '../content/ui.json';
 
 export const SITE = data.site;
 export const PAGES = data.pages;
@@ -34,18 +35,46 @@ export function isLive(locale) {
   return LIVE_LOCALES.includes(locale);
 }
 
+// Deep merge of a translation over the English page.
+//
+// This has to recurse. A translation bundle carries PROSE ONLY, so a nested
+// object contributes just its text keys: `directory` arrives as [{heading}]
+// while English has [{heading, anchor, links}]. A shallow {...page, ...t}
+// replaced the whole array and dropped `links`, and the template then called
+// .map() on undefined — a hard build failure on the first localized page.
+// Recursing keeps every structural sibling (links, anchor, href, colors, seed)
+// from English while taking the translated strings.
+function mergeTranslation(en, tr) {
+  if (tr === undefined) return en;
+  if (Array.isArray(en) && Array.isArray(tr)) {
+    // Index-aligned: the merge script already guarantees equal lengths.
+    return en.map((v, i) => (i < tr.length ? mergeTranslation(v, tr[i]) : v));
+  }
+  if (en && typeof en === 'object' && !Array.isArray(en)
+      && tr && typeof tr === 'object' && !Array.isArray(tr)) {
+    const out = { ...en };
+    for (const k of Object.keys(tr)) out[k] = mergeTranslation(en[k], tr[k]);
+    return out;
+  }
+  return tr;
+}
+
 // Merge a locale's overrides over the EN page. Untranslated fields fall back to
 // EN; structural fields (slug, archetype, tool, related, schema, msv/kd) are
 // never translated and always come from the EN source of truth.
 export function localizedPage(page, locale = 'en') {
   if (locale === 'en') return page;
   const t = TRANSLATIONS[locale]?.pages?.[page.slug || 'home'];
-  return t ? { ...page, ...t, locale } : { ...page, locale };
+  return t ? { ...mergeTranslation(page, t), locale } : { ...page, locale };
 }
 
-// Generator/UI strings for a locale, falling back to EN for any missing key.
+// UI chrome for a locale. English lives in src/content/ui.json; a locale bundle
+// overrides any subset under its `ui` key. Deep-merged for the same reason page
+// content is — `trust` is an array of objects and `gen` is nested, so a shallow
+// spread would drop every sibling key a locale did not happen to translate.
 export function uiStrings(locale = 'en') {
-  return { ...(TRANSLATIONS.en?.ui || {}), ...(TRANSLATIONS[locale]?.ui || {}) };
+  if (locale === 'en') return UI_EN;
+  return mergeTranslation(UI_EN, TRANSLATIONS[locale]?.ui);
 }
 
 export function urlFor(slug, locale = 'en') {

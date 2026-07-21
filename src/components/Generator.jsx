@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { buildPayload, splitUtm, getMatrix, buildSVG, renderReal, drawMod, drawFinderReal, hasContent as hasContentFor } from '../lib/qr.js';
 import { MOBILE_BREAKPOINT } from '../lib/mobile.js';
+import EN_UI from '../content/ui.json';
 
 /*
   Generator island — visually matches the flagship design (QR Generator.dc.html):
@@ -52,8 +53,8 @@ function drawThumb(c) {
 }
 
 /* ---------------- data (from the flagship) ---------------- */
-const DOTS = [{ k: 'star', l: 'PLUS' }, { k: 'realstar', l: 'STAR' }, { k: 'diamond', l: 'DIAMOND' }, { k: 'circle', l: 'CIRCLE' }, { k: 'square', l: 'SQUARE' }];
-const FINDERS = [{ k: 'circle', l: 'CIRCLE' }, { k: 'rounded', l: 'ROUNDED' }, { k: 'square', l: 'SQUARE' }, { k: 'leaf', l: 'LEAF' }, { k: 'cushion', l: 'CUSHION' }];
+const DOTS = ['star', 'realstar', 'diamond', 'circle', 'square'];
+const FINDERS = ['circle', 'rounded', 'square', 'leaf', 'cushion'];
 /* Full preset catalog — verbatim from QR Generator.dc.html (do not trim). */
 const CREATIVE = [
   { name: 'Classic', fg: '#1c1c1c', bg: '#ffffff', dot: 'square', finder: 'square', seed: 5 },
@@ -107,18 +108,16 @@ const USECASE = [
 const PRESET_COUNT = CREATIVE.length + SOCIAL.length + INDUSTRY.length + USECASE.length;
 const FG_PRESETS = ['#2563eb', '#1c1c1c', '#6d4dff', '#0e7490', '#e11d74', '#2f7d32'];
 const BG_PRESETS = ['#ffffff', '#eef4ff', '#f3e9dd', '#fdf2f8', '#ecfeff', '#141414'];
+// Percentages and bar fills are data; the level NAMES and the word "recovery"
+// are UI chrome and come from uiStrings.
 const ECC_DATA = {
-  L: { n: 'Low', p: '7%', r: '7% recovery', f: '25%' },
-  M: { n: 'Medium', p: '15%', r: '15% recovery', f: '50%' },
-  Q: { n: 'Quartile', p: '25%', r: '25% recovery · best with a logo', f: '75%' },
-  H: { n: 'High', p: '30%', r: '30% recovery', f: '100%' },
+  L: { p: '7%', f: '25%' }, M: { p: '15%', f: '50%' },
+  Q: { p: '25%', f: '75%' }, H: { p: '30%', f: '100%' },
 };
 const THEMES = [{ n: 'cream', c: '#faf6ec' }, { n: 'sand', c: '#e7dcc4' }, { n: 'olive', c: '#59603c' }, { n: 'slate', c: '#302c3b' }];
 const THEME_KEY = 'qra:theme';
 /* v5: the rail is tabbed and Social is the default tab. */
-const TABS = [{ k: 'social', l: 'Social' }, { k: 'industry', l: 'Industry' }, { k: 'usecase', l: 'Use case' }, { k: 'themes', l: 'Themes' }];
-const DOT_NAMES = { star: 'Plus', realstar: 'Star', diamond: 'Diamond', circle: 'Circle', square: 'Square', dot: 'Dot', rounded: 'Rounded' };
-const FINDER_NAMES = { circle: 'Circle', rounded: 'Rounded', square: 'Square', leaf: 'Leaf', cushion: 'Cushion' };
+const TABS = ['social', 'industry', 'usecase', 'themes'];
 
 /* WCAG relative-luminance contrast ratio. v5 warns below 3.5 — scanners need a
    real light/dark split between modules and background, not just "different". */
@@ -134,7 +133,10 @@ function contrastRatio(a, b) {
 }
 
 /* ---------------- component ---------------- */
-export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }) {
+export default function Generator({ mode = 'url', supportUrl = '', thanks = '', ui = null }) {
+  // UI chrome comes from the page (uiStrings(locale)); EN_UI is the fallback so
+  // the island still renders if mounted without the prop.
+  const t = ui || EN_UI;
   const mainRef = useRef(null);
   const rootRef = useRef(null);
   const bodyRef = useRef(null);
@@ -286,22 +288,22 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   /* v5: templates are complete looks, not recolours. A template applies colour,
      dot, finder AND error correction, logo on/off, logo shape and border, plus
      its example URL and the group chip. Keys the preset omits are left as-is. */
-  function pickTemplate(t) {
+  function pickTemplate(tpl) {
     pulseRef.current = true;
-    setSel(t.name); setFg(t.fg); setBg(t.bg); setDot(t.dot); setFinder(t.finder);
-    if (t.ecc) setEcc(t.ecc);
-    if (t.shape) setLogoShape(t.shape);
-    if (t.border) setLogoBorder(t.border);
-    if (t.content) { setFields((f) => ({ ...f, url: t.content })); setExampleTag(t.group || ''); }
-    if (t.img) {
+    setSel(tpl.name); setFg(tpl.fg); setBg(tpl.bg); setDot(tpl.dot); setFinder(tpl.finder);
+    if (tpl.ecc) setEcc(tpl.ecc);
+    if (tpl.shape) setLogoShape(tpl.shape);
+    if (tpl.border) setLogoBorder(tpl.border);
+    if (tpl.content) { setFields((f) => ({ ...f, url: tpl.content })); setExampleTag(tpl.group || ''); }
+    if (tpl.img) {
       // Social presets ship a real brand mark; load it as the actual centre logo
       // so it is baked into the PNG/SVG export, not just drawn over the preview.
-      const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = t.img;
-      setFields((f) => ({ ...f, utm: { ...f.utm, source: t.name.toLowerCase(), medium: 'social' } }));
-    } else if (t.logo !== undefined) {
-      setUseLogo(t.logo);
+      const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = tpl.img;
+      setFields((f) => ({ ...f, utm: { ...f.utm, source: tpl.name.toLowerCase(), medium: 'social' } }));
+    } else if (tpl.logo !== undefined) {
+      setUseLogo(tpl.logo);
     }
-    track('template_selected', { name: t.name });
+    track('template_selected', { name: tpl.name });
   }
   // Style controls pulse the canvas; typing does not.
   const pickDot = (k) => { pulseRef.current = true; setDot(k); };
@@ -351,7 +353,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   const savedDate = (ts) => {
     const d = new Date(ts), now = new Date();
     return d.toDateString() === now.toDateString()
-      ? 'today'
+      ? t.a11y.today
       : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   };
 
@@ -359,52 +361,54 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
   // tech — a bare <canvas> exposes nothing. Describe what the code encodes and
   // whether it is scannable, and announce changes politely.
   const describe = () => {
-    if (!hasContent) return 'QR code preview. Nothing encoded yet — fill in the fields above.';
-    const what = mode === 'wifi' ? `WiFi network ${fields.ssid || '(no name yet)'}`
-      : mode === 'vcard' ? `contact card for ${[fields.first, fields.last].filter(Boolean).join(' ') || '(no name yet)'}`
-      : mode === 'whatsapp' ? `WhatsApp message to ${fields.number || '(no number yet)'}`
-      : mode === 'tel' ? `phone number ${fields.phone || '(none yet)'}`
-      : mode === 'sms' ? `text message to ${fields.number || '(no number yet)'}`
-      : mode === 'text' ? `the text "${fields.text || ''}"`
-      : mode === 'crypto' ? `Bitcoin payment to ${fields.address || '(no address yet)'}`
-      : `link to ${payload}`;
-    return `QR code for ${what}. ${size} by ${size} pixels, error correction ${ecc}, ${scannable ? 'scannable' : 'may not scan reliably'}.`;
+    if (!hasContent) return t.a11y.qrEmpty;
+    const what = mode === 'wifi' ? `${t.a11y.wifiNetwork} ${fields.ssid || t.a11y.noNameYet}`
+      : mode === 'vcard' ? `${t.a11y.contactCard} ${[fields.first, fields.last].filter(Boolean).join(' ') || t.a11y.noNameYet}`
+      : mode === 'whatsapp' ? `${t.a11y.whatsappTo} ${fields.number || t.a11y.noNumberYet}`
+      : mode === 'tel' ? `${t.a11y.phoneNumberIs} ${fields.phone || t.a11y.noneYet}`
+      : mode === 'sms' ? `${t.a11y.smsTo} ${fields.number || t.a11y.noNumberYet}`
+      : mode === 'text' ? `${t.a11y.theText} "${fields.text || ''}"`
+      : mode === 'crypto' ? `${t.a11y.bitcoinTo} ${fields.address || t.a11y.noAddressYet}`
+      : `${t.a11y.linkTo} ${payload}`;
+    return `${t.a11y.qrFor} ${what}. ${size} ${t.a11y.pixels} ${size} px, ${t.a11y.errorCorrection} ${ecc}, ${scannable ? t.a11y.scannableWord : t.a11y.mayNotScan}.`;
   };
   const qrDescription = describe();
 
   const ecd = ECC_DATA[ecc];
   const dotBtn = (on) => `dotbtn${on ? ' on' : ''}`;
   // v5 dynamic subtitle — reflects the current selection.
-  const headerSub = `${DOT_NAMES[dot] || 'Custom'} dots · ${FINDER_NAMES[finder] || 'Custom'} finders · ${useLogo ? 'Logo on' : 'No logo'}`;
+  const eccName = (l) => t.ecc[l];
+  const eccRecovery = (l) => `${ECC_DATA[l].p} ${t.ecc.recovery}${l === 'Q' ? ` · ${t.ecc.bestWithLogo}` : ''}`;
+  const headerSub = `${t.dot[dot] || ''} ${t.gen.dots} · ${t.finder[finder] || ''} ${t.gen.findersChip} · ${useLogo ? t.gen.logoOn : t.gen.noLogo}`;
   const TAB_ITEMS = { social: SOCIAL, industry: INDUSTRY, usecase: USECASE, themes: CREATIVE };
-  const TAB_TITLES = { social: 'Social', industry: 'By industry', usecase: 'By use case', themes: 'Creative themes' };
+  const TAB_TITLES = { social: t.tab.socialTitle, industry: t.tab.industryTitle, usecase: t.tab.usecaseTitle, themes: t.tab.themesTitle };
 
   return (
     <div className="genflag" ref={rootRef}>
       {/* top bar */}
       <div className="gf-top">
-        <div className="gf-brand"><span className="gf-tile">QR</span><span><b>Custom QR Codes</b><i>{headerSub}</i></span></div>
+        <div className="gf-brand"><span className="gf-tile">QR</span><span><b>{t.gen.title}</b><i>{headerSub}</i></span></div>
         {/* The only app-theme control on the site. The choice is persisted, so it
             still applies on learn/trust/article pages, which have no widget —
             it just cannot be changed from there. */}
-        <div className="gf-themes">{THEMES.map((t) => (
-          <button key={t.n} type="button" aria-pressed={theme === t.n} className={theme === t.n ? 'on' : ''}
-            style={{ background: t.c }} title={t.n} aria-label={`${t.n} theme`} onClick={() => applyTheme(t.n)} />
+        <div className="gf-themes">{THEMES.map((th) => (
+          <button key={th.n} type="button" aria-pressed={theme === th.n} className={theme === th.n ? 'on' : ''}
+            style={{ background: th.c }} title={th.n} aria-label={th.n} onClick={() => applyTheme(th.n)} />
         ))}</div>
       </div>
 
       {/* content row */}
       <div className="gf-content">
         <div className="gf-crow">
-          <ModeFields mode={mode} fields={fields} setF={setF} urlValue={payload} onUrlInput={onUrlInput} />
+          <ModeFields mode={mode} fields={fields} setF={setF} urlValue={payload} onUrlInput={onUrlInput} t={t} />
           {exampleTag && <span className="gf-exampletag">{exampleTag}</span>}
-          {mode === 'url' && <button className="gf-utm" onClick={() => setUtmOpen((v) => !v)}>UTM TRACKING <span>{utmOpen ? '▴' : '▾'}</span></button>}
+          {mode === 'url' && <button className="gf-utm" onClick={() => setUtmOpen((v) => !v)}>{t.gen.utmToggle} <span>{utmOpen ? '▴' : '▾'}</span></button>}
         </div>
         {mode === 'url' && utmOpen && (
           <div className="gf-utmpanel">
             <div className="g3">{['source', 'medium', 'campaign'].map((k) => (<label key={k}><span>utm_{k} *</span><input value={fields.utm[k] || ''} aria-label={`UTM ${k}`} onChange={(e) => setUtm(k, e.target.value)} placeholder={k === 'source' ? 'newsletter' : k === 'medium' ? 'social' : 'spring_launch'} /></label>))}</div>
-            <div className="g2">{['term', 'content'].map((k) => (<label key={k}><span>utm_{k}</span><input value={fields.utm[k] || ''} aria-label={`UTM ${k}`} onChange={(e) => setUtm(k, e.target.value)} placeholder="optional" aria-label="optional" /></label>))}</div>
-            <div className="gf-encoded"><span className="k">ENCODED</span><span className="v">{payload}</span></div>
+            <div className="g2">{['term', 'content'].map((k) => (<label key={k}><span>utm_{k}</span><input value={fields.utm[k] || ''} aria-label={`UTM ${k}`} onChange={(e) => setUtm(k, e.target.value)} placeholder={t.gen.utmOptional} aria-label={t.gen.utmOptional} /></label>))}</div>
+            <div className="gf-encoded"><span className="k">{t.gen.utmEncoded}</span><span className="v">{payload}</span></div>
           </div>
         )}
       </div>
@@ -417,47 +421,47 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
         <div className="gf-config">
           <div className="gf-cfg-scroll" ref={cfgScrollRef}>
             <div>
-              <div className="lab">Dot style</div>
-              <div className="gf-grid5">{DOTS.map((d) => <button key={d.k} type="button" aria-pressed={dot === d.k} className={dotBtn(dot === d.k)} onClick={() => pickDot(d.k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="dot" data-style={d.k} style={{ width: 28, height: 28 }} />{d.l}</button>)}</div>
+              <div className="lab">{t.gen.dotStyle}</div>
+              <div className="gf-grid5">{DOTS.map((k) => <button key={k} type="button" aria-pressed={dot === k} className={dotBtn(dot === k)} onClick={() => pickDot(k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="dot" data-style={k} style={{ width: 28, height: 28 }} />{t.dot[k]}</button>)}</div>
             </div>
             <div>
-              <div className="lab">Finder pattern</div>
-              <div className="gf-grid5">{FINDERS.map((f) => <button key={f.k} type="button" aria-pressed={finder === f.k} className={dotBtn(finder === f.k)} onClick={() => pickFinder(f.k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="finder" data-style={f.k} style={{ width: 28, height: 28 }} />{f.l}</button>)}</div>
+              <div className="lab">{t.gen.finderPattern}</div>
+              <div className="gf-grid5">{FINDERS.map((k) => <button key={k} type="button" aria-pressed={finder === k} className={dotBtn(finder === k)} onClick={() => pickFinder(k)}><canvas aria-hidden="true" className="swx" data-px="28" data-kind="finder" data-style={k} style={{ width: 28, height: 28 }} />{t.finder[k]}</button>)}</div>
             </div>
             <div className="g2">
-              <ColorField label="Foreground" val={fg} open={fgOpen} setOpen={(v) => { setFgOpen(v); setBgOpen(false); }} onPick={pickFg} presets={FG_PRESETS} align="left" />
-              <ColorField label="Background" val={bg} open={bgOpen} setOpen={(v) => { setBgOpen(v); setFgOpen(false); }} onPick={pickBg} presets={BG_PRESETS} align="right" />
+              <ColorField t={t} label={t.gen.foreground} val={fg} open={fgOpen} setOpen={(v) => { setFgOpen(v); setBgOpen(false); }} onPick={pickFg} presets={FG_PRESETS} align="left" />
+              <ColorField t={t} label={t.gen.background} val={bg} open={bgOpen} setOpen={(v) => { setBgOpen(v); setFgOpen(false); }} onPick={pickBg} presets={BG_PRESETS} align="right" />
             </div>
             <div>
-              <div className="lab spread"><span>Output size</span><span className="accent">{size} px</span></div>
+              <div className="lab spread"><span>{t.gen.outputSize}</span><span className="accent">{size} px</span></div>
               <div className="gf-slider">
                 <span className="track" /><span className="fill" style={{ width: `${((size - 200) / 1800) * 100}%` }} /><span className="knob" style={{ left: `${((size - 200) / 1800) * 100}%` }} />
-                <input type="range" min="200" max="2000" step="8" value={size} aria-label="Output size in pixels" aria-valuetext={`${size} pixels`} onChange={(e) => setSize(+e.target.value)} />
+                <input type="range" min="200" max="2000" step="8" value={size} aria-label={t.gen.outputSizeAria} aria-valuetext={`${size} pixels`} onChange={(e) => setSize(+e.target.value)} />
               </div>
             </div>
             <div>
-              <div className="lab tiprow"><span>Error correction</span><button className="gf-i" onMouseEnter={() => setEccTip(true)} onMouseLeave={() => setEccTip(false)}>i</button>{eccTip && <span className="gf-tip">Error correction bakes in redundant data so the code still scans when part of it is covered. Higher levels recover more but pack denser dots — pick Q or H when you add a center logo.</span>}</div>
+              <div className="lab tiprow"><span>{t.gen.errorCorrection}</span><button className="gf-i" onMouseEnter={() => setEccTip(true)} onMouseLeave={() => setEccTip(false)}>i</button>{eccTip && <span className="gf-tip">{t.gen.eccTip}</span>}</div>
               {/* v5: four explicit option cards — letter + recovery % + name — so the
                   trade-off is legible without hovering the info tip. */}
               <div className="gf-eccgrid">{['L', 'M', 'Q', 'H'].map((l) => (
-                <button key={l} type="button" aria-pressed={ecc === l} aria-label={`Error correction ${l} — ${ECC_DATA[l].n}, ${ECC_DATA[l].r}`} className={`gf-ecc${ecc === l ? ' on' : ''}`} onClick={() => setEcc(l)}>
-                  <span className="e-l">{l}</span><span className="e-p">{ECC_DATA[l].p}</span><span className="e-n">{ECC_DATA[l].n}</span>
+                <button key={l} type="button" aria-pressed={ecc === l} aria-label={`${t.gen.errorCorrection} ${l} — ${eccName(l)}, ${eccRecovery(l)}`} className={`gf-ecc${ecc === l ? ' on' : ''}`} onClick={() => setEcc(l)}>
+                  <span className="e-l">{l}</span><span className="e-p">{ECC_DATA[l].p}</span><span className="e-n">{eccName(l)}</span>
                 </button>
               ))}</div>
               <div className="gf-bar"><span style={{ width: ecd.f }} /></div>
-              <div className="gf-cap">{ecc} — {ecd.n} · {ecd.r}</div>
+              <div className="gf-cap">{ecc} — {eccName(ecc)} · {eccRecovery(ecc)}</div>
             </div>
             <div>
-              <div className="lab spread"><span>Center logo</span><button type="button" role="switch" aria-checked={useLogo} aria-label="Center logo" className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => setUseLogo((v) => !v)}><span /></button></div>
+              <div className="lab spread"><span>{t.gen.centerLogo}</span><button type="button" role="switch" aria-checked={useLogo} aria-label={t.gen.centerLogo} className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => setUseLogo((v) => !v)}><span /></button></div>
               {/* v5: the logo controls stay visible when the toggle is off — greyed
                   out rather than hidden, so the column height never jumps and you
                   can see what turning it on would give you. `inert` (with the CSS
                   pointer-events fallback) also keeps them out of the tab order. */}
               <div className={`gf-logo${useLogo ? '' : ' off'}`} inert={useLogo ? undefined : ''}>
-                <label className="gf-drop">Drop image or click to upload<i>PNG with transparency</i><input type="file" accept="image/*" hidden onChange={onLogo} /></label>
+                <label className="gf-drop">{t.gen.dropImage}<i>{t.gen.dropHint}</i><input type="file" accept="image/*" hidden onChange={onLogo} /></label>
                 <div className="g2">
-                  <div><div className="micro">SHAPE</div><div className="gf-seg sm">{['circle', 'square'].map((s) => <button key={s} type="button" aria-pressed={logoShape === s} aria-label={`Logo shape ${s}`} className={logoShape === s ? 'on' : ''} onClick={() => setLogoShape(s)}>{s === 'circle' ? '◉' : '▣'} {s.toUpperCase()}</button>)}</div></div>
-                  <div><div className="micro">BORDER</div><div className="gf-seg sm">{['none', 'border'].map((b) => <button key={b} type="button" aria-pressed={logoBorder === b} aria-label={`Logo border ${b}`} className={logoBorder === b ? 'on' : ''} onClick={() => setLogoBorder(b)}>{b === 'none' ? '◼' : '▢'} {b.toUpperCase()}</button>)}</div></div>
+                  <div><div className="micro">{t.gen.shape}</div><div className="gf-seg sm">{['circle', 'square'].map((s) => <button key={s} type="button" aria-pressed={logoShape === s} aria-label={`${t.gen.shape} ${t.logoShape[s]}`} className={logoShape === s ? 'on' : ''} onClick={() => setLogoShape(s)}>{s === 'circle' ? '◉' : '▣'} {t.logoShape[s]}</button>)}</div></div>
+                  <div><div className="micro">{t.gen.border}</div><div className="gf-seg sm">{['none', 'border'].map((b) => <button key={b} type="button" aria-pressed={logoBorder === b} aria-label={`${t.gen.border} ${t.logoBorder[b]}`} className={logoBorder === b ? 'on' : ''} onClick={() => setLogoBorder(b)}>{b === 'none' ? '◼' : '▢'} {t.logoBorder[b]}</button>)}</div></div>
                 </div>
               </div>
             </div>
@@ -469,8 +473,8 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
               while there is no payload rather than exporting an empty code. */}
           <div className="gf-cfg-footer" ref={cfgFooterRef}>
             <button type="button" className="gf-generate" onClick={downloadPNG} disabled={!hasContent}
-              aria-label={hasContent ? 'Download QR code as PNG' : 'Enter content first'}>
-              {hasContent ? 'GENERATE QR CODE' : 'ENTER CONTENT FIRST'}
+              aria-label={hasContent ? t.gen.generate : t.gen.generateEmpty}>
+              {hasContent ? t.gen.generate : t.gen.generateEmpty}
             </button>
           </div>
         </div>
@@ -478,47 +482,47 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
         {/* preview */}
         <div className="gf-preview">
           <div className="gf-plabel">
-            <span className="lab">Live preview</span>
+            <span className="lab">{t.gen.livePreview}</span>
             <div className="gf-savebtns">
-              <button className="save" onClick={saveDesign} title="Save this design to this browser">♥ SAVE DESIGN</button>
-              {saved.length > 0 && <button type="button" ref={drawerTriggerRef} aria-expanded={drawerOpen} className="open" onClick={() => setDrawerOpen(true)}>SAVED · {saved.length} ›</button>}
-              {!railOpen && <button className="gf-railtoggle" onClick={() => setRailOpen(true)}>TEMPLATES ‹</button>}
+              <button className="save" onClick={saveDesign} title={t.gen.saveDesignTitle}>{t.gen.saveDesign}</button>
+              {saved.length > 0 && <button type="button" ref={drawerTriggerRef} aria-expanded={drawerOpen} className="open" onClick={() => setDrawerOpen(true)}>{t.gen.savedCount} · {saved.length} ›</button>}
+              {!railOpen && <button className="gf-railtoggle" onClick={() => setRailOpen(true)}>{t.gen.templatesToggle} ‹</button>}
             </div>
           </div>
-          {toast && <div className="gf-toast">✓ Saved to this browser</div>}
+          {toast && <div className="gf-toast">{t.gen.savedToast}</div>}
           <div className="gf-stage"><div className="gf-mat">
             <canvas ref={mainRef} role="img" aria-label={qrDescription} />
           </div></div>
           <p className="sr-only" role="status" aria-live="polite">{qrDescription}</p>
           <div className="gf-chips">
-            <span className="chip">{size} × {size} px</span><span className="chip">ECC · {ecc}</span><span className="chip">{finder} finders</span>
+            <span className="chip">{size} × {size} px</span><span className="chip">{t.gen.eccChip} · {ecc}</span><span className="chip">{t.finder[finder]} {t.gen.findersChip}</span>
             <span className={`chip ${scannable ? 'ok' : 'warn'}`}>
-              {scannable ? '✓ Scannable' : contrast < 3.5 ? '⚠ Low contrast — may not scan' : '⚠ Logo needs ECC Q or H'}
+              {scannable ? t.gen.scannable : contrast < 3.5 ? t.gen.lowContrast : t.gen.logoEcc}
             </span>
           </div>
-          <div className="gf-dl"><button type="button" className="dl" onClick={downloadPNG} disabled={!hasContent}>↓ DOWNLOAD PNG</button><button type="button" className="dl primary" onClick={downloadSVG} disabled={!hasContent}>↓ DOWNLOAD SVG</button></div>
+          <div className="gf-dl"><button type="button" className="dl" onClick={downloadPNG} disabled={!hasContent}>{t.gen.downloadPng}</button><button type="button" className="dl primary" onClick={downloadSVG} disabled={!hasContent}>{t.gen.downloadSvg}</button></div>
         </div>
 
         {/* saved-designs drawer — ported from ui_kits/website/saved-designs.html */}
         {drawerOpen && (
-          <div className="gf-drawer" ref={drawerRef} role="dialog" aria-label="Saved designs" tabIndex={-1}>
+          <div className="gf-drawer" ref={drawerRef} role="dialog" aria-label={t.gen.savedDrawer} tabIndex={-1}>
             <div className="dhead">
-              <div className="l"><b>Saved designs</b><span>{saved.length} of ∞</span></div>
-              <button className="x" onClick={() => setDrawerOpen(false)} aria-label="Close saved designs">✕</button>
+              <div className="l"><b>{t.gen.savedDrawer}</b><span>{saved.length} of ∞</span></div>
+              <button className="x" onClick={() => setDrawerOpen(false)} aria-label={t.a11y.closeSaved}>✕</button>
             </div>
             <div className="dlist">
               {saved.map((s) => (
                 <div className={`ditem${editing === s.id ? ' edit' : ''}`} key={s.id}>
-                  <button className="th" onClick={() => applySaved(s)} title="Load this design" style={{ background: s.bg }}>
+                  <button className="th" onClick={() => applySaved(s)} title={t.a11y.loadDesign} style={{ background: s.bg }}>
                     <span style={{ background: s.fg }} />
                   </button>
                   {editing === s.id ? (
                     <div className="dmeta">
-                      <input className="nm-input" aria-label="Rename saved design" defaultValue={s.name} autoFocus
+                      <input className="nm-input" aria-label={t.a11y.renameSaved} defaultValue={s.name} autoFocus
                         onKeyDown={(e) => { if (e.key === 'Enter') renameSaved(s.id, e.target.value); if (e.key === 'Escape') setEditing(null); }} />
                     </div>
                   ) : (
-                    <button className="dmeta" onClick={() => applySaved(s)} title="Load this design">
+                    <button className="dmeta" onClick={() => applySaved(s)} title={t.a11y.loadDesign}>
                       <span className="nm">{s.name}</span>
                       <span className="sub">{s.mode} · {s.size}px · {savedDate(s.ts)}</span>
                     </button>
@@ -526,34 +530,34 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
                   <div className="dacts">
                     {editing === s.id ? (
                       <>
-                        <button className="ok" title="Save name" onClick={(e) => renameSaved(s.id, e.target.closest('.ditem').querySelector('.nm-input').value)}>✓</button>
-                        <button title="Cancel" onClick={() => setEditing(null)}>↺</button>
+                        <button className="ok" title={t.a11y.saveName} onClick={(e) => renameSaved(s.id, e.target.closest('.ditem').querySelector('.nm-input').value)}>✓</button>
+                        <button title={t.a11y.cancel} onClick={() => setEditing(null)}>↺</button>
                       </>
                     ) : (
                       <>
-                        <button title="Rename" onClick={() => setEditing(s.id)}>✎</button>
-                        <button title="Delete" onClick={() => deleteSaved(s.id)}>✕</button>
+                        <button title={t.a11y.rename} onClick={() => setEditing(s.id)}>✎</button>
+                        <button title={t.a11y.delete} onClick={() => deleteSaved(s.id)}>✕</button>
                       </>
                     )}
                   </div>
                 </div>
               ))}
             </div>
-            <div className="dfoot"><p><b>Saved on this device only</b> — no account needed. Clearing your browser data removes them.</p></div>
+            <div className="dfoot"><p><b>{t.gen.savedFoot}</b>{t.gen.savedFootRest}</p></div>
           </div>
         )}
 
         {/* templates rail */}
         <div className={`gf-rail${railOpen ? ' open' : ''}`} style={{ flexBasis: railOpen ? 268 : 0, width: railOpen ? 268 : 0 }}>
           <div className="gf-railinner">
-            <div className="gf-railhead"><div><b>Templates</b> <i>{PRESET_COUNT} presets</i></div><button onClick={() => setRailOpen(false)} aria-label="Minimize templates">›</button></div>
+            <div className="gf-railhead"><div><b>{t.gen.templates}</b> <i>{PRESET_COUNT} {t.gen.presetsCount}</i></div><button onClick={() => setRailOpen(false)} aria-label={t.gen.templatesMinimize}>›</button></div>
             {/* v5: category tabs replace the old four-group scroll — only the active
                 category's grid renders, so Social (the default) is reachable without
                 scrolling past 30 other presets. */}
-            <div className="gf-tabs" role="tablist" aria-label="Template categories">
-              {TABS.map((t) => (
-                <button key={t.k} role="tab" id={`gf-tab-${t.k}`} aria-selected={templateTab === t.k} aria-controls={`gf-tabpanel-${t.k}`}
-                  className={`gf-tab${templateTab === t.k ? ' on' : ''}`} onClick={() => setTemplateTab(t.k)}>{t.l}</button>
+            <div className="gf-tabs" role="tablist" aria-label={t.a11y.templateCategories}>
+              {TABS.map((k) => (
+                <button key={k} role="tab" id={`gf-tab-${k}`} aria-selected={templateTab === k} aria-controls={`gf-tabpanel-${k}`}
+                  className={`gf-tab${templateTab === k ? ' on' : ''}`} onClick={() => setTemplateTab(k)}>{t.tab[k]}</button>
               ))}
             </div>
             <div className="gf-railscroll" role="tabpanel" id={`gf-tabpanel-${templateTab}`} aria-labelledby={`gf-tab-${templateTab}`}>
@@ -566,24 +570,24 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '' }
         <div className="gf-support-footer">
           <p>{thanks}</p>
           <a href={supportUrl} target="_blank" rel="noopener" data-support="widget_footer"
-             onClick={() => track('support_click', { placement: 'widget_footer', mode })}>☕ BUY ME A COFFEE</a>
+             onClick={() => track('support_click', { placement: 'widget_footer', mode })}>{t.gen.buyCoffee}</a>
         </div>
       )}
     </div>
   );
 }
 
-function ColorField({ label, val, open, setOpen, onPick, presets, align }) {
+function ColorField({ label, val, open, setOpen, onPick, presets, align, t }) {
   return (
     <div>
       <div className="lab">{label}</div>
       <div className="gf-colorpop" data-pop>
-        <button type="button" aria-expanded={open} aria-label={`${label} colour, currently ${val.toUpperCase()}`} className="gf-colorbtn" onClick={() => setOpen(!open)}><span className="sw" style={{ background: val }} /><span className="hex">{val.toUpperCase()}</span><span className="chev">{open ? '▴' : '▾'}</span></button>
+        <button type="button" aria-expanded={open} aria-label={`${label} ${t.a11y.colourCurrently} ${val.toUpperCase()}`} className="gf-colorbtn" onClick={() => setOpen(!open)}><span className="sw" style={{ background: val }} /><span className="hex">{val.toUpperCase()}</span><span className="chev">{open ? '▴' : '▾'}</span></button>
         {open && (
           <div className={`gf-popover ${align}`}>
-            <div className="gf-pophead"><span className="big" style={{ background: val }} /><div><b>{val.toUpperCase()}</b><i>Drag the bar to pick any color</i></div></div>
-            <label className="gf-bar-input"><span className="rainbow" /><input type="color" aria-label={`${label} colour picker`} value={val} onChange={(e) => onPick(e.target.value)} /></label>
-            <div className="gf-presets"><div className="micro">Presets</div><div className="g6">{presets.map((c) => <button key={c} className={c === val.toLowerCase() ? 'on' : ''} style={{ background: c }} onClick={() => onPick(c)} />)}</div></div>
+            <div className="gf-pophead"><span className="big" style={{ background: val }} /><div><b>{val.toUpperCase()}</b><i>{t.gen.pickColor}</i></div></div>
+            <label className="gf-bar-input"><span className="rainbow" /><input type="color" aria-label={`${label} ${t.a11y.colourPicker}`} value={val} onChange={(e) => onPick(e.target.value)} /></label>
+            <div className="gf-presets"><div className="micro">{t.gen.presets}</div><div className="g6">{presets.map((c) => <button key={c} className={c === val.toLowerCase() ? 'on' : ''} style={{ background: c }} onClick={() => onPick(c)} />)}</div></div>
           </div>
         )}
       </div>
@@ -596,13 +600,13 @@ function RailGroup({ title, items, sel, onPick, social }) {
     <div className="gf-railgroup">
       <div className="micro">{title}</div>
       <div className="g2">
-        {items.map((t) => (
-          <button key={t.name} className={`gf-card${sel === t.name ? ' on' : ''}`} onClick={() => onPick(t)} title={t.content || t.name}>
+        {items.map((item) => (
+          <button key={item.name} className={`gf-card${sel === item.name ? ' on' : ''}`} onClick={() => onPick(item)} title={item.content || item.name}>
             <span className="thumbwrap">
-              <canvas aria-hidden="true" className="thumb" data-px="110" data-fg={t.fg} data-bg={t.bg} data-dot={t.dot} data-finder={t.finder} data-seed={t.seed} />
-              {social && t.img && <span className="thumblogo"><img src={t.img} alt={t.name} /></span>}
+              <canvas aria-hidden="true" className="thumb" data-px="110" data-fg={item.fg} data-bg={item.bg} data-dot={item.dot} data-finder={item.finder} data-seed={item.seed} />
+              {social && item.img && <span className="thumblogo"><img src={item.img} alt={item.name} /></span>}
             </span>
-            <span className="tname">{t.name}</span>
+            <span className="tname">{item.name}</span>
           </button>
         ))}
       </div>
@@ -610,51 +614,51 @@ function RailGroup({ title, items, sel, onPick, social }) {
   );
 }
 
-function ModeFields({ mode, fields, setF, urlValue, onUrlInput }) {
+function ModeFields({ mode, fields, setF, urlValue, onUrlInput, t }) {
   if (mode === 'wifi') return (
     <div className="gf-modefields">
-      <span className="lab flat">WiFi</span>
-      <input value={fields.ssid || ''} onChange={(e) => setF('ssid', e.target.value)} placeholder="Network name (SSID)" aria-label="Network name (SSID)" />
-      <div className="gf-seg sm inline">{['WPA', 'WEP', 'nopass'].map((v) => <button key={v} type="button" aria-pressed={(fields.enc || 'WPA') === v} aria-label={`Encryption ${v === 'nopass' ? 'none' : v}`} className={(fields.enc || 'WPA') === v ? 'on' : ''} onClick={() => setF('enc', v)}>{v === 'nopass' ? 'NONE' : v}</button>)}</div>
-      <input type="password" value={fields.pass || ''} onChange={(e) => setF('pass', e.target.value)} placeholder="Password" aria-label="Password" />
+      <span className="lab flat">{t.field.wifi}</span>
+      <input value={fields.ssid || ''} onChange={(e) => setF('ssid', e.target.value)} placeholder={t.field.ssid} aria-label={t.field.ssid} />
+      <div className="gf-seg sm inline">{['WPA', 'WEP', 'nopass'].map((v) => <button key={v} type="button" aria-pressed={(fields.enc || 'WPA') === v} aria-label={`${v === 'nopass' ? t.field.encNone : v}`} className={(fields.enc || 'WPA') === v ? 'on' : ''} onClick={() => setF('enc', v)}>{v === 'nopass' ? t.field.encNone : v}</button>)}</div>
+      <input type="password" value={fields.pass || ''} onChange={(e) => setF('pass', e.target.value)} placeholder={t.field.password} aria-label={t.field.password} />
     </div>
   );
   if (mode === 'vcard') return (
     <div className="gf-modefields grid">
-      <input value={fields.first || ''} onChange={(e) => setF('first', e.target.value)} placeholder="First name" aria-label="First name" />
-      <input value={fields.last || ''} onChange={(e) => setF('last', e.target.value)} placeholder="Last name" aria-label="Last name" />
-      <input value={fields.phone || ''} onChange={(e) => setF('phone', e.target.value)} placeholder="Phone" aria-label="Phone" />
-      <input value={fields.email || ''} onChange={(e) => setF('email', e.target.value)} placeholder="Email" aria-label="Email" />
-      <input value={fields.company || ''} onChange={(e) => setF('company', e.target.value)} placeholder="Company" aria-label="Company" />
-      <input value={fields.website || ''} onChange={(e) => setF('website', e.target.value)} placeholder="Website" aria-label="Website" />
+      <input value={fields.first || ''} onChange={(e) => setF('first', e.target.value)} placeholder={t.field.firstName} aria-label={t.field.firstName} />
+      <input value={fields.last || ''} onChange={(e) => setF('last', e.target.value)} placeholder={t.field.lastName} aria-label={t.field.lastName} />
+      <input value={fields.phone || ''} onChange={(e) => setF('phone', e.target.value)} placeholder={t.field.phone} aria-label={t.field.phone} />
+      <input value={fields.email || ''} onChange={(e) => setF('email', e.target.value)} placeholder={t.field.email} aria-label={t.field.email} />
+      <input value={fields.company || ''} onChange={(e) => setF('company', e.target.value)} placeholder={t.field.company} aria-label={t.field.company} />
+      <input value={fields.website || ''} onChange={(e) => setF('website', e.target.value)} placeholder={t.field.website} aria-label={t.field.website} />
     </div>
   );
   if (mode === 'whatsapp') return (
     <div className="gf-modefields">
-      <input value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder="WhatsApp number (with country code)" aria-label="WhatsApp number (with country code)" />
-      <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder="Pre-filled message (optional)" aria-label="Pre-filled message (optional)" />
+      <input value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder={t.field.whatsappNumber} aria-label={t.field.whatsappNumber} />
+      <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder={t.field.prefilledMessage} aria-label={t.field.prefilledMessage} />
     </div>
   );
   if (mode === 'tel') return (
-    <><span className="gf-clabel">Phone</span>
-      <input className="gf-cinput" type="tel" value={fields.phone || ''} onChange={(e) => setF('phone', e.target.value)} placeholder="+1 415 555 0123" aria-label="Phone number, with country code" /></>
+    <><span className="gf-clabel">{t.field.phone}</span>
+      <input className="gf-cinput" type="tel" value={fields.phone || ''} onChange={(e) => setF('phone', e.target.value)} placeholder={t.field.phoneIntl} aria-label={t.field.phoneAria} /></>
   );
   if (mode === 'sms') return (
     <div className="gf-modefields">
-      <input type="tel" value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder="Phone number (with country code)" aria-label="Phone number, with country code" />
-      <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder="Pre-filled message (optional)" aria-label="Pre-filled message (optional)" />
+      <input type="tel" value={fields.number || ''} onChange={(e) => setF('number', e.target.value)} placeholder={t.field.phoneNumber} aria-label={t.field.phoneAria} />
+      <input value={fields.message || ''} onChange={(e) => setF('message', e.target.value)} placeholder={t.field.prefilledMessage} aria-label={t.field.prefilledMessage} />
     </div>
   );
   if (mode === 'text') return (
-    <><span className="gf-clabel">Text</span>
-      <input className="gf-cinput" value={fields.text || ''} onChange={(e) => setF('text', e.target.value)} placeholder="Any text — a note, a code, an address" aria-label="Text to encode" /></>
+    <><span className="gf-clabel">{t.field.text}</span>
+      <input className="gf-cinput" value={fields.text || ''} onChange={(e) => setF('text', e.target.value)} placeholder={t.field.textPlaceholder} aria-label={t.field.textAria} /></>
   );
   if (mode === 'crypto') return (
     <div className="gf-modefields">
-      <input value={fields.address || ''} onChange={(e) => setF('address', e.target.value)} placeholder="Bitcoin address" aria-label="Bitcoin address" spellCheck="false" autoCapitalize="none" />
-      <input value={fields.amount || ''} onChange={(e) => setF('amount', e.target.value)} placeholder="Amount in BTC (optional)" aria-label="Amount in BTC (optional)" inputMode="decimal" />
-      <input value={fields.label || ''} onChange={(e) => setF('label', e.target.value)} placeholder="Label (optional)" aria-label="Label (optional)" />
+      <input value={fields.address || ''} onChange={(e) => setF('address', e.target.value)} placeholder={t.field.bitcoinAddress} aria-label={t.field.bitcoinAddress} spellCheck="false" autoCapitalize="none" />
+      <input value={fields.amount || ''} onChange={(e) => setF('amount', e.target.value)} placeholder={t.field.amountBtc} aria-label={t.field.amountBtc} inputMode="decimal" />
+      <input value={fields.label || ''} onChange={(e) => setF('label', e.target.value)} placeholder={t.field.label} aria-label={t.field.label} />
     </div>
   );
-  return (<><span className="gf-clabel">Content / URL</span><input className="gf-cinput" value={urlValue ?? (fields.url || '')} onChange={(e) => onUrlInput(e.target.value)} placeholder="https://your-link.com" aria-label="Content or URL" /></>);
+  return (<><span className="gf-clabel">{t.gen.contentLabel}</span><input className="gf-cinput" value={urlValue ?? (fields.url || '')} onChange={(e) => onUrlInput(e.target.value)} placeholder={t.gen.contentPlaceholder} aria-label={t.gen.contentAria} /></>);
 }

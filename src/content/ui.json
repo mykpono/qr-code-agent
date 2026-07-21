@@ -1,0 +1,270 @@
+{
+  "_comment": "English UI chrome — every user-visible string that is NOT page content. Page copy lives in pages.json; this is the frame around it. A locale overrides any subset of these under a `ui` key in src/content/i18n/<locale>.json; anything missing falls back to English (see uiStrings in lib/content.js). Template preset NAMES (Classic, Neon, Telegram…) are deliberately absent: they are proper names of designs, like paint-colour names, and stay English in every locale.",
+  "header": {
+    "tagline": "Free QR Code Generator",
+    "support": "☕ Support"
+  },
+  "trust": [
+    {
+      "b": "Free forever",
+      "s": "no sign-up"
+    },
+    {
+      "b": "No watermark",
+      "s": "clean output"
+    },
+    {
+      "b": "Unlimited codes",
+      "s": "no daily cap"
+    },
+    {
+      "b": "In your browser",
+      "s": "nothing uploaded"
+    }
+  ],
+  "badge": {
+    "usecase": "Use-case guide",
+    "learn": "Learn",
+    "about": "About",
+    "guide": "Guide",
+    "default": "Free QR Codes",
+    "forPrefix": "For"
+  },
+  "crumb": {
+    "home": "Home",
+    "usecases": "Use cases",
+    "industry": "By industry"
+  },
+  "section": {
+    "whereToUse": "Where to use",
+    "whyItWorks": "Why it works",
+    "tips": "Tips and best practices",
+    "faqSuffix": "FAQ",
+    "related": "Related",
+    "relatedGuides": "Related guides",
+    "otherGenerators": "Other free QR code generators",
+    "toolsHub": "The tools this ICP uses most",
+    "hubNote": "This is a hub — each card opens the dedicated free tool.",
+    "readyTitle": "Ready to make one?",
+    "readySub": "Free, no sign-up, and your code never expires.",
+    "readyCta": "Make one now",
+    "openGenerator": "OPEN THE GENERATOR",
+    "usesThe": "Uses the",
+    "articleCover": "ARTICLE COVER",
+    "cover": "COVER",
+    "learnCrumb": "Learn",
+    "latestGuides": "Latest guides",
+    "learnCtaSub": "The generator is free, needs no sign-up, and your code never expires.",
+    "canonNote": "This guide reuses our dedicated generator — open it to enter your details and download a code that encodes the right payload.",
+    "lastUpdated": "Last updated",
+    "updatedPrefix": "Updated"
+  },
+  "gen": {
+    "title": "Custom QR Codes",
+    "contentLabel": "Content / URL",
+    "contentPlaceholder": "https://your-link.com",
+    "contentAria": "Content or URL",
+    "utmToggle": "UTM TRACKING",
+    "utmEncoded": "ENCODED",
+    "utmOptional": "optional",
+    "dotStyle": "Dot style",
+    "finderPattern": "Finder pattern",
+    "foreground": "Foreground",
+    "background": "Background",
+    "outputSize": "Output size",
+    "outputSizeAria": "Output size in pixels",
+    "errorCorrection": "Error correction",
+    "eccTip": "Error correction bakes in redundant data so the code still scans when part of it is covered. Higher levels recover more but pack denser dots — pick Q or H when you add a center logo.",
+    "centerLogo": "Center logo",
+    "dropImage": "Drop image or click to upload",
+    "dropHint": "PNG with transparency",
+    "shape": "SHAPE",
+    "border": "BORDER",
+    "generate": "GENERATE QR CODE",
+    "generateEmpty": "ENTER CONTENT FIRST",
+    "livePreview": "Live preview",
+    "saveDesign": "♥ SAVE DESIGN",
+    "saveDesignTitle": "Save this design to this browser",
+    "savedToast": "✓ Saved to this browser",
+    "savedDrawer": "Saved designs",
+    "savedCount": "SAVED",
+    "savedFoot": "Saved on this device only",
+    "savedFootRest": " — no account needed. Clearing your browser data removes them.",
+    "templates": "Templates",
+    "templatesToggle": "TEMPLATES",
+    "templatesMinimize": "Minimize templates",
+    "presetsCount": "presets",
+    "downloadPng": "↓ DOWNLOAD PNG",
+    "downloadSvg": "↓ DOWNLOAD SVG",
+    "presets": "Presets",
+    "pickColor": "Drag the bar to pick any color",
+    "scannable": "✓ Scannable",
+    "lowContrast": "⚠ Low contrast — may not scan",
+    "logoEcc": "⚠ Logo needs ECC Q or H",
+    "eccChip": "ECC",
+    "findersChip": "finders",
+    "dots": "dots",
+    "logoOn": "Logo on",
+    "noLogo": "No logo",
+    "buyCoffee": "☕ BUY ME A COFFEE"
+  },
+  "dot": {
+    "star": "PLUS",
+    "realstar": "STAR",
+    "diamond": "DIAMOND",
+    "circle": "CIRCLE",
+    "square": "SQUARE",
+    "dot": "DOT",
+    "rounded": "ROUNDED"
+  },
+  "finder": {
+    "circle": "CIRCLE",
+    "rounded": "ROUNDED",
+    "square": "SQUARE",
+    "leaf": "LEAF",
+    "cushion": "CUSHION"
+  },
+  "ecc": {
+    "L": "Low",
+    "M": "Medium",
+    "Q": "Quartile",
+    "H": "High",
+    "recovery": "recovery",
+    "bestWithLogo": "best with a logo"
+  },
+  "tab": {
+    "social": "Social",
+    "industry": "Industry",
+    "usecase": "Use case",
+    "themes": "Themes",
+    "socialTitle": "Social",
+    "industryTitle": "By industry",
+    "usecaseTitle": "By use case",
+    "themesTitle": "Creative themes"
+  },
+  "logoShape": {
+    "circle": "CIRCLE",
+    "square": "SQUARE"
+  },
+  "logoBorder": {
+    "none": "NONE",
+    "border": "BORDER"
+  },
+  "field": {
+    "wifi": "WiFi",
+    "ssid": "Network name (SSID)",
+    "password": "Password",
+    "encNone": "NONE",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "email": "Email",
+    "company": "Company",
+    "website": "Website",
+    "whatsappNumber": "WhatsApp number (with country code)",
+    "prefilledMessage": "Pre-filled message (optional)",
+    "phoneIntl": "+1 415 555 0123",
+    "phoneAria": "Phone number, with country code",
+    "phoneNumber": "Phone number (with country code)",
+    "text": "Text",
+    "textPlaceholder": "Any text — a note, a code, an address",
+    "textAria": "Text to encode",
+    "bitcoinAddress": "Bitcoin address",
+    "amountBtc": "Amount in BTC (optional)",
+    "label": "Label (optional)"
+  },
+  "a11y": {
+    "qrEmpty": "QR code preview. Nothing encoded yet — fill in the fields above.",
+    "qrFor": "QR code for",
+    "pixels": "by",
+    "errorCorrection": "error correction",
+    "scannableWord": "scannable",
+    "mayNotScan": "may not scan reliably",
+    "linkTo": "link to",
+    "wifiNetwork": "WiFi network",
+    "contactCard": "contact card for",
+    "whatsappTo": "WhatsApp message to",
+    "phoneNumberIs": "phone number",
+    "smsTo": "text message to",
+    "theText": "the text",
+    "bitcoinTo": "Bitcoin payment to",
+    "noNameYet": "(no name yet)",
+    "noNumberYet": "(no number yet)",
+    "noneYet": "(none yet)",
+    "noAddressYet": "(no address yet)",
+    "rename": "Rename",
+    "delete": "Delete",
+    "saveName": "Save name",
+    "cancel": "Cancel",
+    "loadDesign": "Load this design",
+    "closeSaved": "Close saved designs",
+    "renameSaved": "Rename saved design",
+    "templateCategories": "Template categories",
+    "colourPicker": "colour picker",
+    "colourCurrently": "colour, currently",
+    "today": "today"
+  },
+  "footer": {
+    "language": "Language",
+    "byline": "Generated in your browser — nothing is uploaded. · Created by",
+    "support": "☕ Support this tool"
+  },
+  "consent": {
+    "allow": "ALLOW",
+    "decline": "DECLINE",
+    "body": "We use cookieless analytics that never see your QR codes. May we also enable Google Analytics? It sets cookies. Your codes are generated in your browser either way — nothing is uploaded.",
+    "aria": "Analytics consent"
+  },
+  "nav": [
+    "QR types",
+    "Restaurants",
+    "Events",
+    "With logo",
+    "Learn"
+  ],
+  "footerCols": [
+    {
+      "heading": "Popular types",
+      "links": [
+        "WiFi QR code",
+        "vCard QR code",
+        "Menu QR code",
+        "Google Review QR code",
+        "Instagram QR code",
+        "WhatsApp QR code"
+      ]
+    },
+    {
+      "heading": "By use case",
+      "links": [
+        "Business cards",
+        "Restaurant menus",
+        "Social media"
+      ]
+    },
+    {
+      "heading": "By industry",
+      "links": [
+        "Restaurants",
+        "Events",
+        "Marketing",
+        "Education",
+        "Small business"
+      ]
+    },
+    {
+      "heading": "QR Code Agent",
+      "links": [
+        "How it works",
+        "About",
+        "Privacy"
+      ]
+    }
+  ],
+  "supportThanks": "Free and no ads — if this saved you time, you can buy me a coffee. Totally optional.",
+  "faqThanks": {
+    "pre": "Got your code?",
+    "cta": "☕ Buy me a coffee",
+    "post": "— it keeps this tool free for everyone."
+  }
+}

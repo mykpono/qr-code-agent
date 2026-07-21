@@ -8,20 +8,18 @@
 //
 // Renders only when GA4 is actually configured; with no GA id there is nothing
 // to consent to and the banner would be a dark pattern.
+import { uiStrings } from '../lib/content.js';
 const { locale = 'en' } = Astro.props;
+const t = uiStrings(locale);
 const GA = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 ---
 {GA && (
-  <div id="qra-consent" class="consent" hidden role="dialog" aria-live="polite" aria-label="Analytics consent">
+  <div id="qra-consent" class="consent" hidden role="dialog" aria-live="polite" aria-label={t.consent.aria}>
     <div class="consent-in">
-      <p>
-        We use cookieless analytics that never see your QR codes. May we also enable
-        Google Analytics? It sets cookies. Your codes are generated in your browser
-        either way — nothing is uploaded.
-      </p>
+      <p>{t.consent.body}</p>
       <div class="consent-btns">
-        <button type="button" data-consent="denied">DECLINE</button>
-        <button type="button" data-consent="granted" class="ok">ALLOW</button>
+        <button type="button" data-consent="denied">{t.consent.decline}</button>
+        <button type="button" data-consent="granted" class="ok">{t.consent.allow}</button>
       </div>
     </div>
   </div>

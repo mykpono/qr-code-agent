@@ -1,8 +1,9 @@
 ---
-import { SITE, LIVE_LOCALES, localHref, SUPPORT_URL } from '../lib/content.js';
+import { SITE, LIVE_LOCALES, localHref, SUPPORT_URL, uiStrings } from '../lib/content.js';
 // Header markup ported verbatim from ui_kits/website/*.html
 const { locale = 'en', slug = '' } = Astro.props;
 const L = (href) => localHref(href, locale);
+const t = uiStrings(locale);
 
 // The folder's header shows a static `◉ EN ▾` chip — the ▾ implies a menu it
 // never draws. Rendered as a native <details> so it needs no JS; falls back to
@@ -16,10 +17,10 @@ const langs = LIVE_LOCALES.map((l) => ({
 ---
 <header class="site-header">
   <div class="wrap hbar">
-    <a class="lock" href={L('/')}><div class="tile">QR</div><div><div class="t1">QR Code Agent</div><div class="t2">Free QR Code Generator</div></div></a>
-    <nav>{SITE.primary_nav.map((i) => <a href={L(i.href)}>{i.label}</a>)}</nav>
+    <a class="lock" href={L('/')}><div class="tile">QR</div><div><div class="t1">QR Code Agent</div><div class="t2">{t.header.tagline}</div></div></a>
+    <nav>{SITE.primary_nav.map((i, n) => <a href={L(i.href)}>{t.nav[n] ?? i.label}</a>)}</nav>
     <div class="hright">
-      <a class="pill" href={SUPPORT_URL} data-support="header">☕ Support</a>
+      <a class="pill" href={SUPPORT_URL} data-support="header">{t.header.support}</a>
       {langs.length > 1 ? (
         <details class="langmenu">
           <summary class="lang">◉ {locale.toUpperCase()} ▾</summary>

@@ -1,8 +1,9 @@
 ---
-import { SITE, LIVE_LOCALES, localHref, SUPPORT_URL, urlFor } from '../lib/content.js';
+import { SITE, LIVE_LOCALES, localHref, SUPPORT_URL, urlFor, uiStrings } from '../lib/content.js';
 // Footer ported verbatim from ui_kits/website/*.html (incl. the "Created by Myk Pono" byline).
 const { locale = 'en', slug = '' } = Astro.props;
 const L = (href) => localHref(href, locale);
+const t = uiStrings(locale);
 
 // Language row. Driven by LIVE_LOCALES, never by the full 11-locale wish list in
 // site.languages — a locale is live only once its translation bundle exists, so
@@ -18,13 +19,13 @@ const langs = LIVE_LOCALES.map((loc) => ({
 ---
 <footer class="site-footer">
   <div class="wrap fgrid">
-    {SITE.footer_columns.map((c) => (
-      <div><h5>{c.heading}</h5>{c.links.map((l) => <a href={L(l.href)}>{l.label}</a>)}</div>
+    {SITE.footer_columns.map((c, ci) => (
+      <div><h5>{t.footerCols[ci]?.heading ?? c.heading}</h5>{c.links.map((l, li) => <a href={L(l.href)}>{t.footerCols[ci]?.links[li] ?? l.label}</a>)}</div>
     ))}
   </div>
   {langs.length > 1 && (
     <div class="wrap flangs">
-      <h5>Language</h5>
+      <h5>{t.footer.language}</h5>
       <ul>
         {langs.map((l) => (
           <li>
@@ -37,7 +38,7 @@ const langs = LIVE_LOCALES.map((loc) => ({
     </div>
   )}
   <div class="wrap fbot">
-    <span>Generated in your browser — nothing is uploaded. · Created by <a href={SITE.creator.linkedin} target="_blank" rel="noopener" style="font-weight:600;">{SITE.creator.name}</a></span>
-    <a href={SUPPORT_URL} data-support="footer">☕ Support this tool</a>
+    <span>{t.footer.byline} <a href={SITE.creator.linkedin} target="_blank" rel="noopener" style="font-weight:600;">{SITE.creator.name}</a></span>
+    <a href={SUPPORT_URL} data-support="footer">{t.footer.support}</a>
   </div>
 </footer>
