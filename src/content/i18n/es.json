@@ -126,7 +126,8 @@
       "markSuffix": "logo",
       "removeMark": "QUITAR",
       "socialLinkTag": "enlace social",
-      "plateWarn": "La placa cubre {cover}% pero el ECC {ecc} solo recupera {rec}% — sube el ECC a Q o H."
+      "plateWarn": "La placa cubre {cover}% pero el ECC {ecc} solo recupera {rec}% — sube el ECC a Q o H.",
+      "hex": "HEX"
     },
     "dot": {
       "star": "CRUZ",
@@ -226,7 +227,8 @@
       "colourPicker": "selector de color",
       "colourCurrently": "color, actualmente",
       "today": "hoy",
-      "emailTo": "correo a"
+      "emailTo": "correo a",
+      "hexInput": "código de color hex"
     },
     "footer": {
       "language": "Idioma",

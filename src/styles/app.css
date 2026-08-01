@@ -245,6 +245,11 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .gf-bar-input { position: relative; display: block; cursor: pointer; }
 .gf-bar-input .rainbow { display: block; height: 18px; border-radius: 9px; background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); border: 1px solid rgba(0,0,0,.08); }
 .gf-bar-input input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+/* Editable hex field — type or paste a colour code. */
+.gf-hexinput { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.gf-hexinput .micro { margin-bottom: 0; flex: 0 0 auto; }
+.gf-hexinput input { flex: 1; min-width: 0; background: var(--surface-2); border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; font: 500 12px var(--font-mono); letter-spacing: .04em; color: var(--ink); text-transform: uppercase; }
+.gf-hexinput input::placeholder { text-transform: uppercase; }
 .gf-presets { margin-top: 13px; padding-top: 12px; border-top: 1px solid var(--border-soft); }
 .gf-presets .g6 button { position: relative; height: 34px; border-radius: 9px; border: 1px solid var(--border-2); cursor: pointer; }
 .gf-presets .g6 button.on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 12px; }

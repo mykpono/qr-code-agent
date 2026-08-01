@@ -697,6 +697,21 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
 }
 
 function ColorField({ label, val, open, setOpen, onPick, presets, align, t }) {
+  // The hex field is editable — you can type or paste a colour code. `draft` holds
+  // what is being typed (which may be partial/invalid) so the field does not fight
+  // your keystrokes; a valid #rgb or #rrggbb is committed up via onPick. It stays
+  // in sync when the colour changes elsewhere (hue bar, presets).
+  const [draft, setDraft] = useState(val);
+  // Sync when the colour changes elsewhere (hue bar, presets) and whenever the
+  // popover (re)opens, so a leftover partial entry never lingers.
+  useEffect(() => { setDraft(val); }, [val, open]);
+  const commitHex = (raw) => {
+    setDraft(raw);
+    let h = raw.trim();
+    if (h && h[0] !== '#') h = `#${h}`;
+    if (/^#[0-9a-fA-F]{3}$/.test(h)) h = `#${h.slice(1).split('').map((c) => c + c).join('')}`;
+    if (/^#[0-9a-fA-F]{6}$/.test(h)) onPick(h.toLowerCase());
+  };
   return (
     <div>
       <div className="lab">{label}</div>
@@ -706,6 +721,11 @@ function ColorField({ label, val, open, setOpen, onPick, presets, align, t }) {
           <div className={`gf-popover ${align}`}>
             <div className="gf-pophead"><span className="big" style={{ background: val }} /><div><b>{val.toUpperCase()}</b><i>{t.gen.pickColor}</i></div></div>
             <label className="gf-bar-input"><span className="rainbow" /><input type="color" aria-label={`${label} ${t.a11y.colourPicker}`} value={val} onChange={(e) => onPick(e.target.value)} /></label>
+            <div className="gf-hexinput">
+              <span className="micro">{t.gen.hex}</span>
+              <input type="text" value={draft} onChange={(e) => commitHex(e.target.value)} spellCheck="false" autoCapitalize="none" maxLength={7}
+                placeholder={val.toUpperCase()} aria-label={`${label} ${t.a11y.hexInput}`} />
+            </div>
             <div className="gf-presets"><div className="micro">{t.gen.presets}</div><div className="g6">{presets.map((c) => <button key={c} className={c === val.toLowerCase() ? 'on' : ''} style={{ background: c }} onClick={() => onPick(c)} />)}</div></div>
           </div>
         )}

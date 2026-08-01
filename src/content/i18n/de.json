@@ -126,7 +126,8 @@
       "markSuffix": "Logo",
       "removeMark": "ENTFERNEN",
       "socialLinkTag": "Social-Link",
-      "plateWarn": "Die Platte verdeckt {cover}%, aber ECC {ecc} korrigiert nur {rec}% — erhöhe ECC auf Q oder H."
+      "plateWarn": "Die Platte verdeckt {cover}%, aber ECC {ecc} korrigiert nur {rec}% — erhöhe ECC auf Q oder H.",
+      "hex": "HEX"
     },
     "dot": {
       "star": "PLUS",
@@ -226,7 +227,8 @@
       "colourPicker": "Farbwähler",
       "colourCurrently": "Farbe, aktuell",
       "today": "heute",
-      "emailTo": "E-Mail an"
+      "emailTo": "E-Mail an",
+      "hexInput": "Hex-Farbcode"
     },
     "footer": {
       "language": "Sprache",

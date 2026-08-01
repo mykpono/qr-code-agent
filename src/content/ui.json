@@ -98,6 +98,7 @@
     "downloadPng": "Download ↓ PNG",
     "downloadSvg": "Download ↓ SVG",
     "presets": "Presets",
+    "hex": "HEX",
     "pickColor": "Drag the bar to pick any color",
     "scannable": "✓ Scannable",
     "lowContrast": "⚠ Low contrast — may not scan",
@@ -263,6 +264,7 @@
     "renameSaved": "Rename saved design",
     "templateCategories": "Template categories",
     "colourPicker": "colour picker",
+    "hexInput": "hex colour code",
     "colourCurrently": "colour, currently",
     "today": "today"
   },
