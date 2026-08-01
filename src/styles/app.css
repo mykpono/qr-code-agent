@@ -24,9 +24,9 @@ a:hover { color: var(--brand-600); }
 .pill { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 9px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .06em; color: var(--brand-500); cursor: pointer; white-space: nowrap; flex: 0 0 auto; }
 .lang { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px; border-radius: 9px; background: var(--surface-2); border: 1px solid var(--border); font: 600 11px var(--font-mono); color: var(--ink-2); cursor: pointer; white-space: nowrap; flex: 0 0 auto; }
 /* Widget footer support line — always visible, part of the generator card. */
-.gf-support-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 14px 30px; border-top: 1px solid var(--brand-soft-border); background: var(--brand-soft); }
-.gf-support-footer p { flex: 1 1 200px; margin: 0; font: 400 12px/1.5 var(--font-sans); color: var(--ink-2); }
-.gf-support-footer a { flex: 0 0 auto; padding: 9px 14px; border-radius: 9px; background: var(--brand-gradient); color: #fff; text-decoration: none; font: 700 10px var(--font-mono); letter-spacing: .08em; white-space: nowrap; }
+.gf-support-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 15px 30px; border-top: 1px solid var(--border-soft); background: #e9e3fb; }
+.gf-support-footer p { flex: 1 1 200px; margin: 0; font: 500 13px/1.5 var(--font-sans); color: var(--ink-2); }
+.gf-support-footer a { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 18px; border-radius: 11px; background: var(--brand-gradient); color: #fff; text-decoration: none; font: 700 11px var(--font-mono); letter-spacing: .09em; white-space: nowrap; box-shadow: var(--shadow-cta); }
 
 /* Saved designs — ported from ui_kits/website/saved-designs.html (BACKLOG P1).
    Save lives in the preview header exactly as the folder places it, so the
@@ -93,7 +93,14 @@ a:hover { color: var(--brand-600); }
 .hero.left { text-align: left; }
 .badge { display: inline-flex; padding: 7px 14px; border-radius: 999px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--brand-500); }
 h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0; max-width: 18ch; text-wrap: balance; }
+/* Widget-page (flagship) heroes carry short generator titles that the 18ch cap was
+   forcing onto two lines — lift the cap so they sit on one line where the width
+   allows (they still wrap on narrow phones). Article/learn/trust heroes keep the
+   balanced two-line treatment. */
+.arch-home h1, .arch-type h1, .arch-feature h1, .arch-usecase h1, .arch-industry h1 { max-width: none; }
 .hero.left h1 { margin-left: 0; }
+/* Home hero H1 sits on one line on desktop; the wide max-width still lets it wrap on narrow screens. */
+.arch-home h1 { max-width: none; }
 .sub { font: 500 15px/1.55 var(--font-sans); color: var(--muted); margin: 14px auto 0; max-width: 56ch; text-wrap: pretty; }
 .intro { font: 500 15px/1.65 var(--font-sans); color: var(--muted); margin: 16px 0 0; max-width: 66ch; text-wrap: pretty; }
 .crumb { font: 500 12px var(--font-mono); color: var(--muted-2); padding: 16px 0 0; }
@@ -131,7 +138,8 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .gf-themes { display: flex; gap: 7px; }
 .gf-themes button { position: relative; width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--border-2); cursor: pointer; }
 .gf-themes button:not(.on)::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
-.gf-themes button.on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 10px; width: auto; height: auto; left: auto; top: auto; transform: none; }
+/* Active theme chip is marked by a 5px accent dot below it (matches the design). */
+.gf-themes button.on::after { content: ""; position: absolute; left: 50%; bottom: -9px; top: auto; inset: auto; transform: translateX(-50%); width: 5px; height: 5px; border: none; border-radius: 50%; background: var(--brand-500); }
 
 /* content row */
 .gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px; border-bottom: 1px solid var(--border-soft); }
@@ -154,13 +162,67 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .gf-encoded .k { font: 600 9px var(--font-mono); letter-spacing: .1em; color: var(--label-2); flex: 0 0 auto; }
 .gf-encoded .v { font: 500 11px var(--font-mono); color: var(--muted); word-break: break-all; }
 
+/* type strip — in-widget content-type tabs (matches QR Generator Multi-Type) */
+.gf-typestrip { display: flex; align-items: stretch; gap: 22px; padding: 0 30px; border-bottom: 1px solid var(--border-soft); background: var(--surface); }
+.gf-typelabel { font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); flex: 0 0 auto; align-self: center; }
+.gf-tabsrow { flex: 1; min-width: 0; display: flex; align-items: stretch; gap: 20px; overflow-x: auto; }
+.gf-tabsrow::-webkit-scrollbar { height: 5px; }
+.gf-tabsrow > span { display: inline-flex; align-items: stretch; flex: 0 0 auto; }
+.gf-tabsrow > span.gf-social-lead { margin-left: 6px; }
+.gf-type { flex: 0 0 auto; padding: 16px 2px 14px; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; font: 600 13px var(--font-sans); letter-spacing: .01em; color: var(--muted-2); }
+.gf-type.on { color: var(--ink); border-bottom-color: var(--brand-500); }
+.gf-type.icon { display: flex; align-items: center; justify-content: center; width: 34px; padding: 16px 0 14px; opacity: .45; transition: opacity .15s; }
+.gf-type.icon.on { opacity: 1; }
+.gf-type.icon img { width: 24px; height: 24px; object-fit: contain; display: block; }
+
+/* field head (mode note + example tag) */
+.gf-fieldhead { display: flex; align-items: baseline; gap: 12px; }
+.gf-fieldnote { font: 500 11px var(--font-mono); color: var(--muted-2); }
+
+/* WiFi: SSID/enc/password row + hidden-network row */
+.gf-wifi { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.gf-wifirow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+/* checkbox used by Hidden-network and the logo Border toggle */
+.gf-check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; background: none; border: none; font: 500 12px var(--font-sans); color: var(--ink-2); }
+.gf-check .box { display: flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 5px; font: 700 10px var(--font-sans); background: var(--surface-2); border: 1px solid var(--border-2); color: transparent; }
+.gf-check[aria-checked="true"] .box { background: var(--brand-500); border-color: var(--brand-500); color: #fff; }
+
+/* payload strip — ENCODES AS + density chip + advisory USE Q/H */
+.gf-payload { display: flex; align-items: center; gap: 10px; padding-top: 11px; border-top: 1px solid var(--border-soft); }
+.gf-payload .k { font: 600 9px var(--font-mono); letter-spacing: .12em; color: var(--label-2); flex: 0 0 auto; }
+.gf-payload .v { flex: 1; min-width: 0; font: 500 11px var(--font-mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gf-density { flex: 0 0 auto; font: 500 10px var(--font-mono); padding: 5px 10px; border-radius: 20px; white-space: nowrap; }
+.gf-density.low, .gf-density.mid { color: #22a06b; background: #eafaf1; border: 1px solid #c5ecd6; }
+.gf-density.high { color: #b4690e; background: #fdf3e3; border: 1px solid #f0dcb4; }
+.gf-density.empty { color: var(--muted-2); background: transparent; border: 1px solid var(--border); }
+.gf-use { flex: 0 0 auto; font: 600 9px var(--font-mono); letter-spacing: .08em; padding: 5px 9px; border-radius: 8px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); color: var(--brand-500); cursor: pointer; }
+
+/* logo plate + LOGO FIT + ECC suggestion */
+.micro.flat { margin-bottom: 0; flex: 0 0 auto; }
+.gf-plate { display: flex; align-items: center; gap: 16px; }
+.gf-plateswatches { display: flex; gap: 6px; }
+.gf-platesw { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); }
+.gf-platesw.on { background: var(--brand-soft); border: 1.5px solid var(--brand-500); }
+.gf-platesw .glyph { display: block; width: 17px; height: 17px; background: var(--muted-2); }
+.gf-platesw .glyph.circle { border-radius: 50%; }
+.gf-platesw .glyph.square { border-radius: 2px; }
+.gf-platesw.on .glyph { background: var(--brand-500); }
+.gf-fitrow { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.gf-fitrow .fitval { display: flex; align-items: baseline; gap: 9px; }
+.gf-fitrow .accent { font: 600 10px var(--font-mono); color: var(--brand-500); }
+.gf-reset { font: 600 9px var(--font-mono); letter-spacing: .08em; color: var(--muted-2); background: none; border: none; cursor: pointer; padding: 0; }
+.gf-logohint { font: 500 10px var(--font-mono); color: var(--muted-2); line-height: 1.5; }
+.gf-logohint.warn { color: #b4690e; }
+.gf-suggested { margin-left: auto; font: 600 9px var(--font-mono); letter-spacing: .08em; color: var(--brand-500); background: var(--brand-soft); border-radius: 7px; padding: 4px 8px; }
+
 /* body — height is set from the config column's full content (fitHeight), so the
    config column never scrolls internally. Only the templates rail scrolls. */
 .gf-body { display: flex; align-items: stretch; height: 780px; position: relative; }
 .gf-config { flex: 0 0 404px; width: 404px; border-right: 1px solid var(--border-soft); display: flex; flex-direction: column; min-width: 0; }
 .gf-cfg-scroll { padding: 26px 24px 20px; display: flex; flex-direction: column; gap: 20px; }
 .gf-grid5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
-.dotbtn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 11px 2px; border-radius: 12px; cursor: pointer; font: 600 8px var(--font-mono); letter-spacing: .03em; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); }
+.dotbtn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 11px 2px; border-radius: 12px; cursor: pointer; font: 600 9px var(--font-mono); letter-spacing: .04em; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); }
 .dotbtn.on { background: var(--brand-soft); border: 1.5px solid var(--brand-500); color: var(--brand-500); }
 .dotbtn canvas { width: 28px; height: 28px; }
 
@@ -232,11 +294,10 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
    only thing on it), and the code sits directly on that white with a soft drop
    shadow — no white mat card around it. */
 .gf-preview { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 30px; background: #ffffff; }
-/* The rail's 1px left border survives width:0, so a collapsed rail is still 1px
-   wide, leaving a hairline floating at the card's edge. Drop the border with it. */
-.gf-body.rail-closed .gf-rail { border-left-width: 0; }
 .gf-plabel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.gf-railtoggle { display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px; border-radius: 9px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .08em; color: var(--brand-500); cursor: pointer; }
+/* Reopen affordance for the stacked/mobile layout only; on desktop the collapsed
+   rail is itself a clickable vertical spine, so this header button is hidden. */
+.gf-railtoggle { display: none; align-items: center; gap: 8px; height: 30px; padding: 0 14px; border-radius: 9px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .08em; color: var(--brand-500); cursor: pointer; }
 .gf-stage { flex: 1; display: flex; align-items: center; justify-content: center; min-width: 0; }
 /* Preview canvas size. Fluid — fills the preview column, capped at the design's
    500px. The card itself is fluid, so the column's width (and therefore the QR)
@@ -251,28 +312,44 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .genflag { container-type: inline-size; --qr-preview: 500px; }
 .gf-mat { position: relative; width: 100%; max-width: min(var(--qr-preview), calc(100cqw - 732px)); }
 .gf-mat canvas { display: block; width: 100%; height: auto; filter: drop-shadow(0 24px 44px rgba(40,30,60,.16)); }
+/* Empty-logo placeholder plate over the preview (a real mark is baked into the
+   canvas instead). Sized as a fraction of the code so it tracks the QR. */
+.gf-logoplate { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 22%; aspect-ratio: 1; background: #fff; box-shadow: 0 6px 20px -6px rgba(40,30,60,.4); display: flex; align-items: center; justify-content: center; padding: 6%; overflow: hidden; }
+.gf-logoplate.circle { border-radius: 50%; }
+.gf-logoplate.square { border-radius: 14%; }
+.gf-logoplate span { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font: 600 9px var(--font-mono); letter-spacing: .12em; color: #8a7bd8; background: repeating-linear-gradient(45deg, #e7e1f7, #e7e1f7 5px, #f3f0fb 5px, #f3f0fb 10px); }
+.gf-logoplate.circle span { border-radius: 50%; }
+.gf-logoplate.square span { border-radius: 10%; }
 .gf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .gf-chips .chip { font: 500 10px var(--font-mono); color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 6px 10px; border-radius: 20px; white-space: nowrap; }
 .gf-chips .chip.ok { color: var(--success-ink); background: var(--success-surface); border-color: var(--success-border); }
 .gf-chips .chip.warn { color: #b4690e; background: #fdf3e3; border-color: #f0dcb4; }
-/* CTAs hug their label instead of stretching (design has flex:1, but that left
-   them ~120px wider than their text); preview column narrowed to match. */
-.gf-dl { display: flex; gap: 12px; margin-top: 18px; justify-content: center; }
-.gf-dl .dl { flex: 0 1 auto; white-space: nowrap; padding: 16px 22px; border-radius: 14px; border: 1px solid var(--border-2); background: var(--surface); font: 700 12px var(--font-mono); letter-spacing: .09em; color: var(--ink-2); cursor: pointer; }
+/* Two equal, full-width download CTAs (design: flex:1). PNG is the primary
+   gradient, SVG the outline. */
+.gf-dl { display: flex; gap: 12px; margin-top: 18px; }
+.gf-dl .dl { flex: 1; white-space: nowrap; padding: 16px; border-radius: 14px; border: 1px solid var(--border-2); background: var(--surface); font: 700 13px var(--font-mono); letter-spacing: .06em; color: var(--ink-2); cursor: pointer; }
 .gf-dl .dl.primary { background: var(--brand-gradient); color: #fff; border: none; box-shadow: var(--shadow-cta); }
 .gf-dl .dl:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
 
 /* templates rail */
 .gf-rail { flex: 0 0 268px; overflow: hidden; transition: flex-basis .28s ease, width .28s ease; border-left: 1px solid var(--border-soft); background: var(--surface-3); }
 .gf-railinner { width: 268px; height: 100%; display: flex; flex-direction: column; padding: 22px 18px; }
-/* v5 category tabs — active chip is solid brand, inactive is surface + border */
-.gf-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; flex: 0 0 auto; }
-.gf-tab { flex: 0 0 auto; padding: 7px 11px; border-radius: 9px; cursor: pointer; white-space: nowrap; font: 600 10px var(--font-mono); letter-spacing: .05em; background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
-.gf-tab.on { background: var(--brand-500); color: #fff; border-color: var(--brand-500); }
+/* Collapsed spine: a thin full-height strip with a horizontal chevron on top and
+   a vertical "TEMPLATES" label below, both centred in the strip. Only the label
+   is rotated — the chevron stays upright so it reads as a normal arrow. */
+.gf-railspine { width: 42px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 14px; padding: 16px 0; background: transparent; border: none; cursor: pointer; }
+.gf-railspine .chev { font: 700 16px var(--font-sans); line-height: 1; color: var(--muted); }
+.gf-railspine .lbl { writing-mode: vertical-rl; text-orientation: mixed; font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); }
+.gf-railspine:hover .lbl, .gf-railspine:hover .chev { color: var(--brand-500); }
+/* Category tabs — underline text tabs (active = accent underline + ink text). */
+.gf-tabs { display: flex; gap: 13px; flex-wrap: wrap; margin-bottom: 14px; flex: 0 0 auto; }
+.gf-tab { flex: 0 0 auto; padding: 2px 1px 8px; border: none; border-bottom: 2px solid transparent; background: transparent; cursor: pointer; white-space: nowrap; font: 600 12px var(--font-sans); color: var(--muted-2); }
+.gf-tab.on { color: var(--ink); border-bottom-color: var(--brand-500); }
 .gf-railhead { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.gf-railhead .rh-right { display: flex; align-items: center; gap: 10px; }
 .gf-railhead b { font: 700 14px var(--font-sans); color: var(--ink); }
 .gf-railhead i { font: 500 11px var(--font-mono); color: var(--label); font-style: normal; }
-.gf-railhead button { width: 30px; height: 30px; border-radius: 9px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 15px var(--font-sans); color: var(--brand-500); cursor: pointer; }
+.gf-railhead button { width: 28px; height: 28px; border-radius: 9px; background: var(--surface); border: 1px solid var(--border-2); font: 600 14px var(--font-sans); color: var(--muted); cursor: pointer; }
 .gf-railscroll { flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 16px; }
 .gf-card { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; cursor: pointer; align-items: center; }
 .gf-card.on::after { content: ""; position: absolute; inset: -2px; border: 2px solid var(--brand-500); border-radius: 16px; }
@@ -285,6 +362,10 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 @media (max-width: 1120px) {
   .genflag { min-width: 0; }
   .gf-body { flex-direction: column; height: auto !important; }
+  /* Stacked layout has no room for a vertical spine — hide the collapsed rail and
+     use the header toggle to reopen it instead. */
+  .gf-rail:not(.open) { display: none; }
+  .gf-railtoggle { display: flex; }
   /* stacked here — no config column or rail beside the preview, so the card-width
      subtraction no longer describes the available space; just fill and cap. */
   .gf-mat { max-width: var(--qr-preview); }
@@ -412,6 +493,13 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
   .genflag { border-radius: 20px; }
   .gf-content, .gf-top, .gf-preview, .gf-cfg-scroll, .gf-support-footer { padding-left: 16px; padding-right: 16px; }
   .gf-content { padding-top: 14px; padding-bottom: 14px; }
+
+  /* Type strip: sticky under the header, horizontally scrollable, no wrap. */
+  .gf-typestrip { padding-left: 16px; padding-right: 16px; position: sticky; top: 0; z-index: 20; }
+  .gf-tabsrow { -webkit-overflow-scrolling: touch; }
+  /* Payload strip folds its density chip below on narrow screens. */
+  .gf-payload { flex-wrap: wrap; }
+  .gf-fieldhead { flex-wrap: wrap; }
   .gf-cfg-footer { padding-left: 16px; padding-right: 16px; }
 
   /* Preview first on mobile — URL + QR before long style controls. */

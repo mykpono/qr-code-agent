@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { buildPayload, splitUtm, getMatrix, buildSVG, renderReal, drawMod, drawFinderReal, hasContent as hasContentFor } from '../lib/qr.js';
+import { buildPayload, maskPayload, payloadDensity, splitUtm, getMatrix, buildSVG, renderReal, drawMod, drawFinderReal, hasContent as hasContentFor } from '../lib/qr.js';
 import { MOBILE_BREAKPOINT } from '../lib/mobile.js';
 import EN_UI from '../content/ui.json';
 
@@ -70,12 +70,28 @@ const CREATIVE = [
   { name: 'Berry', fg: '#9d174d', bg: '#fdf2f8', dot: 'diamond', finder: 'rounded', seed: 15 },
   { name: 'Forest', fg: '#14532d', bg: '#f6faf4', dot: 'rounded', finder: 'square', seed: 16 },
 ];
+/* Social presets are guided URLs: applying one switches to URL mode, drops in an
+   example link, and bakes the brand mark. `url`/`ecc`/`shape`/`border` added for
+   the multi-type widget (verbatim from the reference socialDefs). */
 const SOCIAL = [
-  { name: 'Telegram', fg: '#229ED9', bg: '#eaf6fc', dot: 'dot', finder: 'circle', seed: 41, img: '/assets/logos/telegram.png' },
-  { name: 'WhatsApp', fg: '#0f8a6d', bg: '#eafaf0', dot: 'rounded', finder: 'rounded', seed: 42, img: '/assets/logos/whatsapp.png' },
-  { name: 'Instagram', fg: '#c1358a', bg: '#fdeef6', dot: 'circle', finder: 'rounded', seed: 43, img: '/assets/logos/instagram.png' },
-  { name: 'YouTube', fg: '#e60000', bg: '#fff0f0', dot: 'square', finder: 'rounded', seed: 44, img: '/assets/logos/youtube.png' },
+  { name: 'Telegram', fg: '#229ED9', bg: '#eaf6fc', dot: 'dot', finder: 'circle', seed: 41, img: '/assets/logos/telegram.png', url: 'https://t.me/yourchannel', ecc: 'Q', shape: 'circle', border: 'none' },
+  { name: 'WhatsApp', fg: '#0f8a6d', bg: '#eafaf0', dot: 'rounded', finder: 'rounded', seed: 42, img: '/assets/logos/whatsapp.png', url: 'https://wa.me/14155550123', ecc: 'Q', shape: 'circle', border: 'none' },
+  { name: 'Instagram', fg: '#c1358a', bg: '#fdeef6', dot: 'circle', finder: 'rounded', seed: 43, img: '/assets/logos/instagram.png', url: 'https://instagram.com/yourhandle', ecc: 'H', shape: 'square', border: 'none' },
+  { name: 'YouTube', fg: '#e60000', bg: '#fff0f0', dot: 'square', finder: 'rounded', seed: 44, img: '/assets/logos/youtube.png', url: 'https://youtube.com/@yourchannel', ecc: 'H', shape: 'circle', border: 'border' },
 ];
+/* The eight content types shown in the in-widget type strip. Labels, notes and
+   hints come from ui.json (t.type / t.modeNote / t.typeHint); only the key and
+   the WhatsApp brand icon live here. crypto is a valid mode but not a strip tab. */
+const TYPES = [
+  { key: 'url' }, { key: 'text' }, { key: 'wifi' }, { key: 'vcard' },
+  { key: 'tel' }, { key: 'sms' }, { key: 'email' }, { key: 'whatsapp', img: '/assets/logos/whatsapp.png' },
+];
+const TYPE_KEYS = TYPES.map((ty) => ty.key);
+// Telegram/Instagram/YouTube ride at the end of the strip as icon buttons.
+// WhatsApp is a first-class type, so it is filtered out of the social chips.
+const SOCIAL_CHIPS = SOCIAL.filter((s) => s.name !== 'WhatsApp');
+const ECC_RECOVERY = { L: 7, M: 15, Q: 25, H: 30 };
+const PLATE_COVER = 22;
 /* v5: Industry/Use-case templates are FULL design presets — they carry ecc, logo
    on/off, logo shape and border alongside colour/dot/finder, plus the `group`
    chip shown next to the URL. Verbatim from examplesData() in the v5 handoff. */
@@ -133,27 +149,32 @@ function contrastRatio(a, b) {
 }
 
 /* ---------------- component ---------------- */
-export default function Generator({ mode = 'url', supportUrl = '', thanks = '', ui = null }) {
+export default function Generator({ mode: initialMode = 'url', supportUrl = '', thanks = '', ui = null }) {
   // UI chrome comes from the page (uiStrings(locale)); EN_UI is the fallback so
   // the island still renders if mounted without the prop.
   const t = ui || EN_UI;
+  // v6 multi-type: the page seeds the default tab, but the type is now switchable
+  // in-widget (see the type strip). `social` marks a guided social-URL selection.
+  const [mode, setMode] = useState(initialMode);
+  const [social, setSocial] = useState('');
+  const typeTabsRef = useRef([]);
   const mainRef = useRef(null);
   const rootRef = useRef(null);
   const bodyRef = useRef(null);
   const cfgScrollRef = useRef(null);
-  const cfgFooterRef = useRef(null);
   const pulseRef = useRef(false);
   const [fields, setFields] = useState({ url: 'https://qrcodeagent.net', enc: 'WPA', utm: {} });
   const [dot, setDot] = useState('star');
   const [finder, setFinder] = useState('circle');
-  const [fg, setFg] = useState('#2563eb');
-  const [bg, setBg] = useState('#eef4ff');
+  const [fg, setFg] = useState('#6d4dff');
+  const [bg, setBg] = useState('#ffffff');
   const [size, setSize] = useState(512);
   const [ecc, setEcc] = useState('Q');
   const [logoImg, setLogoImg] = useState(null);
   const [useLogo, setUseLogo] = useState(true);
   const [logoShape, setLogoShape] = useState('circle');
   const [logoBorder, setLogoBorder] = useState('none');
+  const [logoZoom, setLogoZoom] = useState(100);
   const [fgOpen, setFgOpen] = useState(false);
   const [bgOpen, setBgOpen] = useState(false);
   const [utmOpen, setUtmOpen] = useState(false);
@@ -170,7 +191,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
   const [theme, setTheme] = useState('cream');
   const [templateTab, setTemplateTab] = useState('social');
   const [exampleTag, setExampleTag] = useState('');
-  const [sel, setSel] = useState('Rain');
+  const [sel, setSel] = useState('');
   const [scannable, setScannable] = useState(true);
   const [saved, setSaved] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -183,15 +204,15 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
   // (ported from QR Generator.dc.html). Below 1120px the media query stacks the
   // columns and height is auto, so we leave the inline value off.
   useEffect(() => {
-    const body = bodyRef.current, scroll = cfgScrollRef.current, footer = cfgFooterRef.current;
-    if (!body || !scroll || !footer) return;
+    const body = bodyRef.current, scroll = cfgScrollRef.current;
+    if (!body || !scroll) return;
     const fit = () => {
       if (window.innerWidth <= 1120) { body.style.height = ''; return; }
-      body.style.height = scroll.scrollHeight + footer.offsetHeight + 20 + 'px';
+      body.style.height = scroll.scrollHeight + 'px';
     };
     fit();
     const ro = new ResizeObserver(fit);
-    ro.observe(scroll); ro.observe(footer);
+    ro.observe(scroll);
     window.addEventListener('resize', fit);
     return () => { ro.disconnect(); window.removeEventListener('resize', fit); };
   }, []);
@@ -204,12 +225,59 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
+  // Switching type preserves the whole style column (dot/finder/colours/size/ecc/
+  // logo) and the field values — it only changes which fields are in view, closes
+  // UTM, and drops any social selection. This is the core promise of the redesign.
+  function changeType(m) {
+    if (m === mode && !social) return;
+    pulseRef.current = true;
+    setMode(m); setSocial(''); setExampleTag(''); setUtmOpen(false);
+    // Reflect the choice in the URL so a picked tab is shareable, without adding
+    // a history entry per click. Absent when it equals the page's default.
+    try {
+      const u = new URL(window.location.href);
+      if (m === initialMode) u.searchParams.delete('type'); else u.searchParams.set('type', m);
+      window.history.replaceState(null, '', u);
+    } catch {}
+    track('type_switch', { type: m });
+  }
+  // A social chip is a guided URL, not a new payload type: URL mode, an example
+  // link, and the platform's colours + mark + ECC.
+  function pickSocialChip(s) {
+    pulseRef.current = true;
+    setMode('url'); setSocial(s.name); setSel(s.name); setUtmOpen(false);
+    setExampleTag(t.gen.socialLinkTag);
+    setFg(s.fg); setBg(s.bg); setDot(s.dot); setFinder(s.finder);
+    if (s.ecc) setEcc(s.ecc);
+    if (s.shape) setLogoShape(s.shape);
+    if (s.border) setLogoBorder(s.border);
+    setFields((f) => ({ ...f, url: s.url }));
+    const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = s.img;
+    track('social_selected', { name: s.name });
+  }
+  // Deep-link: /wifi-qr-code?type=vcard opens the vCard tab. Runs once, after
+  // mount, so it never disagrees with the SSR HTML (which uses the page default).
+  useEffect(() => {
+    try {
+      const p = new URLSearchParams(window.location.search).get('type');
+      if (p && TYPE_KEYS.includes(p) && p !== initialMode) { setMode(p); pulseRef.current = true; }
+    } catch {}
+  }, []);
+
   const payload = useMemo(() => buildPayload(mode, fields), [mode, fields]);
   // buildPayload always returns the structural scaffolding for vCard and WiFi
   // (BEGIN:VCARD.../WIFI:T:...), so `payload` is truthy even when every field is
   // blank — you could export a code encoding an empty contact card. Gate the
   // export on real user content instead.
   const hasContent = useMemo(() => hasContentFor(mode, fields), [mode, fields]);
+  // The payload strip and density both key off real content, not the scaffolding:
+  // an empty vCard/WiFi reads "Nothing to encode yet", never "44 chars".
+  const masked = useMemo(() => (hasContent ? maskPayload(mode, fields) : ''), [hasContent, mode, fields]);
+  const density = useMemo(() => payloadDensity(hasContent ? payload.length : 0), [hasContent, payload]);
+  const densityLabel = density.level === 'empty'
+    ? t.gen.nothingToEncode
+    : (t.density[density.level] || '').replace('{n}', payload.length);
+  const showEccSuggest = density.suggest && density.suggest !== ecc;
   // Typing your own URL means you are no longer on a template's example content,
   // so the example-tag chip goes away.
   const setF = (k, v) => { if (k === 'url') setExampleTag(''); setFields((f) => ({ ...f, [k]: v })); };
@@ -226,7 +294,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
     if (!payload) { setScannable(false); return; }
     let m, ok = true; try { m = getMatrix(payload, ecc); } catch { try { m = getMatrix(payload, 'H'); } catch { ok = false; } }
     if (!ok) { setScannable(false); return; }
-    renderReal(c, m, size, fg, bg, dot, finder, (useLogo && logoImg) ? logoImg : null, logoShape, logoBorder);
+    renderReal(c, m, size, fg, bg, dot, finder, (useLogo && logoImg) ? logoImg : null, logoShape, logoBorder, logoZoom / 100);
     // v5 redraw pulse — a 200ms fade+scale so a style change reads as a redraw
     // rather than a silent swap. Only fires for style changes, never for typing.
     if (pulseRef.current) {
@@ -236,13 +304,13 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
           { duration: 200, easing: 'cubic-bezier(.2,.7,.3,1)' });
       }
     }
-  }, [payload, dot, finder, fg, bg, size, ecc, logoImg, useLogo, logoShape, logoBorder]);
+  }, [payload, dot, finder, fg, bg, size, ecc, logoImg, useLogo, logoShape, logoBorder, logoZoom]);
 
-  // v5 scannability: WCAG contrast between modules and background must clear 3.5,
-  // AND a baked-in logo still needs Q/H error correction to survive the occlusion.
+  // Scannability: WCAG contrast between modules and background must clear 3.5, AND
+  // the fixed 22% logo plate must not occlude more than the chosen ECC can recover.
   const contrast = useMemo(() => contrastRatio(fg, bg), [fg, bg]);
   useEffect(() => {
-    const logoRisk = useLogo && logoImg && ecc !== 'Q' && ecc !== 'H';
+    const logoRisk = useLogo && !!logoImg && PLATE_COVER > (ECC_RECOVERY[ecc] || 0);
     setScannable(contrast >= 3.5 && !logoRisk);
   }, [contrast, useLogo, logoImg, ecc]);
 
@@ -294,14 +362,17 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
     if (tpl.ecc) setEcc(tpl.ecc);
     if (tpl.shape) setLogoShape(tpl.shape);
     if (tpl.border) setLogoBorder(tpl.border);
-    if (tpl.content) { setFields((f) => ({ ...f, url: tpl.content })); setExampleTag(tpl.group || ''); }
     if (tpl.img) {
-      // Social presets ship a real brand mark; load it as the actual centre logo
-      // so it is baked into the PNG/SVG export, not just drawn over the preview.
+      // Social preset = guided URL: switch to URL mode, drop in the example link,
+      // and bake the brand mark so it survives PNG/SVG export.
+      setMode('url'); setSocial(tpl.name); setUtmOpen(false); setExampleTag(t.gen.socialLinkTag);
+      if (tpl.url) setFields((f) => ({ ...f, url: tpl.url }));
       const i = new Image(); i.onload = () => { setLogoImg(i); setUseLogo(true); }; i.src = tpl.img;
-      setFields((f) => ({ ...f, utm: { ...f.utm, source: tpl.name.toLowerCase(), medium: 'social' } }));
-    } else if (tpl.logo !== undefined) {
-      setUseLogo(tpl.logo);
+    } else {
+      // Industry / Use case / Themes are style-only — they restyle the code but
+      // never overwrite the content the user has entered.
+      setSocial(''); setExampleTag('');
+      if (tpl.logo !== undefined) setUseLogo(tpl.logo);
     }
     track('template_selected', { name: tpl.name });
   }
@@ -315,7 +386,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
   function downloadSVG() {
     if (!hasContent) return;
     let m; try { m = getMatrix(payload, ecc); } catch { try { m = getMatrix(payload, 'H'); } catch { return; } }
-    const svg = buildSVG(m, size, fg, bg, dot, finder, logoImg && useLogo ? logoImg.src : null, logoShape, logoBorder === 'border');
+    const svg = buildSVG(m, size, fg, bg, dot, finder, logoImg && useLogo ? logoImg.src : null, logoShape, logoBorder === 'border', logoZoom / 100);
     const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
     const a = document.createElement('a'); a.download = 'qrcode.svg'; a.href = url; a.click();
     URL.revokeObjectURL(url); track('download_svg', { mode });
@@ -331,8 +402,9 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
   useEffect(() => { setSaved(readSaved()); }, []);
 
   function saveDesign() {
-    const name = sel ? `${sel} · ${mode}` : `${mode} design`;
-    const entry = { id: `${Date.now()}-${saved.length}`, name, mode, fields, dot, finder, fg, bg, size, ecc, ts: Date.now() };
+    const typeName = social || t.type[mode] || mode;
+    const name = sel ? `${typeName} · ${sel}` : typeName;
+    const entry = { id: `${Date.now()}-${saved.length}`, name, mode, fields, dot, finder, fg, bg, size, ecc, useLogo, logoShape, logoBorder, logoZoom, ts: Date.now() };
     writeSaved([entry, ...readSaved()]);
     setToast(true); clearTimeout(saveDesign._t); saveDesign._t = setTimeout(() => setToast(false), 2000);
     track('save_design', { mode });
@@ -342,12 +414,16 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
     writeSaved(readSaved().map((s) => (s.id === id ? { ...s, name: name.trim() || s.name } : s)));
     setEditing(null);
   }
-  // `mode` is fixed by the page (page.tool.mode), so loading a design restores its
-  // styling and field values but never switches the page's input mode. Fields not
-  // relevant to this page's mode are simply unused.
+  // Loading a design restores its type, styling and field values. Older entries
+  // predate the logo-fit fields, so each is guarded before it is applied.
   function applySaved(s) {
+    if (s.mode) { setMode(s.mode); setSocial(''); }
     setFields(s.fields); setDot(s.dot); setFinder(s.finder);
     setFg(s.fg); setBg(s.bg); setSize(s.size); setEcc(s.ecc);
+    if (typeof s.useLogo === 'boolean') setUseLogo(s.useLogo);
+    if (s.logoShape) setLogoShape(s.logoShape);
+    if (s.logoBorder) setLogoBorder(s.logoBorder);
+    if (s.logoZoom) setLogoZoom(s.logoZoom);
     setDrawerOpen(false); track('saved_applied', { mode: s.mode });
   }
   const savedDate = (ts) => {
@@ -377,18 +453,26 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
 
   const ecd = ECC_DATA[ecc];
   const dotBtn = (on) => `dotbtn${on ? ' on' : ''}`;
+  // The type/social name in UPPERCASE — used by the SAVE button, the preview TYPE
+  // chip, and the saved-design badge.
+  const typeBadge = (social || t.type[mode] || mode).toUpperCase();
+  // The logo plate is a fixed 22% of the code; if the chosen ECC recovers less than
+  // that the plate is too large to stay scannable. Advisory, mirrors the chip.
+  const plateOver = useLogo && !!logoImg && PLATE_COVER > (ECC_RECOVERY[ecc] || 0);
+  const logoHint = plateOver
+    ? t.gen.plateWarn.replace('{cover}', PLATE_COVER).replace('{ecc}', ecc).replace('{rec}', ECC_RECOVERY[ecc])
+    : t.gen.logoFitHint;
+  const densityClass = `gf-density ${density.level}`;
   // v5 dynamic subtitle — reflects the current selection.
   const eccName = (l) => t.ecc[l];
   const eccRecovery = (l) => `${ECC_DATA[l].p} ${t.ecc.recovery}${l === 'Q' ? ` · ${t.ecc.bestWithLogo}` : ''}`;
-  const headerSub = `${t.dot[dot] || ''} ${t.gen.dots} · ${t.finder[finder] || ''} ${t.gen.findersChip} · ${useLogo ? t.gen.logoOn : t.gen.noLogo}`;
   const TAB_ITEMS = { social: SOCIAL, industry: INDUSTRY, usecase: USECASE, themes: CREATIVE };
-  const TAB_TITLES = { social: t.tab.socialTitle, industry: t.tab.industryTitle, usecase: t.tab.usecaseTitle, themes: t.tab.themesTitle };
 
   return (
     <div className="genflag" ref={rootRef}>
       {/* top bar */}
       <div className="gf-top">
-        <div className="gf-brand"><span className="gf-tile">QR</span><span><b>{t.gen.title}</b><i>{headerSub}</i></span></div>
+        <div className="gf-brand"><span className="gf-tile">QR</span><span><b>QR Code Agent</b><i>{t.gen.subtitle}</i></span></div>
         {/* The only app-theme control on the site. The choice is persisted, so it
             still applies on learn/trust/article pages, which have no widget —
             it just cannot be changed from there. */}
@@ -398,20 +482,35 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
         ))}</div>
       </div>
 
+      {/* type strip — switches the content type in-widget (no page navigation) */}
+      <TypeStrip mode={mode} social={social} onType={changeType} onSocial={pickSocialChip} tabsRef={typeTabsRef} t={t} />
+
       {/* content row */}
       <div className="gf-content">
+        {!social && (
+          <div className="gf-fieldhead">
+            <span className="gf-fieldnote">{t.modeNote[mode]}</span>
+          </div>
+        )}
         <div className="gf-crow">
           <ModeFields mode={mode} fields={fields} setF={setF} urlValue={payload} onUrlInput={onUrlInput} t={t} />
-          {exampleTag && <span className="gf-exampletag">{exampleTag}</span>}
           {mode === 'url' && <button className="gf-utm" onClick={() => setUtmOpen((v) => !v)}>{t.gen.utmToggle} <span>{utmOpen ? '▴' : '▾'}</span></button>}
         </div>
         {mode === 'url' && utmOpen && (
           <div className="gf-utmpanel">
             <div className="g3">{['source', 'medium', 'campaign'].map((k) => (<label key={k}><span>utm_{k} *</span><input value={fields.utm[k] || ''} aria-label={`UTM ${k}`} onChange={(e) => setUtm(k, e.target.value)} placeholder={k === 'source' ? 'newsletter' : k === 'medium' ? 'social' : 'spring_launch'} /></label>))}</div>
-            <div className="g2">{['term', 'content'].map((k) => (<label key={k}><span>utm_{k}</span><input value={fields.utm[k] || ''} aria-label={`UTM ${k}`} onChange={(e) => setUtm(k, e.target.value)} placeholder={t.gen.utmOptional} aria-label={t.gen.utmOptional} /></label>))}</div>
-            <div className="gf-encoded"><span className="k">{t.gen.utmEncoded}</span><span className="v">{payload}</span></div>
+            <div className="g2">{['term', 'content'].map((k) => (<label key={k}><span>utm_{k}</span><input value={fields.utm[k] || ''} onChange={(e) => setUtm(k, e.target.value)} placeholder={t.gen.utmOptional} aria-label={t.gen.utmOptional} /></label>))}</div>
           </div>
         )}
+        {/* payload strip — the live "ENCODES AS" string + density guidance */}
+        <div className="gf-payload">
+          <span className="k">{t.gen.encodesAs}</span>
+          <span className="v" aria-live="polite">{masked || '—'}</span>
+          <span className={densityClass}>{densityLabel}</span>
+          {showEccSuggest && (
+            <button type="button" className="gf-use" onClick={() => setEcc(density.suggest)}>{t.gen.use} {density.suggest}</button>
+          )}
+        </div>
       </div>
 
       {/* body */}
@@ -433,6 +532,31 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
               <ColorField t={t} label={t.gen.foreground} val={fg} open={fgOpen} setOpen={(v) => { setFgOpen(v); setBgOpen(false); }} onPick={pickFg} presets={FG_PRESETS} align="left" />
               <ColorField t={t} label={t.gen.background} val={bg} open={bgOpen} setOpen={(v) => { setBgOpen(v); setFgOpen(false); }} onPick={pickBg} presets={BG_PRESETS} align="right" />
             </div>
+            {/* Center logo — moved above size/ECC so the plate + fit + ECC advice
+                read top-to-bottom, and augmented with the plate and LOGO FIT. */}
+            <div>
+              <div className="lab spread"><span>{t.gen.centerLogo}</span><button type="button" role="switch" aria-checked={useLogo} aria-label={t.gen.centerLogo} className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => setUseLogo((v) => !v)}><span /></button></div>
+              {/* The logo controls stay visible (greyed) when the toggle is off, so
+                  the column height never jumps and `inert` keeps them untabbable. */}
+              <div className={`gf-logo${useLogo ? '' : ' off'}`} inert={useLogo ? undefined : ''}>
+                <label className="gf-drop">{t.gen.dropImage}<i>{t.gen.dropHint}</i><input type="file" accept="image/*" hidden onChange={onLogo} /></label>
+                <div className="gf-plate">
+                  <span className="micro flat">{t.gen.plate}</span>
+                  <div className="gf-plateswatches">{['circle', 'square'].map((s) => (
+                    <button key={s} type="button" aria-pressed={logoShape === s} aria-label={`${t.gen.plate} ${t.logoShape[s]}`} className={`gf-platesw${logoShape === s ? ' on' : ''}`} onClick={() => setLogoShape(s)}><span className={`glyph ${s}`} /></button>
+                  ))}</div>
+                  <button type="button" role="checkbox" aria-checked={logoBorder === 'border'} aria-label={t.gen.borderCheck} className="gf-check" onClick={() => setLogoBorder(logoBorder === 'border' ? 'none' : 'border')}><span className="box">{logoBorder === 'border' ? '✓' : ''}</span>{t.gen.borderCheck}</button>
+                </div>
+                <div>
+                  <div className="gf-fitrow"><span className="micro flat">{t.gen.logoFit}</span><span className="fitval"><span className="accent">{logoZoom}%</span>{logoZoom !== 100 && <button type="button" className="gf-reset" onClick={() => setLogoZoom(100)}>{t.gen.reset}</button>}</span></div>
+                  <div className="gf-slider">
+                    <span className="track" /><span className="fill" style={{ width: `${((logoZoom - 60) / 160) * 100}%` }} /><span className="knob" style={{ left: `${((logoZoom - 60) / 160) * 100}%` }} />
+                    <input type="range" min="60" max="220" step="5" value={logoZoom} aria-label={t.gen.logoFit} aria-valuetext={`${logoZoom}%`} onChange={(e) => setLogoZoom(+e.target.value)} />
+                  </div>
+                </div>
+                <div className={`gf-logohint${plateOver ? ' warn' : ''}`}>{logoHint}</div>
+              </div>
+            </div>
             <div>
               <div className="lab spread"><span>{t.gen.outputSize}</span><span className="accent">{size} px</span></div>
               <div className="gf-slider">
@@ -441,8 +565,8 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
               </div>
             </div>
             <div>
-              <div className="lab tiprow"><span>{t.gen.errorCorrection}</span><button className="gf-i" onMouseEnter={() => setEccTip(true)} onMouseLeave={() => setEccTip(false)}>i</button>{eccTip && <span className="gf-tip">{t.gen.eccTip}</span>}</div>
-              {/* v5: four explicit option cards — letter + recovery % + name — so the
+              <div className="lab tiprow"><span>{t.gen.errorCorrection}</span><button className="gf-i" onMouseEnter={() => setEccTip(true)} onMouseLeave={() => setEccTip(false)}>i</button>{eccTip && <span className="gf-tip">{t.gen.eccTip}</span>}{density.suggest && <span className="gf-suggested">{t.gen.suggested} · {density.suggest}</span>}</div>
+              {/* Four explicit option cards — letter + recovery % + name — so the
                   trade-off is legible without hovering the info tip. */}
               <div className="gf-eccgrid">{['L', 'M', 'Q', 'H'].map((l) => (
                 <button key={l} type="button" aria-pressed={ecc === l} aria-label={`${t.gen.errorCorrection} ${l} — ${eccName(l)}, ${eccRecovery(l)}`} className={`gf-ecc${ecc === l ? ' on' : ''}`} onClick={() => setEcc(l)}>
@@ -452,31 +576,6 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
               <div className="gf-bar"><span style={{ width: ecd.f }} /></div>
               <div className="gf-cap">{ecc} — {eccName(ecc)} · {eccRecovery(ecc)}</div>
             </div>
-            <div>
-              <div className="lab spread"><span>{t.gen.centerLogo}</span><button type="button" role="switch" aria-checked={useLogo} aria-label={t.gen.centerLogo} className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => setUseLogo((v) => !v)}><span /></button></div>
-              {/* v5: the logo controls stay visible when the toggle is off — greyed
-                  out rather than hidden, so the column height never jumps and you
-                  can see what turning it on would give you. `inert` (with the CSS
-                  pointer-events fallback) also keeps them out of the tab order. */}
-              <div className={`gf-logo${useLogo ? '' : ' off'}`} inert={useLogo ? undefined : ''}>
-                <label className="gf-drop">{t.gen.dropImage}<i>{t.gen.dropHint}</i><input type="file" accept="image/*" hidden onChange={onLogo} /></label>
-                <div className="g2">
-                  <div><div className="micro">{t.gen.shape}</div><div className="gf-seg sm">{['circle', 'square'].map((s) => <button key={s} type="button" aria-pressed={logoShape === s} aria-label={`${t.gen.shape} ${t.logoShape[s]}`} className={logoShape === s ? 'on' : ''} onClick={() => setLogoShape(s)}>{s === 'circle' ? '◉' : '▣'} {t.logoShape[s]}</button>)}</div></div>
-                  <div><div className="micro">{t.gen.border}</div><div className="gf-seg sm">{['none', 'border'].map((b) => <button key={b} type="button" aria-pressed={logoBorder === b} aria-label={`${t.gen.border} ${t.logoBorder[b]}`} className={logoBorder === b ? 'on' : ''} onClick={() => setLogoBorder(b)}>{b === 'none' ? '◼' : '▢'} {t.logoBorder[b]}</button>)}</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* The preview is live, so there is nothing to "generate" — this button
-              previously called downloadSVG, duplicating the SVG button exactly.
-              It is the primary CTA, so it now does the most likely thing: download
-              the PNG. The two format buttons stay for an explicit choice. Disabled
-              while there is no payload rather than exporting an empty code. */}
-          <div className="gf-cfg-footer" ref={cfgFooterRef}>
-            <button type="button" className="gf-generate" onClick={downloadPNG} disabled={!hasContent}
-              aria-label={hasContent ? t.gen.generate : t.gen.generateEmpty}>
-              {hasContent ? t.gen.generate : t.gen.generateEmpty}
-            </button>
           </div>
         </div>
 
@@ -485,7 +584,7 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
           <div className="gf-plabel">
             <span className="lab">{t.gen.livePreview}</span>
             <div className="gf-savebtns">
-              <button className="save" onClick={saveDesign} title={t.gen.saveDesignTitle}>{t.gen.saveDesign}</button>
+              <button className="save" onClick={saveDesign} title={t.gen.saveDesignTitle}>{t.gen.savePrefix} · {typeBadge}</button>
               {saved.length > 0 && <button type="button" ref={drawerTriggerRef} aria-expanded={drawerOpen} className="open" onClick={() => setDrawerOpen(true)}>{t.gen.savedCount} · {saved.length} ›</button>}
               {!railOpen && <button className="gf-railtoggle" onClick={() => setRailOpen(true)}>{t.gen.templatesToggle} ‹</button>}
             </div>
@@ -493,15 +592,24 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
           {toast && <div className="gf-toast">{t.gen.savedToast}</div>}
           <div className="gf-stage"><div className="gf-mat">
             <canvas ref={mainRef} role="img" aria-label={qrDescription} />
+            {/* Empty-logo placeholder, matching the design: a white plate with a
+                dashed "LOGO" mark when the logo is on but nothing is uploaded.
+                A real uploaded mark is baked into the canvas instead. */}
+            {useLogo && !logoImg && (
+              <div className={`gf-logoplate ${logoShape}`} aria-hidden="true"
+                style={{ border: logoBorder === 'border' ? `3px solid ${fg}` : '3px solid transparent' }}>
+                <span>LOGO</span>
+              </div>
+            )}
           </div></div>
           <p className="sr-only" role="status" aria-live="polite">{qrDescription}</p>
           <div className="gf-chips">
-            <span className="chip">{size} × {size} px</span><span className="chip">{t.gen.eccChip} · {ecc}</span><span className="chip">{t.finder[finder]} {t.gen.findersChip}</span>
+            <span className="chip">{size} × {size} px</span><span className="chip">{t.gen.eccChip} · {ecc}</span><span className="chip">{typeBadge}</span>
             <span className={`chip ${scannable ? 'ok' : 'warn'}`}>
               {scannable ? t.gen.scannable : contrast < 3.5 ? t.gen.lowContrast : t.gen.logoEcc}
             </span>
           </div>
-          <div className="gf-dl"><button type="button" className="dl" onClick={downloadPNG} disabled={!hasContent}>{t.gen.downloadPng}</button><button type="button" className="dl primary" onClick={downloadSVG} disabled={!hasContent}>{t.gen.downloadSvg}</button></div>
+          <div className="gf-dl"><button type="button" className="dl primary" onClick={downloadPNG} disabled={!hasContent}>{t.gen.downloadPng}</button><button type="button" className="dl" onClick={downloadSVG} disabled={!hasContent}>{t.gen.downloadSvg}</button></div>
         </div>
 
         {/* saved-designs drawer — ported from ui_kits/website/saved-designs.html */}
@@ -548,13 +656,19 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
           </div>
         )}
 
-        {/* templates rail */}
-        <div className={`gf-rail${railOpen ? ' open' : ''}`} style={{ flexBasis: railOpen ? 268 : 0, width: railOpen ? 268 : 0 }}>
+        {/* templates rail — collapses to a vertical spine (desktop) that reopens it */}
+        <div className={`gf-rail${railOpen ? ' open' : ''}`} style={{ flexBasis: railOpen ? 268 : 42, width: railOpen ? 268 : 42 }}>
+          {!railOpen && (
+            <button type="button" className="gf-railspine" onClick={() => setRailOpen(true)} aria-expanded={false} aria-label={t.gen.templatesToggle}>
+              <span className="chev" aria-hidden="true">‹</span>
+              <span className="lbl">{t.gen.templatesToggle}</span>
+            </button>
+          )}
+          {railOpen && (
           <div className="gf-railinner">
-            <div className="gf-railhead"><div><b>{t.gen.templates}</b> <i>{PRESET_COUNT} {t.gen.presetsCount}</i></div><button onClick={() => setRailOpen(false)} aria-label={t.gen.templatesMinimize}>›</button></div>
-            {/* v5: category tabs replace the old four-group scroll — only the active
-                category's grid renders, so Social (the default) is reachable without
-                scrolling past 30 other presets. */}
+            <div className="gf-railhead"><b>{t.gen.templates}</b><div className="rh-right"><i>{TAB_ITEMS[templateTab].length} {t.gen.presetsCount}</i><button onClick={() => setRailOpen(false)} aria-label={t.gen.templatesMinimize}>›</button></div></div>
+            {/* Category tabs; the Social tab also shows Creative themes below,
+                matching the design's rail. Industry / Use case are style-only. */}
             <div className="gf-tabs" role="tablist" aria-label={t.a11y.templateCategories}>
               {TABS.map((k) => (
                 <button key={k} role="tab" id={`gf-tab-${k}`} aria-selected={templateTab === k} aria-controls={`gf-tabpanel-${k}`}
@@ -562,9 +676,13 @@ export default function Generator({ mode = 'url', supportUrl = '', thanks = '', 
               ))}
             </div>
             <div className="gf-railscroll" role="tabpanel" id={`gf-tabpanel-${templateTab}`} aria-labelledby={`gf-tab-${templateTab}`}>
-              <RailGroup title={TAB_TITLES[templateTab]} items={TAB_ITEMS[templateTab]} sel={sel} onPick={pickTemplate} social={templateTab === 'social'} />
+              {templateTab === 'social' && <RailGroup title={t.tab.socialTitle} items={SOCIAL} sel={sel} onPick={pickTemplate} social />}
+              {templateTab === 'industry' && <RailGroup title={t.tab.industryTitle} items={INDUSTRY} sel={sel} onPick={pickTemplate} />}
+              {templateTab === 'usecase' && <RailGroup title={t.tab.usecaseTitle} items={USECASE} sel={sel} onPick={pickTemplate} />}
+              {(templateTab === 'social' || templateTab === 'themes') && <RailGroup title={t.tab.themesTitle} items={CREATIVE} sel={sel} onPick={pickTemplate} />}
             </div>
           </div>
+          )}
         </div>
       </div>
       {supportUrl && (
@@ -615,15 +733,76 @@ function RailGroup({ title, items, sel, onPick, social }) {
   );
 }
 
-function ModeFields({ mode, fields, setF, urlValue, onUrlInput, t }) {
-  if (mode === 'wifi') return (
-    <div className="gf-modefields">
-      <span className="lab flat">{t.field.wifi}</span>
-      <input value={fields.ssid || ''} onChange={(e) => setF('ssid', e.target.value)} placeholder={t.field.ssid} aria-label={t.field.ssid} />
-      <div className="gf-seg sm inline">{['WPA', 'WEP', 'nopass'].map((v) => <button key={v} type="button" aria-pressed={(fields.enc || 'WPA') === v} aria-label={`${v === 'nopass' ? t.field.encNone : v}`} className={(fields.enc || 'WPA') === v ? 'on' : ''} onClick={() => setF('enc', v)}>{v === 'nopass' ? t.field.encNone : v}</button>)}</div>
-      <input type="password" value={fields.pass || ''} onChange={(e) => setF('pass', e.target.value)} placeholder={t.field.password} aria-label={t.field.password} />
+function TypeStrip({ mode, social, onType, onSocial, tabsRef, t }) {
+  // One flat, ordered list of focusable tabs: the 8 content types, then the
+  // social chips. Arrow keys roam it; only the selected tab is in the tab order.
+  const items = [
+    ...TYPES.map((ty) => ({ kind: 'type', key: ty.key, img: ty.img })),
+    ...SOCIAL_CHIPS.map((s) => ({ kind: 'social', key: s.name, data: s })),
+  ];
+  const firstSocial = TYPES.length;
+  const activeIndex = social
+    ? items.findIndex((it) => it.kind === 'social' && it.key === social)
+    : items.findIndex((it) => it.kind === 'type' && it.key === mode);
+  const activate = (it) => (it.kind === 'type' ? onType(it.key) : onSocial(it.data));
+  const onKeyDown = (e) => {
+    const n = items.length;
+    let cur = tabsRef.current.indexOf(document.activeElement);
+    if (cur < 0) cur = activeIndex < 0 ? 0 : activeIndex;
+    let next = null;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (cur + 1) % n;
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (cur - 1 + n) % n;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = n - 1;
+    else return;
+    e.preventDefault();
+    tabsRef.current[next]?.focus();
+    activate(items[next]);
+  };
+  return (
+    <div className="gf-typestrip">
+      <span className="gf-typelabel">{t.gen.typeLabel}</span>
+      <div className="gf-tabsrow" role="tablist" aria-label={t.gen.typeLabel} onKeyDown={onKeyDown}>
+        {items.map((it, i) => {
+          const selected = i === activeIndex;
+          const icon = it.kind === 'social' || !!it.img;
+          const label = it.kind === 'type' ? t.type[it.key] : it.data.name;
+          const title = it.kind === 'type' ? t.typeHint[it.key] : it.data.name;
+          return (
+            <span key={`${it.kind}-${it.key}`} className={i === firstSocial ? 'gf-social-lead' : undefined}>
+              <button ref={(el) => { tabsRef.current[i] = el; }} role="tab" aria-selected={selected}
+                tabIndex={selected ? 0 : -1} aria-label={label} title={title}
+                className={`gf-type${icon ? ' icon' : ''}${selected ? ' on' : ''}`} onClick={() => activate(it)}>
+                {icon && it.img ? <img src={it.img} alt={label} />
+                  : icon ? <img src={it.data.img} alt={label} />
+                    : label}
+              </button>
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
+}
+
+function ModeFields({ mode, fields, setF, urlValue, onUrlInput, t }) {
+  if (mode === 'wifi') {
+    const enc = fields.enc || 'WPA';
+    return (
+      <div className="gf-wifi">
+        <div className="gf-modefields">
+          <span className="lab flat">{t.field.wifi}</span>
+          <input value={fields.ssid || ''} onChange={(e) => setF('ssid', e.target.value)} placeholder={t.field.ssid} aria-label={t.field.ssid} />
+          <div className="gf-seg sm inline">{['WPA', 'WEP', 'nopass'].map((v) => <button key={v} type="button" aria-pressed={enc === v} aria-label={`${v === 'nopass' ? t.field.encNone : v}`} className={enc === v ? 'on' : ''} onClick={() => setF('enc', v)}>{v === 'nopass' ? t.field.encNone : v}</button>)}</div>
+          <input type="password" value={fields.pass || ''} onChange={(e) => setF('pass', e.target.value)} placeholder={t.field.password} aria-label={t.field.password} disabled={enc === 'nopass'} />
+        </div>
+        <div className="gf-wifirow">
+          <button type="button" role="checkbox" aria-checked={!!fields.hidden} className="gf-check" onClick={() => setF('hidden', !fields.hidden)}><span className="box">{fields.hidden ? '✓' : ''}</span>{t.gen.hiddenNetwork}</button>
+          <span className="gf-fieldnote">{t.gen.wifiSecurityNote}</span>
+        </div>
+      </div>
+    );
+  }
   if (mode === 'vcard') return (
     <div className="gf-modefields grid">
       <input value={fields.first || ''} onChange={(e) => setF('first', e.target.value)} placeholder={t.field.firstName} aria-label={t.field.firstName} />

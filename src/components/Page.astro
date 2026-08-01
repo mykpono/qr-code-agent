@@ -43,7 +43,7 @@ const TRUST = t.trust.map((x, i) => ({ i: TRUST_ICONS[i], b: x.b, s: x.s }));
   </div>
 )}
 
-<div class={guide ? 'wrap' : 'wrap hero'}>
+<div class={(guide ? 'wrap' : 'wrap hero') + ' arch-' + a}>
   {guide ? (
     <div class="narrow hero left">
       <span class="badge">{badge}</span>

@@ -61,6 +61,7 @@
     },
     "gen": {
       "title": "Códigos QR personalizados",
+      "subtitle": "CÓDIGOS QR GRATIS",
       "contentLabel": "Contenido / URL",
       "contentPlaceholder": "https://your-link.com",
       "contentAria": "Contenido o URL",
