@@ -59,6 +59,24 @@ const PATTERNS = PATTERN_KEYS.map((key) => ({
   note: key === 'square' ? 'control — the one our decoder accepts' : 'rejected by jsQR; does a real camera agree?',
 }));
 
+/* The two finder styles the headless decoder rejects. The other seven corner
+   styles decode fine under jsQR, so CI already covers them and printing them
+   would just add scans; these two are the open question. Same controlled setup
+   as the patterns, but with the plain Square module, so the CORNER is the only
+   variable. The control for this section is #${CASES.length + PATTERN_KEYS.length}
+   — square modules AND square finders — so it is not reprinted here. */
+const FINDER_KEYS = ['bold', 'diamond'];
+const FINDERS = FINDER_KEYS.map((key) => ({
+  mm: PATTERN_MM,
+  label: `Finder — ${UI.finder[key] || key}`,
+  dist: '25-40 cm',
+  payload: PATTERN_PAYLOAD,
+  ecc: PATTERN_ECC,
+  dot: 'square',
+  finder: key,
+  note: 'rejected by jsQR; does a real camera agree?',
+}));
+
 const mm2px = (mm) => (mm / 25.4) * 96; // CSS px at 96dpi; print scales from mm
 
 const card = (c, n) => {
@@ -81,6 +99,8 @@ const card = (c, n) => {
 
 const cards = CASES.map((c, i) => card(c, i + 1)).join('\n');
 const patternCards = PATTERNS.map((c, i) => card(c, CASES.length + i + 1)).join('\n');
+const finderCards = FINDERS.map((c, i) => card(c, CASES.length + PATTERNS.length + i + 1)).join('\n');
+const SQUARE_CONTROL = CASES.length + PATTERN_KEYS.indexOf('square') + 1;
 
 const html = `<!doctype html>
 <meta charset="utf-8">
@@ -100,7 +120,8 @@ const html = `<!doctype html>
   .m code { font: 10px ui-monospace, monospace; color: #444; word-break: break-all; }
   .m .note { color: #a00; font-style: italic; }
   h2 { font-size: 14px; margin: 20px 0 2px; break-before: page; }
-  h2 + p { color: #555; margin: 0 0 6px; max-width: 62em; }
+  h3 { font-size: 14px; margin: 20px 0 2px; break-inside: avoid; }
+  h2 + p, h3 + p { color: #555; margin: 0 0 6px; max-width: 62em; }
   .box { display: flex; gap: 7px; margin-top: 4px; }
   .box span { border: 1px solid #999; border-radius: 3px; padding: 2px 9px; font-size: 10px; color: #666; }
   footer { margin-top: 16px; color: #555; font-size: 11px; }
@@ -120,6 +141,13 @@ resolution — so either jsQR is strict about non-square modules, or six of the 
 offers do not scan. Paper and a real camera are the only way to tell.</p>
 ${patternCards}
 
+<h3>Corner styles — the two our decoder rejects</h3>
+<p>Same link, same ${PATTERN_MM} mm, same ECC ${PATTERN_ECC}, plain Square modules, so the corner is
+the only variable. The other seven corner styles decode headlessly and are already covered by CI, so
+they are not reprinted. <b>#${SQUARE_CONTROL} above is the control</b> for these — it is square
+modules with square corners.</p>
+${finderCards}
+
 <footer>
   <ul>
     <li><b>Scan each code from the stated distance</b>, not with the phone up against the paper.</li>
@@ -134,9 +162,12 @@ ${patternCards}
     <li><b>The pattern section is the generous case</b> — a short link at 25 mm, so every module is
       large. A style that fails <i>here</i> cannot be trusted anywhere. A style that passes here has
       only been shown to work at this size; the small/dense end is still untested.</li>
-    <li><b>If every pattern scans</b>, jsQR is simply strict and the defaults are fine — record it so
-      nobody re-opens this. <b>If some fail</b>, the widget's default (Plus + Dot in square) is one of
-      them, and the default must change.</li>
+    <li><b>If every pattern and corner scans</b>, jsQR is simply strict and the defaults are fine —
+      record it so nobody re-opens this. <b>If some fail</b>, the widget's default (Plus + Dot in
+      square) is among them, and the default must change.</li>
+    <li><b>A corner style that fails is worse than a pattern that fails.</b> The three finders are how
+      a scanner locates the code at all: if one of these does not scan, it does not degrade, it simply
+      is not found.</li>
   </ul>
 </footer>`;
 
@@ -145,5 +176,6 @@ if (!existsSync(dist)) mkdirSync(dist, { recursive: true });
 const out = new URL('../dist/scan-test.html', import.meta.url);
 writeFileSync(out, html);
 console.log(`Wrote ${fileURLToPath(out)}`);
-console.log(`${CASES.length + PATTERNS.length} codes (${CASES.length} use-case + ${PATTERNS.length} module patterns).`);
+console.log(`${CASES.length + PATTERNS.length + FINDERS.length} codes `
+  + `(${CASES.length} use-case + ${PATTERNS.length} module patterns + ${FINDERS.length} corner styles).`);
 console.log('Open it, print at 100% scale, and scan every one.');
