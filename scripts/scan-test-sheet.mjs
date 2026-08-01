@@ -11,11 +11,12 @@
 //   node scripts/scan-test-sheet.mjs        -> dist/scan-test.html
 //   open it, print at 100% scale (NO "fit to page"), then scan every code.
 
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { getMatrix, buildSVG } from '../src/lib/qr.js';
+import { getMatrix, buildSVG, PATTERN_KEYS } from '../src/lib/qr.js';
 
 const BASE = 'https://qrcodeagent.net';
+const UI = JSON.parse(readFileSync(new URL('../src/content/ui.json', import.meta.url), 'utf8'));
 
 // mm sizes drawn from the guidance in /learn/qr-code-print-size, so the sheet
 // tests exactly what the site tells people to do.
@@ -32,24 +33,54 @@ const CASES = [
   { mm: 12, label: 'Below minimum', dist: 'should be hard', payload: `${BASE}/url-qr-code`, ecc: 'M', dot: 'square', finder: 'square' },
 ];
 
+/* Every module pattern the widget offers, as a controlled comparison: same
+   payload, same size, same ECC, same finder, so the ONLY variable is the module
+   shape. Driven off PATTERN_KEYS, so an eighth pattern lands here automatically
+   rather than being quietly untested.
+
+   This section exists because the headless decoder disagrees with the design.
+   jsQR reads the Square pattern and rejects the other six at ANY resolution —
+   2048px with 82px per module still fails. The rendered codes look correct, and
+   phone scanners are far more tolerant than jsQR, so the likely reading is that
+   jsQR is strict about non-square modules rather than that the codes are
+   broken. "Likely" is not good enough for the default style of a QR generator,
+   and only paper and a real camera can settle it. */
+const PATTERN_MM = 25;
+const PATTERN_ECC = 'Q';
+const PATTERN_PAYLOAD = `${BASE}/custom-qr-code-generator`;
+const PATTERNS = PATTERN_KEYS.map((key) => ({
+  mm: PATTERN_MM,
+  label: `Pattern — ${UI.dot[key] || key}`,
+  dist: '25-40 cm',
+  payload: PATTERN_PAYLOAD,
+  ecc: PATTERN_ECC,
+  dot: key,
+  finder: 'square',
+  note: key === 'square' ? 'control — the one our decoder accepts' : 'rejected by jsQR; does a real camera agree?',
+}));
+
 const mm2px = (mm) => (mm / 25.4) * 96; // CSS px at 96dpi; print scales from mm
 
-const cards = CASES.map((c, i) => {
+const card = (c, n) => {
   const m = getMatrix(c.payload, c.ecc);
   const svg = buildSVG(m, 1000, c.fg || '#000000', c.bg || '#ffffff', c.dot, c.finder, null, 'circle', false)
     .replace('width="1000" height="1000"', `width="${mm2px(c.mm)}" height="${mm2px(c.mm)}"`);
   const preview = c.payload.length > 46 ? c.payload.slice(0, 46).replace(/\n/g, ' ') + '…' : c.payload.replace(/\n/g, ' ');
   return `<div class="c">
-    <div class="n">${i + 1}</div>
+    <div class="n">${n}</div>
     <div class="q">${svg}</div>
     <div class="m">
       <b>${c.label}</b>
       <span>${c.mm} mm · scan from ${c.dist} · ECC ${c.ecc} · v${(m.length - 17) / 4}</span>
       <code>${preview.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</code>
+      ${c.note ? `<span class="note">${c.note}</span>` : ''}
       <div class="box"><span>iOS</span><span>Android</span><span>in-app</span></div>
     </div>
   </div>`;
-}).join('\n');
+};
+
+const cards = CASES.map((c, i) => card(c, i + 1)).join('\n');
+const patternCards = PATTERNS.map((c, i) => card(c, CASES.length + i + 1)).join('\n');
 
 const html = `<!doctype html>
 <meta charset="utf-8">
@@ -67,6 +98,9 @@ const html = `<!doctype html>
   .m b { font-size: 13px; }
   .m span { color: #666; font-size: 11px; }
   .m code { font: 10px ui-monospace, monospace; color: #444; word-break: break-all; }
+  .m .note { color: #a00; font-style: italic; }
+  h2 { font-size: 14px; margin: 20px 0 2px; break-before: page; }
+  h2 + p { color: #555; margin: 0 0 6px; max-width: 62em; }
   .box { display: flex; gap: 7px; margin-top: 4px; }
   .box span { border: 1px solid #999; border-radius: 3px; padding: 2px 9px; font-size: 10px; color: #666; }
   footer { margin-top: 16px; color: #555; font-size: 11px; }
@@ -78,6 +112,14 @@ site recommends for that use. Tick each box after a successful scan.</p>
 <p class="warn">Print at 100% scale. If your print dialog says "Fit to page" or "Shrink to fit", turn it
 off — otherwise the sizes are wrong and the test proves nothing.</p>
 ${cards}
+
+<h2>Module patterns — ${PATTERNS.length} styles, one variable</h2>
+<p>Same link, same ${PATTERN_MM} mm, same ECC ${PATTERN_ECC}, same square finders. Only the module
+shape changes. Our headless decoder (jsQR) reads <b>only Square</b> and rejects the other six at any
+resolution — so either jsQR is strict about non-square modules, or six of the seven styles this app
+offers do not scan. Paper and a real camera are the only way to tell.</p>
+${patternCards}
+
 <footer>
   <ul>
     <li><b>Scan each code from the stated distance</b>, not with the phone up against the paper.</li>
@@ -89,6 +131,12 @@ ${cards}
     <li><b>#7 contains accented characters.</b> If it decodes to an empty string or mojibake, the UTF-8
       byte encoding has regressed.</li>
     <li><b>#9 is a low-contrast pairing</b> that should still pass; if it fails, the palette is too tight.</li>
+    <li><b>The pattern section is the generous case</b> — a short link at 25 mm, so every module is
+      large. A style that fails <i>here</i> cannot be trusted anywhere. A style that passes here has
+      only been shown to work at this size; the small/dense end is still untested.</li>
+    <li><b>If every pattern scans</b>, jsQR is simply strict and the defaults are fine — record it so
+      nobody re-opens this. <b>If some fail</b>, the widget's default (Plus + Dot in square) is one of
+      them, and the default must change.</li>
   </ul>
 </footer>`;
 
@@ -97,4 +145,5 @@ if (!existsSync(dist)) mkdirSync(dist, { recursive: true });
 const out = new URL('../dist/scan-test.html', import.meta.url);
 writeFileSync(out, html);
 console.log(`Wrote ${fileURLToPath(out)}`);
-console.log(`${CASES.length} codes. Open it, print at 100% scale, and scan every one.`);
+console.log(`${CASES.length + PATTERNS.length} codes (${CASES.length} use-case + ${PATTERNS.length} module patterns).`);
+console.log('Open it, print at 100% scale, and scan every one.');
