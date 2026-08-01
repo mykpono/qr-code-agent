@@ -65,7 +65,9 @@ for (const { url, name } of TOOL_PAGES) {
     //    the button's disabled state flip can only work if state + effects are
     //    running — i.e. hydration actually took over from the SSR markup.
     const input = island.locator('input').first();
-    const download = island.getByRole('button', { name: /download png/i });
+    // The label carries a "↓" glyph between the words ("Download ↓ PNG"), so match
+    // download … png rather than an adjacent pair.
+    const download = island.getByRole('button', { name: /download.*png/i });
 
     await expect(input).toBeVisible();
 
