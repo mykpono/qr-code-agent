@@ -27,7 +27,14 @@ function telDigits(v) {
 function buildPayload(mode, f) {
   if (mode === 'wifi') {
     const esc = (s) => (s || '').replace(/([\\;,":])/g, '\\$1');
-    return `WIFI:T:${f.enc || 'WPA'};S:${esc(f.ssid)};P:${esc(f.pass)};${f.hidden ? 'H:true;' : ''};`;
+    const enc = f.enc || 'WPA';
+    // An open network encodes as T:nopass with NO P: segment — emitting an empty
+    // P: makes some scanners prompt for a password on a network that has none.
+    const noPass = enc === 'nopass' || enc === 'None';
+    const t = noPass ? 'nopass' : enc;
+    return `WIFI:T:${t};S:${esc(f.ssid)};`
+      + (noPass ? '' : `P:${esc(f.pass)};`)
+      + (f.hidden ? 'H:true;' : '') + ';';
   }
   if (mode === 'vcard') {
     return ['BEGIN:VCARD', 'VERSION:3.0', `N:${f.last || ''};${f.first || ''};;;`,
@@ -87,6 +94,29 @@ function buildPayload(mode, f) {
   const head = hashAt >= 0 ? raw.slice(0, hashAt) : raw;
   const hash = hashAt >= 0 ? raw.slice(hashAt) : '';
   return head + (head.includes('?') ? '&' : '?') + parts.join('&') + hash;
+}
+
+/* Display-only masking of the encoded payload for the "ENCODES AS" strip — it
+   must never feed the encoder. Hides the WiFi password (which is embedded in the
+   real code but should not sit in plain sight on screen) and folds the vCard's
+   newlines into a one-line ⏎ so the strip does not wrap. */
+function maskPayload(mode, f = {}) {
+  const p = buildPayload(mode, f);
+  if (mode === 'wifi' && (f.pass || '')) {
+    const esc = (s) => (s || '').replace(/([\\;,":])/g, '\\$1');
+    return p.replace(`P:${esc(f.pass)};`, 'P:••••••;');
+  }
+  return p.replace(/\n/g, ' ⏎ ');
+}
+
+/* Encoded-length buckets that drive the density chip and the advisory ECC nudge.
+   The suggestion is advisory only — the caller never auto-applies it. Boundaries:
+   ≤90 comfortable, 91–220 → suggest Q, >220 → suggest H. */
+function payloadDensity(n) {
+  if (!n) return { level: 'empty', suggest: null };
+  if (n > 220) return { level: 'high', suggest: 'H' };
+  if (n > 90) return { level: 'mid', suggest: 'Q' };
+  return { level: 'low', suggest: null };
 }
 
 /* Inverse of the UTM composition above: pull utm_* out of a full URL, returning
@@ -149,19 +179,31 @@ function drawFinderReal(ctx, x, y, cell, finder, fg, bg) {
   }
 }
 function traceRR(ctx, x, y, w, h, r) { ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); }
-function bakeLogo(ctx, out, grid, img, bg, fg, shape, border) {
-  const cx = out / 2, cy = out / 2, frame = grid * 0.22, gap = border ? Math.round((out * 35) / 512) : 0;
-  const stroke = border ? Math.max(2, frame * 0.04) : 0;
-  const size = Math.max(frame - 2 * gap - 2 * stroke, frame * 0.55);
-  const x = cx - size / 2, y = cy - size / 2, R = size / 2, corner = size * 0.12, clearR = R + gap + stroke / 2 + frame * 0.1;
+// The logo SPACE — the white plate and its border — is FIXED at 22% of the code.
+// LOGO FIT (`scale`) only zooms the mark WITHIN that space: >100% crops the mark
+// to fill more of the plate, <100% shrinks it with padding. The mark's viewport
+// (clip) and the border both stay put; only the drawn mark changes size.
+function bakeLogo(ctx, out, grid, img, bg, fg, shape, border, scale = 1) {
+  const cx = out / 2, cy = out / 2;
+  const plate = grid * 0.22, half = plate / 2;
+  const stroke = border ? Math.max(2, plate * 0.05) : 0;
+  const inset = plate * 0.10;
+  const clip = plate - 2 * (stroke + inset);
+  const corner = plate * 0.22;
   ctx.fillStyle = bg;
-  if (shape === 'circle') { ctx.beginPath(); ctx.arc(cx, cy, clearR, 0, 7); ctx.fill(); }
-  else rr(ctx, cx - clearR, cy - clearR, clearR * 2, clearR * 2, corner);
+  if (shape === 'circle') { ctx.beginPath(); ctx.arc(cx, cy, half, 0, 7); ctx.fill(); }
+  else rr(ctx, cx - half, cy - half, plate, plate, corner);
   ctx.save();
-  if (shape === 'circle') { ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.clip(); }
-  else { ctx.beginPath(); traceRR(ctx, x, y, size, size, corner * 0.7); ctx.clip(); }
-  ctx.drawImage(img, x, y, size, size); ctx.restore();
-  if (border) { ctx.strokeStyle = fg; ctx.lineWidth = stroke; if (shape === 'circle') { ctx.beginPath(); ctx.arc(cx, cy, R + gap + stroke / 2, 0, 7); ctx.stroke(); } else { ctx.beginPath(); traceRR(ctx, x - gap, y - gap, size + gap * 2, size + gap * 2, corner); ctx.stroke(); } }
+  if (shape === 'circle') { ctx.beginPath(); ctx.arc(cx, cy, clip / 2, 0, 7); ctx.clip(); }
+  else { ctx.beginPath(); traceRR(ctx, cx - clip / 2, cy - clip / 2, clip, clip, corner * 0.6); ctx.clip(); }
+  const dz = clip * scale, dx = cx - dz / 2, dy = cy - dz / 2;
+  ctx.drawImage(img, dx, dy, dz, dz); ctx.restore();
+  if (border) {
+    ctx.strokeStyle = fg; ctx.lineWidth = stroke;
+    const br = half - stroke / 2;
+    if (shape === 'circle') { ctx.beginPath(); ctx.arc(cx, cy, br, 0, 7); ctx.stroke(); }
+    else { ctx.beginPath(); traceRR(ctx, cx - br, cy - br, br * 2, br * 2, corner); ctx.stroke(); }
+  }
 }
 // ISO/IEC 18004 requires a quiet zone of at least 4 modules on every side.
 // This was previously `pad = out * 0.04` — a fraction of the output size, which
@@ -170,7 +212,7 @@ function bakeLogo(ctx, out, grid, img, bg, fg, shape, border) {
 // codes failing to scan against coloured or busy backgrounds. Size the pad in
 // modules so it is correct at every version and every output size.
 const QUIET_MODULES = 4;
-function renderReal(canvas, matrix, out, fg, bg, dot, finder, logoImg, logoShape, logoBorder) {
+function renderReal(canvas, matrix, out, fg, bg, dot, finder, logoImg, logoShape, logoBorder, logoScale = 1) {
   const n = matrix.length;
   const cell = out / (n + QUIET_MODULES * 2);
   const pad = QUIET_MODULES * cell, grid = out - pad * 2;
@@ -180,7 +222,7 @@ function renderReal(canvas, matrix, out, fg, bg, dot, finder, logoImg, logoShape
   for (const [fr, fc] of fin) drawFinderReal(ctx, pad + fc * cell, pad + fr * cell, cell, finder, fg, bg);
   const inFin = (r, c) => (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { if (inFin(r, c) || !matrix[r][c]) continue; drawMod(ctx, pad + c * cell + cell / 2, pad + r * cell + cell / 2, cell, dot, fg); }
-  if (logoImg) bakeLogo(ctx, out, grid, logoImg, bg, fg, logoShape, logoBorder);
+  if (logoImg) bakeLogo(ctx, out, grid, logoImg, bg, fg, logoShape, logoBorder, logoScale);
 }
 
 /* ---------------- true-vector SVG export ----------------
@@ -226,7 +268,7 @@ function finderSVG(x, y, cell, finder, fg, bg) {
     `<path d="${rrPathD(x + cell, y + cell, s7 - 2 * cell, s7 - 2 * cell, rad(cell))}" fill="${bg}"/>` +
     `<path d="${rrPathD(x + 2 * cell, y + 2 * cell, s7 - 4 * cell, s7 - 4 * cell, rad(2 * cell))}" fill="${fg}"/>`;
 }
-function buildSVG(matrix, out, fg, bg, dot, finder, logoDataUrl, logoShape, logoBorder) {
+function buildSVG(matrix, out, fg, bg, dot, finder, logoDataUrl, logoShape, logoBorder, logoScale = 1) {
   const n = matrix.length;
   const cell = out / (n + QUIET_MODULES * 2);
   const pad = QUIET_MODULES * cell, grid = out - pad * 2;
@@ -238,21 +280,28 @@ function buildSVG(matrix, out, fg, bg, dot, finder, logoDataUrl, logoShape, logo
     parts.push(modSVG(pad + c * cell + cell / 2, pad + r * cell + cell / 2, cell, dot, fg));
   }
   if (logoDataUrl) {
-    const frame = grid * 0.22, gap = logoBorder ? Math.round((out * 35) / 512) : 0;
-    const stroke = logoBorder ? Math.max(2, frame * 0.04) : 0;
-    const size = Math.max(frame - 2 * gap - 2 * stroke, frame * 0.55);
-    const cx = out / 2, cy = out / 2, x = cx - size / 2, y = cy - size / 2;
-    const R = size / 2, corner = size * 0.12, clearR = R + gap + stroke / 2 + frame * 0.1;
+    // Geometry mirrors bakeLogo exactly: the plate + border are FIXED at 22% and
+    // LOGO FIT only zooms the mark within the fixed clip.
+    const cx = out / 2, cy = out / 2;
+    const plate = grid * 0.22, half = plate / 2;
+    const stroke = logoBorder ? Math.max(2, plate * 0.05) : 0;
+    const inset = plate * 0.10;
+    const clip = plate - 2 * (stroke + inset);
+    const corner = plate * 0.22;
     parts.push(logoShape === 'circle'
-      ? `<circle cx="${cx}" cy="${cy}" r="${clearR}" fill="${bg}"/>`
-      : `<rect x="${cx - clearR}" y="${cy - clearR}" width="${clearR * 2}" height="${clearR * 2}" rx="${corner}" fill="${bg}"/>`);
-    const clip = logoShape === 'circle'
-      ? `<clipPath id="lg"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath>`
-      : `<clipPath id="lg"><rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${corner * 0.7}"/></clipPath>`;
-    parts.push(`<defs>${clip}</defs><image href="${logoDataUrl}" x="${x}" y="${y}" width="${size}" height="${size}" clip-path="url(#lg)"/>`);
-    if (logoBorder) parts.push(logoShape === 'circle'
-      ? `<circle cx="${cx}" cy="${cy}" r="${R + gap + stroke / 2}" fill="none" stroke="${fg}" stroke-width="${stroke}"/>`
-      : `<rect x="${x - gap}" y="${y - gap}" width="${size + gap * 2}" height="${size + gap * 2}" rx="${corner}" fill="none" stroke="${fg}" stroke-width="${stroke}"/>`);
+      ? `<circle cx="${cx}" cy="${cy}" r="${half}" fill="${bg}"/>`
+      : `<rect x="${cx - half}" y="${cy - half}" width="${plate}" height="${plate}" rx="${corner}" fill="${bg}"/>`);
+    const clipDef = logoShape === 'circle'
+      ? `<clipPath id="lg"><circle cx="${cx}" cy="${cy}" r="${clip / 2}"/></clipPath>`
+      : `<clipPath id="lg"><rect x="${cx - clip / 2}" y="${cy - clip / 2}" width="${clip}" height="${clip}" rx="${corner * 0.6}"/></clipPath>`;
+    const dz = clip * logoScale, dx = cx - dz / 2, dy = cy - dz / 2;
+    parts.push(`<defs>${clipDef}</defs><image href="${logoDataUrl}" x="${dx}" y="${dy}" width="${dz}" height="${dz}" clip-path="url(#lg)" preserveAspectRatio="xMidYMid slice"/>`);
+    if (logoBorder) {
+      const br = half - stroke / 2;
+      parts.push(logoShape === 'circle'
+        ? `<circle cx="${cx}" cy="${cy}" r="${br}" fill="none" stroke="${fg}" stroke-width="${stroke}"/>`
+        : `<rect x="${cx - br}" y="${cy - br}" width="${br * 2}" height="${br * 2}" rx="${corner}" fill="none" stroke="${fg}" stroke-width="${stroke}"/>`);
+    }
   }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${out}" height="${out}" viewBox="0 0 ${out} ${out}" shape-rendering="crispEdges">${parts.join('')}</svg>`;
 }
@@ -277,6 +326,6 @@ export function hasContent(mode, f = {}) {
 // drawMod and drawFinderReal are also used by the decorative rail-thumbnail
 // drawer in Generator.jsx, so they must be exported, not module-private.
 export {
-  buildPayload, splitUtm, UTM_KEYS, getMatrix, buildSVG, renderReal, QUIET_MODULES,
-  rrPathD, modSVG, finderSVG, drawMod, drawFinderReal,
+  buildPayload, maskPayload, payloadDensity, splitUtm, UTM_KEYS, getMatrix, buildSVG,
+  renderReal, QUIET_MODULES, rrPathD, modSVG, finderSVG, drawMod, drawFinderReal,
 };

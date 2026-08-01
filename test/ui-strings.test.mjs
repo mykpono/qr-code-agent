@@ -52,8 +52,11 @@ test('no hardcoded sentences in component markup', () => {
 
 test('every ui.json key a component references actually exists', () => {
   const paths = new Set();
+  // scannable() also strips the preset catalogues, whose example URLs can contain
+  // a literal that looks like a lookup (Telegram's "https://t.me/…" reads as
+  // "t.me") but is data, not a ui.json reference.
   for (const f of COMPONENTS) {
-    for (const m of read(f).matchAll(/\bt\.([a-zA-Z0-9_.]+)/g)) paths.add(m[1]);
+    for (const m of scannable(read(f)).matchAll(/\bt\.([a-zA-Z0-9_.]+)/g)) paths.add(m[1]);
   }
   const resolve = (p) => p.split('.').reduce((o, k) => (o == null ? o : o[k]), ui);
   for (const p of paths) {

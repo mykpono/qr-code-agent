@@ -61,6 +61,7 @@
     },
     "gen": {
       "title": "Individuelle QR-Codes",
+      "subtitle": "GRATIS QR-CODES",
       "contentLabel": "Inhalt / URL",
       "contentPlaceholder": "https://your-link.com",
       "contentAria": "Inhalt oder URL",

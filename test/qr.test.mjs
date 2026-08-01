@@ -13,7 +13,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import jsQR from 'jsqr';
 import {
-  buildPayload, splitUtm, getMatrix, buildSVG, hasContent, QUIET_MODULES,
+  buildPayload, maskPayload, payloadDensity, splitUtm, getMatrix, buildSVG, hasContent, QUIET_MODULES,
 } from '../src/lib/qr.js';
 
 const SCALE = 8; // px per module — well above the decoder's floor
@@ -107,6 +107,42 @@ test('wifi payload escapes delimiters', () => {
   assert.match(p, /^WIFI:T:WPA;/);
   assert.ok(p.includes('\\;'), 'semicolon in SSID must be escaped or the code is misread');
   assert.ok(p.includes('\\:') || p.includes('\\"'), 'special chars in password must be escaped');
+});
+
+// An open network has no password: the payload must be T:nopass with no P:
+// segment, and hidden networks carry H:true. A WPA/WEP network keeps its P:.
+test('wifi handles open networks and hidden flag', () => {
+  assert.equal(buildPayload('wifi', { ssid: 'Guest', enc: 'nopass' }), 'WIFI:T:nopass;S:Guest;;');
+  assert.ok(!buildPayload('wifi', { ssid: 'Guest', enc: 'nopass', pass: 'ignored' }).includes('P:'),
+    'an open network must not emit a P: segment');
+  assert.equal(buildPayload('wifi', { ssid: 'Guest', enc: 'WPA', pass: 'pw', hidden: true }),
+    'WIFI:T:WPA;S:Guest;P:pw;H:true;;');
+});
+
+// Masking is display-only and must never change the encoded string. WiFi hides
+// the password; vCard newlines fold to a single ⏎ so the strip stays one line.
+test('maskPayload hides the wifi password but leaves the real payload intact', () => {
+  const f = { ssid: 'Cafe', pass: 'hunter2', enc: 'WPA' };
+  assert.ok(buildPayload('wifi', f).includes('P:hunter2;'), 'real payload keeps the password');
+  const masked = maskPayload('wifi', f);
+  assert.ok(masked.includes('P:••••••;'), 'masked payload hides the password');
+  assert.ok(!masked.includes('hunter2'), 'the cleartext password must not appear masked');
+});
+
+test('maskPayload folds vcard newlines to a single line', () => {
+  const masked = maskPayload('vcard', { first: 'Ada', last: 'Lovelace' });
+  assert.ok(!masked.includes('\n'), 'no raw newlines in the one-line strip');
+  assert.ok(masked.includes(' ⏎ '), 'newlines are shown as ⏎');
+});
+
+// The density buckets drive the advisory ECC nudge; the 90 and 220 boundaries
+// are the contract the payload strip renders against.
+test('payloadDensity buckets at the 90 and 220 char boundaries', () => {
+  assert.deepEqual(payloadDensity(0), { level: 'empty', suggest: null });
+  assert.deepEqual(payloadDensity(90), { level: 'low', suggest: null });
+  assert.deepEqual(payloadDensity(91), { level: 'mid', suggest: 'Q' });
+  assert.deepEqual(payloadDensity(220), { level: 'mid', suggest: 'Q' });
+  assert.deepEqual(payloadDensity(221), { level: 'high', suggest: 'H' });
 });
 
 test('vcard payload is well-formed and omits empty fields', () => {
