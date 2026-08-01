@@ -95,8 +95,8 @@
       "templatesToggle": "VORLAGEN",
       "templatesMinimize": "Vorlagen minimieren",
       "presetsCount": "Vorlagen",
-      "downloadPng": "↓ PNG DOWNLOAD",
-      "downloadSvg": "↓ SVG DOWNLOAD",
+      "downloadPng": "Download ↓ PNG",
+      "downloadSvg": "Download ↓ SVG",
       "presets": "Vorlagen",
       "pickColor": "Ziehen Sie den Regler für jede Farbe",
       "scannable": "✓ Scannbar",
@@ -107,7 +107,26 @@
       "dots": "Punkte",
       "logoOn": "Logo an",
       "noLogo": "Kein Logo",
-      "buyCoffee": "☕ KAFFEE SPENDIEREN"
+      "buyCoffee": "☕ KAFFEE SPENDIEREN",
+      "typeLabel": "Typ",
+      "encodesAs": "CODIERT ALS",
+      "nothingToEncode": "Noch nichts zu codieren",
+      "use": "NUTZEN",
+      "suggested": "EMPFOHLEN",
+      "plate": "PLATTE",
+      "logoFit": "LOGO-GRÖSSE",
+      "reset": "ZURÜCKSETZEN",
+      "logoFitHint": "Logo passend zur Platte skalieren — Ränder werden beschnitten.",
+      "borderCheck": "Rahmen",
+      "hiddenNetwork": "Verstecktes Netzwerk",
+      "wifiSecurityNote": "Das Passwort ist im Code enthalten — nutze ein Gastnetzwerk.",
+      "phoneAbroadNote": "Gib die Ländervorwahl an, damit der Code auch im Ausland funktioniert.",
+      "savePrefix": "♥ SPEICHERN",
+      "fromTemplate": "Aus Vorlage · zum Ersetzen klicken",
+      "markSuffix": "Logo",
+      "removeMark": "ENTFERNEN",
+      "socialLinkTag": "Social-Link",
+      "plateWarn": "Die Platte verdeckt {cover}%, aber ECC {ecc} korrigiert nur {rec}% — erhöhe ECC auf Q oder H."
     },
     "dot": {
       "star": "PLUS",
@@ -272,6 +291,44 @@
       "pre": "Code erhalten?",
       "cta": "☕ Spendieren Sie mir einen Kaffee",
       "post": "— so bleibt dieses Tool für alle kostenlos."
+    },
+    "type": {
+      "url": "URL",
+      "text": "Text",
+      "wifi": "WLAN",
+      "vcard": "Kontakt",
+      "tel": "Telefon",
+      "sms": "SMS",
+      "email": "E-Mail",
+      "whatsapp": "WhatsApp",
+      "crypto": "Bitcoin"
+    },
+    "typeHint": {
+      "url": "Einen Link öffnen",
+      "text": "Text beim Scannen anzeigen",
+      "wifi": "Einem Netzwerk beitreten",
+      "vcard": "In Kontakten speichern",
+      "tel": "Die Telefon-App öffnen",
+      "sms": "Eine SMS öffnen",
+      "email": "Einen E-Mail-Entwurf öffnen",
+      "whatsapp": "Einen WhatsApp-Chat öffnen",
+      "crypto": "Eine Bitcoin-Zahlung öffnen"
+    },
+    "modeNote": {
+      "url": "Beliebiger Link — UTM-Tags optional",
+      "text": "Reiner Text, keine App nötig",
+      "wifi": "Gäste verbinden sich ohne Passworteingabe",
+      "vcard": "vCard 3.0 — mit einem Scan gespeichert",
+      "tel": "Tippen zum Anrufen",
+      "sms": "Tippen für eine vorbereitete SMS",
+      "email": "Öffnet einen Entwurf in der Mail-App",
+      "whatsapp": "Öffnet einen Chat über wa.me",
+      "crypto": "BIP-21-Zahlungsanforderung"
+    },
+    "density": {
+      "low": "{n} Zeichen · unkritisch",
+      "mid": "{n} Zeichen — Quartil empfohlen",
+      "high": "Dicht · {n} Zeichen — hohes ECC empfohlen"
     }
   },
   "pages": {
