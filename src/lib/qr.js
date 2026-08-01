@@ -438,23 +438,32 @@ const frameDef = (key) => FRAMES.find((f) => f.key === key) || FRAMES[0];
 
 /* CTA display faces. `label` is a typeface name, not translatable copy, so it
    lives here with the stack rather than in ui.json. `scale` corrects faces whose
-   cap height runs small or large against the others at the same px size. */
+   cap height runs small or large against the others at the same px size.
+
+   `asc` / `dsc` / `cap` are that face's ascent, descent and cap height as
+   fractions of the font size, measured once at 200px and baked in. They are
+   constants rather than a canvas measurement on purpose: frameMetrics runs
+   during RENDER, and the server has no canvas. Measuring live gave the server
+   one padding and the client another, which React flagged as a hydration
+   mismatch and the smoke test caught. Deterministic beats exact here — being a
+   pixel out on a system font nobody has is harmless; re-rendering the island is
+   not. */
 const FONTS = [
-  { key: 'grotesk', label: 'Space Grotesk', css: "'Space Grotesk',sans-serif", w: 700, ls: '.14em' },
-  { key: 'mono', label: 'IBM Plex Mono', css: "'IBM Plex Mono',monospace", w: 600, ls: '.12em' },
-  { key: 'helvetica', label: 'Helvetica', css: 'Helvetica,Arial,sans-serif', w: 700, ls: '.1em' },
-  { key: 'georgia', label: 'Georgia', css: 'Georgia,serif', w: 700, ls: '.06em' },
-  { key: 'arial', label: 'Arial', css: 'Arial,Helvetica,sans-serif', w: 700, ls: '.09em' },
-  { key: 'verdana', label: 'Verdana', css: 'Verdana,Geneva,sans-serif', w: 700, ls: '.08em', scale: .94 },
-  { key: 'tahoma', label: 'Tahoma', css: 'Tahoma,Verdana,sans-serif', w: 700, ls: '.09em' },
-  { key: 'trebuchet', label: 'Trebuchet', css: "'Trebuchet MS',sans-serif", w: 700, ls: '.08em' },
-  { key: 'times', label: 'Times', css: "'Times New Roman',Times,serif", w: 700, ls: '.05em' },
-  { key: 'garamond', label: 'Garamond', css: "Garamond,'Times New Roman',serif", w: 700, ls: '.06em', scale: 1.06 },
-  { key: 'courier', label: 'Courier', css: "'Courier New',Courier,monospace", w: 700, ls: '.1em', scale: .96 },
-  { key: 'impact', label: 'Impact', css: "Impact,'Arial Narrow',sans-serif", w: 400, ls: '.1em', scale: 1.08 },
-  { key: 'playfair', label: 'Playfair', css: "'Playfair Display',serif", w: 700, ls: '.05em' },
-  { key: 'bebas', label: 'Bebas', css: "'Bebas Neue',sans-serif", w: 400, ls: '.16em', scale: 1.15 },
-  { key: 'caveat', label: 'Caveat', css: "'Caveat',cursive", w: 600, ls: '0', scale: 1.5 },
+  { key: 'grotesk', label: 'Space Grotesk', css: "'Space Grotesk',sans-serif", w: 700, ls: '.14em' , asc: 0.985, dsc: 0.29, cap: 0.7 },
+  { key: 'mono', label: 'IBM Plex Mono', css: "'IBM Plex Mono',monospace", w: 600, ls: '.12em' , asc: 1.025, dsc: 0.275, cap: 0.698 },
+  { key: 'helvetica', label: 'Helvetica', css: 'Helvetica,Arial,sans-serif', w: 700, ls: '.1em' , asc: 0.92, dsc: 0.23, cap: 0.72 },
+  { key: 'georgia', label: 'Georgia', css: 'Georgia,serif', w: 700, ls: '.06em' , asc: 0.915, dsc: 0.22, cap: 0.693 },
+  { key: 'arial', label: 'Arial', css: 'Arial,Helvetica,sans-serif', w: 700, ls: '.09em' , asc: 0.905, dsc: 0.21, cap: 0.716 },
+  { key: 'verdana', label: 'Verdana', css: 'Verdana,Geneva,sans-serif', w: 700, ls: '.08em', scale: .94 , asc: 1.005, dsc: 0.21, cap: 0.727 },
+  { key: 'tahoma', label: 'Tahoma', css: 'Tahoma,Verdana,sans-serif', w: 700, ls: '.09em' , asc: 1.0, dsc: 0.205, cap: 0.727 },
+  { key: 'trebuchet', label: 'Trebuchet', css: "'Trebuchet MS',sans-serif", w: 700, ls: '.08em' , asc: 0.94, dsc: 0.22, cap: 0.715 },
+  { key: 'times', label: 'Times', css: "'Times New Roman',Times,serif", w: 700, ls: '.05em' , asc: 0.89, dsc: 0.215, cap: 0.662 },
+  { key: 'garamond', label: 'Garamond', css: "Garamond,'Times New Roman',serif", w: 700, ls: '.06em', scale: 1.06 , asc: 0.89, dsc: 0.215, cap: 0.662 },
+  { key: 'courier', label: 'Courier', css: "'Courier New',Courier,monospace", w: 700, ls: '.1em', scale: .96 , asc: 0.835, dsc: 0.3, cap: 0.592 },
+  { key: 'impact', label: 'Impact', css: "Impact,'Arial Narrow',sans-serif", w: 400, ls: '.1em', scale: 1.08 , asc: 1.01, dsc: 0.21, cap: 0.791 },
+  { key: 'playfair', label: 'Playfair', css: "'Playfair Display',serif", w: 700, ls: '.05em' , asc: 0.9, dsc: 0.25, cap: 0.676 },
+  { key: 'bebas', label: 'Bebas', css: "'Bebas Neue',sans-serif", w: 400, ls: '.16em', scale: 1.15 , asc: 0.92, dsc: 0.23, cap: 0.717 },
+  { key: 'caveat', label: 'Caveat', css: "'Caveat',cursive", w: 600, ls: '0', scale: 1.5 , asc: 1.12, dsc: 0.465, cap: 0.915 },
 ];
 const fontDef = (key) => FONTS.find((f) => f.key === key) || FONTS[0];
 
@@ -466,9 +475,40 @@ function frameMetrics(frameKey, k, ctaSize, frameFont) {
   const sz = CTA_SCALE[ctaSize] || 1;
   const R = (n) => Math.round(n * k);
   const fsz = (n) => Math.max(4, Math.round(n * k * sz * (fd.scale || 1)));
+  const border = def.bw ? (def.grad ? 0 : Math.max(1, R(def.bw))) : 0;
+  const gradPad = def.grad ? Math.max(2, R(def.bw)) : 0;
+  /* A solid bar is the frame colour, and so is the border it sits against, so
+     the two read as ONE block of colour. Two things then push the type off the
+     centre of that block:
+
+       - the border, which belongs to the block visually but not to the bar, and
+       - the font, whose line box is ascent + descent while all-caps type only
+         fills cap-height above the baseline. The slack above the caps and the
+         slack below the baseline are not equal.
+
+     So centre the CAP BLOCK, not the line box, inside bar + border. Solving
+     `space above caps == space below baseline` for the padding split gives:
+
+         s = (lineH ± merged - 2·ascent + cap) / 2
+
+     Centring on cap height rather than on the actual ink matters: ink centring
+     would make the type jump the moment someone types a descender.
+
+     The shift moves padding between top and bottom rather than adding any, so
+     the bar's height is untouched and the exported file still measures the same
+     as the preview. Only `solid` needs it — `plain` sits on the paper and
+     `pill` is a discrete chip, so neither merges with the border. */
+  const merged = border + gradPad;
   const bar = (place) => {
     const kind = place === 'top' ? def.top : def.bottom;
-    if (kind === 'solid') return { kind, padTop: R(11), padBottom: R(11), padX: R(14), font: fsz(19) };
+    if (kind === 'solid') {
+      const padV = R(11), font = fsz(19);
+      const ascent = fd.asc * font, lineH = Math.round((fd.asc + fd.dsc) * font);
+      const raw = (lineH + (place === 'top' ? -merged : merged) - 2 * ascent + fd.cap * font) / 2;
+      // never let the split go past the padding it is redistributing
+      const shift = Math.max(-padV, Math.min(padV, Math.round(raw)));
+      return { kind, padTop: padV + shift, padBottom: padV - shift, padX: R(14), font };
+    }
     // `plain` sits on the paper, so its padding is asymmetric — it has to close
     // the gap the code's own padding already opened on the other side.
     if (kind === 'plain') return { kind, padTop: R(place === 'top' ? 12 : 9), padBottom: R(place === 'top' ? 4 : 13), padX: R(14), font: fsz(18) };
@@ -479,8 +519,7 @@ function frameMetrics(frameKey, k, ctaSize, frameFont) {
     def, font: fd,
     // A gradient frame has no border — the gradient IS the border, painted as
     // padding under a smaller-radius inner box.
-    border: def.bw ? (def.grad ? 0 : Math.max(1, R(def.bw))) : 0,
-    gradPad: def.grad ? Math.max(2, R(def.bw)) : 0,
+    border, gradPad,
     pad: R(def.pad || 0),
     radius: R(def.r || 0),
     innerRadius: def.grad ? Math.max(0, R((def.r || 0) - 4)) : 0,
@@ -504,12 +543,17 @@ function makeLineMeasurer() {
   return (fd, px) => {
     if (ctx) {
       ctx.font = fontShorthand(fd, px);
+      // cap height, for optically centring type that has no descenders
+      const cap = ctx.measureText('H').actualBoundingBoxAscent || px * 0.7;
       const m = ctx.measureText('Hg');
       if (m.fontBoundingBoxAscent != null && m.fontBoundingBoxDescent != null) {
-        return { ascent: m.fontBoundingBoxAscent, height: m.fontBoundingBoxAscent + m.fontBoundingBoxDescent };
+        return {
+          ascent: m.fontBoundingBoxAscent, cap,
+          height: m.fontBoundingBoxAscent + m.fontBoundingBoxDescent,
+        };
       }
     }
-    return { ascent: px * 0.8, height: px * 1.0 };
+    return { ascent: px * 0.8, cap: px * 0.7, height: px * 1.0 };
   };
 }
 

@@ -234,7 +234,10 @@ function FrameBox({ frame, k, frameColor, paper, text, ctaColor, ctaSize, frameF
   const bar = (b) => {
     const solid = b.kind === 'solid' || b.kind === 'pill';
     const base = { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', color: ctaInk(ctaColor, frameColor, solid), ...typo(b.font) };
-    if (b.kind === 'solid') return { ...base, background: grad ? 'transparent' : frameColor, padding: `${b.padTop}px ${b.padX}px`, ...clampTile };
+    // Three values, not two: a solid bar's top and bottom padding differ, to
+    // re-centre the text against the border it visually merges with. A
+    // `${padTop}px ${padX}px` shorthand would silently mirror the top.
+    if (b.kind === 'solid') return { ...base, background: grad ? 'transparent' : frameColor, padding: `${b.padTop}px ${b.padX}px ${b.padBottom}px`, ...clampTile };
     if (b.kind === 'plain') return { ...base, background: paper, padding: `${b.padTop}px ${b.padX}px ${b.padBottom}px`, ...clampTile };
     return { ...base, borderRadius: 999, background: frameColor, padding: `${b.padTop}px ${b.padX}px`, ...clampTile };
   };

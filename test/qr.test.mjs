@@ -586,3 +586,33 @@ test('no CTA font label can overflow the fixed-width FONT select', async () => {
     `"${longest.label}" is ${longest.label.length} chars; 136px fits 13 monospace chars. `
     + 'Widen .gf-fontfield select and update this test, or shorten the label.');
 });
+
+/* A solid bar is the frame colour and so is the border beneath it, so the two
+   read as one block and the type has to be centred in the block, not the bar.
+   The correction moves padding between top and bottom; it must never add any,
+   or the exported file stops matching the preview. */
+
+test('centring a solid bar redistributes padding without changing its height', () => {
+  for (const k of [1, 0.5, 0.22]) {
+    for (const key of ['banner', 'banner-top', 'ribbon']) {
+      const m = frameMetrics(key, k, 'XL', 'grotesk');
+      const bar = m.bottom || m.top;
+      assert.equal(bar.kind, 'solid');
+      assert.equal(bar.padTop + bar.padBottom, Math.round(11 * k) * 2,
+        `${key} @${k}: padding must only be redistributed, never added`);
+      assert.ok(bar.padTop >= 0 && bar.padBottom >= 0, `${key} @${k}: negative padding`);
+    }
+  }
+});
+
+test('a top bar is corrected in the opposite direction to a bottom bar', () => {
+  // banner and banner-top share bw/r/pad, so the only difference is which side
+  // the border sits on — the shift must flip by exactly that border.
+  const bottom = frameMetrics('banner', 1, 'XL', 'grotesk');
+  const top = frameMetrics('banner-top', 1, 'XL', 'grotesk');
+  const spread = bottom.bottom.padTop - top.top.padTop;
+  assert.ok(Math.abs(spread - bottom.border) <= 1,
+    `bottom and top bars should differ by the border (${bottom.border}px), got ${spread}px`);
+  assert.ok(top.top.padTop < top.top.padBottom,
+    'a top bar merges with the border ABOVE it, so its text moves up');
+});
