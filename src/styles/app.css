@@ -109,279 +109,342 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 .cat { font: 600 11px var(--font-mono); letter-spacing: .06em; padding: 9px 15px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); cursor: pointer; }
 .cat.on { background: var(--brand-soft); border-color: var(--brand-soft-border); color: var(--brand-500); }
 
-/* ============ Flagship generator (matches QR Generator.dc.html) ============ */
-/* The generator breaks out of the 1200px .wrap cap: the design card is 1320px
-   wide (min 1120), so inside .wrap it was squeezed to 1080 and the preview
-   column lost ~240px — which is what made the download buttons wrap. */
-.tool-wrap { margin-top: 26px; max-width: 1286px; padding: 0; }
+/* ============ Flagship generator (design_handoff_qr_generator) ============
+   Five bands in one card: header · type tabs · content fields · setup|preview
+   split · coffee footer. Every value here is read from the handoff.
+
+   TWO DELIBERATE DEVIATIONS, both pre-existing project decisions:
+   1. The muted greys and the accent-on-accent-soft pairing come from the
+      a11y-corrected tokens (colors.css), not the handoff's raw hexes — several
+      of those are under 3:1 for normal-size text. Hue and saturation match; only
+      lightness moves.
+   2. Non-text violet (selection borders, slider fills, tab underlines) uses
+      --brand-mark, which IS the handoff's #6d4dff in every theme.
+
+   The preview column is literal #ffffff and its type is literal, by design:
+   the surrounding chrome themes, the artboard does not. */
+.tool-wrap { margin-top: 26px; max-width: 1416px; padding: 0; }
 .tool-scroll { overflow-x: auto; padding: 4px 48px; }
 .support-line { text-align: center; font: 500 13px var(--font-sans); color: var(--muted); margin: 14px 0 0; }
 
-.genflag { width: 100%; max-width: 1190px; min-width: 1120px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-3xl); overflow: hidden; }
-.genflag .lab { font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); margin-bottom: 9px; }
-.genflag .lab.spread { display: flex; justify-content: space-between; align-items: baseline; }
-.genflag .lab.spread .accent { font: 600 12px var(--font-mono); color: var(--brand-500); letter-spacing: 0; }
-.genflag .micro { font: 600 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label-2); margin-bottom: 6px; }
-.genflag input { font-family: var(--font-sans); }
-.genflag .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.genflag .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.genflag .g6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.genflag { width: 100%; max-width: 1320px; margin: 0 auto; background: var(--surface); color: var(--ink); border: 1px solid var(--border); border-radius: var(--radius-3xl); overflow: hidden; box-shadow: 0 40px 80px -40px rgba(60,40,80,.35); }
+.genflag button { font-family: inherit; }
+.genflag input, .genflag textarea, .genflag select { font-family: var(--font-sans); }
+.genflag input:focus, .genflag textarea:focus, .genflag select:focus { border-color: var(--brand-mark) !important; box-shadow: 0 0 0 3px rgba(109,77,255,.16); }
+.genflag ::placeholder { color: var(--label-2); opacity: 1; }
+.genflag .micro { display: block; font: 600 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label-2); }
 
-/* top bar */
-.gf-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; border-bottom: 1px solid var(--border-soft); }
+/* ── Band 1 · header ───────────────────────────────── */
+.gf-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 20px 30px; border-bottom: 1px solid var(--border-soft); }
 .gf-brand { display: flex; align-items: center; gap: 14px; }
 .gf-tile { width: 40px; height: 40px; border-radius: 12px; background: var(--brand-gradient); display: grid; place-items: center; font: 700 17px var(--font-sans); color: #fff; }
 .gf-brand b { display: block; font: 700 20px var(--font-sans); color: var(--ink); line-height: 1; }
-.gf-brand i { display: block; font: 500 12px var(--font-mono); color: var(--muted-2); letter-spacing: .04em; margin-top: 4px; font-style: normal; }
-/* App-theme swatches — the site's only theme control, so they stay visible at
-   every breakpoint (the widget's top bar stacks on mobile, leaving room). */
+.gf-brand i { display: block; font: 500 11px var(--font-mono); color: var(--muted-2); letter-spacing: .04em; margin-top: 5px; font-style: normal; }
 .gf-themes { display: flex; gap: 7px; }
 .gf-themes button { position: relative; width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--border-2); cursor: pointer; }
+/* 44px touch target that must NOT be shared with the selection ring below. */
 .gf-themes button:not(.on)::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
-/* Active theme chip is marked by a 5px accent dot below it (matches the design). */
-.gf-themes button.on::after { content: ""; position: absolute; left: 50%; bottom: -9px; top: auto; inset: auto; transform: translateX(-50%); width: 5px; height: 5px; border: none; border-radius: 50%; background: var(--brand-500); }
+.gf-themes button.on::after { content: ''; position: absolute; left: 50%; bottom: -9px; top: auto; transform: translateX(-50%); width: 5px; height: 5px; border-radius: 50%; background: var(--brand-mark); pointer-events: none; }
 
-/* content row — a small min-height keeps the six common single-row modes (URL,
-   Text, Phone, SMS, Email, WhatsApp) at one stable height so switching between
-   them never shifts the preview/config below, while staying snug (no trailing
-   gap). WiFi and the Contact grid are genuinely taller and use their natural
-   height. */
-.gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px; min-height: 156px; border-bottom: 1px solid var(--border-soft); }
-.gf-crow { display: flex; align-items: center; gap: 16px; }
-.gf-clabel { font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); flex: 0 0 auto; }
-.gf-cinput, .gf-modefields input { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 16px; font: 500 15px var(--font-sans); color: var(--ink); }
-.gf-cinput { flex: 1; }
-.gf-modefields { flex: 1; display: flex; gap: 10px; align-items: center; }
-.gf-modefields input { flex: 1; min-width: 0; padding: 11px 14px; font-size: 14px; }
-.gf-modefields.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
-.gf-modefields .lab.flat { flex: 0 0 auto; margin: 0; }
-/* v5: chip naming the template group whose example URL is loaded */
-.gf-exampletag { flex: 0 0 auto; font: 600 9px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--brand-500); background: var(--brand-soft); border: 1px solid var(--brand-soft-border); border-radius: 8px; padding: 6px 9px; white-space: nowrap; }
-.gf-utm { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; height: 44px; padding: 0 15px; border-radius: 12px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .06em; color: var(--brand-500); cursor: pointer; }
-.gf-utmpanel { display: flex; flex-direction: column; gap: 12px; background: var(--surface-3); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
-.gf-utmpanel label { display: flex; flex-direction: column; gap: 5px; }
-.gf-utmpanel label span { font: 600 9px var(--font-mono); letter-spacing: .06em; color: var(--label); }
-.gf-utmpanel input { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; font: 500 12px var(--font-sans); color: var(--ink); }
-.gf-encoded { display: flex; align-items: baseline; gap: 9px; border-top: 1px solid var(--border-soft); padding-top: 11px; }
-.gf-encoded .k { font: 600 9px var(--font-mono); letter-spacing: .1em; color: var(--label-2); flex: 0 0 auto; }
-.gf-encoded .v { font: 500 11px var(--font-mono); color: var(--muted); word-break: break-all; }
-
-/* type strip — in-widget content-type tabs (matches QR Generator Multi-Type) */
-.gf-typestrip { display: flex; align-items: stretch; gap: 22px; padding: 0 30px; border-bottom: 1px solid var(--border-soft); background: var(--surface); }
-.gf-tabsrow { flex: 1; min-width: 0; display: flex; align-items: stretch; gap: 20px; overflow-x: auto; }
-.gf-tabsrow::-webkit-scrollbar { height: 5px; }
-.gf-tabsrow > span { display: inline-flex; align-items: stretch; flex: 0 0 auto; }
-.gf-tabsrow > span.gf-social-lead { margin-left: 6px; }
-.gf-type { flex: 0 0 auto; padding: 16px 2px 14px; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; font: 600 13px var(--font-sans); letter-spacing: .01em; color: var(--muted-2); }
-.gf-type.on { color: var(--ink); border-bottom-color: var(--brand-500); }
-.gf-type.icon { display: flex; align-items: center; justify-content: center; width: 34px; padding: 16px 0 14px; opacity: .45; transition: opacity .15s; }
+/* ── Band 2 · type tabs ────────────────────────────── */
+.gf-types { display: flex; align-items: stretch; flex-wrap: wrap; gap: 26px; padding: 0 30px; border-bottom: 1px solid var(--border-soft); }
+.gf-icongroup { display: flex; align-items: center; gap: 14px; margin-left: 8px; }
+/* An explicit border-bottom-color of rgba(0,0,0,0), never the `transparent`
+   keyword inside a shorthand — the latter can fall back to currentColor and
+   draw a visible stub under every idle tab. */
+.gf-type { display: flex; align-items: center; flex: 0 0 auto; padding: 16px 2px 14px; background: transparent; border: none; border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: rgba(0,0,0,0); cursor: pointer; white-space: nowrap; font: 600 13px var(--font-sans); color: var(--muted-2); }
+.gf-type.on { color: var(--ink); border-bottom-color: var(--brand-mark); }
+.gf-type.icon { width: 30px; padding: 16px 0 14px; justify-content: center; opacity: .45; transition: opacity .15s; }
 .gf-type.icon.on { opacity: 1; }
-.gf-type.icon img { width: 24px; height: 24px; object-fit: contain; display: block; }
+.gf-type.icon img { width: 20px; height: 20px; object-fit: contain; display: block; }
 
-/* field head (mode note + example tag) */
-.gf-fieldhead { display: flex; align-items: baseline; gap: 12px; }
-.gf-fieldnote { font: 500 11px var(--font-mono); color: var(--muted-2); }
+/* ── Band 3 · content fields ───────────────────────── */
+.gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px 20px; border-bottom: 1px solid var(--border-soft); }
+.gf-labelrow { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.gf-flabel { font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); }
+.gf-fnote { font: 500 11px var(--font-mono); color: var(--muted-2); }
+.gf-fieldstack { display: flex; flex-direction: column; gap: 12px; }
 
-/* WiFi: SSID/enc/password row + hidden-network row */
-.gf-wifi { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.gf-wifirow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.gf-field { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 16px; font: 500 15px var(--font-sans); color: var(--ink); outline: none; width: 100%; }
+.gf-field.sm { padding: 12px 14px; font-size: 14px; }
+.gf-field.mono { font-family: var(--font-mono); }
+textarea.gf-field { resize: vertical; line-height: 1.5; }
 
-/* checkbox used by Hidden-network and the logo Border toggle */
-.gf-check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; background: none; border: none; font: 500 12px var(--font-sans); color: var(--ink-2); }
-.gf-check .box { display: flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 5px; font: 700 10px var(--font-sans); background: var(--surface-2); border: 1px solid var(--border-2); color: transparent; }
-.gf-check[aria-checked="true"] .box { background: var(--brand-500); border-color: var(--brand-500); color: #fff; }
+.gf-urlrow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.gf-urlrow .gf-field { flex: 1; min-width: 0; }
+.gf-utmbtn { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; height: 46px; padding: 0 15px; border-radius: 12px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 10px var(--font-mono); letter-spacing: .06em; color: var(--brand-500); cursor: pointer; }
+.gf-utmbtn span { font: 600 12px var(--font-sans); line-height: 1; }
+.gf-utmpanel { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; background: var(--surface-3); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+.gf-utmpanel label { display: flex; flex-direction: column; gap: 5px; }
+.gf-utmpanel span { font: 600 9px var(--font-mono); letter-spacing: .06em; color: var(--label); }
+.gf-utmpanel input { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; font: 500 12px var(--font-sans); color: var(--ink); outline: none; width: 100%; }
 
-/* payload strip — ENCODES AS + density chip + advisory USE Q/H */
-.gf-payload { display: flex; align-items: center; gap: 10px; padding-top: 11px; border-top: 1px solid var(--border-soft); }
-.gf-payload .k { font: 600 9px var(--font-mono); letter-spacing: .12em; color: var(--label-2); flex: 0 0 auto; }
-.gf-payload .v { flex: 1; min-width: 0; font: 500 11px var(--font-mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gf-density { flex: 0 0 auto; font: 500 10px var(--font-mono); padding: 5px 10px; border-radius: 20px; white-space: nowrap; }
-.gf-density.low, .gf-density.mid { color: #22a06b; background: #eafaf1; border: 1px solid #c5ecd6; }
-.gf-density.high { color: #b4690e; background: #fdf3e3; border: 1px solid #f0dcb4; }
-.gf-density.empty { color: var(--muted-2); background: transparent; border: 1px solid var(--border); }
+.gf-textwrap { display: flex; flex-direction: column; gap: 7px; }
+.gf-count { text-align: right; font: 500 11px var(--font-mono); color: var(--muted-2); }
+.gf-grid { display: grid; }
+.gf-grid label { display: flex; flex-direction: column; gap: 6px; }
+.gf-grid > div { display: flex; flex-direction: column; gap: 6px; }
+.gf-grid.wifi { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; align-items: end; }
+.gf-grid.vcard { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.gf-grid.pair { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.gf-grid.email { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.gf-grid label.dim { opacity: .4; pointer-events: none; }
+.gf-single { display: flex; flex-direction: column; gap: 6px; max-width: 340px; }
+
+.gf-seg { display: flex; gap: 3px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 3px; }
+.gf-seg button { padding: 7px 9px; border-radius: 9px; cursor: pointer; font: 600 10px var(--font-mono); background: transparent; color: var(--muted); border: none; }
+.gf-seg button.on { background: var(--surface-white); color: var(--brand-500); box-shadow: 0 1px 3px rgba(60,40,80,.14); }
+.gf-grid.wifi .gf-seg { border-radius: 12px; }
+.gf-grid.wifi .gf-seg button { padding: 9px 13px; letter-spacing: .06em; }
+
+.gf-check { display: flex; align-items: center; gap: 8px; cursor: pointer; font: 500 12px var(--font-sans); color: var(--ink-2); background: none; border: none; padding: 0; }
+.gf-check .box { display: flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 5px; font: 700 10px var(--font-sans); background: var(--surface-2); border: 1px solid var(--border-2); color: transparent; flex: 0 0 auto; }
+.gf-check[aria-checked="true"] .box { background: var(--brand-mark); border-color: var(--brand-mark); color: #fff; }
+.gf-check.bottom { padding-bottom: 13px; }
+
+.gf-encode { display: flex; align-items: center; gap: 8px; margin-top: -4px; }
+.gf-encode .pay { flex: 1; min-width: 0; font: 500 10px var(--font-mono); color: var(--muted-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gf-density { flex: 0 0 auto; font: 500 10px var(--font-mono); padding: 5px 10px; border-radius: 20px; white-space: nowrap; color: var(--success-ink); background: var(--success-surface); border: 1px solid var(--success-border); }
+.gf-density.high { color: var(--warn-ink); background: var(--warn-surface); border-color: var(--warn-border); }
+.gf-density.empty { color: var(--muted-2); background: transparent; border-color: var(--border); }
 .gf-use { flex: 0 0 auto; font: 600 9px var(--font-mono); letter-spacing: .08em; padding: 5px 9px; border-radius: 8px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); color: var(--brand-500); cursor: pointer; }
 
-/* logo plate + LOGO FIT + ECC suggestion */
-.micro.flat { margin-bottom: 0; flex: 0 0 auto; }
-.gf-plate { display: flex; align-items: center; gap: 16px; }
-.gf-plateswatches { display: flex; gap: 6px; }
+/* ── Band 4 · setup | preview ──────────────────────── */
+/* Both columns are flex:1 1 480px, so they sit ~50/50 on desktop and stack
+   below roughly 960px of card width without a media query. */
+.gf-body { display: flex; align-items: stretch; flex-wrap: wrap; position: relative; }
+.gf-setup { flex: 1 1 480px; min-width: 0; padding: 22px 26px; display: flex; flex-direction: column; gap: 26px; border-right: 1px solid var(--border-soft); }
+
+/* No divider lines or card backgrounds between sections — the separation is
+   spacing plus a bold header. */
+.gf-sec { display: flex; flex-direction: column; gap: 12px; }
+.gf-sechead { display: flex; align-items: center; gap: 9px; }
+.gf-sechead.spread { justify-content: space-between; gap: 16px; }
+.gf-sectoggle { display: flex; align-items: center; gap: 9px; background: transparent; border: none; padding: 0; cursor: pointer; text-align: left; }
+.gf-sectoggle.full { width: 100%; }
+.gf-caret { display: inline-block; font: 700 15px var(--font-sans); line-height: 1; color: var(--label); transition: transform .15s; }
+.gf-sectitle { font: 700 13px var(--font-sans); color: var(--ink); }
+.gf-secsum { margin-left: auto; font: 500 11px var(--font-sans); color: var(--muted-2); }
+.gf-secbody { display: flex; flex-direction: column; gap: 16px; }
+
+.gf-tabs { display: flex; align-items: stretch; gap: 13px; }
+.gf-tab { flex: 0 0 auto; padding: 2px 1px 7px; background: transparent; border: none; border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: rgba(0,0,0,0); cursor: pointer; white-space: nowrap; font: 600 12px var(--font-sans); color: var(--muted-2); }
+.gf-tab.on { color: var(--ink); border-bottom-color: var(--brand-mark); }
+
+/* Fixed strip height and fixed card size are deliberate: switching category
+   tabs must never shift the page. */
+.gf-strip { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; padding-bottom: 4px; height: 104px; align-items: flex-start; }
+.gf-card { position: relative; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 76px; height: 92px; padding: 6px; box-sizing: border-box; background: var(--surface); border: 1px solid var(--border); border-radius: 11px; cursor: pointer; }
+.gf-card.on { border: 2px solid var(--brand-mark); }
+.gf-card .thumbwrap { position: relative; display: block; width: 52px; height: 52px; }
+.gf-card canvas.thumb { display: block; width: 52px; height: 52px; border-radius: 7px; }
+.gf-card .cardicon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.gf-card .cardicon img { width: 20px; height: 20px; box-sizing: border-box; object-fit: contain; background: #fff; border-radius: 7px; padding: 3px; box-shadow: 0 2px 6px rgba(0,0,0,.28); }
+.gf-card .cardname { font: 600 10px var(--font-sans); color: var(--muted); max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.gf-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; }
+.gf-row.top { align-items: flex-start; }
+.gf-rowlab { flex: 0 0 84px; font: 600 10px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--label); }
+.gf-rowlab.tip { display: flex; align-items: center; gap: 6px; position: relative; padding-top: 2px; }
+
+/* Swatch canvases are drawn in the LIVE foreground colour, so the row previews
+   the real result rather than a generic icon. */
+.gf-swatches { flex: 1; min-width: 0; display: grid; }
+.gf-swatches.p7 { grid-template-columns: repeat(7, 1fr); gap: 7px; }
+.gf-swatches.c9 { grid-template-columns: repeat(9, 1fr); gap: 6px; }
+.gf-sw { display: flex; align-items: center; justify-content: center; padding: 6px 0; border-radius: 10px; cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); }
+.gf-sw.on { background: var(--brand-soft); border: 1.5px solid var(--brand-mark); }
+.gf-sw canvas { display: block; width: 22px; height: 22px; }
+
+.gf-colors { flex: 1; min-width: 200px; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+.gf-slotwrap { position: relative; min-width: 0; }
+.gf-slot { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 9px; background: var(--surface); border: 1px solid var(--border); border-radius: 11px; cursor: pointer; }
+.gf-slot .chip { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border-2); }
+.gf-slot .meta { flex: 1; min-width: 0; text-align: left; overflow: hidden; }
+.gf-slot .lab { display: block; font: 600 8px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--label-2); white-space: nowrap; }
+.gf-slot .hex { display: block; font: 500 10px var(--font-mono); color: var(--ink-2); margin-top: 2px; white-space: nowrap; }
+
+/* The popover is a white surface in every theme — it floats over the card. */
+.gf-pop { position: absolute; left: 0; top: calc(100% + 7px); width: 252px; z-index: 40; background: #fff; border: 1px solid #e6dfce; border-radius: 14px; box-shadow: 0 20px 44px -14px rgba(30,20,50,.4); padding: 14px; }
+.gf-pop.right { left: auto; right: 0; }
+.gf-pophead { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
+.gf-pophead .big { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 9px; border: 1px solid #d9d0bb; }
+.gf-pophead > div { flex: 1; min-width: 0; }
+.gf-pophead input { width: 100%; background: #f7f4ec; border: 1px solid #e6dfce; border-radius: 8px; padding: 6px 9px; font: 600 13px var(--font-mono); color: #2b2140; outline: none; }
+.gf-pophead .cap { font: 500 10px var(--font-sans); color: #766d56; margin-top: 3px; }
+.gf-rainbow { position: relative; display: block; cursor: pointer; }
+.gf-rainbow > span { display: block; height: 18px; border-radius: 9px; background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); border: 1px solid rgba(0,0,0,.08); }
+.gf-rainbow input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.gf-auto { display: block; width: 100%; margin-top: 11px; padding: 8px 10px; border-radius: 9px; cursor: pointer; font: 600 9px var(--font-mono); letter-spacing: .1em; background: #f7f4ec; border: 1px solid #e6dfce; color: #6b6152; }
+.gf-auto.on { background: #ece7ff; border: 1.5px solid var(--brand-mark); color: var(--brand-mark); }
+.gf-presets { margin-top: 13px; padding-top: 12px; border-top: 1px solid #efe8d8; }
+.gf-presets .micro { color: #6d614c; letter-spacing: .14em; margin-bottom: 9px; }
+.gf-presets .g6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.gf-presets .g6 button { position: relative; height: 32px; border-radius: 9px; cursor: pointer; border: 1px solid #d9d0bb; }
+.gf-presets .g6 button.on { border: 2px solid var(--brand-mark); box-shadow: 0 0 0 2px #fff inset; }
+
+/* ECC + the two range controls that share the track markup. */
+.gf-eccwrap { flex: 1; min-width: 0; }
+.gf-track { position: relative; height: 20px; display: flex; align-items: center; margin: 0 8px; }
+.gf-track .rail { position: absolute; left: 0; right: 0; height: 6px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 3px; }
+.gf-track .fill { position: absolute; left: 0; height: 6px; background: var(--brand-mark); border-radius: 3px; }
+.gf-track .tick { position: absolute; transform: translateX(-50%); width: 9px; height: 9px; border-radius: 50%; background: var(--border-2); pointer-events: none; }
+.gf-track .tick.on { background: var(--brand-mark); }
+.gf-track .knob { position: absolute; transform: translateX(-50%); width: 18px; height: 18px; background: var(--brand-mark); border: 3px solid #fff; border-radius: 50%; box-shadow: 0 2px 8px rgba(109,77,255,.55); pointer-events: none; }
+.gf-track input[type="range"] { position: absolute; left: 0; right: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.gf-track.sm { height: 16px; margin: 0; }
+.gf-track.sm .rail { background: var(--border); border: none; }
+.gf-track.sm .knob { width: 16px; height: 16px; border: none; box-shadow: 0 2px 7px rgba(109,77,255,.5); }
+/* Percent labels sit at the SAME 0/33.3/66.7/100% offsets as the ticks — a
+   4-column grid's centres (12.5/37.5/…) would not line up. */
+.gf-eccmarks { position: relative; height: 16px; margin: 7px 8px 0; }
+.gf-eccmarks button { position: absolute; top: 0; transform: translateX(-50%); padding: 4px 6px; background: transparent; border: none; cursor: pointer; font: 600 11px var(--font-mono); line-height: 1; color: var(--muted-2); }
+.gf-eccmarks button.on { color: var(--brand-500); }
+
+.gf-i { display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; padding: 0; line-height: 1; border-radius: 50%; background: transparent; border: 1px solid var(--border-2); color: var(--label); font: 700 9px var(--font-sans); cursor: help; }
+.gf-i.on { border-color: var(--brand-mark); color: var(--brand-500); }
+.gf-tip { position: absolute; left: 0; top: 24px; z-index: 30; width: 300px; padding: 13px 15px; background: #fff; color: #2b2140; border: 1px solid #d9d0bb; border-radius: 12px; font: 400 12px/1.6 var(--font-sans); letter-spacing: 0; text-transform: none; box-shadow: 0 18px 38px -14px rgba(30,20,50,.4); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .15s ease; }
+.gf-tip.on { opacity: 1; visibility: visible; }
+.gf-suggest { flex: 0 0 auto; font: 600 9px var(--font-mono); letter-spacing: .08em; color: var(--brand-500); background: var(--brand-soft); border-radius: 7px; padding: 4px 8px; }
+
+/* Frames — five per row at desktop width. The tile is a fixed 88px box holding
+   a 0.22-scale miniature of the real frame around a hatched placeholder. */
+.gf-frames { display: grid; grid-template-columns: repeat(auto-fit, minmax(108px, 1fr)); gap: 8px; }
+.gf-frametile { display: flex; align-items: center; justify-content: center; justify-self: stretch; height: 88px; padding: 6px; box-sizing: border-box; border-radius: 11px; cursor: pointer; background: var(--surface); border: 1px solid var(--border); transition: border-color .15s; }
+.gf-frametile.on { border: 2px solid var(--brand-mark); }
+.gf-framehatch { display: block; width: 52px; height: 52px; background: repeating-linear-gradient(45deg, #c9c2b4, #c9c2b4 2px, #fff 2px, #fff 4px); }
+.gf-more { align-self: flex-start; background: transparent; border: none; padding: 0; cursor: pointer; font: 600 11px var(--font-sans); color: var(--brand-500); }
+
+.gf-cta { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 14px; margin-top: 12px; }
+.gf-cta .lab { display: flex; justify-content: space-between; gap: 8px; font: 600 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label-2); margin-bottom: 6px; }
+.gf-ctafield { flex: 1 1 196px; min-width: 170px; display: flex; flex-direction: column; }
+/* Mono at 11px so all 24 permitted characters fit on one line. */
+.gf-ctafield input { width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 10px; font: 600 11px var(--font-mono); letter-spacing: .01em; color: var(--ink); outline: none; }
+.gf-ctafield .count { font: 600 9px var(--font-mono); letter-spacing: 0; color: var(--muted-2); }
+.gf-ctafield .count.warn { color: var(--warn-ink); }
+.gf-fontfield { flex: 1 1 150px; min-width: 140px; display: flex; flex-direction: column; }
+/* Rendered in the selected face, so the control previews itself. */
+.gf-fontfield select { appearance: none; -webkit-appearance: none; width: 100%; min-width: 0; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 10px 26px 10px 12px; font-size: 12px; font-weight: 600; color: var(--ink); outline: none; cursor: pointer; text-overflow: ellipsis; }
+.gf-ctasize, .gf-ctacolor { flex: 0 0 auto; display: flex; flex-direction: column; }
+.gf-ctacolor { position: relative; }
+.gf-ctacolor .swatch { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 11px; cursor: pointer; font: 700 11px var(--font-mono); border: 1px solid var(--border-2); }
+.gf-ctacolor .swatch.open { border: 2px solid var(--brand-mark); box-shadow: 0 0 0 2px #fff inset; }
+
+.gf-toggle { flex: 0 0 auto; display: flex; justify-content: flex-start; width: 42px; height: 23px; padding: 2px; border: none; border-radius: 999px; background: #cfc6b0; cursor: pointer; transition: background .2s; }
+.gf-toggle.on { background: var(--brand-mark); justify-content: flex-end; }
+.gf-toggle span { display: block; width: 19px; height: 19px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(40,30,60,.35); transition: all .2s; }
+.gf-logo { display: flex; flex-direction: column; gap: 12px; transition: opacity .2s; }
+.gf-logo.off { opacity: .42; filter: grayscale(.7); pointer-events: none; }
+.gf-drop { display: block; border: 1.5px dashed var(--border-3); border-radius: 12px; padding: 13px; background: var(--surface-3); cursor: pointer; }
+.gf-drop .empty { display: block; text-align: center; }
+.gf-drop .empty b { display: block; font: 500 12px var(--font-sans); color: var(--muted); }
+.gf-drop .empty i { display: block; font: 500 10px var(--font-mono); color: var(--label); margin-top: 3px; font-style: normal; }
+.gf-drop .mark { display: flex; align-items: center; gap: 12px; }
+.gf-drop .mark .thumb { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; box-sizing: border-box; padding: 6px; border-radius: 11px; background: #fff; border: 1px solid var(--border-2); }
+.gf-drop .mark .thumb img { width: 100%; height: 100%; object-fit: contain; }
+.gf-drop .mark .meta { flex: 1; min-width: 0; text-align: left; }
+.gf-drop .mark .meta b { display: block; font: 600 12px var(--font-sans); color: var(--ink); }
+.gf-drop .mark .meta i { display: block; font: 500 10px var(--font-mono); color: var(--label); margin-top: 2px; font-style: normal; }
+.gf-drop .mark .rm { flex: 0 0 auto; font: 600 9px var(--font-mono); letter-spacing: .08em; color: var(--muted); background: var(--surface-2); border: 1px solid var(--border-2); border-radius: 8px; padding: 6px 9px; cursor: pointer; }
+.gf-platerow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; }
+.gf-platerow .micro { flex: 0 0 auto; }
+.gf-plateswatches { display: flex; gap: 6px; flex: 0 0 auto; }
 .gf-platesw { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 9px; cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); }
-.gf-platesw.on { background: var(--brand-soft); border: 1.5px solid var(--brand-500); }
+.gf-platesw.on { background: var(--brand-soft); border: 1.5px solid var(--brand-mark); }
 .gf-platesw .glyph { display: block; width: 17px; height: 17px; background: var(--muted-2); }
 .gf-platesw .glyph.circle { border-radius: 50%; }
-.gf-platesw .glyph.square { border-radius: 2px; }
-.gf-platesw.on .glyph { background: var(--brand-500); }
-.gf-fitrow { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-.gf-fitrow .fitval { display: flex; align-items: baseline; gap: 9px; }
-.gf-fitrow .accent { font: 600 10px var(--font-mono); color: var(--brand-500); }
-.gf-reset { font: 600 9px var(--font-mono); letter-spacing: .08em; color: var(--muted-2); background: none; border: none; cursor: pointer; padding: 0; }
-.gf-logohint { font: 500 10px var(--font-mono); color: var(--muted-2); line-height: 1.5; }
-.gf-logohint.warn { color: #b4690e; }
-.gf-suggested { margin-left: auto; font: 600 9px var(--font-mono); letter-spacing: .08em; color: var(--brand-500); background: var(--brand-soft); border-radius: 7px; padding: 4px 8px; }
+.gf-platesw .glyph.square { border-radius: 1px; }
+.gf-platesw.on .glyph { background: var(--brand-mark); }
+.gf-fit { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
+/* The track's own children are all absolutely positioned, so as a flex item it
+   has zero content width — it has to be told to grow or it collapses to a dot. */
+.gf-fit .gf-track { flex: 1; min-width: 0; }
+.gf-fit .val { flex: 0 0 auto; font: 600 10px var(--font-mono); color: var(--brand-500); }
+.gf-warn { font: 500 10px/1.5 var(--font-mono); color: var(--warn-ink); }
 
-/* body — height is set from the config column's full content (fitHeight), so the
-   config column never scrolls internally. Only the templates rail scrolls. */
-.gf-body { display: flex; align-items: stretch; height: 780px; position: relative; }
-.gf-config { flex: 0 0 404px; width: 404px; border-right: 1px solid var(--border-soft); display: flex; flex-direction: column; min-width: 0; }
-.gf-cfg-scroll { padding: 26px 24px 20px; display: flex; flex-direction: column; gap: 20px; }
-.gf-grid5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
-.dotbtn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 11px 2px; border-radius: 12px; cursor: pointer; font: 600 9px var(--font-mono); letter-spacing: .04em; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); }
-.dotbtn.on { background: var(--brand-soft); border: 1.5px solid var(--brand-500); color: var(--brand-500); }
-.dotbtn canvas { width: 28px; height: 28px; }
+/* ── Band 4b · preview — always white, whatever the theme ─────────── */
+.gf-preview { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; padding: 22px 30px 26px; background: #ffffff; color: #2b2140; }
+.gf-plabel { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 0 0 auto; }
+.gf-plabel .lab { margin: 0; font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: #a2977f; }
+.gf-savebtns { display: flex; align-items: center; gap: 8px; }
+.gf-savebtns button { height: 30px; padding: 0 14px; border-radius: 9px; background: #faf6ec; border: 1px solid #d9d0bb; font: 600 11px var(--font-mono); letter-spacing: .08em; color: #4a4030; cursor: pointer; white-space: nowrap; }
+.gf-savebtns button.save:hover { border-color: var(--brand-mark); color: var(--brand-mark); }
+.gf-savebtns button.open { background: #ece7ff; border-color: #c9beff; color: var(--brand-mark); }
+.gf-toast { align-self: center; margin-top: 10px; padding: 7px 14px; border-radius: 20px; background: #eafaf1; border: 1px solid #c5ecd6; font: 600 11px var(--font-mono); color: #1b7f55; }
 
-/* color popover */
-.gf-colorpop { position: relative; }
-.gf-colorbtn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; cursor: pointer; }
-/* display is set explicitly: this used to inherit it from a generic `.sw` rule
-   that belonged to the header's theme swatches, which no longer exist. */
-.gf-colorbtn .sw { display: block; width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border-2); flex: 0 0 auto; }
-.gf-colorbtn .hex { flex: 1; text-align: left; font: 500 11px var(--font-mono); color: var(--ink-2); }
-.gf-colorbtn .chev { font: 600 10px var(--font-mono); color: var(--label); }
-.gf-popover { position: absolute; top: calc(100% + 7px); width: 260px; z-index: 40; background: var(--surface-white); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-popover); padding: 14px; }
-.gf-popover.left { left: 0; } .gf-popover.right { right: 0; }
-.gf-pophead { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
-.gf-pophead .big { width: 36px; height: 36px; border-radius: 9px; border: 1px solid var(--border-2); flex: 0 0 auto; }
-.gf-pophead b { font: 600 13px var(--font-mono); color: var(--ink); }
-.gf-pophead i { font: 500 10px var(--font-sans); color: var(--label); font-style: normal; }
-.gf-bar-input { position: relative; display: block; cursor: pointer; }
-.gf-bar-input .rainbow { display: block; height: 18px; border-radius: 9px; background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); border: 1px solid rgba(0,0,0,.08); }
-.gf-bar-input input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-/* Editable hex field — type or paste a colour code. */
-.gf-hexinput { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
-.gf-hexinput .micro { margin-bottom: 0; flex: 0 0 auto; }
-.gf-hexinput input { flex: 1; min-width: 0; background: var(--surface-2); border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; font: 500 12px var(--font-mono); letter-spacing: .04em; color: var(--ink); text-transform: uppercase; }
-.gf-hexinput input::placeholder { text-transform: uppercase; }
-.gf-presets { margin-top: 13px; padding-top: 12px; border-top: 1px solid var(--border-soft); }
-.gf-presets .g6 button { position: relative; height: 34px; border-radius: 9px; border: 1px solid var(--border-2); cursor: pointer; }
-.gf-presets .g6 button.on::after { content: ""; position: absolute; inset: -3px; border: 2px solid var(--brand-500); border-radius: 12px; }
+.gf-stage { flex: 1; display: flex; align-items: center; justify-content: center; min-width: 0; padding: 18px 0; }
+/* NOTE: do not put `container-type: inline-size` on .gf-mat to scale the plate
+   with container units. container-type applies size containment on the inline
+   axis, so the canvas inside stops contributing to .gf-mat's max-content width
+   and the whole preview collapses (470px → 281px). Percentages of the same
+   containing block do the job with no containment: 110/470 = 23.404%,
+   14/470 = 2.979%, so the plate is pixel-identical at the design's 470px and
+   keeps its proportions on a narrow screen. */
+.gf-mat { position: relative; line-height: 0; width: 100%; max-width: 470px; }
+.gf-mat canvas { display: block; width: 100%; max-width: 470px; aspect-ratio: 1; height: auto; }
+.gf-logoplate { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); box-sizing: border-box; display: flex; align-items: center; justify-content: center; overflow: hidden; width: 23.404%; aspect-ratio: 1; padding: 2.979%; border: 3px solid transparent; background: #fff; box-shadow: 0 6px 20px -6px rgba(40,30,60,.4); pointer-events: none; }
+.gf-logoplate img { width: 100%; height: 100%; object-fit: contain; }
+.gf-logoplate .hatch { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: repeating-linear-gradient(45deg, #e7e1f7, #e7e1f7 5px, #f3f0fb 5px, #f3f0fb 10px); font: 600 9px var(--font-mono); letter-spacing: .12em; color: #8a7bd8; }
 
-/* size slider */
-.gf-slider { position: relative; height: 16px; display: flex; align-items: center; }
-.gf-slider .track { position: absolute; left: 0; right: 0; height: 6px; background: var(--border); border-radius: 3px; }
-.gf-slider .fill { position: absolute; left: 0; height: 6px; background: var(--brand-500); border-radius: 3px; }
-.gf-slider .knob { position: absolute; transform: translateX(-50%); width: 16px; height: 16px; background: var(--brand-500); border-radius: 50%; box-shadow: 0 2px 7px rgba(109,77,255,.55); pointer-events: none; }
-.gf-slider input { position: absolute; left: 0; right: 0; width: 100%; height: 16px; margin: 0; opacity: 0; cursor: pointer; }
-
-/* segmented */
-.gf-seg { display: flex; gap: 3px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 3px; }
-.gf-seg button { flex: 1; padding: 10px 4px; border-radius: 9px; cursor: pointer; border: none; background: transparent; color: var(--muted); font: 700 14px var(--font-sans); }
-.gf-seg button.on { background: var(--surface-white); color: var(--brand-500); box-shadow: var(--shadow-soft); }
-.gf-seg.sm button { font: 600 9px var(--font-mono); letter-spacing: .06em; padding: 9px 4px; text-transform: uppercase; }
-.gf-seg.inline { flex: 0 0 auto; }
-.gf-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 11px; }
-.gf-bar span { display: block; height: 100%; background: var(--brand-500); border-radius: 3px; transition: width .22s; }
-.gf-cap { margin-top: 7px; font: 500 10px var(--font-mono); color: var(--muted-2); }
-.lab.tiprow { display: flex; align-items: center; gap: 7px; position: relative; }
-.gf-i { width: 15px; height: 15px; border-radius: 50%; border: 1px solid #c3b9a3; background: transparent; color: var(--label); font: 700 9px var(--font-sans); cursor: help; display: grid; place-items: center; }
-.gf-tip { position: absolute; left: 0; top: 24px; z-index: 30; width: 100%; padding: 11px 13px; background: var(--ink); color: #f4f0e6; border-radius: 11px; font: 500 11px var(--font-sans); line-height: 1.5; box-shadow: var(--shadow-tooltip); }
-
-/* logo toggle */
-.gf-toggle { width: 42px; height: 23px; border-radius: 999px; padding: 2px; cursor: pointer; border: none; display: flex; justify-content: flex-start; background: #cfc6b0; transition: background .2s; }
-.gf-toggle.on { background: var(--brand-500); justify-content: flex-end; }
-.gf-toggle span { width: 19px; height: 19px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(40,30,60,.35); }
-/* v5: greyed rather than hidden when the logo toggle is off */
-.gf-logo { display: flex; flex-direction: column; gap: 14px; transition: opacity .2s ease, filter .2s ease; }
-.gf-logo.off { opacity: .42; filter: grayscale(.7); pointer-events: none; }
-
-/* v5 error-correction option cards: letter + recovery % + name */
-.gf-eccgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.gf-ecc { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 10px 3px; border-radius: 10px; cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); }
-.gf-ecc.on { background: var(--brand-soft); border: 1.5px solid var(--brand-500); color: var(--brand-500); }
-.gf-ecc .e-l { font: 700 16px var(--font-sans); line-height: 1; }
-.gf-ecc .e-p { font: 600 10px var(--font-mono); line-height: 1; }
-.gf-ecc .e-n { font: 500 8px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; opacity: .72; }
-.gf-drop { border: 1.5px dashed var(--border-3); border-radius: 12px; padding: 16px; text-align: center; background: var(--surface-3); font: 500 12px var(--font-sans); color: var(--muted); cursor: pointer; }
-.gf-drop i { display: block; font: 400 10px var(--font-mono); color: var(--label); margin-top: 3px; font-style: normal; }
-
-.gf-cfg-footer { padding: 16px 24px; border-top: 1px solid var(--border-soft); background: var(--surface); }
-.gf-generate { width: 100%; padding: 16px; border-radius: 14px; background: var(--brand-gradient); font: 700 13px var(--font-mono); letter-spacing: .1em; color: #fff; cursor: pointer; box-shadow: var(--shadow-cta); border: none; }
-.gf-generate:disabled { background: var(--surface-2); color: var(--muted); box-shadow: none; border: 1px solid var(--border-2); cursor: not-allowed; }
-
-/* preview */
-/* v5: the preview column is flat white in every app theme (the QR itself is the
-   only thing on it), and the code sits directly on that white with a soft drop
-   shadow — no white mat card around it. */
-.gf-preview { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 30px; background: #ffffff; }
-.gf-plabel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-/* Reopen affordance for the stacked/mobile layout only; on desktop the collapsed
-   rail is itself a clickable vertical spine, so this header button is hidden. */
-.gf-railtoggle { display: none; align-items: center; gap: 8px; height: 30px; padding: 0 14px; border-radius: 9px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .08em; color: var(--brand-500); cursor: pointer; }
-.gf-stage { flex: 1; display: flex; align-items: center; justify-content: center; min-width: 0; }
-/* Preview canvas size. Fluid — fills the preview column, capped at the design's
-   500px. The card itself is fluid, so the column's width (and therefore the QR)
-   depends on the viewport; a fixed px cap cannot keep the two rail states equal.
-   Toggling the rail must not resize it, so the cap is derived from the CARD width
-   (which does not change when the rail opens) rather than from the preview column
-   (which does). `.genflag` is the query container, so 100cqw is the card's content
-   box; subtracting the config column (404), the rail (268) and the preview padding
-   (2x30) gives the width the column has when the rail is OPEN — the narrower of the
-   two states. The preview area itself still expands into the freed space; only the
-   QR holds its size. Capped at the design's 500px. */
-.genflag { container-type: inline-size; --qr-preview: 500px; }
-.gf-mat { position: relative; width: 100%; max-width: min(var(--qr-preview), calc(100cqw - 732px)); }
-.gf-mat canvas { display: block; width: 100%; height: auto; filter: drop-shadow(0 24px 44px rgba(40,30,60,.16)); }
-/* Empty-logo placeholder plate over the preview (a real mark is baked into the
-   canvas instead). Sized as a fraction of the code so it tracks the QR. */
-.gf-logoplate { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 22%; aspect-ratio: 1; background: #fff; box-shadow: 0 6px 20px -6px rgba(40,30,60,.4); display: flex; align-items: center; justify-content: center; padding: 6%; overflow: hidden; }
-.gf-logoplate.circle { border-radius: 50%; }
-.gf-logoplate.square { border-radius: 14%; }
-.gf-logoplate span { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font: 600 9px var(--font-mono); letter-spacing: .12em; color: #8a7bd8; background: repeating-linear-gradient(45deg, #e7e1f7, #e7e1f7 5px, #f3f0fb 5px, #f3f0fb 10px); }
-.gf-logoplate.circle span { border-radius: 50%; }
-.gf-logoplate.square span { border-radius: 10%; }
-.gf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-.gf-chips .chip { font: 500 10px var(--font-mono); color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 6px 10px; border-radius: 20px; white-space: nowrap; }
-.gf-chips .chip.ok { color: var(--success-ink); background: var(--success-surface); border-color: var(--success-border); }
+.gf-chips { display: flex; flex-wrap: wrap; gap: 7px; flex: 0 0 auto; }
+.gf-chips .chip { font: 500 10px var(--font-mono); color: #6b6152; background: #faf6ec; border: 1px solid #e6dfce; padding: 6px 10px; border-radius: 20px; white-space: nowrap; }
+.gf-chips .chip.ok { color: #1b7f55; background: #eafaf1; border-color: #c5ecd6; }
 .gf-chips .chip.warn { color: #b4690e; background: #fdf3e3; border-color: #f0dcb4; }
-/* Two equal, full-width download CTAs (design: flex:1). PNG is the primary
-   gradient, SVG the outline. */
-.gf-dl { display: flex; gap: 12px; margin-top: 18px; }
-.gf-dl .dl { flex: 1; white-space: nowrap; padding: 16px; border-radius: 14px; border: 1px solid var(--border-2); background: var(--surface); font: 700 13px var(--font-mono); letter-spacing: .06em; color: var(--ink-2); cursor: pointer; }
-.gf-dl .dl.primary { background: var(--brand-gradient); color: #fff; border: none; box-shadow: var(--shadow-cta); }
-.gf-dl .dl:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
 
-/* templates rail */
-.gf-rail { flex: 0 0 268px; overflow: hidden; transition: flex-basis .28s ease, width .28s ease; border-left: 1px solid var(--border-soft); background: var(--surface-3); }
-.gf-railinner { width: 268px; height: 100%; display: flex; flex-direction: column; padding: 22px 18px; }
-/* Collapsed spine: a thin full-height strip with a horizontal chevron on top and
-   a vertical "TEMPLATES" label below, both centred in the strip. Only the label
-   is rotated — the chevron stays upright so it reads as a normal arrow. */
-.gf-railspine { width: 42px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 14px; padding: 16px 0; background: transparent; border: none; cursor: pointer; }
-.gf-railspine .chev { font: 700 16px var(--font-sans); line-height: 1; color: var(--muted); }
-.gf-railspine .lbl { writing-mode: vertical-rl; text-orientation: mixed; font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); }
-.gf-railspine:hover .lbl, .gf-railspine:hover .chev { color: var(--brand-500); }
-/* Category tabs — underline text tabs (active = accent underline + ink text). */
-.gf-tabs { display: flex; gap: 13px; flex-wrap: wrap; margin-bottom: 14px; flex: 0 0 auto; }
-.gf-tab { flex: 0 0 auto; padding: 2px 1px 8px; border: none; border-bottom: 2px solid transparent; background: transparent; cursor: pointer; white-space: nowrap; font: 600 12px var(--font-sans); color: var(--muted-2); }
-.gf-tab.on { color: var(--ink); border-bottom-color: var(--brand-500); }
-.gf-railhead { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.gf-railhead .rh-right { display: flex; align-items: center; gap: 10px; }
-.gf-railhead b { font: 700 14px var(--font-sans); color: var(--ink); }
-.gf-railhead i { font: 500 11px var(--font-mono); color: var(--label); font-style: normal; }
-.gf-railhead button { width: 28px; height: 28px; border-radius: 9px; background: var(--surface); border: 1px solid var(--border-2); font: 600 14px var(--font-sans); color: var(--muted); cursor: pointer; }
-.gf-railscroll { flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 16px; }
-.gf-card { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; cursor: pointer; align-items: center; }
-.gf-card.on::after { content: ""; position: absolute; inset: -2px; border: 2px solid var(--brand-500); border-radius: 16px; }
-.gf-card .thumbwrap { position: relative; width: 100%; }
-.gf-card canvas { width: 100%; aspect-ratio: 1; border-radius: 8px; display: block; }
-.gf-card .thumblogo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-.gf-card .thumblogo img { width: 34px; height: 34px; object-fit: contain; background: #fff; border-radius: 10px; padding: 4px; box-shadow: 0 3px 9px rgba(0,0,0,.3); }
-.gf-card .tname { font: 600 12px var(--font-sans); color: var(--ink); }
+.gf-sizerow { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding-top: 16px; border-top: 1px solid #ececec; flex: 0 0 auto; }
+.gf-sizerow .lab { flex: 0 0 auto; margin: 0; font: 600 10px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: #a2977f; }
+.gf-sizerow .gf-track { flex: 1; min-width: 0; height: 16px; margin: 0; }
+.gf-sizerow .gf-track .rail { background: #e6dfce; border: none; }
+.gf-sizerow .gf-track .knob { width: 16px; height: 16px; border: none; box-shadow: 0 2px 7px rgba(109,77,255,.55); }
+.gf-sizerow .val { flex: 0 0 auto; font: 600 11px var(--font-mono); color: var(--brand-mark); }
 
-@media (max-width: 1120px) {
-  .genflag { min-width: 0; }
-  .gf-body { flex-direction: column; height: auto !important; }
-  /* Stacked layout has no room for a vertical spine — hide the collapsed rail and
-     use the header toggle to reopen it instead. */
-  .gf-rail:not(.open) { display: none; }
-  .gf-railtoggle { display: flex; }
-  /* stacked here — no config column or rail beside the preview, so the card-width
-     subtraction no longer describes the available space; just fill and cap. */
-  .gf-mat { max-width: var(--qr-preview); }
-  .gf-config { flex: 1 1 auto; width: auto; border-right: none; border-bottom: 1px solid var(--border-soft); }
-  .gf-rail { flex-basis: auto !important; width: auto !important; border-left: none; border-top: 1px solid var(--border-soft); }
-  .gf-railinner { width: auto; }
-  .gf-crow { flex-wrap: wrap; }
-}
+.gf-formatrow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 12px; flex: 0 0 auto; }
+.gf-formatrow .gf-seg { flex: 0 0 auto; background: #faf6ec; border-color: #e6dfce; border-radius: 12px; }
+.gf-formatrow .gf-seg button { padding: 9px 16px; font-size: 11px; letter-spacing: .06em; color: #6b6152; }
+.gf-formatrow .gf-seg button.on { background: #fff; color: var(--brand-mark); }
+.gf-formatrow .hint { flex: 1; min-width: 0; font: 500 10px var(--font-mono); color: #9a8f7c; }
+
+.gf-dl { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; flex: 0 0 auto; }
+.gf-dl button { flex: 1; padding: 16px; border-radius: 14px; border: none; font: 700 14px var(--font-mono); letter-spacing: .06em; cursor: pointer; }
+.gf-dl .primary { background: linear-gradient(135deg, #7b5cff, #a24dff); color: #fff; box-shadow: 0 12px 26px -12px rgba(109,77,255,.6); }
+.gf-dl .secondary { border: 1px solid #d9d0bb; background: #faf6ec; color: #4a4030; }
+.gf-dl .primary:disabled { background: #efeaff; color: #b6a9f0; box-shadow: none; cursor: not-allowed; }
+.gf-dl .secondary:disabled { border-color: #ececec; background: #f7f7f5; color: #bdb8ae; cursor: not-allowed; }
+
+/* Feedback strip — ask / form / done, mutually exclusive. Monochrome glyphs
+   only; there is no emoji anywhere in this widget. */
+.gf-fb { margin-top: 14px; padding-top: 14px; border-top: 1px solid #ececec; flex: 0 0 auto; }
+/* Belt and braces. Below the stacking breakpoint the strip is rendered as a
+   direct child of .gf-body instead of the preview column (Generator.jsx
+   `stacked`) so it lands at the end of the widget. If that flag is ever wrong
+   for the viewport, this stops it wedging between the two columns as a third
+   flex item — it takes its own full-width row instead. */
+.gf-body > .gf-fb { flex: 0 0 100%; }
+.gf-fb .ask { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.gf-fb .ask .q { font: 500 12px var(--font-sans); color: #6b6152; }
+.gf-fb .ask .acts { display: flex; gap: 7px; margin-left: auto; }
+.gf-fb .ask button { display: flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 10px; background: #faf6ec; border: 1px solid #e6dfce; cursor: pointer; font: 600 12px var(--font-sans); color: #4a4030; }
+.gf-fb .head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 9px; }
+.gf-fb .head b { font: 600 12px var(--font-sans); color: #2b2140; }
+.gf-fb .head i { font: 500 11px var(--font-sans); color: #9a8f7c; font-style: normal; }
+.gf-fb .head .x { margin-left: auto; font: 600 13px var(--font-sans); color: #9a8f7c; background: transparent; border: none; cursor: pointer; line-height: 1; }
+.gf-fb .topics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
+.gf-fb .topics button { padding: 6px 11px; border-radius: 20px; cursor: pointer; font: 500 11px var(--font-sans); background: #faf6ec; border: 1px solid #e6dfce; color: #6b6152; }
+.gf-fb .topics button.on { background: #ece7ff; border: 1.5px solid var(--brand-mark); color: var(--brand-mark); }
+.gf-fb textarea { width: 100%; background: #faf6ec; border: 1px solid #e6dfce; border-radius: 11px; padding: 11px 13px; font: 500 13px var(--font-sans); color: #2b2140; outline: none; resize: vertical; line-height: 1.5; }
+.gf-fb .send { display: flex; align-items: center; gap: 12px; margin-top: 9px; }
+.gf-fb .send input { flex: 1; min-width: 0; background: #faf6ec; border: 1px solid #e6dfce; border-radius: 11px; padding: 9px 12px; font: 500 12px var(--font-sans); color: #2b2140; outline: none; }
+.gf-fb .send button { flex: 0 0 auto; padding: 9px 20px; border-radius: 11px; border: none; font: 700 11px var(--font-mono); letter-spacing: .06em; background: linear-gradient(135deg, #7b5cff, #a24dff); color: #fff; cursor: pointer; }
+.gf-fb .send button:disabled { background: #efeaff; color: #b6a9f0; cursor: not-allowed; }
+.gf-fb .snap { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 0; background: transparent; border: none; cursor: pointer; text-align: left; font: 500 11px var(--font-sans); color: #6b6152; }
+.gf-fb .snap .box { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 4px; font: 700 9px var(--font-sans); background: #faf6ec; border: 1px solid #d9d0bb; color: transparent; }
+.gf-fb .snap[aria-checked="true"] .box { background: var(--brand-mark); border-color: var(--brand-mark); color: #fff; }
+.gf-fb .done { font: 500 12px var(--font-sans); color: #1b7f55; background: #eafaf1; border: 1px solid #c5ecd6; border-radius: 11px; padding: 11px 13px; }
+
+/* 9px scrollbars with a warm thumb, per the handoff. */
+.gf-strip::-webkit-scrollbar { width: 9px; height: 9px; }
+.gf-strip::-webkit-scrollbar-thumb { background: var(--border-3); border-radius: 9px; }
+.gf-strip::-webkit-scrollbar-track { background: transparent; }
 
 /* ============ Marketing sections (ui_kits/website) ============ */
 section.blk { padding: 44px 0; }
@@ -499,28 +562,28 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
 
   .tool-scroll { padding: 0; overflow-x: visible; }
   .genflag { border-radius: 20px; }
-  .gf-content, .gf-top, .gf-preview, .gf-cfg-scroll, .gf-support-footer { padding-left: 16px; padding-right: 16px; }
+  .gf-content, .gf-top, .gf-preview, .gf-setup, .gf-support-footer { padding-left: 16px; padding-right: 16px; }
   .gf-content { padding-top: 14px; padding-bottom: 14px; }
 
-  /* Type strip: sticky under the header, horizontally scrollable, no wrap. */
-  .gf-typestrip { padding-left: 16px; padding-right: 16px; position: sticky; top: 0; z-index: 20; }
-  .gf-tabsrow { -webkit-overflow-scrolling: touch; }
-  /* Payload strip folds its density chip below on narrow screens. */
-  .gf-payload { flex-wrap: wrap; }
-  .gf-fieldhead { flex-wrap: wrap; }
-  .gf-cfg-footer { padding-left: 16px; padding-right: 16px; }
+  /* Type tabs: sticky under the header, horizontally scrollable, no wrap — at
+     this width eleven tabs would otherwise wrap onto three rows. */
+  .gf-types { padding-left: 16px; padding-right: 16px; position: sticky; top: 0; z-index: 20; background: var(--surface); flex-wrap: nowrap; overflow-x: auto; gap: 18px; -webkit-overflow-scrolling: touch; }
+  .gf-types::-webkit-scrollbar { display: none; }
+  /* The encode readout folds its density chip below. */
+  .gf-encode { flex-wrap: wrap; }
+  .gf-labelrow { flex-wrap: wrap; }
 
-  /* Preview first on mobile — URL + QR before long style controls. */
-  .gf-body { display: flex; flex-direction: column; }
+  /* Preview first on mobile — URL + QR before the long style column.
+     nowrap is load-bearing: the desktop rule sets flex-wrap:wrap (that is what
+     stacks the two columns), and `column` + `wrap` makes a MULTI-COLUMN wrap
+     container, where align-items:stretch sizes items to the flex LINE rather
+     than to the container. The preview column stretched to 3216px and the QR
+     vanished off-screen. */
+  .gf-body { display: flex; flex-direction: column; flex-wrap: nowrap; }
   .gf-preview { order: -1; flex: 0 0 auto; padding-top: 16px; padding-bottom: 12px; }
-  .gf-stage { flex: 0 0 auto; }
-  .genflag { --qr-preview: 260px; }
+  .gf-stage { flex: 0 0 auto; padding: 12px 0; }
   .gf-chips { margin-top: 12px; }
-  .gf-dl { margin-top: 12px; }
-  .gf-config { order: 0; border-top: 1px solid var(--border-soft); border-bottom: none; }
-  .gf-cfg-scroll { padding-top: 16px; padding-bottom: 16px; gap: 16px; }
-  .gf-cfg-footer { padding-top: 12px; padding-bottom: 12px; }
-  .gf-rail { order: 1; }
+  .gf-setup { order: 0; border-top: 1px solid var(--border-soft); border-right: none; padding-top: 16px; padding-bottom: 16px; gap: 20px; }
 
   .gf-top { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 16px; padding-bottom: 16px; }
   .gf-brand i { display: none; }
@@ -528,16 +591,25 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
   .gf-plabel { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
   .gf-savebtns { flex-wrap: wrap; }
 
-  .gf-dl { flex-direction: column; align-items: stretch; }
-  .gf-dl .dl { width: 100%; text-align: center; }
+  /* The nine corner swatches at 1fr each are 2px wide on a phone. */
+  .gf-swatches.c9 { grid-template-columns: repeat(5, 1fr); }
+  .gf-rowlab { flex: 0 0 100%; }
+  .gf-frames { grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); }
+  .gf-pop { left: 0; right: auto; width: min(252px, calc(100vw - 48px)); }
+
+  .gf-dl { margin-top: 12px; flex-direction: column; align-items: stretch; }
+  .gf-dl button { width: 100%; text-align: center; }
+
+  /* Stacked layout: the feedback strip is rendered as a direct child of
+     .gf-body (Generator.jsx `stacked`) so it lands after the setup column
+     instead of halfway up the widget. It keeps the artboard white because
+     every colour inside it is tuned for white — on the Cream theme its chips
+     are #faf6ec on a #faf6ec surface, i.e. invisible. */
+  .gf-body > .gf-fb { order: 1; margin-top: 0; padding: 16px; background: #ffffff; border-top: 1px solid var(--border-soft); }
 
   .gf-support-footer { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 12px; text-align: center; padding-top: 16px; padding-bottom: 16px; }
   .gf-support-footer p { flex: 0 0 auto; }
   .gf-support-footer a { text-align: center; }
-
-  .gf-rail { width: auto !important; flex-basis: auto !important; }
-  .gf-rail:not(.open) { display: none; }
-  .gf-rail.open .gf-railinner { width: auto; }
 
   .steps, .tools, .scen, .arts, .feat, .fgrid { grid-template-columns: 1fr; }
   .bens { grid-template-columns: 1fr; }

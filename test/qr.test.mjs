@@ -14,6 +14,7 @@ import assert from 'node:assert/strict';
 import jsQR from 'jsqr';
 import {
   buildPayload, maskPayload, payloadDensity, splitUtm, getMatrix, buildSVG, hasContent, QUIET_MODULES,
+  CORNER_KEYS, PATTERN_KEYS, FRAMES, finderSVG, frameMetrics, ctaInk, buildFramedSVG,
 } from '../src/lib/qr.js';
 
 const SCALE = 8; // px per module — well above the decoder's floor
@@ -372,4 +373,121 @@ test('Generator.jsx calls no bare helper that lib/qr.js does not provide', async
   const QR_HELPERS = ['drawMod', 'drawFinderReal', 'renderReal', 'getMatrix', 'buildSVG', 'buildPayload', 'bakeLogo', 'traceRR'];
   const broken = QR_HELPERS.filter((h) => new RegExp(`\\b${h}\\s*\\(`).test(src) && !imported.has(h) && !defined.has(h));
   assert.deepEqual(broken, [], `called but neither imported nor defined: ${broken.join(', ')}`);
+});
+
+/* ---------------- style catalogues ----------------
+   The handoff calls out a specific trap: drawCorner's ring is punched out with
+   destination-out only when the background is 'transparent'. Get that wrong and
+   all nine corner options render as identical dark blobs — which looks like a
+   styling nit and is actually nine dead controls. The SVG twin shares the
+   geometry, so distinct SVG output is the cheap proof that the shapes differ. */
+
+test('all nine corner styles produce distinct geometry', () => {
+  const seen = new Map();
+  for (const key of CORNER_KEYS) {
+    const svg = finderSVG(0, 0, 10, key, '#000000', '#ffffff');
+    assert.ok(!seen.has(svg), `corner "${key}" renders identically to "${seen.get(svg)}"`);
+    seen.set(svg, key);
+  }
+  assert.equal(seen.size, 9);
+});
+
+test('every pattern and corner key has a label in ui.json', async () => {
+  const { readFileSync } = await import('node:fs');
+  const ui = JSON.parse(readFileSync(new URL('../src/content/ui.json', import.meta.url), 'utf8'));
+  for (const k of PATTERN_KEYS) assert.ok(ui.dot[k], `ui.json has no dot label for "${k}"`);
+  for (const k of CORNER_KEYS) assert.ok(ui.finder[k], `ui.json has no finder label for "${k}"`);
+  for (const f of FRAMES) assert.ok(ui.frame[f.key], `ui.json has no frame label for "${f.key}"`);
+});
+
+/* ---------------- frames ----------------
+   The prototype drew the frame in DOM only, so a download silently dropped the
+   frame the user had just designed. These pin the shared geometry that stops
+   the preview and the exported file from disagreeing. */
+
+test('frame metrics scale linearly with k', () => {
+  const full = frameMetrics('banner', 1, 'M', 'grotesk');
+  const tile = frameMetrics('banner', 0.5, 'M', 'grotesk');
+  assert.equal(full.pad, 14);
+  assert.equal(tile.pad, 7);
+  assert.equal(full.radius, 22);
+  assert.equal(tile.radius, 11);
+  assert.equal(full.bottom.font, Math.round(19 * 1));
+  assert.equal(tile.bottom.font, Math.round(19 * 0.5));
+});
+
+test('a gradient frame has no border — the gradient IS the border', () => {
+  const ribbon = frameMetrics('ribbon', 1, 'M', 'grotesk');
+  assert.equal(ribbon.border, 0, 'ribbon must not draw a solid border under the gradient');
+  assert.ok(ribbon.gradPad > 0, 'ribbon needs padding for the gradient to show');
+  const banner = frameMetrics('banner', 1, 'M', 'grotesk');
+  assert.ok(banner.border > 0);
+  assert.equal(banner.gradPad, 0);
+});
+
+test('the CTA colour resolves per bar kind when set to auto', () => {
+  // auto = white on a solid/pill bar, the frame colour on a bar sitting on paper
+  assert.equal(ctaInk('auto', '#6d4dff', true), '#ffffff');
+  assert.equal(ctaInk('auto', '#6d4dff', false), '#6d4dff');
+  assert.equal(ctaInk('#e11d48', '#6d4dff', true), '#e11d48', 'an explicit colour always wins');
+});
+
+test('frame "none" exports exactly the plain code', () => {
+  const m = getMatrix('https://qrcodeagent.net', 'Q');
+  const plain = buildSVG(m, 512, '#000000', '#ffffff', 'square', 'square', null, 'circle', false);
+  const framed = buildFramedSVG({
+    matrix: m, size: 512, fg: '#000000', bg: '#ffffff', dot: 'square', finder: 'square',
+    logoDataUrl: null, logoShape: 'circle', logoBorder: false, frame: 'none',
+  });
+  assert.equal(framed, plain, 'the no-frame path must not re-wrap the code');
+});
+
+test('a framed export is larger than the code and still contains all of it', () => {
+  const m = getMatrix('https://qrcodeagent.net', 'Q');
+  const opts = {
+    matrix: m, size: 512, fg: '#6d4dff', bg: '#ffffff', dot: 'square', finder: 'square',
+    logoDataUrl: null, logoShape: 'circle', logoBorder: false,
+    frameColor: '#6d4dff', frameText: 'SCAN ME', ctaColor: 'auto', ctaSize: 'M', frameFont: 'grotesk',
+  };
+  const plainShapes = (buildSVG(m, 512, '#6d4dff', '#ffffff', 'square', 'square', null, 'circle', false).match(/<rect/g) || []).length;
+  for (const frame of ['border', 'caption', 'banner', 'pill', 'thick', 'banner-top', 'label', 'ticket', 'ribbon']) {
+    const svg = buildFramedSVG({ ...opts, frame });
+    const [, w, h] = svg.match(/width="(\d+)" height="(\d+)"/);
+    assert.ok(+w > 512, `${frame}: framed width ${w} should exceed the 512px code`);
+    assert.ok(+h >= +w, `${frame}: a bar should make the frame at least as tall as it is wide`);
+    // every data module survives the re-hosting into the frame
+    assert.ok((svg.match(/<rect/g) || []).length > plainShapes, `${frame}: lost code shapes`);
+    assert.ok(svg.includes('translate('), `${frame}: the code must be offset into the frame`);
+  }
+});
+
+test('a frame with a caption slot carries the CTA text; a bare frame does not', () => {
+  const m = getMatrix('https://qrcodeagent.net', 'Q');
+  const opts = {
+    matrix: m, size: 512, fg: '#000000', bg: '#ffffff', dot: 'square', finder: 'square',
+    logoDataUrl: null, logoShape: 'circle', logoBorder: false,
+    frameColor: '#1c1c1c', frameText: 'ORDER HERE', ctaColor: 'auto', ctaSize: 'M', frameFont: 'grotesk',
+  };
+  assert.ok(buildFramedSVG({ ...opts, frame: 'banner' }).includes('>ORDER HERE<'));
+  assert.ok(!buildFramedSVG({ ...opts, frame: 'thick' }).includes('>ORDER HERE<'),
+    'a frame with no bar must not print the CTA anyway');
+});
+
+test('CTA text is escaped, not injected, into the exported SVG', () => {
+  const m = getMatrix('https://qrcodeagent.net', 'Q');
+  const svg = buildFramedSVG({
+    matrix: m, size: 512, fg: '#000000', bg: '#ffffff', dot: 'square', finder: 'square',
+    logoDataUrl: null, logoShape: 'circle', logoBorder: false, frame: 'banner',
+    frameColor: '#1c1c1c', frameText: '</text><script>x</script>', ctaColor: 'auto', ctaSize: 'M', frameFont: 'grotesk',
+  });
+  assert.ok(!svg.includes('<script>'), 'CTA text must not be able to inject markup into a downloaded file');
+  assert.ok(svg.includes('&lt;/text&gt;'));
+});
+
+test('CTA size steps scale the bar font monotonically', () => {
+  const sizes = ['XS', 'S', 'M', 'L', 'XL'];
+  const fonts = sizes.map((s) => frameMetrics('banner', 1, s, 'grotesk').bottom.font);
+  for (let i = 1; i < fonts.length; i++) {
+    assert.ok(fonts[i] > fonts[i - 1], `${sizes[i]} should be larger than ${sizes[i - 1]}`);
+  }
 });

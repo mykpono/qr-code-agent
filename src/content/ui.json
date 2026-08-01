@@ -61,7 +61,7 @@
   },
   "gen": {
     "title": "QR Code Agent",
-    "subtitle": "FREE QR Codes",
+    "subtitle": "Free QR Code Generator",
     "contentLabel": "Content / URL",
     "contentPlaceholder": "https://your-link.com",
     "contentAria": "Content or URL",
@@ -75,7 +75,7 @@
     "outputSize": "Output size",
     "outputSizeAria": "Output size in pixels",
     "errorCorrection": "Error correction",
-    "eccTip": "Error correction bakes in redundant data so the code still scans when part of it is covered. Higher levels recover more but pack denser dots — pick Q or H when you add a center logo.",
+    "eccTip": "Error correction bakes in redundant data so the code still scans when part of it is dirty, damaged or covered. Higher levels recover more but pack denser dots — pick Q or H when you add a center logo.",
     "centerLogo": "Center logo",
     "dropImage": "Drop image or click to upload",
     "dropHint": "PNG with transparency",
@@ -108,7 +108,7 @@
     "dots": "dots",
     "logoOn": "Logo on",
     "noLogo": "No logo",
-    "buyCoffee": "☕ BUY ME A COFFEE",
+    "buyCoffee": "BUY ME A COFFEE",
     "typeLabel": "Type",
     "encodesAs": "ENCODES AS",
     "nothingToEncode": "Nothing to encode yet",
@@ -127,7 +127,45 @@
     "markSuffix": "mark",
     "removeMark": "REMOVE",
     "socialLinkTag": "social link",
-    "plateWarn": "Clear plate covers {cover}% but ECC {ecc} only recovers {rec}% — step ECC up to Q or H."
+    "plateWarn": "Clear plate covers {cover}% but ECC {ecc} only recovers {rec}% — step ECC up to Q or H.",
+    "codeStyle": "Code style",
+    "frameSection": "Frame",
+    "patterns": "Patterns",
+    "corners": "Corners",
+    "colors": "Colors",
+    "recovery": "Recovery",
+    "frameColor": "Frame",
+    "pasteHex": "Paste a hex or drag the bar",
+    "autoMatchFrame": "AUTO — match the frame",
+    "auto": "AUTO",
+    "moreFrames": "+ More frames",
+    "lessFrames": "− Less",
+    "callToAction": "Call to action",
+    "ctaPlaceholder": "SCAN ME",
+    "font": "Font",
+    "sizeLabel": "Size",
+    "colorLabel": "Color",
+    "noFrame": "NO FRAME",
+    "frameChip": "FRAME",
+    "dropHintLong": "PNG with transparency · square works best",
+    "defaultMark": "Default mark · click to replace",
+    "fit": "FIT",
+    "logoOff": "Off",
+    "logoPlaceholder": "Placeholder",
+    "logoOverlay": "LOGO",
+    "contentSocial": "Content / {name} link",
+    "socialGuided": "Guided URL — swap in your own handle",
+    "nothingEncoded": "Nothing encoded yet — type a link above",
+    "textChars": "{n} chars",
+    "textDense": " · longer text = denser QR",
+    "formatHintPNG": "Best for screens and print-ready art",
+    "formatHintSVG": "Vector — scales to any size",
+    "formatHintPDF": "Print-ready page",
+    "download": "Download ↓",
+    "copyImage": "Copy image",
+    "copied": "✓ Copied",
+    "logoPlateWarn": "⚠ Logo plate too large for ECC {ecc}",
+    "demoCta": "Visit our GITHUB"
   },
   "type": {
     "url": "URL",
@@ -168,20 +206,24 @@
     "high": "Dense · {n} chars — High ECC recommended"
   },
   "dot": {
-    "star": "PLUS",
-    "realstar": "STAR",
-    "diamond": "DIAMOND",
-    "circle": "CIRCLE",
-    "square": "SQUARE",
-    "dot": "DOT",
-    "rounded": "ROUNDED"
+    "star": "Plus",
+    "realstar": "Star",
+    "diamond": "Diamond",
+    "circle": "Circle",
+    "dot": "Dot",
+    "rounded": "Rounded",
+    "square": "Square"
   },
   "finder": {
-    "circle": "CIRCLE",
-    "rounded": "ROUNDED",
-    "square": "SQUARE",
-    "leaf": "LEAF",
-    "cushion": "CUSHION"
+    "square": "Square",
+    "bold": "Bold square",
+    "dot": "Dot in square",
+    "rounded": "Rounded",
+    "leaf": "Leaf",
+    "leafAlt": "Leaf mirrored",
+    "cushion": "Cushion",
+    "circle": "Circle",
+    "diamond": "Diamond core"
   },
   "ecc": {
     "L": "Low",
@@ -199,7 +241,8 @@
     "socialTitle": "Social",
     "industryTitle": "By industry",
     "usecaseTitle": "By use case",
-    "themesTitle": "Creative themes"
+    "themesTitle": "Creative themes",
+    "all": "All"
   },
   "logoShape": {
     "circle": "CIRCLE",
@@ -233,7 +276,23 @@
     "label": "Label (optional)",
     "emailAddress": "Email address",
     "emailSubject": "Subject (optional)",
-    "emailBody": "Message (optional)"
+    "emailBody": "Message (optional)",
+    "encryption": "Encryption",
+    "ph": {
+      "ssid": "Cafe-Guest",
+      "pass": "••••••••",
+      "first": "Ada",
+      "last": "Lovelace",
+      "phone": "+1 415 555 0123",
+      "email": "ada@studio.com",
+      "company": "Studio Analytical",
+      "website": "https://studio.com",
+      "to": "hello@yourcompany.com",
+      "subject": "Order enquiry",
+      "body": "Optional message",
+      "message": "Table for two tonight?",
+      "waMessage": "Hi! I'd like to order…"
+    }
   },
   "a11y": {
     "qrEmpty": "QR code preview. Nothing encoded yet — fill in the fields above.",
@@ -266,7 +325,21 @@
     "colourPicker": "colour picker",
     "hexInput": "hex colour code",
     "colourCurrently": "colour, currently",
-    "today": "today"
+    "today": "today",
+    "eccQuestion": "What is error correction?",
+    "eccLevel": "Error correction level",
+    "templateCategory": "Template category",
+    "contentType": "QR content type",
+    "clearTemplate": "Clear the template — plain violet code",
+    "none": "None",
+    "ctaColor": "Call-to-action text color",
+    "toggleLogo": "Toggle logo",
+    "closeFeedback": "Close feedback",
+    "feedbackYes": "Yes, it worked",
+    "feedbackNo": "No, something was off",
+    "outputSize": "Output size",
+    "logoFitRange": "Logo fit",
+    "frameFont": "Call-to-action font"
   },
   "footer": {
     "language": "Language",
@@ -331,5 +404,78 @@
     "pre": "Got your code?",
     "cta": "☕ Buy me a coffee",
     "post": "— it keeps this tool free for everyone."
+  },
+  "fieldsLabel": {
+    "url": "Content / URL",
+    "text": "Content / Text",
+    "wifi": "Content / WiFi",
+    "vcard": "Content / Contact card",
+    "tel": "Content / Phone",
+    "sms": "Content / SMS",
+    "email": "Content / Email",
+    "whatsapp": "Content / WhatsApp",
+    "crypto": "Content / Bitcoin"
+  },
+  "frame": {
+    "none": "No frame",
+    "border": "Thin border",
+    "caption": "Caption below",
+    "banner": "Banner below",
+    "pill": "Pill below",
+    "thick": "Bold border",
+    "banner-top": "Banner above",
+    "label": "Label above",
+    "ticket": "Ticket",
+    "ribbon": "Brand ribbon"
+  },
+  "ctaSize": {
+    "XS": "Extra small",
+    "S": "Small",
+    "M": "Medium",
+    "L": "Large",
+    "XL": "Extra large"
+  },
+  "color": {
+    "violet": "Violet",
+    "ink": "Ink",
+    "blue": "Blue",
+    "teal": "Teal",
+    "red": "Red",
+    "green": "Green",
+    "amber": "Amber",
+    "white": "White",
+    "ice": "Ice",
+    "sand": "Sand",
+    "blush": "Blush",
+    "mint": "Mint",
+    "black": "Black"
+  },
+  "fb": {
+    "ask": "Did this give you the code you wanted?",
+    "yes": "✓ Yes",
+    "no": "✕ Not quite",
+    "titleYes": "Glad it worked",
+    "titleNo": "What went wrong?",
+    "subtitleYes": "Anything you wish it did?",
+    "subtitleNo": "One sentence is plenty",
+    "placeholderYes": "It would be great if I could save my brand colors…",
+    "placeholderNo": "The code would not scan after I added my logo…",
+    "topicsYes": [
+      "Just works",
+      "Missing a feature",
+      "Would pay for",
+      "Something else"
+    ],
+    "topicsNo": [
+      "Would not scan",
+      "Missing a style",
+      "Confusing",
+      "Something else"
+    ],
+    "emailPlaceholder": "Email (optional — only to follow up)",
+    "send": "Send",
+    "attach": "Attach my settings —",
+    "noContents": "(no link contents)",
+    "done": "✓ Thanks — that went straight to the person who builds this."
   }
 }
