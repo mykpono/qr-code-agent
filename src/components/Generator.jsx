@@ -761,7 +761,8 @@ function TypeStrip({ mode, social, onType, onSocial, tabsRef, t }) {
   };
   return (
     <div className="gf-typestrip">
-      <span className="gf-typelabel">{t.gen.typeLabel}</span>
+      {/* The "TYPE" label is dropped visually; the tablist keeps it as its
+          accessible name for screen readers. */}
       <div className="gf-tabsrow" role="tablist" aria-label={t.gen.typeLabel} onKeyDown={onKeyDown}>
         {items.map((it, i) => {
           const selected = i === activeIndex;

@@ -141,8 +141,11 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 /* Active theme chip is marked by a 5px accent dot below it (matches the design). */
 .gf-themes button.on::after { content: ""; position: absolute; left: 50%; bottom: -9px; top: auto; inset: auto; transform: translateX(-50%); width: 5px; height: 5px; border: none; border-radius: 50%; background: var(--brand-500); }
 
-/* content row */
-.gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px; border-bottom: 1px solid var(--border-soft); }
+/* content row — reserve a stable min-height so switching content type doesn't
+   shift the preview/config/rail below it up and down. Sized to cover all modes
+   except the tall Contact grid (which grows past it); the extra space on short
+   modes reads as padding rather than a jump. */
+.gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px; min-height: 182px; border-bottom: 1px solid var(--border-soft); }
 .gf-crow { display: flex; align-items: center; gap: 16px; }
 .gf-clabel { font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); flex: 0 0 auto; }
 .gf-cinput, .gf-modefields input { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 16px; font: 500 15px var(--font-sans); color: var(--ink); }
@@ -164,7 +167,6 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 
 /* type strip — in-widget content-type tabs (matches QR Generator Multi-Type) */
 .gf-typestrip { display: flex; align-items: stretch; gap: 22px; padding: 0 30px; border-bottom: 1px solid var(--border-soft); background: var(--surface); }
-.gf-typelabel { font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); flex: 0 0 auto; align-self: center; }
 .gf-tabsrow { flex: 1; min-width: 0; display: flex; align-items: stretch; gap: 20px; overflow-x: auto; }
 .gf-tabsrow::-webkit-scrollbar { height: 5px; }
 .gf-tabsrow > span { display: inline-flex; align-items: stretch; flex: 0 0 auto; }
