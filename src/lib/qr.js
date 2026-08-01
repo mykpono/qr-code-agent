@@ -702,6 +702,92 @@ function buildFramedSVG(o) {
     + `<defs>${defs.join('')}</defs>${parts.join('')}</svg>`;
 }
 
+/* ---------------- PDF export ----------------
+   A single-page PDF holding the finished composition — code, frame, bars, CTA
+   and logo — with the page sized to the artwork so it imports at a known
+   physical size rather than floating on an assumed A4.
+
+   The page carries the artwork as ONE lossless image rather than as vector
+   paths. That is a deliberate trade, and the opposite of the call made for the
+   SVG export, so it is worth stating: a vector PDF would have to embed a font
+   subset for the CTA, and the CTA can be set in any of fifteen faces including
+   Bebas Neue and Caveat. PDF's built-in fonts cover none of them, so "vector"
+   would mean silently re-setting the user's chosen type in Helvetica. At 300dpi
+   a QR prints indistinguishably from vector at any size this tool produces,
+   and the type stays the type they picked.
+
+   No dependency: DeviceRGB samples deflated through CompressionStream, which is
+   exactly the zlib wrapper /FlateDecode expects. */
+const PDF_DPI = 300;
+const PDF_POINTS_PER_INCH = 72;
+
+// RGBA over an opaque backdrop → the packed RGB triples a PDF image wants.
+// Everything outside a frame's rounded corner is transparent on the canvas and
+// would otherwise read as black.
+function flattenToRGB(rgba, backdrop = [255, 255, 255]) {
+  const out = new Uint8Array((rgba.length / 4) * 3);
+  for (let i = 0, j = 0; i < rgba.length; i += 4, j += 3) {
+    const a = rgba[i + 3] / 255;
+    out[j] = Math.round(rgba[i] * a + backdrop[0] * (1 - a));
+    out[j + 1] = Math.round(rgba[i + 1] * a + backdrop[1] * (1 - a));
+    out[j + 2] = Math.round(rgba[i + 2] * a + backdrop[2] * (1 - a));
+  }
+  return out;
+}
+
+async function deflateBytes(bytes) {
+  // 'deflate' is the zlib-wrapped form (RFC 1950). 'deflate-raw' would NOT be
+  // readable as /FlateDecode.
+  if (typeof CompressionStream === 'undefined') return null;
+  try {
+    const stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate'));
+    return new Uint8Array(await new Response(stream).arrayBuffer());
+  } catch { return null; }
+}
+
+async function buildPDF({ rgb, width, height, dpi = PDF_DPI }) {
+  const packed = await deflateBytes(rgb);
+  const body = packed || rgb;                       // uncompressed is still valid
+  const pt = (px) => Math.round((px / dpi) * PDF_POINTS_PER_INCH * 100) / 100;
+  const wPt = pt(width), hPt = pt(height);
+
+  const text = (s) => new TextEncoder().encode(s);
+  const chunks = [];
+  let len = 0;
+  const push = (u8) => { chunks.push(u8); len += u8.length; };
+  const offsets = [];
+  const obj = (n, dict, stream) => {
+    offsets[n] = len;                                // byte offset for the xref
+    push(text(`${n} 0 obj\n${dict}\n`));
+    if (stream) { push(text('stream\n')); push(stream); push(text('\nendstream\n')); }
+    push(text('endobj\n'));
+  };
+
+  push(text('%PDF-1.4\n'));
+  push(new Uint8Array([0x25, 0xE2, 0xE3, 0xCF, 0xD3, 0x0A]));   // marks it binary
+  obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  obj(3, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${wPt} ${hPt}]`
+    + ` /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`);
+  obj(4, `<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height}`
+    + ` /ColorSpace /DeviceRGB /BitsPerComponent 8${packed ? ' /Filter /FlateDecode' : ''}`
+    + ` /Length ${body.length} >>`, body);
+  // Scale the unit image square up to the page, then paint it.
+  const content = text(`q ${wPt} 0 0 ${hPt} 0 0 cm /Im0 Do Q\n`);
+  obj(5, `<< /Length ${content.length} >>`, content);
+
+  const xrefAt = len;
+  let xref = 'xref\n0 6\n0000000000 65535 f \n';
+  for (let n = 1; n <= 5; n++) xref += `${String(offsets[n]).padStart(10, '0')} 00000 n \n`;
+  push(text(xref));
+  push(text(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefAt}\n%%EOF\n`));
+
+  const out = new Uint8Array(len);
+  let at = 0;
+  for (const c of chunks) { out.set(c, at); at += c.length; }
+  return out;
+}
+
 // Whether the user has actually entered something. buildPayload returns the
 // structural scaffolding for vCard and WiFi even when every field is blank, so a
 // truthy payload is NOT proof of content — without this you can export a QR
@@ -731,4 +817,6 @@ export {
   FRAMES, FRAME_KEYS, FRAME_BASE_PX, frameDef, FONTS, fontDef, CTA_SCALE,
   frameMetrics, frameLayout, makeLineMeasurer, ctaInk, fontShorthand, trackingPx,
   renderFramed, buildFramedSVG,
+  // PDF export
+  buildPDF, flattenToRGB, PDF_DPI,
 };

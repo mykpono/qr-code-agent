@@ -15,6 +15,7 @@ import jsQR from 'jsqr';
 import {
   buildPayload, maskPayload, payloadDensity, splitUtm, getMatrix, buildSVG, hasContent, QUIET_MODULES,
   CORNER_KEYS, PATTERN_KEYS, FRAMES, finderSVG, frameMetrics, ctaInk, buildFramedSVG,
+  buildPDF, flattenToRGB,
 } from '../src/lib/qr.js';
 
 const SCALE = 8; // px per module — well above the decoder's floor
@@ -490,4 +491,80 @@ test('CTA size steps scale the bar font monotonically', () => {
   for (let i = 1; i < fonts.length; i++) {
     assert.ok(fonts[i] > fonts[i - 1], `${sizes[i]} should be larger than ${sizes[i - 1]}`);
   }
+});
+
+/* ---------------- PDF export ----------------
+   A PDF whose xref offsets are wrong still "downloads fine" and then fails to
+   open, or opens in one reader and not another. The offsets are the part a
+   hand-rolled writer gets wrong, so they are checked by actually resolving
+   them rather than by eyeballing the header. */
+
+const PAGE = { width: 40, height: 24 };
+const solidRGBA = (w, h, [r, g, b]) => {
+  const d = new Uint8Array(w * h * 4);
+  for (let i = 0; i < d.length; i += 4) { d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255; }
+  return d;
+};
+
+test('flattenToRGB drops alpha over the backdrop, not into black', () => {
+  // Fully transparent is what sits outside a frame's rounded corner.
+  const rgba = new Uint8Array([0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 0, 128]);
+  const rgb = flattenToRGB(rgba);
+  assert.deepEqual([...rgb.slice(0, 3)], [255, 255, 255], 'transparent must flatten to the backdrop');
+  assert.deepEqual([...rgb.slice(3, 6)], [255, 0, 0], 'opaque must pass through untouched');
+  // alpha 128/255 over white == 255 - 128 == 127, exactly
+  assert.deepEqual([...rgb.slice(6, 9)], [127, 127, 127], 'half alpha blends');
+  assert.equal(rgb.length, 9, 'three samples per pixel, no alpha');
+});
+
+test('the PDF is well-formed and its xref offsets resolve', async () => {
+  const rgb = flattenToRGB(solidRGBA(PAGE.width, PAGE.height, [109, 77, 255]));
+  const pdf = await buildPDF({ rgb, ...PAGE });
+  const bytes = Buffer.from(pdf);
+  const ascii = bytes.toString('latin1');
+
+  assert.ok(ascii.startsWith('%PDF-1.4\n'), 'needs a version header');
+  assert.ok(ascii.trimEnd().endsWith('%%EOF'), 'needs the EOF marker');
+  assert.match(ascii, /\/Type \/Catalog/);
+  assert.match(ascii, /\/Type \/Page[^s]/);
+  assert.match(ascii, /\/Subtype \/Image/);
+
+  // startxref must point AT the xref table…
+  const startxref = +ascii.match(/startxref\n(\d+)/)[1];
+  assert.equal(ascii.slice(startxref, startxref + 4), 'xref', 'startxref does not point at the table');
+
+  // …and every entry in it must point at the object it claims.
+  const table = ascii.slice(startxref).match(/xref\n0 6\n([\s\S]{20})([\s\S]{20})([\s\S]{20})([\s\S]{20})([\s\S]{20})([\s\S]{20})/);
+  assert.ok(table, 'xref table is malformed');
+  for (let n = 1; n <= 5; n++) {
+    const at = +table[n + 1].slice(0, 10);
+    assert.equal(ascii.slice(at, at + `${n} 0 obj`.length), `${n} 0 obj`,
+      `xref entry ${n} points at byte ${at}, which is not object ${n}`);
+  }
+});
+
+test('the PDF page is the artwork at 300dpi, so it prints at a known size', async () => {
+  const rgb = flattenToRGB(solidRGBA(600, 300, [0, 0, 0]));
+  const pdf = await buildPDF({ rgb, width: 600, height: 300 });
+  const box = Buffer.from(pdf).toString('latin1').match(/\/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]/);
+  assert.ok(box);
+  // 600px / 300dpi = 2in = 144pt
+  assert.equal(+box[1], 144);
+  assert.equal(+box[2], 72);
+  assert.match(Buffer.from(pdf).toString('latin1'), /q 144 0 0 72 0 0 cm \/Im0 Do Q/,
+    'the image must be scaled to fill the page');
+});
+
+test('image samples are deflated, and /Length matches the bytes actually written', async () => {
+  const rgb = flattenToRGB(solidRGBA(200, 200, [255, 255, 255]));
+  const pdf = await buildPDF({ rgb, width: 200, height: 200 });
+  const ascii = Buffer.from(pdf).toString('latin1');
+  assert.match(ascii, /\/Filter \/FlateDecode/, 'CompressionStream is available here, so it must be used');
+  assert.ok(pdf.length < rgb.length / 4, 'a flat image should compress hard');
+
+  // /Length must equal the real stream, or readers truncate the image.
+  const declared = +ascii.match(/\/Filter \/FlateDecode \/Length (\d+) >>/)[1];
+  const start = ascii.indexOf('stream\n', ascii.indexOf('4 0 obj')) + 'stream\n'.length;
+  const end = ascii.indexOf('\nendstream', start);
+  assert.equal(end - start, declared, '/Length disagrees with the bytes written');
 });

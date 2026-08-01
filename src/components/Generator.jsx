@@ -3,7 +3,7 @@ import {
   buildPayload, maskPayload, payloadDensity, splitUtm, getMatrix, renderReal,
   drawMod, drawFinderReal, drawCorner, hasContent as hasContentFor,
   PATTERN_KEYS, CORNER_KEYS, FRAMES, frameDef, FONTS, fontDef,
-  frameMetrics, ctaInk, renderFramed, buildFramedSVG,
+  frameMetrics, ctaInk, renderFramed, buildFramedSVG, buildPDF, flattenToRGB,
 } from '../lib/qr.js';
 import { MOBILE_BREAKPOINT } from '../lib/mobile.js';
 import EN_UI from '../content/ui.json';
@@ -582,16 +582,25 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
     a.download = name; a.href = href; a.click();
   }
 
-  function onDownload() {
+  function downloadBlob(blob, name) {
+    const url = URL.createObjectURL(blob);
+    download(url, name);
+    // Revoking synchronously can race the click on some browsers; one turn of
+    // the event loop is enough for the download to have been handed off.
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
+  async function onDownload() {
     if (!hasContent || !matrix) return;
     if (format === 'SVG') {
       const svg = buildFramedSVG({ ...exportOpts(), logoDataUrl: useLogo && markImg ? markImg.src : null });
-      const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-      download(url, 'qrcode.svg');
-      URL.revokeObjectURL(url);
+      downloadBlob(new Blob([svg], { type: 'image/svg+xml' }), 'qrcode.svg');
+    } else if (format === 'PDF') {
+      const c = renderExportCanvas();
+      const rgba = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+      const pdf = await buildPDF({ rgb: flattenToRGB(rgba), width: c.width, height: c.height });
+      downloadBlob(new Blob([pdf], { type: 'application/pdf' }), 'qrcode.pdf');
     } else {
-      // PDF is not wired yet (see NEXT-PHASES) — the segment renders per the
-      // design and falls back to the PNG raster rather than doing nothing.
       download(renderExportCanvas().toDataURL('image/png'), 'qrcode.png');
     }
     track(`download_${format.toLowerCase()}`, { mode, frame });
