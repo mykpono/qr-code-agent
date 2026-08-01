@@ -15,7 +15,7 @@ import jsQR from 'jsqr';
 import {
   buildPayload, maskPayload, payloadDensity, splitUtm, getMatrix, buildSVG, hasContent, QUIET_MODULES,
   CORNER_KEYS, PATTERN_KEYS, FRAMES, finderSVG, frameMetrics, ctaInk, buildFramedSVG,
-  buildPDF, flattenToRGB,
+  buildPDF, flattenToRGB, FONTS,
 } from '../src/lib/qr.js';
 
 const SCALE = 8; // px per module — well above the decoder's floor
@@ -567,4 +567,22 @@ test('image samples are deflated, and /Length matches the bytes actually written
   const start = ascii.indexOf('stream\n', ascii.indexOf('4 0 obj')) + 'stream\n'.length;
   const end = ascii.indexOf('\nendstream', start);
   assert.equal(end - start, declared, '/Length disagrees with the bytes written');
+});
+
+/* The FONT select is a fixed 136px, sized to its longest option: "IBM Plex
+   Mono" is 13 characters AND, being monospace, the widest any label renders at
+   600 12px — 93.6px, against a 96px content box. A longer name would silently
+   ellipsis, because the control shows only the current choice and nothing else
+   would look wrong. Fail here instead, so whoever adds it re-measures. */
+test('no CTA font label can overflow the fixed-width FONT select', async () => {
+  const { readFileSync } = await import('node:fs');
+  const css = readFileSync(new URL('../src/styles/app.css', import.meta.url), 'utf8');
+  const rule = css.slice(css.indexOf('.gf-fontfield select {'));
+  const width = +rule.slice(0, rule.indexOf('}')).match(/width:\s*(\d+)px/)[1];
+  assert.equal(width, 136, 'the FONT select width changed — re-measure the widest label');
+
+  const longest = FONTS.reduce((a, f) => (f.label.length > a.label.length ? f : a));
+  assert.ok(longest.label.length <= 13,
+    `"${longest.label}" is ${longest.label.length} chars; 136px fits 13 monospace chars. `
+    + 'Widen .gf-fontfield select and update this test, or shorten the label.');
 });

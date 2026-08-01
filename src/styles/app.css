@@ -322,9 +322,16 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 .gf-ctafield input { width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 10px; font: 600 11px var(--font-mono); letter-spacing: .01em; color: var(--ink); outline: none; }
 .gf-ctafield .count { font: 600 9px var(--font-mono); letter-spacing: 0; color: var(--muted-2); }
 .gf-ctafield .count.warn { color: var(--warn-ink); }
-.gf-fontfield { flex: 1 1 150px; min-width: 140px; display: flex; flex-direction: column; }
+/* Sized to its longest option rather than left to flex. The select paints the
+   CHOSEN face, so the widest it ever has to be is the widest label in its own
+   font: "IBM Plex Mono" at 600 12px measures 93.6px — both the longest string
+   at 13 characters and the widest, being monospace. Plus 38px of padding and
+   2px of border that is 134px, so 136px leaves a couple of pixels for
+   font-loading variance. Wider than that is just dead space, and the room goes
+   to CALL TO ACTION, which actually uses it. */
+.gf-fontfield { flex: 0 0 auto; display: flex; flex-direction: column; }
 /* Rendered in the selected face, so the control previews itself. */
-.gf-fontfield select { appearance: none; -webkit-appearance: none; width: 100%; min-width: 0; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 10px 26px 10px 12px; font-size: 12px; font-weight: 600; color: var(--ink); outline: none; cursor: pointer; text-overflow: ellipsis; }
+.gf-fontfield select { appearance: none; -webkit-appearance: none; width: 136px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 10px 26px 10px 12px; font-size: 12px; font-weight: 600; color: var(--ink); outline: none; cursor: pointer; text-overflow: ellipsis; }
 .gf-ctasize, .gf-ctacolor { flex: 0 0 auto; display: flex; flex-direction: column; }
 .gf-ctacolor { position: relative; }
 .gf-ctacolor .swatch { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 11px; cursor: pointer; font: 700 11px var(--font-mono); border: 1px solid var(--border-2); }
