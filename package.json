@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/gen-og.mjs && astro build && node scripts/gen-sitemap.mjs",
+    "build": "node scripts/gen-logo.mjs && astro build && node scripts/gen-sitemap.mjs",
     "preview": "astro preview",
     "test": "node --test test/ src/lib/",
     "test:e2e": "playwright test",
@@ -15,6 +15,7 @@
     "i18n:merge": "node scripts/i18n-merge.mjs",
     "i18n:coverage": "node scripts/i18n-coverage.mjs",
     "og": "node scripts/gen-og.mjs",
+    "logo": "node scripts/gen-logo.mjs",
     "gsc:submit": "node scripts/gsc-submit.mjs"
   },
   "dependencies": {
