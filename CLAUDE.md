@@ -11,17 +11,29 @@ build of **qrcodeagent.net** — a free, no-sign-up QR code generator plus its p
 1. **Use ONLY the design folder's layouts and tokens — never invent UI.** The source of truth
    for every layout, color, radius, shadow, and motif is the design system at
    `../QR code generator redesign/` (a sibling folder on disk). Money-page layouts come from
-   `ui_kits/website/*.html`; the generator comes from `QR Generator.dc.html`; tokens from
-   `tokens/*.css` (already copied to `src/styles/`). If a new page/section is needed, port the
-   closest existing folder layout — do not design a new one.
+   `ui_kits/website/*.html`; tokens from `tokens/*.css` (already copied to `src/styles/`).
+   If a new page/section is needed, port the closest existing folder layout — do not design
+   a new one.
+1b. **The GENERATOR WIDGET is governed by the newer handoff**, `../design_handoff_qr_generator/`
+   (`README.md` + `QR Generator.dc.html`), which supersedes the widget in
+   `../QR code generator redesign/QR Generator.dc.html`. It is the five-band card shipped in
+   2026-08: header · type tabs · content fields · setup|preview split · coffee footer, with the
+   frame system, the CTA controls and the feedback strip. `QR Generator (standalone).html` in
+   that folder runs in any browser — open it side by side when changing the widget.
 2. **Never redraw QR motifs or brand logos by hand.** Reuse the `drawQR`/`drawSwatch` logic and
    the PNGs in `public/assets/logos/`. New social presets → add the real PNG, don't recreate marks.
 3. **The MAIN preview and export MUST use the real encoder** (`qrcode-generator` in
    `src/components/Generator.jsx`). The folder's `qr-preview.js` is a **mock** (pseudo-random,
    won't scan) — it is only for decorative thumbnails/swatches. Never wire the mock to the
    downloadable output.
-4. **All presets are verbatim from `QR Generator.dc.html`** — 36 total across four rail groups
-   (By industry 11 · By use case 9 · Social 4 · Creative themes 12). Do not trim or invent presets.
+4. **All presets are verbatim from the design** — 37 across four groups (Social 4 · Creative
+   themes 12 · By industry 11 · By use case 10), plus the leading **None** card that resets to
+   plain violet. Do not trim or invent presets. The 2026-08 handoff restates a subset of them;
+   where it does, its fg/bg/pattern/corner win (it has nine corner styles to choose from, so
+   Coffee is a leaf and Ninja a diamond). **A template is a LOOK, not content:** it sets
+   colour, pattern, corner and the frame colour and returns the CTA colour to auto — it never
+   writes into the user's fields. Only the four social presets also set an example URL, the
+   ECC level and the brand mark, because they are guided links.
 5. **The generator widget loads on every page type** — QR types, use cases, ICP/industry, feature,
    home. Only the Learn hub omits it (content index). See `src/components/Page.astro` `flagship`.
 6. **SEO is non-negotiable:** one static HTML file per route; unique `<title>` ≤60 and meta ≤155;
@@ -32,7 +44,9 @@ build of **qrcodeagent.net** — a free, no-sign-up QR code generator plus its p
    testable. `Generator.jsx` imports it. Never fork this logic back into the component.
 8. **Voice & casing** (`docs/HANDOFF.md`, design readme): UPPERCASE monospace for labels/buttons/
    chips; sentence-case headings in Space Grotesk; lead with free / no-sign-up / never-expires;
-   `☕` is the only emoji (support/donate CTA).
+   `☕` is the only emoji (support/donate CTA) — **and it does not appear inside the generator
+   widget**, which the 2026-08 handoff makes emoji-free: every glyph in it is a text character
+   (`› ▴ ▾ ✓ ✕ ↓ ♥ ⚠ ⏎ ×`). Keep it that way.
 9. **No page ships until it is translated into every live language** (decision D-007). A locale
    bundle `src/content/i18n/<locale>.json` must cover **all** pages before it is added, and a new
    page must be added to **every** live bundle in the same change that ships it. **Never merge a

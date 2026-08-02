@@ -53,6 +53,18 @@
   --success-surface: #eafaf1;
   --success-border: #c5ecd6;
 
+  /* ── Semantic — warning / advisory ────────────────── */
+  --warn-ink: #b4690e;          /* 4.6:1 on --warn-surface, passes AA as-is */
+  --warn-surface: #fdf3e3;
+  --warn-border: #f0dcb4;
+
+  /* ── Brand, as a FILL ─────────────────────────────── */
+  /* --brand-500 above is darkened for text contrast and re-tinted light on the
+     dark themes. Selection borders, slider fills, ticks and tab underlines are
+     not text and must stay the design's exact violet in every theme, so they
+     use this instead. Never set type in it. */
+  --brand-mark: #6d4dff;
+
   /* ── Focus ring ───────────────────────────────────── */
   --ring: #6d4dff;
 }

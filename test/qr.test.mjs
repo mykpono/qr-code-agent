@@ -14,6 +14,8 @@ import assert from 'node:assert/strict';
 import jsQR from 'jsqr';
 import {
   buildPayload, maskPayload, payloadDensity, splitUtm, getMatrix, buildSVG, hasContent, QUIET_MODULES,
+  CORNER_KEYS, PATTERN_KEYS, FRAMES, finderSVG, frameMetrics, ctaInk, buildFramedSVG,
+  buildPDF, flattenToRGB, FONTS,
 } from '../src/lib/qr.js';
 
 const SCALE = 8; // px per module — well above the decoder's floor
@@ -372,4 +374,245 @@ test('Generator.jsx calls no bare helper that lib/qr.js does not provide', async
   const QR_HELPERS = ['drawMod', 'drawFinderReal', 'renderReal', 'getMatrix', 'buildSVG', 'buildPayload', 'bakeLogo', 'traceRR'];
   const broken = QR_HELPERS.filter((h) => new RegExp(`\\b${h}\\s*\\(`).test(src) && !imported.has(h) && !defined.has(h));
   assert.deepEqual(broken, [], `called but neither imported nor defined: ${broken.join(', ')}`);
+});
+
+/* ---------------- style catalogues ----------------
+   The handoff calls out a specific trap: drawCorner's ring is punched out with
+   destination-out only when the background is 'transparent'. Get that wrong and
+   all nine corner options render as identical dark blobs — which looks like a
+   styling nit and is actually nine dead controls. The SVG twin shares the
+   geometry, so distinct SVG output is the cheap proof that the shapes differ. */
+
+test('all nine corner styles produce distinct geometry', () => {
+  const seen = new Map();
+  for (const key of CORNER_KEYS) {
+    const svg = finderSVG(0, 0, 10, key, '#000000', '#ffffff');
+    assert.ok(!seen.has(svg), `corner "${key}" renders identically to "${seen.get(svg)}"`);
+    seen.set(svg, key);
+  }
+  assert.equal(seen.size, 9);
+});
+
+test('every pattern and corner key has a label in ui.json', async () => {
+  const { readFileSync } = await import('node:fs');
+  const ui = JSON.parse(readFileSync(new URL('../src/content/ui.json', import.meta.url), 'utf8'));
+  for (const k of PATTERN_KEYS) assert.ok(ui.dot[k], `ui.json has no dot label for "${k}"`);
+  for (const k of CORNER_KEYS) assert.ok(ui.finder[k], `ui.json has no finder label for "${k}"`);
+  for (const f of FRAMES) assert.ok(ui.frame[f.key], `ui.json has no frame label for "${f.key}"`);
+});
+
+/* ---------------- frames ----------------
+   The prototype drew the frame in DOM only, so a download silently dropped the
+   frame the user had just designed. These pin the shared geometry that stops
+   the preview and the exported file from disagreeing. */
+
+test('frame metrics scale linearly with k', () => {
+  const full = frameMetrics('banner', 1, 'M', 'grotesk');
+  const tile = frameMetrics('banner', 0.5, 'M', 'grotesk');
+  assert.equal(full.pad, 14);
+  assert.equal(tile.pad, 7);
+  assert.equal(full.radius, 22);
+  assert.equal(tile.radius, 11);
+  assert.equal(full.bottom.font, Math.round(19 * 1));
+  assert.equal(tile.bottom.font, Math.round(19 * 0.5));
+});
+
+test('a gradient frame has no border — the gradient IS the border', () => {
+  const ribbon = frameMetrics('ribbon', 1, 'M', 'grotesk');
+  assert.equal(ribbon.border, 0, 'ribbon must not draw a solid border under the gradient');
+  assert.ok(ribbon.gradPad > 0, 'ribbon needs padding for the gradient to show');
+  const banner = frameMetrics('banner', 1, 'M', 'grotesk');
+  assert.ok(banner.border > 0);
+  assert.equal(banner.gradPad, 0);
+});
+
+test('the CTA colour resolves per bar kind when set to auto', () => {
+  // auto = white on a solid/pill bar, the frame colour on a bar sitting on paper
+  assert.equal(ctaInk('auto', '#6d4dff', true), '#ffffff');
+  assert.equal(ctaInk('auto', '#6d4dff', false), '#6d4dff');
+  assert.equal(ctaInk('#e11d48', '#6d4dff', true), '#e11d48', 'an explicit colour always wins');
+});
+
+test('frame "none" exports exactly the plain code', () => {
+  const m = getMatrix('https://qrcodeagent.net', 'Q');
+  const plain = buildSVG(m, 512, '#000000', '#ffffff', 'square', 'square', null, 'circle', false);
+  const framed = buildFramedSVG({
+    matrix: m, size: 512, fg: '#000000', bg: '#ffffff', dot: 'square', finder: 'square',
+    logoDataUrl: null, logoShape: 'circle', logoBorder: false, frame: 'none',
+  });
+  assert.equal(framed, plain, 'the no-frame path must not re-wrap the code');
+});
+
+test('a framed export is larger than the code and still contains all of it', () => {
+  const m = getMatrix('https://qrcodeagent.net', 'Q');
+  const opts = {
+    matrix: m, size: 512, fg: '#6d4dff', bg: '#ffffff', dot: 'square', finder: 'square',
+    logoDataUrl: null, logoShape: 'circle', logoBorder: false,
+    frameColor: '#6d4dff', frameText: 'SCAN ME', ctaColor: 'auto', ctaSize: 'M', frameFont: 'grotesk',
+  };
+  const plainShapes = (buildSVG(m, 512, '#6d4dff', '#ffffff', 'square', 'square', null, 'circle', false).match(/<rect/g) || []).length;
+  for (const frame of ['border', 'caption', 'banner', 'pill', 'thick', 'banner-top', 'label', 'ticket', 'ribbon']) {
+    const svg = buildFramedSVG({ ...opts, frame });
+    const [, w, h] = svg.match(/width="(\d+)" height="(\d+)"/);
+    assert.ok(+w > 512, `${frame}: framed width ${w} should exceed the 512px code`);
+    assert.ok(+h >= +w, `${frame}: a bar should make the frame at least as tall as it is wide`);
+    // every data module survives the re-hosting into the frame
+    assert.ok((svg.match(/<rect/g) || []).length > plainShapes, `${frame}: lost code shapes`);
+    assert.ok(svg.includes('translate('), `${frame}: the code must be offset into the frame`);
+  }
+});
+
+test('a frame with a caption slot carries the CTA text; a bare frame does not', () => {
+  const m = getMatrix('https://qrcodeagent.net', 'Q');
+  const opts = {
+    matrix: m, size: 512, fg: '#000000', bg: '#ffffff', dot: 'square', finder: 'square',
+    logoDataUrl: null, logoShape: 'circle', logoBorder: false,
+    frameColor: '#1c1c1c', frameText: 'ORDER HERE', ctaColor: 'auto', ctaSize: 'M', frameFont: 'grotesk',
+  };
+  assert.ok(buildFramedSVG({ ...opts, frame: 'banner' }).includes('>ORDER HERE<'));
+  assert.ok(!buildFramedSVG({ ...opts, frame: 'thick' }).includes('>ORDER HERE<'),
+    'a frame with no bar must not print the CTA anyway');
+});
+
+test('CTA text is escaped, not injected, into the exported SVG', () => {
+  const m = getMatrix('https://qrcodeagent.net', 'Q');
+  const svg = buildFramedSVG({
+    matrix: m, size: 512, fg: '#000000', bg: '#ffffff', dot: 'square', finder: 'square',
+    logoDataUrl: null, logoShape: 'circle', logoBorder: false, frame: 'banner',
+    frameColor: '#1c1c1c', frameText: '</text><script>x</script>', ctaColor: 'auto', ctaSize: 'M', frameFont: 'grotesk',
+  });
+  assert.ok(!svg.includes('<script>'), 'CTA text must not be able to inject markup into a downloaded file');
+  assert.ok(svg.includes('&lt;/text&gt;'));
+});
+
+test('CTA size steps scale the bar font monotonically', () => {
+  const sizes = ['XS', 'S', 'M', 'L', 'XL'];
+  const fonts = sizes.map((s) => frameMetrics('banner', 1, s, 'grotesk').bottom.font);
+  for (let i = 1; i < fonts.length; i++) {
+    assert.ok(fonts[i] > fonts[i - 1], `${sizes[i]} should be larger than ${sizes[i - 1]}`);
+  }
+});
+
+/* ---------------- PDF export ----------------
+   A PDF whose xref offsets are wrong still "downloads fine" and then fails to
+   open, or opens in one reader and not another. The offsets are the part a
+   hand-rolled writer gets wrong, so they are checked by actually resolving
+   them rather than by eyeballing the header. */
+
+const PAGE = { width: 40, height: 24 };
+const solidRGBA = (w, h, [r, g, b]) => {
+  const d = new Uint8Array(w * h * 4);
+  for (let i = 0; i < d.length; i += 4) { d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255; }
+  return d;
+};
+
+test('flattenToRGB drops alpha over the backdrop, not into black', () => {
+  // Fully transparent is what sits outside a frame's rounded corner.
+  const rgba = new Uint8Array([0, 0, 0, 0, 255, 0, 0, 255, 0, 0, 0, 128]);
+  const rgb = flattenToRGB(rgba);
+  assert.deepEqual([...rgb.slice(0, 3)], [255, 255, 255], 'transparent must flatten to the backdrop');
+  assert.deepEqual([...rgb.slice(3, 6)], [255, 0, 0], 'opaque must pass through untouched');
+  // alpha 128/255 over white == 255 - 128 == 127, exactly
+  assert.deepEqual([...rgb.slice(6, 9)], [127, 127, 127], 'half alpha blends');
+  assert.equal(rgb.length, 9, 'three samples per pixel, no alpha');
+});
+
+test('the PDF is well-formed and its xref offsets resolve', async () => {
+  const rgb = flattenToRGB(solidRGBA(PAGE.width, PAGE.height, [109, 77, 255]));
+  const pdf = await buildPDF({ rgb, ...PAGE });
+  const bytes = Buffer.from(pdf);
+  const ascii = bytes.toString('latin1');
+
+  assert.ok(ascii.startsWith('%PDF-1.4\n'), 'needs a version header');
+  assert.ok(ascii.trimEnd().endsWith('%%EOF'), 'needs the EOF marker');
+  assert.match(ascii, /\/Type \/Catalog/);
+  assert.match(ascii, /\/Type \/Page[^s]/);
+  assert.match(ascii, /\/Subtype \/Image/);
+
+  // startxref must point AT the xref table…
+  const startxref = +ascii.match(/startxref\n(\d+)/)[1];
+  assert.equal(ascii.slice(startxref, startxref + 4), 'xref', 'startxref does not point at the table');
+
+  // …and every entry in it must point at the object it claims.
+  const table = ascii.slice(startxref).match(/xref\n0 6\n([\s\S]{20})([\s\S]{20})([\s\S]{20})([\s\S]{20})([\s\S]{20})([\s\S]{20})/);
+  assert.ok(table, 'xref table is malformed');
+  for (let n = 1; n <= 5; n++) {
+    const at = +table[n + 1].slice(0, 10);
+    assert.equal(ascii.slice(at, at + `${n} 0 obj`.length), `${n} 0 obj`,
+      `xref entry ${n} points at byte ${at}, which is not object ${n}`);
+  }
+});
+
+test('the PDF page is the artwork at 300dpi, so it prints at a known size', async () => {
+  const rgb = flattenToRGB(solidRGBA(600, 300, [0, 0, 0]));
+  const pdf = await buildPDF({ rgb, width: 600, height: 300 });
+  const box = Buffer.from(pdf).toString('latin1').match(/\/MediaBox \[0 0 ([\d.]+) ([\d.]+)\]/);
+  assert.ok(box);
+  // 600px / 300dpi = 2in = 144pt
+  assert.equal(+box[1], 144);
+  assert.equal(+box[2], 72);
+  assert.match(Buffer.from(pdf).toString('latin1'), /q 144 0 0 72 0 0 cm \/Im0 Do Q/,
+    'the image must be scaled to fill the page');
+});
+
+test('image samples are deflated, and /Length matches the bytes actually written', async () => {
+  const rgb = flattenToRGB(solidRGBA(200, 200, [255, 255, 255]));
+  const pdf = await buildPDF({ rgb, width: 200, height: 200 });
+  const ascii = Buffer.from(pdf).toString('latin1');
+  assert.match(ascii, /\/Filter \/FlateDecode/, 'CompressionStream is available here, so it must be used');
+  assert.ok(pdf.length < rgb.length / 4, 'a flat image should compress hard');
+
+  // /Length must equal the real stream, or readers truncate the image.
+  const declared = +ascii.match(/\/Filter \/FlateDecode \/Length (\d+) >>/)[1];
+  const start = ascii.indexOf('stream\n', ascii.indexOf('4 0 obj')) + 'stream\n'.length;
+  const end = ascii.indexOf('\nendstream', start);
+  assert.equal(end - start, declared, '/Length disagrees with the bytes written');
+});
+
+/* The FONT select is a fixed 136px, sized to its longest option: "IBM Plex
+   Mono" is 13 characters AND, being monospace, the widest any label renders at
+   600 12px — 93.6px, against a 96px content box. A longer name would silently
+   ellipsis, because the control shows only the current choice and nothing else
+   would look wrong. Fail here instead, so whoever adds it re-measures. */
+test('no CTA font label can overflow the fixed-width FONT select', async () => {
+  const { readFileSync } = await import('node:fs');
+  const css = readFileSync(new URL('../src/styles/app.css', import.meta.url), 'utf8');
+  const rule = css.slice(css.indexOf('.gf-fontfield select {'));
+  const width = +rule.slice(0, rule.indexOf('}')).match(/width:\s*(\d+)px/)[1];
+  assert.equal(width, 136, 'the FONT select width changed — re-measure the widest label');
+
+  const longest = FONTS.reduce((a, f) => (f.label.length > a.label.length ? f : a));
+  assert.ok(longest.label.length <= 13,
+    `"${longest.label}" is ${longest.label.length} chars; 136px fits 13 monospace chars. `
+    + 'Widen .gf-fontfield select and update this test, or shorten the label.');
+});
+
+/* A solid bar is the frame colour and so is the border beneath it, so the two
+   read as one block and the type has to be centred in the block, not the bar.
+   The correction moves padding between top and bottom; it must never add any,
+   or the exported file stops matching the preview. */
+
+test('centring a solid bar redistributes padding without changing its height', () => {
+  for (const k of [1, 0.5, 0.22]) {
+    for (const key of ['banner', 'banner-top', 'ribbon']) {
+      const m = frameMetrics(key, k, 'XL', 'grotesk');
+      const bar = m.bottom || m.top;
+      assert.equal(bar.kind, 'solid');
+      assert.equal(bar.padTop + bar.padBottom, Math.round(11 * k) * 2,
+        `${key} @${k}: padding must only be redistributed, never added`);
+      assert.ok(bar.padTop >= 0 && bar.padBottom >= 0, `${key} @${k}: negative padding`);
+    }
+  }
+});
+
+test('a top bar is corrected in the opposite direction to a bottom bar', () => {
+  // banner and banner-top share bw/r/pad, so the only difference is which side
+  // the border sits on — the shift must flip by exactly that border.
+  const bottom = frameMetrics('banner', 1, 'XL', 'grotesk');
+  const top = frameMetrics('banner-top', 1, 'XL', 'grotesk');
+  const spread = bottom.bottom.padTop - top.top.padTop;
+  assert.ok(Math.abs(spread - bottom.border) <= 1,
+    `bottom and top bars should differ by the border (${bottom.border}px), got ${spread}px`);
+  assert.ok(top.top.padTop < top.top.padBottom,
+    'a top bar merges with the border ABOVE it, so its text moves up');
 });
