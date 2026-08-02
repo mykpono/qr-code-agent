@@ -193,7 +193,8 @@
     "creator": {
       "name": "Myk Pono",
       "linkedin": "https://www.linkedin.com/in/mykolaponomarenko",
-      "github": "https://github.com/mykpono/qr-code-agent"
+      "github": "https://github.com/mykpono/qr-code-agent",
+      "site": "https://lab.mykpono.com"
     },
     "save": {
       "phase1": {

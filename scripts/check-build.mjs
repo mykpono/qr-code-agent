@@ -90,6 +90,58 @@ for (const [url, html] of pages) {
 }
 check('all JSON-LD parses', badLd.length === 0, badLd.join(', '));
 
+// --- entity signals (Workstream B) -----------------------------------------
+// An unrelated Play Store app, "QRCodeAgent QR Scan & Generate", competes for
+// this brand name. Organization + sameAs on EVERY page in EVERY locale is what
+// lets Google and LLM crawlers tell the two apart, so a page that ships without
+// it is a page that cannot be disambiguated. These used to be opt-in per page
+// and only 2 of 47 pages opted in.
+const graphOf = (html) => {
+  for (const m of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)) {
+    let parsed;
+    try { parsed = JSON.parse(m[1]); } catch { continue; }
+    if (parsed['@graph']) return parsed['@graph'];
+  }
+  return [];
+};
+const noOrg = [];
+const weakOrg = [];
+const noWebsite = [];
+for (const [url, html] of pages) {
+  const graph = graphOf(html);
+  const org = graph.find((n) => n['@type'] === 'Organization');
+  if (!org) { noOrg.push(url); continue; }
+  if (!org.sameAs?.length || !org.logo?.url || !org.founder || org.name !== 'QR Code Agent') {
+    weakOrg.push(url);
+  }
+  if (!graph.some((n) => n['@type'] === 'WebSite')) noWebsite.push(url);
+}
+check('Organization schema on every page', noOrg.length === 0,
+  `${noOrg.length} missing: ${noOrg.slice(0, 5).join(', ')}`);
+check('Organization carries name, logo, founder and sameAs', weakOrg.length === 0,
+  `${weakOrg.length} incomplete: ${weakOrg.slice(0, 5).join(', ')}`);
+check('WebSite schema on every page', noWebsite.length === 0,
+  `${noWebsite.length} missing: ${noWebsite.slice(0, 5).join(', ')}`);
+
+// The logo URL is asserted in schema on every page; if the file is not actually
+// served, the Organization block is invalid for anything that fetches it. It
+// was referenced for months while the file did not exist.
+check('Organization logo asset is served', existsSync(join(DIST, 'assets', 'logo.png')),
+  'dist/assets/logo.png');
+
+// The one-word form is the COLLIDING app's name — exactly what a model would
+// conflate. Rendered text only; URLs and the repo slug legitimately contain it.
+const oneWord = [];
+for (const [url, html] of pages) {
+  const text = html
+    .replace(/<script[\s\S]*?<\/script>/g, '')
+    .replace(/<(?:a|link|meta|img|image)\b[^>]*>/gi, '')
+    .replace(/<[^>]+>/g, ' ');
+  if (/QRCodeAgent/i.test(text)) oneWord.push(url);
+}
+check('no one-word "QRCodeAgent" in page copy', oneWord.length === 0,
+  oneWord.slice(0, 5).join(', '));
+
 // --- generated files match the page set ------------------------------------
 const sitemap = readFileSync(join(DIST, 'sitemap.xml'), 'utf8');
 const smUrls = new Set([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)]

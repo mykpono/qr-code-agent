@@ -1,0 +1,50 @@
+{
+  "_doc": [
+    "Per-locale SEO head terms and the field overrides that target them.",
+    "",
+    "WHY THIS FILE EXISTS, SEPARATE FROM src/content/i18n/<locale>.json:",
+    "A translation bundle is REGENERATED wholesale by `npm run i18n:merge <loc>`.",
+    "Anything hand-tuned inside it is destroyed the next time a locale is",
+    "re-translated or a page is added. Head terms are not translations — they are",
+    "keyword decisions backed by Semrush data (SEO-BRIEF 8.2) — so they live here",
+    "and are applied AFTER the translation merge, where no merge run can clobber",
+    "them.",
+    "",
+    "`headTerms` is also the expectation the guard test reads: every money page",
+    "(home/feature/type archetypes) in a live locale must carry its locale's head",
+    "term in the title. That is what stops a new locale silently shipping titles",
+    "that render the ENGLISH page's intent instead of targeting native demand.",
+    "",
+    "Matching is accent- and hyphen-insensitive (see test/seo-head-terms.test.mjs).",
+    "German 'QR-Code-Generator' and Spanish 'códigos' therefore satisfy the terms",
+    "'qr code generator' and 'codigos' without anyone having to write incorrect",
+    "German or misspelled Spanish to chase a query string.",
+    "",
+    "Money pages only. Articles and industry hubs deliberately do NOT carry the",
+    "generator head term — they take question/comparison and vertical intent and",
+    "link down. See the cannibalization table in the article spec."
+  ],
+
+  "headTerms": {
+    "de": {
+      "term": "qr code generator",
+      "msv": 165000,
+      "note": "English form dominates. 'kostenlos' 9,900 owns the free modifier; 'qr-code erstellen' 1,600 carries verb intent and is served by the meta.",
+      "source": "SEO-BRIEF 8.2"
+    },
+    "es": {
+      "term": "generador de codigos qr",
+      "msv": 1600,
+      "note": "PLURAL beats singular (1,600 vs 1,300). The unaccented spelling in SEO-BRIEF 8.2 is a query-typing artifact, not a copy instruction — Google folds diacritics for Spanish, so titles keep correct 'códigos'. es DB; pull MX separately for LatAm.",
+      "source": "SEO-BRIEF 8.2"
+    }
+  },
+
+  "overrides": {
+    "es": {
+      "google-review-qr-code": {
+        "title": "Generador de códigos QR de reseñas de Google — gratis"
+      }
+    }
+  }
+}

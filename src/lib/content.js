@@ -1,5 +1,6 @@
 import data from '../content/pages.json';
 import UI_EN from '../content/ui.json';
+import SEO from '../content/seo-head-terms.json';
 
 export const SITE = data.site;
 export const PAGES = data.pages;
@@ -64,8 +65,22 @@ function mergeTranslation(en, tr) {
 // never translated and always come from the EN source of truth.
 export function localizedPage(page, locale = 'en') {
   if (locale === 'en') return page;
-  const t = TRANSLATIONS[locale]?.pages?.[page.slug || 'home'];
-  return t ? { ...mergeTranslation(page, t), locale } : { ...page, locale };
+  const slug = page.slug || 'home';
+  const t = TRANSLATIONS[locale]?.pages?.[slug];
+  const merged = t ? { ...mergeTranslation(page, t), locale } : { ...page, locale };
+
+  // SEO head-term overrides win over the translation, and are applied LAST.
+  //
+  // They live in src/content/seo-head-terms.json rather than inside the locale
+  // bundle because `npm run i18n:merge <loc>` rewrites that bundle wholesale —
+  // a head term hand-edited into it survives only until the next translation
+  // pass or the next page added. These are keyword decisions (SEO-BRIEF 8.2),
+  // not translations, so they outlive any re-translation.
+  //
+  // Shallow by design: an override names a specific scalar field (title, meta,
+  // h1). It is not a second translation layer and must not become one.
+  const over = SEO.overrides?.[locale]?.[slug];
+  return over ? { ...merged, ...over } : merged;
 }
 
 // UI chrome for a locale. English lives in src/content/ui.json; a locale bundle
@@ -109,22 +124,47 @@ export function schemaGraph(page, locale = 'en') {
   const canonical = urlFor(page.slug, locale);
   const want = new Set(page.schema || []);
   const graph = [];
-  if (want.has('Organization')) {
-    const sameAs = [SITE.creator?.github, SITE.creator?.linkedin].filter(Boolean);
-    graph.push({
-      '@type': 'Organization', '@id': `${BASE}/#organization`,
-      name: SITE.name, url: `${BASE}/`,
-      logo: { '@type': 'ImageObject', url: `${BASE}/assets/logo.png` },
-      ...(sameAs.length ? { sameAs } : {}),
-    });
-  }
-  if (want.has('WebSite')) {
-    graph.push({
-      '@type': 'WebSite', '@id': `${BASE}/#website`, url: `${BASE}/`,
-      name: SITE.name, publisher: { '@id': `${BASE}/#organization` },
-      inLanguage: Object.values(HREFLANG),
-    });
-  }
+
+  // Organization and WebSite are SITE-level entities and are emitted on every
+  // page in every locale, unconditionally — they are deliberately not gated on
+  // the page's `schema` list the way the page-level types below are.
+  //
+  // They used to be gated, and only 2 of 47 pages opted in. That left 45 pages
+  // asserting no publisher identity at all, which is the entity problem: an
+  // unrelated Play Store app called "QRCodeAgent" competes for the same name,
+  // and a page that never names its publisher gives Google and LLM crawlers
+  // nothing to disambiguate with. `sameAs` is what does the disambiguating, so
+  // it has to be on the pages that actually get cited, not just the home page.
+  //
+  // Consequence: listing "Organization"/"WebSite" in a page's `schema` array is
+  // now a no-op. Existing entries are left in place as documentation of intent.
+  const sameAs = [
+    SITE.creator?.github,
+    SITE.creator?.linkedin,
+    SITE.creator?.site,
+  ].filter(Boolean);
+  graph.push({
+    '@type': 'Organization', '@id': `${BASE}/#organization`,
+    name: SITE.name,
+    url: `${BASE}/`,
+    logo: { '@type': 'ImageObject', url: `${BASE}/assets/logo.png`, width: 512, height: 512 },
+    description: SITE.tagline,
+    ...(SITE.creator?.name
+      ? {
+        founder: {
+          '@type': 'Person',
+          name: SITE.creator.name,
+          ...(SITE.creator.linkedin ? { url: SITE.creator.linkedin } : {}),
+        },
+      }
+      : {}),
+    ...(sameAs.length ? { sameAs } : {}),
+  });
+  graph.push({
+    '@type': 'WebSite', '@id': `${BASE}/#website`, url: `${BASE}/`,
+    name: SITE.name, publisher: { '@id': `${BASE}/#organization` },
+    inLanguage: LIVE_LOCALES.map((loc) => HREFLANG[loc]),
+  });
   if (want.has('SoftwareApplication')) {
     graph.push({
       '@type': ['SoftwareApplication', 'WebApplication'],

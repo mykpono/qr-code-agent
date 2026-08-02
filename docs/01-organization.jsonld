@@ -10,8 +10,15 @@
     "width": 512,
     "height": 512
   },
+  "description": "Free QR codes with your logo — no sign-up, no expiry, generated in your browser.",
+  "founder": {
+    "@type": "Person",
+    "name": "Myk Pono",
+    "url": "https://www.linkedin.com/in/mykolaponomarenko"
+  },
   "sameAs": [
     "https://github.com/mykpono/qr-code-agent",
-    "https://www.linkedin.com/in/mykolaponomarenko"
+    "https://www.linkedin.com/in/mykolaponomarenko",
+    "https://lab.mykpono.com"
   ]
 }
