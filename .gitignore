@@ -36,6 +36,3 @@ playwright-report/
 *service-account*.json
 gsc-key*.json
 *.gcp-key.json
-
-# AXME Code knowledge base — local only, not shared via the repo.
-.axme-code/
