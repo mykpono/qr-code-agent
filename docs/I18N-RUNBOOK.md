@@ -132,14 +132,49 @@ outliers the test names; do not rewrite titles that already pass.
 
 ## Known gaps
 
-**The application chrome is not translated.** Page content is, but the generator
-widget (`DOT STYLE`, `LIVE PREVIEW`, `DOWNLOAD PNG`, `Network name (SSID)`), the
-header, trust pills and support/footer lines are hardcoded English in the
-components. `uiStrings()` in `lib/content.js` exists for this and is currently
-unused. Until it is wired, a locale renders translated copy inside an English UI.
+**UI chrome is translated.** *(rewritten 2026-08-02 — this gap used to claim the
+chrome was untranslated and `uiStrings()` unused. Both were false, and the three
+holes that did exist are now closed.)* `uiStrings(locale)` in `src/lib/content.js` is wired in
+`Header.astro`, `Footer.astro`, `Page.astro` and `Consent.astro`; English lives
+in `src/content/ui.json` and a locale overrides any subset under its `ui` key.
+The **generator widget is included**: `Page.astro:144` passes the merged strings
+down as `ui={t}`, and `Generator.jsx:314` reads `const t = ui || EN_UI` — its
+direct `ui.json` import is only the standalone fallback, not what the site
+renders. `test/ui-strings.test.mjs` fails CI on any new hardcoded label. The
+5-column-grid worry is handled too: `LIMITS` in `scripts/i18n-merge.mjs` caps
+`dot`/`finder`/`logoShape`/`logoBorder` at 10 chars, `ecc` at 12 and the tab
+chips at 14, and refuses to write the bundle if a translation overflows.
 
-Note the likely layout consequence: the dot/finder pickers are fixed 5-column
-grids sized for English labels.
+Three holes were found and closed on 2026-08-02. They are recorded here because
+the *shape* of each one will recur, not because they are still open:
+
+- **The 13 `field.ph.*` placeholders** — the example text inside the WiFi,
+  vCard, SMS/WhatsApp and email inputs — were the only English left in DE and
+  ES (345 of 358 keys translated). `Order enquiry`, `Table for two tonight?` and
+  `Hi! I'd like to order…` were rendering inside a German widget. Now
+  translated. Note the convention they follow: `field.phoneIntl` keeps the
+  canonical `+1 415 555 0123` in every locale, so `field.ph.phone` matches it
+  rather than using a local dialling format — one example number per locale.
+- **The `INDUSTRY` and `USECASE` preset card labels** were hardcoded English in
+  the `Generator.jsx` catalogues. They now carry a `key` that resolves against
+  `ui.json` `preset`; the English `name` stays the preset's identity, so `sel`
+  and the `template_selected` analytics event are unchanged in every locale.
+  `CREATIVE` and `SOCIAL` names stay English on purpose — they are proper names
+  of designs and brands. This one was invisible to `ui-strings.test.mjs` because
+  its `scannable()` strips all four catalogue constants before scanning, so
+  `test('every industry / use-case preset has a ui.json label')` now parses the
+  catalogues out of the source directly.
+- **Nothing checked EN → locale `ui` completeness**, which is *why* the first
+  hole survived. `i18n-merge.mjs` enforces the full shape, but only while
+  merging a fresh `.i18n-work/<locale>-ui-out.json`; the standing test only
+  checked the reverse direction, and `i18n-coverage.mjs` covers `pages.json`
+  only. So a key added to `ui.json` after a bundle landed fell back to English
+  silently and forever. `test('every locale bundle covers every English ui key')`
+  now fails CI on exactly that. A string that should *stay* English in a locale
+  must be declared there carrying the English text — silence is not a decision.
+
+Both new tests were confirmed to fail on real drift before being accepted, not
+just to pass on the fixed tree.
 
 **Keywords are only partly localized.** *(updated 2026-08-02 — this gap used to
 be total.)* Head terms for money pages are now declared per locale in

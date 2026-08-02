@@ -453,6 +453,11 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 .gf-fb .snap .box { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 4px; font: 700 9px var(--font-sans); background: #faf6ec; border: 1px solid #d9d0bb; color: transparent; }
 .gf-fb .snap[aria-checked="true"] .box { background: var(--brand-mark); border-color: var(--brand-mark); color: #fff; }
 .gf-fb .done { font: 500 12px var(--font-sans); color: #1b7f55; background: #eafaf1; border: 1px solid #c5ecd6; border-radius: 11px; padding: 11px 13px; }
+/* Same block as .done, in the warning ink the widget already uses for ⚠. */
+.gf-fb .fail { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font: 500 12px var(--font-sans); color: #8a5a12; background: #fdf5e6; border: 1px solid #ecdcb8; border-radius: 11px; padding: 11px 13px; }
+.gf-fb .fail button { margin-left: auto; padding: 7px 13px; border-radius: 10px; background: #fff; border: 1px solid #e6dfce; cursor: pointer; font: 600 11px var(--font-sans); color: #4a4030; }
+/* Honeypot: out of sight, out of the tab order, still fillable by a bot. */
+.gf-fb .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
 /* 9px scrollbars with a warm thumb, per the handoff. */
 .gf-strip::-webkit-scrollbar { width: 9px; height: 9px; }

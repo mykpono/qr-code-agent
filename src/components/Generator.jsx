@@ -6,6 +6,7 @@ import {
   frameMetrics, ctaInk, renderFramed, buildFramedSVG, buildPDF, flattenToRGB,
 } from '../lib/qr.js';
 import { STACK_BREAKPOINT } from '../lib/mobile.js';
+import { buildFeedbackPayload, sendFeedback } from '../lib/feedback.js';
 import EN_UI from '../content/ui.json';
 
 /*
@@ -27,6 +28,14 @@ function track(event, props = {}) {
   try { if (window.umami) window.umami.track(event, props); } catch {}
   try { if (window.gtag) window.gtag('event', event, props); } catch {}
 }
+
+/* The Apps Script relay's /exec URL (scripts/feedback-relay.gs). Inlined at
+   build time, so it is identical on the server and the first client render —
+   the feedback strip can key its existence off it without risking the hydration
+   mismatch that would throw away the whole island. Unset (local dev, or before
+   the URL is added in Vercel) means the strip does not render at all: a form
+   that silently drops what you typed is worse than no form. */
+const FEEDBACK_ENDPOINT = import.meta.env.PUBLIC_FEEDBACK_ENDPOINT || '';
 
 /* ---------------- decorative draws ---------------- */
 
@@ -137,30 +146,34 @@ const CREATIVE = [
   { name: 'Berry', fg: '#9d174d', bg: '#fdf2f8', dot: 'diamond', finder: 'leafAlt', seed: 15 },
   { name: 'Forest', fg: '#14532d', bg: '#f6faf4', dot: 'rounded', finder: 'square', seed: 16 },
 ];
+/* Industry and use-case labels are CATEGORY NOUNS, not proper names, so unlike
+   CREATIVE and SOCIAL they translate: `key` looks the card label up in
+   ui.json `preset`. `name` stays the identity — it is what `sel` compares and
+   what analytics records — so a locale never forks the selection state. */
 const INDUSTRY = [
-  { name: 'Restaurant', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 61 },
-  { name: 'Coffee shop', fg: '#6f4e37', bg: '#f3e9dd', dot: 'square', finder: 'leaf', seed: 63 },
-  { name: 'Hotel', fg: '#0e7490', bg: '#ecfeff', dot: 'dot', finder: 'circle', seed: 66 },
-  { name: 'Real estate', fg: '#14532d', bg: '#f6faf4', dot: 'rounded', finder: 'square', seed: 67 },
-  { name: 'Gym', fg: '#2563eb', bg: '#eef4ff', dot: 'dot', finder: 'bold', seed: 68 },
-  { name: 'Salon & spa', fg: '#9d174d', bg: '#fdf2f8', dot: 'rounded', finder: 'cushion', seed: 69 },
-  { name: 'Bar', fg: '#8b5cf6', bg: '#0b0b12', dot: 'star', finder: 'circle', seed: 62 },
-  { name: 'Small business', fg: '#111111', bg: '#f5f4f1', dot: 'star', finder: 'rounded', seed: 64 },
-  { name: 'Nonprofit', fg: '#2f7d32', bg: '#eff7ef', dot: 'rounded', finder: 'rounded', seed: 70 },
-  { name: 'Food truck', fg: '#ea580c', bg: '#fff3e2', dot: 'circle', finder: 'rounded', seed: 71 },
-  { name: 'Event', fg: '#8b5cf6', bg: '#0b0b12', dot: 'diamond', finder: 'circle', seed: 72 },
+  { key: 'restaurant', name: 'Restaurant', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 61 },
+  { key: 'coffeeShop', name: 'Coffee shop', fg: '#6f4e37', bg: '#f3e9dd', dot: 'square', finder: 'leaf', seed: 63 },
+  { key: 'hotel', name: 'Hotel', fg: '#0e7490', bg: '#ecfeff', dot: 'dot', finder: 'circle', seed: 66 },
+  { key: 'realEstate', name: 'Real estate', fg: '#14532d', bg: '#f6faf4', dot: 'rounded', finder: 'square', seed: 67 },
+  { key: 'gym', name: 'Gym', fg: '#2563eb', bg: '#eef4ff', dot: 'dot', finder: 'bold', seed: 68 },
+  { key: 'salonSpa', name: 'Salon & spa', fg: '#9d174d', bg: '#fdf2f8', dot: 'rounded', finder: 'cushion', seed: 69 },
+  { key: 'bar', name: 'Bar', fg: '#8b5cf6', bg: '#0b0b12', dot: 'star', finder: 'circle', seed: 62 },
+  { key: 'smallBusiness', name: 'Small business', fg: '#111111', bg: '#f5f4f1', dot: 'star', finder: 'rounded', seed: 64 },
+  { key: 'nonprofit', name: 'Nonprofit', fg: '#2f7d32', bg: '#eff7ef', dot: 'rounded', finder: 'rounded', seed: 70 },
+  { key: 'foodTruck', name: 'Food truck', fg: '#ea580c', bg: '#fff3e2', dot: 'circle', finder: 'rounded', seed: 71 },
+  { key: 'event', name: 'Event', fg: '#8b5cf6', bg: '#0b0b12', dot: 'diamond', finder: 'circle', seed: 72 },
 ];
 const USECASE = [
-  { name: 'Menu', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 81 },
-  { name: 'Promotion', fg: '#ea580c', bg: '#fff3e2', dot: 'dot', finder: 'cushion', seed: 82 },
-  { name: 'Business card', fg: '#1c1c1c', bg: '#ffffff', dot: 'rounded', finder: 'rounded', seed: 83 },
-  { name: 'Feedback', fg: '#0e7490', bg: '#ecfeff', dot: 'dot', finder: 'circle', seed: 85 },
-  { name: 'Flyer', fg: '#9d174d', bg: '#fdf2f8', dot: 'diamond', finder: 'leaf', seed: 86 },
-  { name: 'Guest WiFi', fg: '#0f8a6d', bg: '#eafaf0', dot: 'rounded', finder: 'dot', seed: 90 },
-  { name: 'Reviews', fg: '#2f7d32', bg: '#eff7ef', dot: 'rounded', finder: 'rounded', seed: 84 },
-  { name: 'Packaging', fg: '#6f4e37', bg: '#f3e9dd', dot: 'square', finder: 'leafAlt', seed: 87 },
-  { name: 'Table tent', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'square', seed: 88 },
-  { name: 'Social', fg: '#c1358a', bg: '#fdeef6', dot: 'circle', finder: 'dot', seed: 89 },
+  { key: 'menu', name: 'Menu', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'rounded', seed: 81 },
+  { key: 'promotion', name: 'Promotion', fg: '#ea580c', bg: '#fff3e2', dot: 'dot', finder: 'cushion', seed: 82 },
+  { key: 'businessCard', name: 'Business card', fg: '#1c1c1c', bg: '#ffffff', dot: 'rounded', finder: 'rounded', seed: 83 },
+  { key: 'feedback', name: 'Feedback', fg: '#0e7490', bg: '#ecfeff', dot: 'dot', finder: 'circle', seed: 85 },
+  { key: 'flyer', name: 'Flyer', fg: '#9d174d', bg: '#fdf2f8', dot: 'diamond', finder: 'leaf', seed: 86 },
+  { key: 'guestWifi', name: 'Guest WiFi', fg: '#0f8a6d', bg: '#eafaf0', dot: 'rounded', finder: 'dot', seed: 90 },
+  { key: 'reviews', name: 'Reviews', fg: '#2f7d32', bg: '#eff7ef', dot: 'rounded', finder: 'rounded', seed: 84 },
+  { key: 'packaging', name: 'Packaging', fg: '#6f4e37', bg: '#f3e9dd', dot: 'square', finder: 'leafAlt', seed: 87 },
+  { key: 'tableTent', name: 'Table tent', fg: '#9a3412', bg: '#fdf3ec', dot: 'square', finder: 'square', seed: 88 },
+  { key: 'social', name: 'Social', fg: '#c1358a', bg: '#fdeef6', dot: 'circle', finder: 'dot', seed: 89 },
 ];
 const NONE_CARD = { name: 'None', none: true, fg: BRAND, bg: '#ffffff', dot: 'square', finder: 'square', seed: 3 };
 
@@ -368,12 +381,16 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
   // the effect below corrects it. Drives where the feedback strip renders.
   const [stacked, setStacked] = useState(false);
 
+  // ask → form → (sending) → done | error. `error` keeps everything the user
+  // typed so "try again" resumes the same message.
   const [fbState, setFbState] = useState('ask');
   const [fbMood, setFbMood] = useState('');
   const [fbTopic, setFbTopic] = useState('');
   const [fbText, setFbText] = useState('');
   const [fbEmail, setFbEmail] = useState('');
   const [fbSnap, setFbSnap] = useState(true);
+  const [fbSending, setFbSending] = useState(false);
+  const fbTrap = useRef(null);
 
   /* Every design interaction routes through this. On the FIRST one the branded
      demo is dropped in the same state update, so the user never has to clear it
@@ -723,7 +740,34 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
      as the widget's last band once the columns stack (see `stacked`). It is one
      element either way, and all of its state lives up here, so moving it across
      the breakpoint keeps whatever the user had already typed. */
-  const feedbackStrip = (
+  /* The only thing on this strip that leaves the browser. Everything typed is
+     held until the relay confirms delivery, so a failed send lands on `error`
+     with the message intact instead of on the thank-you — which claims, in
+     writing, that it reached a person. */
+  async function submitFeedback() {
+    if (fbSending) return;
+    setFbSending(true);
+    const delivered = await sendFeedback(FEEDBACK_ENDPOINT, buildFeedbackPayload({
+      mood: fbMood,
+      topic: fbTopic,
+      text: fbText,
+      email: fbEmail,
+      snapshot: fbSnapshot,
+      attachSnapshot: fbSnap,
+      pageUrl: typeof window !== 'undefined' ? window.location.href : '',
+      locale: typeof document !== 'undefined' ? document.documentElement.lang : '',
+      botcheck: fbTrap.current ? fbTrap.current.value : '',
+    }));
+    setFbSending(false);
+    if (!delivered) { setFbState('error'); return; }
+    track('feedback_sent', { mood: fbMood || 'yes', topic: fbTopic || 'none' });
+    setFbState('done');
+    setFbText('');
+    setFbTopic('');
+    setFbEmail('');
+  }
+
+  const feedbackStrip = !FEEDBACK_ENDPOINT ? null : (
     <div className="gf-fb">
       {fbState === 'ask' && (
         <div className="ask">
@@ -752,9 +796,13 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
           <div className="send">
             <input value={fbEmail} onChange={(e) => setFbEmail(e.target.value)}
               placeholder={t.fb.emailPlaceholder} aria-label={t.fb.emailPlaceholder} />
-            <button type="button" disabled={!fbText.trim() && !fbTopic}
-              onClick={() => { setFbState('done'); setFbText(''); setFbTopic(''); }}>{t.fb.send}</button>
+            <button type="button" disabled={fbSending || (!fbText.trim() && !fbTopic)}
+              onClick={submitFeedback}>{fbSending ? t.fb.sending : t.fb.send}</button>
           </div>
+          {/* Honeypot — off-screen rather than display:none, which some bots skip.
+              Hidden from assistive tech and from the tab order, so nobody who is
+              actually using the form can reach it. */}
+          <input ref={fbTrap} className="hp" tabIndex={-1} autoComplete="off" aria-hidden="true" />
           {/* The payload itself is never attached — only the configuration. */}
           <button type="button" className="snap" role="checkbox" aria-checked={fbSnap} onClick={() => setFbSnap((v) => !v)}>
             <span className="box">{fbSnap ? '✓' : ''}</span>{t.fb.attach} {fbSnapshot}
@@ -762,6 +810,12 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
         </div>
       )}
       {fbState === 'done' && <div className="done">{t.fb.done}</div>}
+      {fbState === 'error' && (
+        <div className="fail" role="alert">
+          <span>{t.fb.failed}</span>
+          <button type="button" onClick={() => setFbState('form')}>{t.fb.retry}</button>
+        </div>
+      )}
     </div>
   );
 
@@ -839,16 +893,19 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                 {railPresets.map((p) => {
                   const isSocial = !!p.img;
                   const on = p.none ? (!social && !sel) : isSocial ? social === p.key : sel === p.name;
+                  // Industry/use-case cards carry a translatable label; Creative
+                  // and Social keep their proper names in every locale.
+                  const label = p.none ? t.a11y.none : (p.key && t.preset[p.key]) || p.name;
                   return (
                     <button key={p.key || p.name} type="button" className={`gf-card${on ? ' on' : ''}`}
-                      title={p.none ? t.a11y.clearTemplate : p.name} aria-label={p.none ? t.a11y.none : p.name}
+                      title={p.none ? t.a11y.clearTemplate : label} aria-label={label}
                       onClick={() => (p.none ? clearPreset() : isSocial ? pickSocial(p) : pickPreset(p))}>
                       <span className="thumbwrap">
                         <canvas aria-hidden="true" className="thumb" data-px="52" data-fg={p.fg} data-bg={p.bg}
                           data-dot={p.dot} data-finder={p.finder} data-seed={p.seed} />
                         {isSocial && <span className="cardicon"><img src={p.img} alt="" /></span>}
                       </span>
-                      <span className="cardname">{p.none ? t.a11y.none : p.name}</span>
+                      <span className="cardname">{label}</span>
                     </button>
                   );
                 })}
