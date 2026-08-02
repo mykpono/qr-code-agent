@@ -10,6 +10,14 @@ dist/
 # Only the finished bundle in src/content/i18n/ is committed.
 .i18n-work/
 
+# AXME knowledge base. The canonical store for this project is one level up, at
+# "QR Code Agent/.axme-code/", OUTSIDE this repo — so none of it is version
+# controlled. A session started with its cwd here (rather than at the project
+# root) creates a second, competing store at this path with its own D-001…
+# numbering, which silently shadows the real one. Ignore it so it can never be
+# committed, and move any entries it collects up to the parent.
+.axme-code/
+
 # OG font staging — woff2 decompressed to ttf for the rasterizer.
 .og-fonts/
 
@@ -28,3 +36,6 @@ playwright-report/
 *service-account*.json
 gsc-key*.json
 *.gcp-key.json
+
+# AXME Code knowledge base — local only, not shared via the repo.
+.axme-code/

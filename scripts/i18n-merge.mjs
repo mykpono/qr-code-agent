@@ -136,6 +136,10 @@ const LIMITS = {
   logoShape: { _all: 10 }, logoBorder: { _all: 10 },
   ecc: { L: 12, M: 12, Q: 12, H: 12 },
   tab: { social: 14, industry: 14, usecase: 14, themes: 14 },
+  // Looser than the rest: .cardname ellipsizes past ~60px and the full text
+  // stays in the title, so English itself already truncates ("Small business").
+  // The cap only stops a compound long enough to be pure ellipsis.
+  preset: { _all: 18 },
 };
 let ui = null;
 const uiPath = join('.i18n-work', `${locale}-ui-out.json`);

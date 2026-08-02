@@ -1,5 +1,5 @@
 {
-  "_comment": "English UI chrome — every user-visible string that is NOT page content. Page copy lives in pages.json; this is the frame around it. A locale overrides any subset of these under a `ui` key in src/content/i18n/<locale>.json; anything missing falls back to English (see uiStrings in lib/content.js). Template preset NAMES (Classic, Neon, Telegram…) are deliberately absent: they are proper names of designs, like paint-colour names, and stay English in every locale.",
+  "_comment": "English UI chrome — every user-visible string that is NOT page content. Page copy lives in pages.json; this is the frame around it. A locale overrides any subset of these under a `ui` key in src/content/i18n/<locale>.json; anything missing falls back to English (see uiStrings in lib/content.js). Creative-theme and Social preset names (Classic, Neon, Telegram…) are deliberately absent: they are proper names of designs and brands, like paint-colour names, and stay English in every locale. The `By industry` and `By use case` preset labels ARE here, under `preset` — those are category nouns (Restaurant, Business card), not proper names.",
   "header": {
     "tagline": "Free QR Code Generator",
     "support": "☕ Support"
@@ -244,6 +244,30 @@
     "themesTitle": "Creative themes",
     "all": "All"
   },
+  "preset": {
+    "_comment": "Card labels for the `By industry` and `By use case` preset catalogues in Generator.jsx, keyed by each preset's `key`. These are category nouns, so they translate. The Creative-theme and Social catalogues are deliberately absent — see the note at the top of this file. A preset's English `name` stays its identity (it is what `sel` compares and what analytics records); only the label a user reads comes from here. The card is 76px wide and .cardname ellipsizes past ~60px, so long labels truncate rather than break the strip — the full text stays in the title and aria-label.",
+    "restaurant": "Restaurant",
+    "coffeeShop": "Coffee shop",
+    "hotel": "Hotel",
+    "realEstate": "Real estate",
+    "gym": "Gym",
+    "salonSpa": "Salon & spa",
+    "bar": "Bar",
+    "smallBusiness": "Small business",
+    "nonprofit": "Nonprofit",
+    "foodTruck": "Food truck",
+    "event": "Event",
+    "menu": "Menu",
+    "promotion": "Promotion",
+    "businessCard": "Business card",
+    "feedback": "Feedback",
+    "flyer": "Flyer",
+    "guestWifi": "Guest WiFi",
+    "reviews": "Reviews",
+    "packaging": "Packaging",
+    "tableTent": "Table tent",
+    "social": "Social"
+  },
   "logoShape": {
     "circle": "CIRCLE",
     "square": "SQUARE"
@@ -474,6 +498,9 @@
     ],
     "emailPlaceholder": "Email (optional — only to follow up)",
     "send": "Send",
+    "sending": "Sending…",
+    "failed": "That did not send — the message is still here.",
+    "retry": "Try again",
     "attach": "Attach my settings —",
     "noContents": "(no link contents)",
     "done": "✓ Thanks — that went straight to the person who builds this."
