@@ -64,16 +64,16 @@ test('crossing the breakpoint live moves it, without losing what was typed', asy
 });
 
 /*
-  The columns stack at 1600px, but the compact PHONE treatment stays at 900px.
+  The columns stack at 1200px, but the compact PHONE treatment stays at 900px.
   Between the two there is a wide band that is stacked and full-size, and it
   exists because .genflag is capped at 1320px: side by side, the setup column is
   stuck around 650px at any screen width, and its swatch rows, template cards
   and frame tiles are squeezed. Collapsing both breakpoints into one number
   would drag phone padding onto a 1000px window.
 */
-const BETWEEN = { width: 1100, height: 1000 };
+const BETWEEN = { width: 1050, height: 1000 };
 
-test('between 900 and 1600 the columns stack at full size, not phone size', async ({ page }) => {
+test('between 900 and 1200 the columns stack at full size, not phone size', async ({ page }) => {
   await page.setViewportSize(BETWEEN);
   await page.goto('/', { waitUntil: 'networkidle' });
   await expect(page.locator('.genflag')).toBeVisible();

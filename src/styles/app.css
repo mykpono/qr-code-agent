@@ -567,12 +567,15 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
 .fbot .fgh:hover { color: var(--brand-500); }
 
 /* Where the two columns stop sitting side by side. Above this they are
-   `flex: 1 1 480px` each. The number matches .genflag's own 1600px cap on
-   purpose: below it the card is sized by the viewport rather than by its cap,
-   so the columns would be under ~750px and the swatch rows, template cards and
-   frame tiles start to squeeze — which is the thing stacking exists to avoid.
-   Tying the two together means the split only ever appears at a width where it
-   is worth having; move one and move the other.
+   `flex: 1 1 480px` each, giving roughly (viewport - 96) / 2 per column until
+   the card reaches its 1600px cap.
+
+   1200 is a measured floor. Nothing in the setup column clips as it narrows —
+   the swatch canvases are a fixed 22px, so the buttons just lose padding — but
+   the COLOURS row wraps from three slots to two at ~1100px. At 1200 the column
+   is ~551px and still holds three colour slots, four frame tiles a row and
+   39px corner swatches. Below that it reaches the cramped look stacking exists
+   to avoid.
 
    Stacking ONLY. The compact phone treatment — smaller padding, scrolling type
    tabs, reflowed swatch grids — stays at 900px below, because at 1000px there
@@ -581,7 +584,7 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
    Generator.jsx watches this same width (STACK_BREAKPOINT in lib/mobile.js) to
    move the feedback strip, since stacking is what puts the preview column
    first. A test keeps the two numbers in step. */
-@media (max-width: 1600px) {
+@media (max-width: 1200px) {
   /* nowrap is load-bearing: the desktop rule sets flex-wrap:wrap (that is what
      stacks the two columns), and `column` + `wrap` makes a MULTI-COLUMN wrap
      container, where align-items:stretch sizes items to the flex LINE rather
