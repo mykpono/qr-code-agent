@@ -123,11 +123,18 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 
    The preview column is literal #ffffff and its type is literal, by design:
    the surrounding chrome themes, the artboard does not. */
-.tool-wrap { margin-top: 26px; max-width: 1416px; padding: 0; }
+/* 1600 (the card's cap) + 2x48 of .tool-scroll padding. This is the real
+   constraint on the card's width — raising .genflag alone does nothing, which
+   is exactly why the card sat at 1320px while its own cap said 1320: the two
+   numbers happened to agree. Keep them in step. */
+.tool-wrap { margin-top: 26px; max-width: 1696px; padding: 0; }
 .tool-scroll { overflow-x: auto; padding: 4px 48px; }
 .support-line { text-align: center; font: 500 13px var(--font-sans); color: var(--muted); margin: 14px 0 0; }
 
-.genflag { width: 100%; max-width: 1320px; margin: 0 auto; background: var(--surface); color: var(--ink); border: 1px solid var(--border); border-radius: var(--radius-3xl); overflow: hidden; box-shadow: 0 40px 80px -40px rgba(60,40,80,.35); }
+/* Capped at 1600 so the two columns are worth splitting on a wide screen: at
+   1320 they were ~659px each however large the monitor, which is the width
+   the layout was stacked to escape. At 1600 they are ~790px. */
+.genflag { width: 100%; max-width: 1600px; margin: 0 auto; background: var(--surface); color: var(--ink); border: 1px solid var(--border); border-radius: var(--radius-3xl); overflow: hidden; box-shadow: 0 40px 80px -40px rgba(60,40,80,.35); }
 .genflag button { font-family: inherit; }
 .genflag input, .genflag textarea, .genflag select { font-family: var(--font-sans); }
 .genflag input:focus, .genflag textarea:focus, .genflag select:focus { border-color: var(--brand-mark) !important; box-shadow: 0 0 0 3px rgba(109,77,255,.16); }
