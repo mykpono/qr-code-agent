@@ -559,6 +559,35 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
 .fbot .fgh { display: inline-flex; align-items: center; color: var(--muted-2); line-height: 0; }
 .fbot .fgh:hover { color: var(--brand-500); }
 
+/* Where the two columns stop sitting side by side. Above this they are
+   `flex: 1 1 480px` each; by 1200px the setup column is down to ~640px and the
+   swatch rows, template cards and frame tiles are all squeezed, so the widget
+   reads better as a single column.
+
+   Stacking ONLY. The compact phone treatment — smaller padding, scrolling type
+   tabs, reflowed swatch grids — stays at 900px below, because at 1000px there
+   is plenty of room for the full-size controls once they have the width.
+
+   Generator.jsx watches this same width (STACK_BREAKPOINT in lib/mobile.js) to
+   move the feedback strip, since stacking is what puts the preview column
+   first. A test keeps the two numbers in step. */
+@media (max-width: 1200px) {
+  /* nowrap is load-bearing: the desktop rule sets flex-wrap:wrap (that is what
+     stacks the two columns), and `column` + `wrap` makes a MULTI-COLUMN wrap
+     container, where align-items:stretch sizes items to the flex LINE rather
+     than to the container. The preview column stretched to 3216px and the QR
+     vanished off-screen. */
+  .gf-body { display: flex; flex-direction: column; flex-wrap: nowrap; }
+  /* Preview first — the URL and the QR before the long style column. */
+  .gf-preview { order: -1; flex: 0 0 auto; }
+  .gf-setup { order: 0; border-top: 1px solid var(--border-soft); border-right: none; }
+  /* Rendered as a direct child of .gf-body (Generator.jsx `stacked`) so it lands
+     after the setup column instead of halfway up the widget. It keeps the
+     artboard white because every colour inside it is tuned for white — on the
+     Cream theme its chips are #faf6ec on a #faf6ec surface, i.e. invisible. */
+  .gf-body > .gf-fb { order: 1; margin-top: 0; padding: 18px 26px; background: #ffffff; border-top: 1px solid var(--border-soft); }
+}
+
 @media (max-width: 900px) {
   .wrap { padding: 0 16px; }
   .hero { padding: 28px 0 4px; }
@@ -580,17 +609,12 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
   .gf-encode { flex-wrap: wrap; }
   .gf-labelrow { flex-wrap: wrap; }
 
-  /* Preview first on mobile — URL + QR before the long style column.
-     nowrap is load-bearing: the desktop rule sets flex-wrap:wrap (that is what
-     stacks the two columns), and `column` + `wrap` makes a MULTI-COLUMN wrap
-     container, where align-items:stretch sizes items to the flex LINE rather
-     than to the container. The preview column stretched to 3216px and the QR
-     vanished off-screen. */
-  .gf-body { display: flex; flex-direction: column; flex-wrap: nowrap; }
-  .gf-preview { order: -1; flex: 0 0 auto; padding-top: 16px; padding-bottom: 12px; }
+  /* The columns already stacked at 1200px; these are the phone-sized paddings
+     that layer on top of that. */
+  .gf-preview { padding-top: 16px; padding-bottom: 12px; }
   .gf-stage { flex: 0 0 auto; padding: 12px 0; }
   .gf-chips { margin-top: 12px; }
-  .gf-setup { order: 0; border-top: 1px solid var(--border-soft); border-right: none; padding-top: 16px; padding-bottom: 16px; gap: 20px; }
+  .gf-setup { padding-top: 16px; padding-bottom: 16px; gap: 20px; }
 
   .gf-top { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 16px; padding-bottom: 16px; }
   .gf-brand i { display: none; }
@@ -607,12 +631,8 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
   .gf-dl { margin-top: 12px; flex-direction: column; align-items: stretch; }
   .gf-dl button { width: 100%; text-align: center; }
 
-  /* Stacked layout: the feedback strip is rendered as a direct child of
-     .gf-body (Generator.jsx `stacked`) so it lands after the setup column
-     instead of halfway up the widget. It keeps the artboard white because
-     every colour inside it is tuned for white — on the Cream theme its chips
-     are #faf6ec on a #faf6ec surface, i.e. invisible. */
-  .gf-body > .gf-fb { order: 1; margin-top: 0; padding: 16px; background: #ffffff; border-top: 1px solid var(--border-soft); }
+  /* Same hoisted strip as at 1200px, at phone padding. */
+  .gf-body > .gf-fb { padding: 16px; }
 
   .gf-support-footer { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 12px; text-align: center; padding-top: 16px; padding-bottom: 16px; }
   .gf-support-footer p { flex: 0 0 auto; }

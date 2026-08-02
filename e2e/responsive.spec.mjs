@@ -60,3 +60,44 @@ test('crossing the breakpoint live moves it, without losing what was typed', asy
   await expect.poll(() => parentClass(page)).toContain('gf-preview');
   await expect(page.locator('.gf-fb textarea')).toHaveValue('the corner had a white line');
 });
+
+/*
+  The columns stack at 1200px, but the compact PHONE treatment stays at 900px.
+  Between the two there is a band that is stacked and full-size, and it exists
+  because at 1200px the side-by-side setup column is only ~640px — its swatch
+  rows, template cards and frame tiles are all squeezed. Collapsing both
+  breakpoints into one number would drag phone padding onto a 1000px window.
+*/
+const BETWEEN = { width: 1100, height: 1000 };
+
+test('between 900 and 1200 the columns stack at full size, not phone size', async ({ page }) => {
+  await page.setViewportSize(BETWEEN);
+  await page.goto('/', { waitUntil: 'networkidle' });
+  await expect(page.locator('.genflag')).toBeVisible();
+
+  const setup = await page.locator('.gf-setup').boundingBox();
+  const preview = await page.locator('.gf-preview').boundingBox();
+  expect(Math.abs(setup.y - preview.y), 'the columns must be stacked here').toBeGreaterThan(5);
+  expect(preview.y, 'the preview column comes first once stacked').toBeLessThan(setup.y);
+  expect(await parentClass(page)).toBe('gf-body');
+
+  // …but still at desktop padding, NOT the 16px phone padding.
+  const padX = await page.locator('.gf-setup').evaluate((el) => getComputedStyle(el).paddingLeft);
+  expect(padX, 'phone padding must not reach a 1100px window').toBe('26px');
+
+  // and the type tabs still wrap rather than turning into a scroller
+  const wrap = await page.locator('.gf-types').evaluate((el) => getComputedStyle(el).flexWrap);
+  expect(wrap).toBe('wrap');
+});
+
+test('the frame tiles stop being squeezed once the columns stack', async ({ page }) => {
+  // The squeeze that prompted this: at 1400px the tiles are ~112px in a 644px
+  // column. Stacked, the same tiles get the full width.
+  await page.setViewportSize({ width: 1400, height: 1000 });
+  await page.goto('/', { waitUntil: 'networkidle' });
+  const narrow = await page.locator('.gf-setup').evaluate((el) => el.getBoundingClientRect().width);
+
+  await page.setViewportSize(BETWEEN);
+  await expect.poll(() => page.locator('.gf-setup').evaluate((el) => el.getBoundingClientRect().width))
+    .toBeGreaterThan(narrow);
+});

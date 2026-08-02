@@ -3,10 +3,26 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { MOBILE_BREAKPOINT, STACK_BREAKPOINT } from './mobile.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const css = readFileSync(join(root, 'src/styles/app.css'), 'utf8');
 const header = readFileSync(join(root, 'src/components/Header.astro'), 'utf8');
+const generator = readFileSync(join(root, 'src/components/Generator.jsx'), 'utf8');
+
+/* The columns stack via a CSS media query, but the feedback strip is re-parented
+   by JS watching matchMedia. If the two widths ever disagree there is a band
+   where the columns are stacked and the strip is still inside the preview
+   column — stranded halfway up the widget — or the reverse, where it is hoisted
+   out while the columns are still side by side and it wedges between them. */
+test('the CSS stacking breakpoint matches the one Generator.jsx watches', () => {
+  assert.ok(css.includes(`@media (max-width: ${STACK_BREAKPOINT}px)`),
+    `app.css must stack the columns at ${STACK_BREAKPOINT}px`);
+  assert.ok(generator.includes('max-width: ${STACK_BREAKPOINT}px'),
+    'Generator.jsx must watch STACK_BREAKPOINT, not a hard-coded width');
+  assert.ok(STACK_BREAKPOINT > MOBILE_BREAKPOINT,
+    'the columns stack before the phone treatment kicks in, not after');
+});
 
 test('app.css includes mobile quick-win rules', () => {
   assert.ok(css.includes('.tool-scroll { padding: 0; overflow-x: visible; }'));

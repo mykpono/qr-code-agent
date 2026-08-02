@@ -5,7 +5,7 @@ import {
   PATTERN_KEYS, CORNER_KEYS, FRAMES, frameDef, FONTS, fontDef,
   frameMetrics, ctaInk, renderFramed, buildFramedSVG, buildPDF, flattenToRGB,
 } from '../lib/qr.js';
-import { MOBILE_BREAKPOINT } from '../lib/mobile.js';
+import { STACK_BREAKPOINT } from '../lib/mobile.js';
 import EN_UI from '../content/ui.json';
 
 /*
@@ -543,7 +543,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
   // FIRST, which would leave the feedback strip stranded in the middle of the
   // widget, so it moves to the end instead.
   useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    const mq = window.matchMedia(`(max-width: ${STACK_BREAKPOINT}px)`);
     const sync = () => setStacked(mq.matches);
     sync();
     mq.addEventListener('change', sync);
