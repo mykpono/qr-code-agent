@@ -25,6 +25,13 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+        env:
+          # The feedback strip only renders when an endpoint is configured, and
+          # e2e/responsive.spec.mjs asserts where it lives across breakpoints —
+          # without this the whole strip is absent and those specs time out
+          # waiting for .gf-fb. A placeholder is enough: the specs read layout
+          # and never submit, so nothing is ever posted to it.
+          PUBLIC_FEEDBACK_ENDPOINT: https://example.invalid/exec
       - name: Verify built output
         run: node scripts/check-build.mjs
       - name: Install Playwright browser
