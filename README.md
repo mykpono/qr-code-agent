@@ -1,40 +1,72 @@
-# QR Code Agent — Astro app
+# QR Code Agent
 
-Production build of qrcodeagent.net: a free, no-sign-up QR generator + its programmatic
-11-language SEO site. Astro (static output) + React islands, deployed on Vercel.
+**A free QR code generator with logo support — no sign-up, no watermark, no expiry.**
 
-This scaffold implements **Phase 0–2** of `IMPLEMENTATION-PLAN.md`:
-- Astro app with 11-locale i18n config, design tokens, and the full `<head>` (title/meta/canonical/hreflang/OG + JSON-LD + Umami/GA4).
-- The **real generator** ported into a React island (`src/components/Generator.jsx`) — the actual `qrcode-generator` encoder, styled dots/finders, logo overlay, PNG/SVG export, ECC retry. **Not** the mock `qr-preview.js`. Verified to produce scannable codes.
-- The **13 validated Phase-1 English pages** rendered as unique static HTML (one file per route — the old SPA duplicate-HTML blocker is gone).
+### → [qrcodeagent.net](https://qrcodeagent.net)
 
-## Run locally
+Every code is generated **entirely in your browser**. Nothing you type is uploaded, no
+account is created, and no scans are tracked. Download a PNG for screens or a true-vector
+SVG for print.
+
+## What it makes
+
+URL · WiFi · vCard contact · WhatsApp · restaurant menu · PDF · Google review · Instagram ·
+Facebook · YouTube · Spotify · app download · event · phone · SMS · plain text · Bitcoin
+
+Style the dots and finder patterns, set your own colours, and drop a logo in the middle —
+with error correction raised automatically so the code still scans.
+
+## Honest limitations
+
+- **The codes are static.** The destination is encoded into the pattern itself, so it
+  cannot be edited after you download it — and it also cannot stop working when some
+  service shuts down or starts charging. That is the trade.
+- **No scan analytics**, for the same reason. Tracking would require routing every scan
+  through a server, which is exactly what this tool avoids.
+- A logo in an SVG export stays raster (you supply a PNG); the QR pattern itself is
+  true vector.
+
+If you need editable destinations or scan counts, you need a *dynamic* QR product — this
+is not one, and [`/learn/static-vs-dynamic-qr-codes`](https://qrcodeagent.net/learn/static-vs-dynamic-qr-codes)
+explains the difference.
+
+---
+
+## For developers
+
+Astro (static output) + React islands, deployed on Vercel. The site is 47 pages rendered
+as unique static HTML, currently live in **3 of 11 declared locales** (en, de, es) for 141
+URLs. Encoding uses [`qrcode-generator`](https://www.npmjs.com/package/qrcode-generator).
+
 ```bash
 npm install
 npm run dev        # http://localhost:4321
-npm run build      # → dist/ (static) + dist/sitemap.xml
-npm run preview
+npm run verify     # tests + build + dist checks — run before every push
+npm run test:e2e   # Playwright: boots dist/ and proves the generator hydrates
 ```
 
-## Structure
-- `src/content/pages.json` — content source of truth (site config + 13 pages). Add pages here.
-- `src/lib/content.js` — loads pages, builds hreflang alternates + JSON-LD graph.
-- `src/layouts/Base.astro` — `<head>` (SEO + schema + analytics).
-- `src/components/` — `Header`, `Footer`, `Page` (composes blocks in the fixed SEO order), `Generator.jsx` (island).
-- `src/pages/[...slug].astro` — static route (one HTML per page).
-- `src/styles/` — the design system tokens (`styles.css` + `tokens/*`) + `app.css`.
-- `scripts/gen-sitemap.mjs` — emits an EN-only sitemap of built pages (full 528-URL sitemap ships with locales).
+### Layout
 
-## Deploy (GitHub → Vercel)
-1. Push this folder to the repo.
-2. Import the repo in Vercel — it auto-detects Astro (static). Prod on `main`, preview per PR.
-3. Set env vars (see `.env.example`): `PUBLIC_UMAMI_WEBSITE_ID`, `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_STRIPE_SUPPORT_URL`.
-4. Point the domain at the deployment; **retire the old `vercel.json` SPA rewrite**.
-5. Verify in Google Search Console; submit `sitemap.xml`.
+| Path | What it is |
+|---|---|
+| `src/content/pages.json` | Content source of truth — site config + all 47 pages |
+| `src/content/i18n/<loc>.json` | Per-locale translation bundles (a locale goes live by existing) |
+| `src/lib/qr.js` | Pure QR logic — encoder, styling, SVG export. Testable, never forked into the component |
+| `src/lib/content.js` | hreflang alternates, JSON-LD graph, `LIVE_LOCALES` |
+| `src/components/Generator.jsx` | The widget (React island) |
+| `src/pages/[...slug].astro` | One static route per page |
+| `scripts/check-build.mjs` | Post-build verification of `dist/` |
 
-## What's next (see IMPLEMENTATION-PLAN.md)
-- Self-host the two fonts (currently Google Fonts `@import` in `tokens/fonts.css`) — CWV win.
-- Templates rail (16 presets) + saved-designs drawer UI (Save logic already writes to localStorage).
-- Industry + learn archetypes; remaining EN pages.
-- Consent banner gating GA4 on EU locales; then localize (DE → ID → PT-BR → …).
-- Styled QR + logo reduce scan margin — keep the Q/H default; consider widening the quiet zone before launch.
+### Two rules that have bitten before
+
+1. **After changing `Generator.jsx` or `lib/qr.js`, load a page in a real browser.** A
+   green build and a green unit suite once shipped a hydration crash that took the
+   generator off every page — Astro never evaluates the island at build time.
+2. **Never merge a partial locale bundle.** Missing slugs silently serve English content
+   under a locale prefix while hreflang claims otherwise. `npm run i18n:merge` enforces
+   this; do not bypass it.
+
+More detail in `CLAUDE.md` (golden rules), `NEXT-PHASES.md` (engineering state) and
+`docs/`.
+
+Created by [Myk Pono](https://www.linkedin.com/in/mykolaponomarenko).

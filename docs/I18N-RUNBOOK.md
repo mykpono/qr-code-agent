@@ -89,6 +89,45 @@ pass can fill in fields an earlier pass missed.
 Expect `46 × (locales) = N pages`. Then spot-check rendered pages for English
 leakage — grep the built HTML for common English function words.
 
+### Step 6 — declare the locale's head term (required; CI enforces it)
+
+A translated bundle renders the *English page's* intent. Targeting the market's
+actual demand is a separate, deliberate step, and `npm test` fails until it is
+done: every live locale must declare its head term in
+**`src/content/seo-head-terms.json`**, and every money page (`home`, `feature`,
+`type`) must carry that term in its title.
+
+```jsonc
+"headTerms": {
+  "it": { "term": "crea qr code", "msv": 8100,
+          "note": "verb ≫ noun (generatore di qr code, 1,300)",
+          "source": "SEO-BRIEF 8.2" }
+},
+"overrides": {
+  "it": { "home": { "title": "Crea QR code gratis con logo — senza registrazione" } }
+}
+```
+
+Take the term from `SEO-BRIEF.md` §8.2 — it is Semrush-validated per locale. Do
+**not** translate the English keyword; several markets search the English form
+(ID, JA, DE, PT-BR) and two want a **verb** rather than a noun (IT `crea`, UK
+`створити`), which no translation of "generator" will ever produce.
+
+Overrides live outside the locale bundle **on purpose**: `i18n:merge` rewrites
+that bundle wholesale, so a head term edited into it survives only until the
+next translation pass. They are applied after the merge in `localizedPage()`.
+
+Matching is accent- and hyphen-insensitive, so correct orthography always wins:
+German `QR-Code-Generator` satisfies `qr code generator`, and Spanish `códigos`
+satisfies `codigos`. **Never write incorrect German or misspelled Spanish to
+match a query string** — Google folds diacritics and tokenizes on hyphens, so
+there is nothing to gain and a credibility cost to pay.
+
+Most titles pass without an override, because the English source title is itself
+head-term-shaped. When DE and ES were audited (2026-08-02) their money pages
+scored 21/21 and 20/21 — only one page needed a fix. Add an override for the
+outliers the test names; do not rewrite titles that already pass.
+
 ---
 
 ## Known gaps
@@ -102,10 +141,14 @@ unused. Until it is wired, a locale renders translated copy inside an English UI
 Note the likely layout consequence: the dot/finder pickers are fixed 5-column
 grids sized for English labels.
 
-**Keywords are not localized.** Translations render the English page's intent;
-they are not targeted at researched keywords in the target language. `primary`,
-`secondaries`, `msv` and `kd` in `pages.json` are English-market figures and are
-deliberately not translated. Real per-locale keyword research is a separate job.
+**Keywords are only partly localized.** *(updated 2026-08-02 — this gap used to
+be total.)* Head terms for money pages are now declared per locale in
+`src/content/seo-head-terms.json` and enforced by `test/seo-head-terms.test.mjs`
+(Step 6). What is still **not** localized: `primary`, `secondaries`, `msv` and
+`kd` in `pages.json` remain English-market figures, article and industry-page
+targeting is untouched, and **per-locale KD was never pulled at all** — SEO-BRIEF
+§8.2 is demand volume only. A high-MSV market with brutal KD can still be a worse
+bet than a small one; confirm KD before committing to a market.
 
 **Machine translation needs human review before it ships.** Google's
 scaled-content-abuse policy explicitly names automated translation published
