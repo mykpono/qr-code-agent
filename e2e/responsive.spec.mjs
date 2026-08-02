@@ -15,7 +15,9 @@ import { test, expect } from '@playwright/test';
   really resized proves it works, which is why this lives here.
 */
 
-const DESKTOP = { width: 1500, height: 1000 };
+// Above BOTH the stacking breakpoint and the card's cap, so the card is at its
+// full 1600 and the columns are ~799px — the only state side-by-side now has.
+const DESKTOP = { width: 1700, height: 1000 };
 const MOBILE = { width: 390, height: 844 };
 
 const parentClass = (page) => page.locator('.gf-fb').evaluate((el) => el.parentElement.className);
@@ -62,7 +64,7 @@ test('crossing the breakpoint live moves it, without losing what was typed', asy
 });
 
 /*
-  The columns stack at 1400px, but the compact PHONE treatment stays at 900px.
+  The columns stack at 1600px, but the compact PHONE treatment stays at 900px.
   Between the two there is a wide band that is stacked and full-size, and it
   exists because .genflag is capped at 1320px: side by side, the setup column is
   stuck around 650px at any screen width, and its swatch rows, template cards
@@ -71,7 +73,7 @@ test('crossing the breakpoint live moves it, without losing what was typed', asy
 */
 const BETWEEN = { width: 1100, height: 1000 };
 
-test('between 900 and 1400 the columns stack at full size, not phone size', async ({ page }) => {
+test('between 900 and 1600 the columns stack at full size, not phone size', async ({ page }) => {
   await page.setViewportSize(BETWEEN);
   await page.goto('/', { waitUntil: 'networkidle' });
   await expect(page.locator('.genflag')).toBeVisible();
@@ -94,7 +96,7 @@ test('between 900 and 1400 the columns stack at full size, not phone size', asyn
 test('the frame tiles stop being squeezed once the columns stack', async ({ page }) => {
   // The squeeze that prompted this: side by side the tiles are ~112px in a
   // ~650px column. Stacked, the same tiles get the full width.
-  await page.setViewportSize({ width: 1500, height: 1000 });
+  await page.setViewportSize({ width: 1700, height: 1000 });
   await page.goto('/', { waitUntil: 'networkidle' });
   const narrow = await page.locator('.gf-setup').evaluate((el) => el.getBoundingClientRect().width);
 
