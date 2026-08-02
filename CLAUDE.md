@@ -165,3 +165,10 @@ and how it was verified.
 in a browser and confirm the generator renders with no console errors.** A
 refactor that passed the build and all 58 tests once took the generator off every
 page of the live site — nothing in CI boots the app. See NEXT-PHASES.md.
+
+**If that change altered how the widget LOOKS, also run `npm run build && npm run og`
+and commit `public/assets/og.png`.** That file is the link-preview card every page
+and every locale advertises, and it is a Chromium screenshot of the real widget —
+Vercel has no browser, so it cannot regenerate itself. Skip this and the site keeps
+unfurling a picture of the widget you just replaced, which is exactly what happened
+across the #15 and #20 redesigns. No test can catch it; only this line can.
