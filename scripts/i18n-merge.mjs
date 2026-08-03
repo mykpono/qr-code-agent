@@ -131,8 +131,17 @@ console.log('\n✅ all checks passed');
 // `ecc.L/M/Q/H` are grid cells but `ecc.recovery`/`bestWithLogo` are part of a
 // full-width caption; `tab.social` is a chip but `tab.themesTitle` is a rail
 // heading. A group-wide limit flagged those false positives on the first run.
+//
+// `dot`/`finder` were capped at 10 for a 5-column picker "sized for English".
+// That picker is gone: the 2026-08 rebuild made the swatches canvas-only
+// (.gf-sw holds a 22px <canvas> and nothing else), so those labels now surface
+// only as title/aria-label — no width limit at all — plus the one-line style
+// summary. The old cap outlived its control and had gone stale enough to reject
+// the ENGLISH source ("Dot in square" is 13), which would have failed the next
+// merge for no reason. Their real constraint is SUMMARY_BUDGET below; the
+// per-key numbers here now only catch a single absurd value.
 const LIMITS = {
-  dot: { _all: 10 }, finder: { _all: 10 },
+  dot: { _all: 10 }, finder: { _all: 18 },
   logoShape: { _all: 10 }, logoBorder: { _all: 10 },
   ecc: { L: 12, M: 12, Q: 12, H: 12 },
   tab: { social: 14, industry: 14, usecase: 14, themes: 14 },
@@ -173,6 +182,30 @@ if (existsSync(uiPath)) {
       }
     }
   }
+
+  // What actually constrains dot/finder now: they share the one-line style
+  // summary, `${t.dot[dot]} · ${t.finder[finder]} · ECC ${ecc}`, rendered in
+  // .gf-secsum beside the section title. Neither label is capped on its own —
+  // the PAIR is, because the longest dot can meet the longest finder.
+  //
+  // 24 is measured, not guessed: at 390px (the narrowest layout) the Spanish
+  // header "Estilo del código" — the longest section title, so the least room —
+  // takes a dot+finder pair of 24 on one line and wraps at 25. Re-measure before
+  // raising this; the failure it prevents is a wrapped, ragged section header.
+  const SUMMARY_BUDGET = 24;
+  const longest = (g) => Object.entries(ui[g] || {})
+    .filter(([k, v]) => !k.startsWith('_') && typeof v === 'string')
+    .reduce((a, [k, v]) => (v.length > a.len ? { len: v.length, k, v } : a), { len: 0, k: '', v: '' });
+  const wDot = longest('dot');
+  const wFinder = longest('finder');
+  if (wDot.len + wFinder.len > SUMMARY_BUDGET) {
+    uiErrors.push(
+      `ui.dot + ui.finder is ${wDot.len + wFinder.len} chars at worst (max ${SUMMARY_BUDGET}) — `
+      + `"${wDot.v}" (dot.${wDot.k}) meeting "${wFinder.v}" (finder.${wFinder.k}) wraps the style-summary line. `
+      + `Shorten one of them.`,
+    );
+  }
+
   if (uiErrors.length) {
     console.log(`\n${uiErrors.length} UI ERROR(s) — nothing written:`);
     uiErrors.slice(0, 20).forEach((e) => console.log('  ❌ ' + e));
