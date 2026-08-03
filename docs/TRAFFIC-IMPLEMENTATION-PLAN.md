@@ -95,10 +95,18 @@ complete.**
       no consent banner (`Base.astro` gates the banner on the GA id existing). Umami is cookieless,
       so there is nothing to consent to. Recorded in `NEXT-PHASES.md` §2.1 and as an AXME decision.
       **Do not "fix" the missing banner** — its absence is the decision, not a bug.
-- [ ] **A4** `[MYK]` · 45 min · Google Search Console: verify the property, submit
-      `https://qrcodeagent.net/sitemap.xml`, and read **Pages → Indexing**. Record: how many of the
-      141 URLs are indexed vs. discovered-not-indexed. **This number is the input to the Week-9
-      gate.**
+- [ ] **A4** `[MYK]` · ~20 min · Google Search Console: verify the property, submit
+      `sitemap.xml`, and read **Pages → Indexing**. Record indexed vs. discovered-not-indexed for
+      the **150** URLs (was 141 — E1–E3 added nine). **This number is the input to the Week-9 gate.**
+      **Prepared 2026-08-03 → `docs/GSC-SETUP.md`.** Needs a Google sign-in, so the account steps
+      stay yours; the estimate drops because everything else is done.
+      **Pre-flight passed on all 150 URLs** — 200s, zero `noindex`, canonicals all self-referencing,
+      hreflang complete *and reciprocal*, no dangling alternates, sitemap well-formed (A5).
+      **So a low number will not mean a bug on the site** — it will mean authority, which is the
+      distinction the Week-9 gate turns on.
+      **One trap flagged there:** create a **Domain** property, not URL-prefix — and if you do,
+      `gsc-submit.mjs` (A7) needs `GSC_SITE_URL="sc-domain:qrcodeagent.net"`, because its default is
+      the URL-prefix form and will otherwise 404.
 - [x] **A5** `[AGENT]` · **RESOLVED 2026-08-03 — there is no bug. GSC not required.** The question
       was answerable directly and did not need Search Console at all. `sitemap.xml` serves
       **HTTP 200, `content-type: application/xml`, 88,360 bytes, uncompressed** — the first bytes
@@ -371,19 +379,34 @@ before §3 is done** or you'll spend your one launch spike unmeasured.
       this row: **ToolFinder is $29**, not free (`toolfinder.co` → `toolfinder.com`), and
       **SaaSHub deprioritises submissions that name no listed competitors** — the pack supplies
       them. Recommendation recorded there: do the two free ones, skip ToolFinder for now.
-- [ ] **D2** `[MYK]` · 4 hrs · **Product Hunt + Show HN**, same week. Lead with the **privacy
-      claim** ("nothing is uploaded, no scans tracked, works offline"), not "free QR generator" —
-      the latter reads as spam on HN. Block the full day for comments; the comment thread is where
-      the mentions come from. ~~**Requires §3 complete**~~ → **the analytics half of that gate is
-      now met** (A1–A3 done 2026-08-03), so a launch spike *will* be measured in Umami. Referral
-      traffic and backlinks are visible without GSC, so D2 is **no longer blocked** — though doing
-      A4 first still means you can watch indexation respond to the launch.
-- [ ] **D3** `[MYK]` · 4 hrs · Outreach to the 6 roundups that currently own your money query.
-      Getting *added to* a ranking roundup is far cheaper than outranking it:
-      Jotform · ME-QR · Andrew Twelftree · MakeBranded · QRForever · Fotify.
-      Angle: you're the only one on the list that is genuinely free, no-sign-up, non-expiring and
-      client-side. **Be honest that codes are static** — per your own AEO playbook, stated
-      limitations get cited over overselling.
+- [ ] **D2** `[MYK]` · ~4 hrs on the day · **Product Hunt + Show HN**, same week. Lead with the
+      **privacy claim** ("nothing is uploaded, no scans tracked, works offline"), not "free QR
+      generator" — the latter reads as spam on HN. Block the full day for comments; the comment
+      thread is where the mentions come from.
+      **Prepared 2026-08-03 → `docs/LAUNCH-PACK.md`.** Both platforms need accounts, so posting
+      is yours; copy for both, timing, and prepared answers to the seven questions that will
+      actually come up are written.
+      ~~**Requires §3 complete**~~ → **gate met.** Umami has been live on all 150 URLs since
+      2026-08-03 (A1–A3), so the spike will be measured. **D2 is unblocked.**
+      **Pre-flight passed 2026-08-03** in a real browser on production: generator hydrates
+      (940×940 canvas, `role="img"`), typing a URL regenerates the code, self-reports
+      "scannable", zero console errors. **Re-run it the morning of launch** — a generator
+      outage has shipped before and was invisible to the build, the tests and `check-build`.
+- [ ] **D3** `[MYK]` · ~4 hrs · Outreach to roundups that own your money query.
+      **Prepared 2026-08-03 → `docs/OUTREACH-PACK.md`. Read §1 before starting — the premise
+      does not hold for the six named here.**
+      All six (Jotform · ME-QR · Andrew Twelftree · MakeBranded · QRForever · Fotify) were
+      read: **every one sells a competing QR generator and ranks it first**, and the Andrew
+      Twelftree page is **not a roundup at all** — it is his own tool, listing no alternatives.
+      "Getting added" is cheap only for *independent* roundups; asking a competitor to seat a
+      free rival beside its own funnel is a conflict of interest, not a copywriting problem.
+      **Retargeted, not abandoned:** the pack ranks adjacent-category publishers who already
+      recommend third-party tools. Best is **TxtImpact** (SMS company, scores five tools it
+      does not own, named author).
+      Angle unchanged and still correct: free, no-sign-up, non-expiring, client-side — and
+      **be honest that codes are static.**
+      **Expected yield is low** (~1–2 placements per 10 sends, each worth one link). §6 argues
+      **D1 → D2 → D3**, with D3 as the optional tail: stop after five silent sends.
 
 ---
 
@@ -513,4 +536,8 @@ Stated so a future session doesn't quietly re-add them:
 - `docs/FINAL-TAXONOMY.md` — 47 built / 13 planned, with validated MSV/KD
 - `docs/SEO-BRIEF.md` — §8.2 per-locale head terms (the basis for §5.1), §11 phased rollout
 - `docs/AEO-BASELINE.md` — **the E4 measurement series**; append a dated block monthly
+- `docs/GSC-SETUP.md` — **the A4 runbook**; §6 holds the indexation table the Week-9 gate reads
+- `docs/LAUNCH-PACK.md` — **the D2 pack**; PH + Show HN copy, timing, and prepared answers
+- `docs/OUTREACH-PACK.md` — **the D3 pack**; verified targets, drafts, and why the original six fail
+- `docs/DIRECTORY-SUBMISSIONS.md` — the D1 pack, paste-ready
 - `SEO-AEO-TRAFFIC-STRATEGY.md` — the strategic analysis this plan operationalizes
