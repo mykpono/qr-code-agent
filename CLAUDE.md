@@ -81,6 +81,10 @@ npm run verify     # test + build + check-build.mjs — run before every push
 npm run test:e2e   # Playwright smoke — boots dist/ and proves the generator hydrates
                    #   (run `npm run build` first; `npx playwright install chromium` once)
 npm run scan-sheet # → dist/scan-test.html, print at 100% and scan with a phone
+npm run indexnow:submit   # push every built URL to IndexNow (Bing/Yandex/Seznam/Naver)
+                          #   --dry-run builds the payload; --check verifies the key file.
+                          #   public/<key>.txt is PUBLIC by design — it proves domain
+                          #   ownership, is not a secret, and must stay committed.
 ```
 
 ## Env vars (Vercel → Project → Environment Variables; all client-safe `PUBLIC_`)

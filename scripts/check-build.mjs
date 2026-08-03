@@ -129,6 +129,17 @@ check('WebSite schema on every page', noWebsite.length === 0,
 check('Organization logo asset is served', existsSync(join(DIST, 'assets', 'logo.png')),
   'dist/assets/logo.png');
 
+// IndexNow proves domain ownership by this file being fetchable — if it 404s,
+// every submission is rejected with a 403 and nothing else reports it. Same
+// failure shape as logo.png above: an asset referenced by an external consumer,
+// invisible to every other gate. The key inside must match the one the script
+// sends, or the file is worse than useless.
+const inKey = '8a8056c4eb1dddf9fff1af976d2ae99f';
+const inPath = join(DIST, `${inKey}.txt`);
+check('IndexNow key file is served and matches the script',
+  existsSync(inPath) && readFileSync(inPath, 'utf8').trim() === inKey,
+  `dist/${inKey}.txt — must exist and contain exactly the key used in scripts/indexnow-submit.mjs`);
+
 // The one-word form is the COLLIDING app's name — exactly what a model would
 // conflate. Rendered text only; URLs and the repo slug legitimately contain it.
 const oneWord = [];
