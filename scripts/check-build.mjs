@@ -224,6 +224,16 @@ if (existsSync(vercelPath)) {
   check('no SPA rewrite config', true);
 }
 check('fonts are self-hosted', ![...pages.values()].some((h) => /fonts\.(googleapis|gstatic)/.test(h)));
+
+// The Japanese webfont is committed, not built (scripts/build-cjk-subset.sh needs
+// Python tooling Vercel does not have) — the same shape as og.png, and the same
+// failure mode: a stray clean or a bad merge drops it and nothing else notices.
+// Without these, every kana and kanji on /ja/ falls back to an arbitrary system
+// font, which golden rule 1 forbids. Weights must match the Space Grotesk set.
+const jaFonts = [400, 500, 600, 700].map((w) => `noto-sans-jp-${w}-japanese.woff2`);
+const missingJa = jaFonts.filter((f) => !existsSync(join(DIST, 'fonts', f)));
+check('Japanese webfont subset is served', missingJa.length === 0,
+  `missing from dist/fonts/: ${missingJa.join(', ')} — run scripts/build-cjk-subset.sh`);
 check('favicon present', existsSync(join(DIST, 'favicon.svg')));
 const robots = readFileSync(join(DIST, 'robots.txt'), 'utf8');
 check('robots names AI crawlers', ['GPTBot', 'PerplexityBot', 'ClaudeBot'].every((b) => robots.includes(b)));

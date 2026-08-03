@@ -4,8 +4,16 @@
 
 :root {
   /* ── Families ─────────────────────────────────────── */
-  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  /* 'Noto Sans JP' sits AFTER the Latin family in both stacks, never before.
+     Its @font-face unicode-range covers only Japanese, so on en/de/es/id/pt-br it
+     is never downloaded, and on ja pages Latin characters still render in Space
+     Grotesk / IBM Plex Mono while kana and kanji fall to Noto. Putting it first
+     would hand Latin text to Noto and quietly change the look of every locale. */
+  --font-sans: 'Space Grotesk', 'Noto Sans JP', system-ui, -apple-system, sans-serif;
+  /* No CJK monospace is shipped: a real one is several MB for label text that is
+     mostly Latin anyway. Japanese glyphs inside mono labels render in Noto Sans JP
+     (proportional) — a deliberate trade, not an oversight. */
+  --font-mono: 'IBM Plex Mono', 'Noto Sans JP', ui-monospace, 'SFMono-Regular', monospace;
 
   /* ── Weights ──────────────────────────────────────── */
   --fw-regular: 400;

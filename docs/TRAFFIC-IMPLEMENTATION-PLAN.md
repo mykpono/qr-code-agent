@@ -373,11 +373,15 @@ carrying that relaxation forward unchanged.
 - [ ] **C4** `[BOTH]` · 7 hrs content + **5–7 hrs engineering** · **JA** bundle — **BLOCKED, do not
       start as a content job.** JA is the only remaining locale that is not content-only, and both
       blockers are silent if ignored:
-      **(a) No CJK font is self-hosted.** `public/fonts/` carries Space Grotesk and IBM Plex Mono
-      in latin, latin-ext and cyrillic subsets only — neither family has a single kana or kanji
-      glyph, so every heading and mono label would fall back to an arbitrary system font, on a
-      site whose golden rule 1 is "never invent UI". Needs a subset Noto Sans JP (or equivalent)
-      self-hosted like the others.
+      ~~**(a) No CJK font is self-hosted.**~~ **CLEARED 2026-08-03.** Noto Sans JP (OFL) is now
+      self-hosted at 400/500/600/700 to match Space Grotesk — a **custom Jōyō subset**, since
+      Google serves it as 124 unicode-range chunks per weight (~18 MB across four, not
+      committable). 2,136 Jōyō kanji + top ~1,200 by corpus frequency + all kana and CJK
+      punctuation + Latin = 3,745 codepoints, **~370 KB per weight, 1.5 MB total.** Regenerate
+      with `scripts/build-cjk-subset.sh`; `check-build.mjs` fails if any weight is missing.
+      **Costs the other locales nothing:** `unicode-range` lists only Japanese ranges, verified in
+      a browser — an English page downloads **zero** CJK bytes, and injecting Japanese pulls
+      exactly one file at the correct weight. A kanji outside the subset degrades per-glyph.
       ~~**(b) The 70–155-char meta rule is wrong for Japanese.**~~ **CLEARED 2026-08-03.** Limits
       are now per-locale in `src/lib/seo-limits.js`, and all three call sites read from it —
       `i18n-merge.mjs`, `test/i18n.test.mjs`, `check-build.mjs` — so the numbers exist once.
@@ -387,8 +391,9 @@ carrying that relaxation forward unchanged.
       Proven non-vacuous: an over-long EN title and a short EN meta are still rejected, now naming
       the locale and the limit applied. 7 unit tests, including the real JA meta the old rule made
       impossible (62 chars — valid `ja`, still correctly rejected for `de`).
-      **(a) is the only remaining blocker** — a subset CJK font still needs self-hosting. Clear it
-      in its own PR; only then is this the 7-hr bundle the table implies.
+      **Both blockers are now clear — JA is a content-only job.** The row's "5–7 hrs engineering"
+      no longer applies; what remains is the 7-hr bundle the table implies. Still behind the
+      Week-9 gate.
 - [ ] **C5** `[BOTH]` · 6 hrs · **IT** bundle (retarget to `crea`)
 - [ ] **C6** `[BOTH]` · 6 hrs · **FR** bundle
 - [ ] **C7** `[BOTH]` · 6 hrs · **UK** bundle
