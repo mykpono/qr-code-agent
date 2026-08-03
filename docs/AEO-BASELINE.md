@@ -95,6 +95,12 @@ several established things:
 - AI **agents** that generate QR codes (a fast-growing 2025–26 category)
 - and, separately, competitors literally named `agentqr.com` and `agenttext.com`
 
+**Update 2026-08-02, from the D1 research** (`DIRECTORY-SUBMISSIONS.md` §1): two further
+name-holders surfaced that neither pass above caught — `qrcode-agent-cli`, a Rust CLI published to
+npm and GitHub by ByteLandTechnology, and a "QR Code Agent" listing on the AgentLab marketplace
+(`agentlab.morphmind.ai`). Both rank for the exact brand string. That makes at least six distinct
+entities using this name, which strengthens rather than changes the conclusion below.
+
 **This is not fixable with more schema.** B1's `Organization` + `sameAs` work is correct and
 worth having, but structured data disambiguates entities that compete for a name — it does not
 win a name that is a common noun phrase. No amount of JSON-LD makes Google prefer this site for
