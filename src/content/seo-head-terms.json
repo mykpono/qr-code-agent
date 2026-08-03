@@ -38,6 +38,12 @@
       "note": "PLURAL beats singular (1,600 vs 1,300). The unaccented spelling in SEO-BRIEF 8.2 is a query-typing artifact, not a copy instruction — Google folds diacritics for Spanish, so titles keep correct 'códigos'. es DB; pull MX separately for LatAm.",
       "source": "SEO-BRIEF 8.2"
     },
+    "pt-br": {
+      "term": "gerador de qr code",
+      "msv": 49500,
+      "note": "Second-largest remaining market. The English-style 'QR code' beats 'código QR' — never write 'gerador de código QR' in a money-page title, it loses the term. '...gratis' 1,000 carries the free modifier. Localize examples to Brazil (PIX rather than generic card payment).",
+      "source": "SEO-BRIEF 8.2"
+    },
     "id": {
       "term": "qr code generator",
       "msv": 135000,
