@@ -31,7 +31,7 @@ fact** — re-check them before acting.
 | Finding | Confidence | Evidence |
 |---|---|---|
 | Vercel Web Analytics **not enabled** on `qr-generator` | **Confirmed** | Vercel API returns `404 Web Analytics not found` for `prj_7WAwTRtMsTkBNnhjasWCNYjLxGKI` |
-| ~~Umami / GA4 **not firing**~~ → **Umami fires; GA4 deliberately absent** | **Confirmed 2026-08-03** | Superseded. The *inferred* row was right about GA4 and **wrong about Umami**, which is exactly why it was marked inferred — the fetch tool strips `<script>`, so absence was never evidence. Real-browser check: `window.umami` is an object, `POST /stats/api/send` → 200 on all three locales, tag present on 150/150 URLs. See A1. |
+| ~~Umami / GA4 **not firing**~~ → **both now live** | **Confirmed 2026-08-03** | Superseded twice. The *inferred* row was right about GA4 and **wrong about Umami** — the fetch tool strips `<script>`, so absence was never evidence (A1). Umami fires on 150/150 URLs. **GA4 `G-71ZTRB01CK` was then installed by owner decision** and is consent-gated (A3). |
 | Site **is indexed** by Google | **Confirmed** | `qrcodeagent.net` returns in web search for brand-adjacent queries |
 | Site is **absent** from its own money query | **Confirmed, still true 2026-08-02** | Re-measured under E4 after E1–E3 shipped: absent from Google organic, Google AI Overviews and Perplexity. See `docs/AEO-BASELINE.md`. Expected this soon after publishing — the point of the baseline is to make the change measurable later. |
 | **Brand entity collision** | **Confirmed, but understated** | An unrelated Android app "QRCodeAgent QR Scan & Generate" (`com.webtechxp.qrcodeagent`) ranks on Google Play under a different developer. **Revised 2026-08-02:** measurement for E4 found the app is *not* the main competitor — it appears on neither brand query. "QR code" + "agent" is a generic phrase already owned by real-estate agents, payment-QR agents, AI agents and rivals literally named `agentqr.com` / `agenttext.com`. Schema cannot fix this; see `AEO-BASELINE.md` §2 |
@@ -90,11 +90,21 @@ complete.**
 - [x] **A2** `[MYK]` · **DONE** · `PUBLIC_UMAMI_WEBSITE_ID` is set and a build has shipped with it
       baked in — proven by the tag being present in the static HTML of all 150 pages, which only
       happens when the var exists at build time.
-- [x] **A3** `[MYK]` · **DECIDED: no GA4.** `PUBLIC_GA4_MEASUREMENT_ID` stays unset permanently.
-      Verified in effect on production — no `googletagmanager` reference, no `gtag`, and therefore
-      no consent banner (`Base.astro` gates the banner on the GA id existing). Umami is cookieless,
-      so there is nothing to consent to. Recorded in `NEXT-PHASES.md` §2.1 and as an AXME decision.
-      **Do not "fix" the missing banner** — its absence is the decision, not a bug.
+- [x] **A3** `[MYK]` · **REVERSED 2026-08-03 — GA4 IS INSTALLED.** The earlier "no GA4, permanently"
+      recommendation was accepted, then **overturned by the owner**, who created property
+      `G-71ZTRB01CK` and asked for it. Both readings are recorded because the reasoning still
+      matters; the decision is the later one.
+      `PUBLIC_GA4_MEASUREMENT_ID=G-71ZTRB01CK` is set on **Production + Preview** and a redeploy
+      has baked it in. Umami is unchanged and still primary.
+      **The raw gtag snippet from Google was deliberately NOT pasted in.** `Base.astro` already
+      had a better path: it loads GA **only after explicit consent** and sets `anonymize_ip`.
+      Google's copy-paste snippet fires on page load with no consent, which is wrong for a site
+      serving DE and ES traffic. Installing meant setting the env var, not adding markup.
+      **Consequence, verified live: the cookie banner now appears** — `Base.astro` gates it on the
+      GA id existing. Before consent: no GA, no `googletagmanager` script. After **ALLOW**: consent
+      stored, script injected, and a real `google-analytics.com/g/collect?tid=G-71ZTRB01CK` hit.
+      The banner is now correct behaviour, **not** a bug — the inverse of what this row said before.
+      Supersedes AXME **D-014**.
 - [ ] **A4** `[MYK]` · ~20 min · Google Search Console: verify the property, submit
       `sitemap.xml`, and read **Pages → Indexing**. Record indexed vs. discovered-not-indexed for
       the **150** URLs (was 141 — E1–E3 added nine). **This number is the input to the Week-9 gate.**
@@ -230,7 +240,7 @@ Live today: **en, de, es**. Remaining, in impact order:
 | 5 | **IT** | **8,100** | ~6 hrs | **Retarget to the verb:** `crea qr code` ≫ `generatore di qr code` (1,300). |
 | 6 | **FR** | **3,600** | ~6 hrs | Noun + verb both: `generateur de qr code`, `creer un qr code` (2,900), `…gratuit` (1,600). |
 | 7 | **UK** (Ukrainian) | **3,600** | ~6 hrs | `створити qr код` (verb) slightly ahead of the noun form. **Ukrainian ≠ Russian — never reuse.** |
-| 8 | **RU** | *unvalidated* | ~6 hrs + research | **Gate: pull MSV/KD first.** Do not build on an unmeasured market. |
+| ~~8~~ | ~~**RU**~~ | *dropped* | — | **Dropped 2026-08-03 by owner decision.** No validated demand; no pull needed. |
 
 Source: `SEO-BRIEF.md` §8.2 (Semrush per-locale MSV). **Per-locale KD was never pulled** — these are
 demand signals only.
@@ -377,7 +387,10 @@ carrying that relaxation forward unchanged.
 - [ ] **C5** `[BOTH]` · 6 hrs · **IT** bundle (retarget to `crea`)
 - [ ] **C6** `[BOTH]` · 6 hrs · **FR** bundle
 - [ ] **C7** `[BOTH]` · 6 hrs · **UK** bundle
-- [ ] **C8** `[MYK]` · 1 hr · **RU** — pull MSV/KD first. Build only if the data justifies it.
+- [x] **C8** ~~`[MYK]` · RU~~ — **DROPPED 2026-08-03, owner decision.** No Russian bundle.
+      Removes the only locale with zero validated demand data, and the RU keyword pull from
+      open question 4 is no longer needed. `LOCALE_ORDER` in `lib/content.js` may keep `ru`
+      — a locale goes live only by having a bundle, so an unused entry ships nothing.
 
 **Definition of done per locale:** `npm run verify` reports `47 × N` pages; no English leakage on
 spot-checked pages; hreflang reciprocal; title/meta within limits; head terms match §8.2; GSC shows
@@ -397,6 +410,10 @@ before §3 is done** or you'll spend your one launch spike unmeasured.
       this row: **ToolFinder is $29**, not free (`toolfinder.co` → `toolfinder.com`), and
       **SaaSHub deprioritises submissions that name no listed competitors** — the pack supplies
       them. Recommendation recorded there: do the two free ones, skip ToolFinder for now.
+      **Decided 2026-08-03: skip ToolFinder.** Its $29 is not spent — it never surfaced in any
+      answer-engine result during the E4 research, unlike AlternativeTo and SaaSHub. Do the two
+      free listings only. Also decided: the agent does **not** drive these submissions in a
+      browser; the pack is used manually.
 - [ ] **D2** `[MYK]` · ~4 hrs on the day · **Product Hunt + Show HN**, same week. Lead with the
       **privacy claim** ("nothing is uploaded, no scans tracked, works offline"), not "free QR
       generator" — the latter reads as spam on HN. Block the full day for comments; the comment
@@ -540,10 +557,11 @@ Stated so a future session doesn't quietly re-add them:
    See C-risk, `CLAUDE.md` rule 9b and D-015. Note ID (C1) shipped *before* the rule existed and
    never got its review pass — a retro-review of its top 8 money pages is outstanding.
 3. ~~**Is `scripts/gsc-submit.mjs` functional?**~~ **Resolved 2026-08-02 — yes.** See A7.
-4. **Per-locale KD was never pulled.** All locale prioritization rests on demand volume alone. A
-   high-MSV market with brutal KD could be a worse bet than a smaller one — worth ~1 hr in Semrush
-   before the next locale (C3, now PL). This cuts both ways: PL was promoted over JA on readiness,
-   not demand, and KD could still argue for a different order among the remaining five.
+4. ~~**Per-locale KD was never pulled.**~~ **Actioned 2026-08-03 → `docs/KEYWORD-RESEARCH-BRIEF.md`.**
+   Owner will pull from API sources separately. The brief specifies locales, per-country database
+   codes, seed keywords, the metrics to request, the CSV columns to return, and the decision rule:
+   **rank C3–C7 by `volume ÷ difficulty`, not by volume.** RU excluded — locale dropped. Still
+   open until the data lands.
 5. **`docs/STRIPE-PLAN.md` is stale** (`NEXT-PHASES.md` known gaps) — unrelated to traffic, but
    it'll bite whoever reads it next.
 
@@ -560,5 +578,6 @@ Stated so a future session doesn't quietly re-add them:
 - `docs/GSC-SETUP.md` — **the A4 runbook**; §6 holds the indexation table the Week-9 gate reads
 - `docs/LAUNCH-PACK.md` — **the D2 pack**; PH + Show HN copy, timing, and prepared answers
 - `docs/OUTREACH-PACK.md` — **the D3 pack**; verified targets, drafts, and why the original six fail
+- `docs/KEYWORD-RESEARCH-BRIEF.md` — **the per-locale KD pull**; run against an API, paste back
 - `docs/DIRECTORY-SUBMISSIONS.md` — the D1 pack, paste-ready
 - `SEO-AEO-TRAFFIC-STRATEGY.md` — the strategic analysis this plan operationalizes

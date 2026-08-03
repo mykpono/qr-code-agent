@@ -86,16 +86,27 @@ real browser:
 ```
 PUBLIC_STRIPE_SUPPORT_URL=https://buy.stripe.com/cNi9AU4zI3w31Fw2KudUY01   ✅ set
 PUBLIC_UMAMI_WEBSITE_ID=2ab771b5-…                                        ✅ set
-PUBLIC_GA4_MEASUREMENT_ID=                                                ⛔ deliberately unset
+PUBLIC_GA4_MEASUREMENT_ID=G-71ZTRB01CK                                    ✅ set (Prod + Preview)
 ```
 
-**Decision, recorded here per plan task A3: no GA4, permanently.** Umami is
-cookieless, so dropping GA4 removes the consent banner entirely — faster LCP, no
-cookie UI, and it matches the privacy positioning the whole product rests on.
-Confirmed in effect: no `googletagmanager` reference and no `gtag` on production.
+**Decision REVERSED 2026-08-03: GA4 is installed.** This section previously said
+"no GA4, permanently" per plan task A3. The owner created property
+`G-71ZTRB01CK` and chose to install it; that later decision stands. Umami remains
+primary and ungated.
 
-- **The consent banner stays hidden because there is no GA id.** That is now the
-  decision, not a pending state. **Do not "fix" its absence.**
+**Google's raw gtag snippet was deliberately not pasted in.** `Base.astro`
+already had a better implementation — GA loads only after explicit consent and
+sets `anonymize_ip`, where Google's copy-paste snippet fires on page load with no
+consent. Installing was an env-var change, not a markup change. Do not add the
+snippet on top of it; that would double-fire GA and bypass the gate.
+
+Verified live end to end: before consent, no GA and no `googletagmanager` script;
+after **ALLOW**, consent stored, script injected, and a real
+`google-analytics.com/g/collect?tid=G-71ZTRB01CK` hit.
+
+- **The cookie banner now appears, and that is correct.** `Base.astro` gates it on
+  the GA id existing. It is no longer a bug *or* an absence to preserve — it is
+  the consequence of running GA4. Do not remove it while GA4 is set.
 - Env vars bake in at **build time**, so changing one still requires a redeploy.
 - The Stripe CTA also works via the `pages.json` fallback; the var just moves
   control to Vercel so the link can change without a commit.
