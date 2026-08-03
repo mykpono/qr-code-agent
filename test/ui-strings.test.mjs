@@ -146,6 +146,43 @@ test('every industry / use-case preset has a ui.json label', () => {
   assert.deepEqual(orphans, [], `ui.preset has labels for presets that no longer exist: ${orphans.join(', ')}`);
 });
 
+// The style summary is `${t.dot[dot]} · ${t.finder[finder]} · ECC ${ecc}`, one
+// line in .gf-secsum beside the section title. Neither label is capped alone —
+// the PAIR is, because the longest dot can meet the longest finder.
+//
+// scripts/i18n-merge.mjs already checks this, but ONLY while merging a fresh
+// ui-out file, which is the same merge-time-only weakness that let the ui.json
+// backlog drift. Hand-edit de.json and nothing would catch it. So it is checked
+// here too, on every run.
+//
+// 24 is measured, not guessed: at 390px (the narrowest layout) the Spanish
+// header "Estilo del código" — the longest section title, so the least room —
+// takes a dot+finder pair of 24 on one line and wraps at 25. Re-measure before
+// raising it; the failure it prevents is a wrapped, ragged section header.
+test('the worst-case dot + finder pair still fits the style summary', () => {
+  const SUMMARY_BUDGET = 24;
+  const longest = (obj, group) => Object.entries(obj?.[group] || {})
+    .filter(([k, v]) => !k.startsWith('_') && typeof v === 'string')
+    .reduce((a, [k, v]) => (v.length > a.len ? { len: v.length, k, v } : a), { len: 0, k: '', v: '' });
+
+  const bundles = [['ui.json', ui]];
+  const dir = root + 'content/i18n/';
+  if (existsSync(dir)) {
+    for (const f of readdirSync(dir).filter((x) => x.endsWith('.json'))) {
+      const b = JSON.parse(readFileSync(dir + f, 'utf8'));
+      if (b.ui) bundles.push([f, b.ui]);
+    }
+  }
+  for (const [name, o] of bundles) {
+    const d = longest(o, 'dot');
+    const fi = longest(o, 'finder');
+    if (!d.len || !fi.len) continue;
+    assert.ok(d.len + fi.len <= SUMMARY_BUDGET,
+      `${name}: "${d.v}" (dot.${d.k}) meeting "${fi.v}" (finder.${fi.k}) is ${d.len + fi.len} chars, `
+      + `over the ${SUMMARY_BUDGET} the summary line fits — it wraps the section header. Shorten one.`);
+  }
+});
+
 // nav / footerCols are label arrays indexed positionally against pages.json, so
 // a length mismatch silently drops or misaligns a link label.
 test('ui label arrays line up with pages.json structure', () => {
