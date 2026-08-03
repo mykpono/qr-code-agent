@@ -140,6 +140,13 @@ complete.**
       **Order matters:** the key file must be deployed before the first submit, or IndexNow answers
       403. Merge this, let Vercel build, then run `npm run indexnow:submit -- --check` followed by
       the real submit.
+      **AUTOMATED 2026-08-03** · `.github/workflows/indexnow.yml` now submits on every push to
+      `main`, so the manual step above is only a fallback. It waits for the deploy first
+      (`--await-deploy` polls the live sitemap until it lists every built URL, then dies rather
+      than announcing a URL that would 404 — proven non-vacuous). Automating it was not
+      housekeeping: the manual step **was** skipped. pt-BR shipped 50 URLs in #46 that were never
+      announced, and #52/#54 changed all 250 pages without a resubmit; the gap survived until
+      2026-08-03 because nothing anywhere reports a missed submit.
 - [x] **A7** `[AGENT]` · **DONE 2026-08-02** · `scripts/gsc-submit.mjs` works. Verified with
       `npm run gsc:submit -- --dry-run`: it builds and signs the request correctly.
 
