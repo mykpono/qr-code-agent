@@ -54,8 +54,15 @@ build of **qrcodeagent.net** — a free, no-sign-up QR code generator plus its p
    live purely by having a bundle, `getStaticPaths` then emits every page under that prefix, and
    `localizedPage()` falls back to the **English** fields for any missing slug. A partial bundle
    therefore publishes English content at `/es/…` while `alternates()` emits hreflang claiming it is
-   Spanish — duplicate content plus false hreflang, worse than not shipping the locale. Native review
-   before a bundle lands is optional, not required — translations may ship without a human pass.
+   Spanish — duplicate content plus false hreflang, worse than not shipping the locale.
+9b. **Review policy: PARTIAL review, decided 2026-08-03** (D-015, TRAFFIC-IMPLEMENTATION-PLAN
+   §5.4 mitigation 2). Before a locale bundle lands, a human reads `title`, `meta`, `h1` and the
+   FAQ answers on the **top ~8 money pages** — roughly 1 hr per locale, covering what Google and
+   the answer engines read first. Full native review of all 50 pages is *not* required; shipping
+   with **no** human pass is no longer acceptable either. The reason is Google's
+   scaled-content-abuse policy, which explicitly names automated translation published without
+   human review — and a penalty would hit the English pages too, so this is not only the new
+   locale's risk. Pair it with the stagger: one locale per two weeks, never a batch.
 
 ---
 

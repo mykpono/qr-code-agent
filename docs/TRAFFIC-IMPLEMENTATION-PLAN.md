@@ -225,8 +225,8 @@ Live today: **en, de, es**. Remaining, in impact order:
 |--:|---|---:|---|---|
 | 1 | **ID** (Indonesian) | **135,000** | ~6 hrs | Highest remaining. **English head term dominates** — title/H1 must contain `qr code generator` verbatim; `buat kode qr` (2,400) as secondary. |
 | 2 | **PT-BR** | **49,500** | ~6 hrs | `gerador de qr code`. English-style "QR code" beats "código QR". Localize examples to Brazil (PIX payment context). |
-| 3 | **JA** | **27,100** | ~7 hrs | `QRコード生成` native preferred; EN form also strong (18,100). Keep 無料 in copy. Longest per-word review time. |
-| 4 | **PL** | **9,900** | ~6 hrs | `generator kodów qr` — **plural genitive**, not singular (720). |
+| 3 | **PL** | **9,900** | ~6 hrs | `generator kodów qr` — **plural genitive**, not singular (720). Promoted over JA (D-015): lower demand, but latin-ext and content-only. |
+| 4 | **JA** | **27,100** | ~7 hrs + **5–7 hrs engineering** | **Demand ranks 3rd; readiness does not.** `QRコード生成` native preferred; EN form also strong (18,100). Keep 無料 in copy. Deferred until the two blockers below are cleared — see C4. |
 | 5 | **IT** | **8,100** | ~6 hrs | **Retarget to the verb:** `crea qr code` ≫ `generatore di qr code` (1,300). |
 | 6 | **FR** | **3,600** | ~6 hrs | Noun + verb both: `generateur de qr code`, `creer un qr code` (2,900), `…gratuit` (1,600). |
 | 7 | **UK** (Ukrainian) | **3,600** | ~6 hrs | `створити qr код` (verb) slightly ahead of the noun form. **Ukrainian ≠ Russian — never reuse.** |
@@ -346,16 +346,34 @@ carrying that relaxation forward unchanged.
 3. **Gate on results.** If ID and PT-BR are not indexing by Week 9, stop — do not ship 6 more.
 4. **Keep locale count honest in `llms.txt`** so AI crawlers see a consistent picture.
 
-- [ ] **C-risk** `[MYK]` · decision · Decide and record: full review, partial review (option 2), or
-      none. Write the decision and its date into `CLAUDE.md` rule 9 so it doesn't drift again.
+- [x] **C-risk** `[MYK]` · **DONE 2026-08-03** · Decided: **partial review** (option 2). Recorded
+      as `CLAUDE.md` rule 9b and decision D-015. Open question 2 in §11 is closed by it.
 
 ### 5.5 Tasks
 
-- [ ] **C1** `[BOTH]` · 6 hrs · **ID** bundle → PR → verify → merge (blocked by C0)
+- [x] **C1** `[BOTH]` · **DONE 2026-08-03** · **ID** bundle shipped in #42 — 50 pages, 416 UI
+      strings, 150 → 200 live URLs. Head term declared *before* translating (the runbook puts
+      step 6 last; that order would have failed all 21 money pages after the fact, because ID's
+      head term is the ENGLISH `qr code generator`). Verified live: `lang="id"`, reciprocal
+      hreflang, 50 `/id/` URLs in the sitemap, 200 submitted to IndexNow. **Not done:** the
+      C-risk partial review — ID shipped without it; GSC resubmit needs credentials.
 - [ ] **C2** `[BOTH]` · 6 hrs · **PT-BR** bundle
 - [ ] **GATE** — Week 9 review. See §9. Do not proceed past here on schedule alone.
-- [ ] **C3** `[BOTH]` · 7 hrs · **JA** bundle
-- [ ] **C4** `[BOTH]` · 6 hrs · **PL** bundle
+- [ ] **C3** `[BOTH]` · 6 hrs · **PL** bundle *(promoted over JA — D-015)*
+- [ ] **C4** `[BOTH]` · 7 hrs content + **5–7 hrs engineering** · **JA** bundle — **BLOCKED, do not
+      start as a content job.** JA is the only remaining locale that is not content-only, and both
+      blockers are silent if ignored:
+      **(a) No CJK font is self-hosted.** `public/fonts/` carries Space Grotesk and IBM Plex Mono
+      in latin, latin-ext and cyrillic subsets only — neither family has a single kana or kanji
+      glyph, so every heading and mono label would fall back to an arbitrary system font, on a
+      site whose golden rule 1 is "never invent UI". Needs a subset Noto Sans JP (or equivalent)
+      self-hosted like the others.
+      **(b) The 70–155-char meta rule is wrong for Japanese.** It is enforced with no per-locale
+      exception in `scripts/i18n-merge.mjs`, `test/i18n.test.mjs` and `scripts/check-build.mjs`,
+      while Google truncates Japanese snippets around 50 full-width characters — so a compliant
+      JA meta is roughly 3× the visible limit and the rule would force 50 pages of keyword
+      padding. Needs the limits made per-locale across those three call sites.
+      Clear (a) and (b) in their own PR first; only then is this the 7-hr bundle the table implies.
 - [ ] **C5** `[BOTH]` · 6 hrs · **IT** bundle (retarget to `crea`)
 - [ ] **C6** `[BOTH]` · 6 hrs · **FR** bundle
 - [ ] **C7** `[BOTH]` · 6 hrs · **UK** bundle
@@ -475,10 +493,10 @@ translation tax they now carry.
 | 8 | C2 finish + merge · **E1** best-free-generators article | 5 |
 | **9** | **🚦 GATE — review, don't build** | 3 |
 | 10 | **D3** roundup outreach · **E2** | 5 |
-| 11 | **C3 — JA** *(only if gate passed)* | 5 |
+| 11 | **C3 — PL** *(only if gate passed)* | 5 |
 | 12 | C3 finish · **E3** · reassess | 5 |
 
-**Total ≈ 58 hrs.** Locales 4–8 (PL, IT, FR, UK, RU) fall outside this horizon — that is
+**Total ≈ 58 hrs.** Locales 4–8 (JA, IT, FR, UK, RU) fall outside this horizon — that is
 deliberate. At 5 hrs/week, 8 locales plus everything else is not achievable in 12 weeks, and a plan
 that pretends otherwise is worse than one that admits it.
 
@@ -518,11 +536,14 @@ Stated so a future session doesn't quietly re-add them:
 
 1. ~~**Does Umami actually fire?**~~ **Resolved 2026-08-03 — yes, on all 150 URLs in all three
    locales.** See A1. The remaining measurement gap is **GSC/Bing (A4–A6)**, not analytics.
-2. **Native review policy for 8 new locales?** (C-risk) — needs a decision before C1.
+2. ~~**Native review policy for 8 new locales?**~~ **Resolved 2026-08-03 — partial review.**
+   See C-risk, `CLAUDE.md` rule 9b and D-015. Note ID (C1) shipped *before* the rule existed and
+   never got its review pass — a retro-review of its top 8 money pages is outstanding.
 3. ~~**Is `scripts/gsc-submit.mjs` functional?**~~ **Resolved 2026-08-02 — yes.** See A7.
 4. **Per-locale KD was never pulled.** All locale prioritization rests on demand volume alone. A
    high-MSV market with brutal KD could be a worse bet than a smaller one — worth ~1 hr in Semrush
-   before C3.
+   before the next locale (C3, now PL). This cuts both ways: PL was promoted over JA on readiness,
+   not demand, and KD could still argue for a different order among the remaining five.
 5. **`docs/STRIPE-PLAN.md` is stale** (`NEXT-PHASES.md` known gaps) — unrelated to traffic, but
    it'll bite whoever reads it next.
 
