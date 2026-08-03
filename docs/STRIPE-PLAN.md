@@ -7,7 +7,7 @@ accounts are out of scope here; nothing below needs a Stripe secret key or a ser
 
 | Thing | State |
 |---|---|
-| `site.support.href` in `pages.json` | `https://buy.stripe.com/7sYfZid6e4A7bg670KdUY00` — **live** |
+| `site.support.href` in `pages.json` | `https://buy.stripe.com/cNi9AU4zI3w31Fw2KudUY01` — **live** |
 | Header pill | Wired — reads `SUPPORT_URL` |
 | Footer line | Wired — reads `SUPPORT_URL` |
 | Post-download thank-you | **Built.** Inline, dismissible, fires only after a successful download |

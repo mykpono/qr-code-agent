@@ -109,7 +109,7 @@ function brandMarkDataUrl(font = "'Space Grotesk',system-ui,sans-serif") {
 
 const BRAND = '#6d4dff';
 const RIBBON_CSS = 'linear-gradient(135deg,#7b5cff,#e0409a,#ffb020)';
-const DEMO_URL = 'https://github.com/mykpono/qr-code-agent';
+const DEMO_URL = 'https://buy.stripe.com/cNi9AU4zI3w31Fw2KudUY01';
 
 const TYPES = [
   { key: 'url' }, { key: 'text' }, { key: 'wifi' }, { key: 'vcard' },
