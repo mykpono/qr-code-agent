@@ -236,7 +236,7 @@ Live today: **en, de, es**. Remaining, in impact order:
 | 1 | **ID** (Indonesian) | **135,000** | ~6 hrs | Highest remaining. **English head term dominates** — title/H1 must contain `qr code generator` verbatim; `buat kode qr` (2,400) as secondary. |
 | 2 | **PT-BR** | **49,500** | ~6 hrs | `gerador de qr code`. English-style "QR code" beats "código QR". Localize examples to Brazil (PIX payment context). |
 | 3 | **PL** | **9,900** | ~6 hrs | `generator kodów qr` — **plural genitive**, not singular (720). Promoted over JA (D-015): lower demand, but latin-ext and content-only. |
-| 4 | **JA** | **27,100** | ~7 hrs + **5–7 hrs engineering** | **Demand ranks 3rd; readiness does not.** `QRコード生成` native preferred; EN form also strong (18,100). Keep 無料 in copy. Deferred until the two blockers below are cleared — see C4. |
+| 4 | **JA** | **27,100** | ~7 hrs | **Highest remaining demand, and no longer gated.** `QRコード生成` native preferred; EN form also strong (18,100). Keep 無料 in copy. Both blockers cleared 2026-08-03 (#50 self-hosted Noto Sans JP subset, #48 per-locale title/meta limits) — the engineering estimate is spent, so on `volume ÷ difficulty` JA now outranks PL. See C4. |
 | 5 | **IT** | **8,100** | ~6 hrs | **Retarget to the verb:** `crea qr code` ≫ `generatore di qr code` (1,300). |
 | 6 | **FR** | **3,600** | ~6 hrs | Noun + verb both: `generateur de qr code`, `creer un qr code` (2,900), `…gratuit` (1,600). |
 | 7 | **UK** (Ukrainian) | **3,600** | ~6 hrs | `створити qr код` (verb) slightly ahead of the noun form. **Ukrainian ≠ Russian — never reuse.** |
@@ -369,21 +369,37 @@ carrying that relaxation forward unchanged.
       C-risk partial review — ID shipped without it; GSC resubmit needs credentials.
 - [ ] **C2** `[BOTH]` · 6 hrs · **PT-BR** bundle
 - [ ] **GATE** — Week 9 review. See §9. Do not proceed past here on schedule alone.
-- [ ] **C3** `[BOTH]` · 6 hrs · **PL** bundle *(promoted over JA — D-015)*
-- [ ] **C4** `[BOTH]` · 7 hrs content + **5–7 hrs engineering** · **JA** bundle — **BLOCKED, do not
-      start as a content job.** JA is the only remaining locale that is not content-only, and both
-      blockers are silent if ignored:
-      **(a) No CJK font is self-hosted.** `public/fonts/` carries Space Grotesk and IBM Plex Mono
-      in latin, latin-ext and cyrillic subsets only — neither family has a single kana or kanji
-      glyph, so every heading and mono label would fall back to an arbitrary system font, on a
-      site whose golden rule 1 is "never invent UI". Needs a subset Noto Sans JP (or equivalent)
-      self-hosted like the others.
-      **(b) The 70–155-char meta rule is wrong for Japanese.** It is enforced with no per-locale
-      exception in `scripts/i18n-merge.mjs`, `test/i18n.test.mjs` and `scripts/check-build.mjs`,
-      while Google truncates Japanese snippets around 50 full-width characters — so a compliant
-      JA meta is roughly 3× the visible limit and the rule would force 50 pages of keyword
-      padding. Needs the limits made per-locale across those three call sites.
-      Clear (a) and (b) in their own PR first; only then is this the 7-hr bundle the table implies.
+- [ ] **C3** `[BOTH]` · 6 hrs · **PL** bundle *(promoted over JA by D-015 — but that reason was
+      JA's engineering cost, which is now spent; re-decide C3 vs C4 before starting either)*
+- [ ] **C4** `[BOTH]` · 7 hrs · **JA** bundle — **UNBLOCKED 2026-08-03.** Both blockers below were
+      cleared the same day, by #50 (font) and #48 (per-locale limits), so JA is now an ordinary
+      content job like every other locale. On the plan's own `volume ÷ difficulty` rule it is the
+      strongest remaining bet — 27,100 MSV at ~7 hrs, against PL's 9,900 at ~6 — so **C3/C4 order
+      is now a live question, not a settled one** (D-015 promoted PL only because JA carried
+      engineering; that reason is gone). The blocker write-ups are kept in full, not deleted:
+      both failed silently when ignored, and the record of how they were closed is what stops
+      them being reintroduced.
+      ~~**(a) No CJK font is self-hosted.**~~ **CLEARED 2026-08-03.** Noto Sans JP (OFL) is now
+      self-hosted at 400/500/600/700 to match Space Grotesk — a **custom Jōyō subset**, since
+      Google serves it as 124 unicode-range chunks per weight (~18 MB across four, not
+      committable). 2,136 Jōyō kanji + top ~1,200 by corpus frequency + all kana and CJK
+      punctuation + Latin = 3,745 codepoints, **~370 KB per weight, 1.5 MB total.** Regenerate
+      with `scripts/build-cjk-subset.sh`; `check-build.mjs` fails if any weight is missing.
+      **Costs the other locales nothing:** `unicode-range` lists only Japanese ranges, verified in
+      a browser — an English page downloads **zero** CJK bytes, and injecting Japanese pulls
+      exactly one file at the correct weight. A kanji outside the subset degrades per-glyph.
+      ~~**(b) The 70–155-char meta rule is wrong for Japanese.**~~ **CLEARED 2026-08-03.** Limits
+      are now per-locale in `src/lib/seo-limits.js`, and all three call sites read from it —
+      `i18n-merge.mjs`, `test/i18n.test.mjs`, `check-build.mjs` — so the numbers exist once.
+      Latin locales keep 60 / 70–155 unchanged; `ja` gets 30 / 35–90, the same pixel budget
+      halved because full-width glyphs are ~2× Latin width. Google truncates by **pixel width**,
+      not character count, which is why one global rule was always wrong.
+      Proven non-vacuous: an over-long EN title and a short EN meta are still rejected, now naming
+      the locale and the limit applied. 7 unit tests, including the real JA meta the old rule made
+      impossible (62 chars — valid `ja`, still correctly rejected for `de`).
+      **Both blockers are now clear — JA is a content-only job.** The row's "5–7 hrs engineering"
+      no longer applies; what remains is the 7-hr bundle the table implies. Still behind the
+      Week-9 gate.
 - [ ] **C5** `[BOTH]` · 6 hrs · **IT** bundle (retarget to `crea`)
 - [ ] **C6** `[BOTH]` · 6 hrs · **FR** bundle
 - [ ] **C7** `[BOTH]` · 6 hrs · **UK** bundle

@@ -9,6 +9,7 @@
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { checkLengths, localeFromUrl } from '../src/lib/seo-limits.js';
 
 // fileURLToPath, not .pathname — the project path contains a space, which
 // .pathname leaves percent-encoded and fs then fails to find.
@@ -65,19 +66,30 @@ const longTitles = [];
 const badMeta = [];
 const noCanonical = [];
 const badH1 = [];
+// Live locales, taken from the bundles that exist — the same rule lib/content.js
+// uses to decide what ships. Needed here so a /ja/ URL can be told apart from an
+// English slug that merely starts with those two letters.
+const I18N_DIR = fileURLToPath(new URL('../src/content/i18n/', import.meta.url));
+const LIVE_LOCALES = existsSync(I18N_DIR)
+  ? readdirSync(I18N_DIR).filter((f) => f.endsWith('.json')).map((f) => f.replace(/\.json$/, ''))
+  : [];
+
 for (const [url, html] of pages) {
+  const locale = localeFromUrl(url, LIVE_LOCALES);
   const t = html.match(/<title>(.*?)<\/title>/s)?.[1] ?? '';
-  if (t.length > 60) longTitles.push(`${url} (${t.length})`);
   if (titles.has(t)) badMeta.push(`duplicate title: ${url} == ${titles.get(t)}`);
   titles.set(t, url);
   const d = html.match(/<meta name="description" content="(.*?)"/s)?.[1] ?? '';
-  if (d.length < 70 || d.length > 155) badMeta.push(`${url} meta ${d.length}`);
+  // Per-locale limits (src/lib/seo-limits.js) — full-width CJK gets ~half the
+  // character budget for the same pixel width.
+  const problems = checkLengths({ title: t, meta: d, locale, label: url });
+  for (const p of problems) (p.includes('title') ? longTitles : badMeta).push(p);
   if (!html.includes('rel="canonical"')) noCanonical.push(url);
   const h1s = (html.match(/<h1/g) || []).length;
   if (h1s !== 1) badH1.push(`${url} has ${h1s}`);
 }
-check('titles within 60 chars', longTitles.length === 0, longTitles.join(', '));
-check('meta descriptions 70-155 and unique', badMeta.length === 0, badMeta.slice(0, 5).join(', '));
+check('titles within their locale limit', longTitles.length === 0, longTitles.join(', '));
+check('meta descriptions within locale limit and unique', badMeta.length === 0, badMeta.slice(0, 5).join(', '));
 check('canonical on every page', noCanonical.length === 0, noCanonical.join(', '));
 check('exactly one h1 per page', badH1.length === 0, badH1.join(', '));
 
@@ -212,6 +224,16 @@ if (existsSync(vercelPath)) {
   check('no SPA rewrite config', true);
 }
 check('fonts are self-hosted', ![...pages.values()].some((h) => /fonts\.(googleapis|gstatic)/.test(h)));
+
+// The Japanese webfont is committed, not built (scripts/build-cjk-subset.sh needs
+// Python tooling Vercel does not have) — the same shape as og.png, and the same
+// failure mode: a stray clean or a bad merge drops it and nothing else notices.
+// Without these, every kana and kanji on /ja/ falls back to an arbitrary system
+// font, which golden rule 1 forbids. Weights must match the Space Grotesk set.
+const jaFonts = [400, 500, 600, 700].map((w) => `noto-sans-jp-${w}-japanese.woff2`);
+const missingJa = jaFonts.filter((f) => !existsSync(join(DIST, 'fonts', f)));
+check('Japanese webfont subset is served', missingJa.length === 0,
+  `missing from dist/fonts/: ${missingJa.join(', ')} — run scripts/build-cjk-subset.sh`);
 check('favicon present', existsSync(join(DIST, 'favicon.svg')));
 const robots = readFileSync(join(DIST, 'robots.txt'), 'utf8');
 check('robots names AI crawlers', ['GPTBot', 'PerplexityBot', 'ClaudeBot'].every((b) => robots.includes(b)));
