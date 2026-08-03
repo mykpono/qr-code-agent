@@ -37,6 +37,12 @@
       "msv": 1600,
       "note": "PLURAL beats singular (1,600 vs 1,300). The unaccented spelling in SEO-BRIEF 8.2 is a query-typing artifact, not a copy instruction — Google folds diacritics for Spanish, so titles keep correct 'códigos'. es DB; pull MX separately for LatAm.",
       "source": "SEO-BRIEF 8.2"
+    },
+    "id": {
+      "term": "qr code generator",
+      "msv": 135000,
+      "note": "The ENGLISH form dominates Indonesian search — this term is copy, not a translation, and stays English inside Indonesian titles and H1s. Native forms are secondaries for meta and body only: 'buat kode qr' 2,400, 'pembuat kode qr' 720. A title that says 'pembuat kode QR' instead of 'QR code generator' loses the head term.",
+      "source": "SEO-BRIEF 8.2"
     }
   },
 
