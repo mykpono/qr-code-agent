@@ -49,6 +49,12 @@
       "msv": 135000,
       "note": "The ENGLISH form dominates Indonesian search — this term is copy, not a translation, and stays English inside Indonesian titles and H1s. Native forms are secondaries for meta and body only: 'buat kode qr' 2,400, 'pembuat kode qr' 720. A title that says 'pembuat kode QR' instead of 'QR code generator' loses the head term.",
       "source": "SEO-BRIEF 8.2"
+    },
+    "zh-tw": {
+      "term": "qr code generator",
+      "msv": 9900,
+      "note": "The ENGLISH form, same pattern as ID — this term is copy, not a translation, and stays English inside Traditional Chinese titles and H1s. The native form 'QR Code 產生器' is a secondary for meta and body only. NOTE the volume is modest next to ID (135,000) and DE (165,000) for a market that has a strong native term, and no per-locale KD was pulled; worth re-validating before investing further in zh-tw.",
+      "source": "Owner-supplied 2026-08-03 (not from SEO-BRIEF 8.2, which has no Chinese entry)"
     }
   },
 

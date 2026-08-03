@@ -233,7 +233,45 @@ check('fonts are self-hosted', ![...pages.values()].some((h) => /fonts\.(googlea
 const jaFonts = [400, 500, 600, 700].map((w) => `noto-sans-jp-${w}-japanese.woff2`);
 const missingJa = jaFonts.filter((f) => !existsSync(join(DIST, 'fonts', f)));
 check('Japanese webfont subset is served', missingJa.length === 0,
-  `missing from dist/fonts/: ${missingJa.join(', ')} — run scripts/build-cjk-subset.sh`);
+  `missing from dist/fonts/: ${missingJa.join(', ')} — run scripts/build-cjk-subset.sh ja`);
+
+// Same deal for Traditional Chinese, and it is NOT interchangeable with the
+// Japanese set: 391 of the han characters the zh-tw bundle uses do not exist in
+// the Jōyō-based JP subset, so losing these files drops roughly a third of every
+// Chinese page to a system fallback rather than degrading gracefully.
+const tcFonts = [400, 500, 600, 700].map((w) => `noto-sans-tc-${w}-zh-hant.woff2`);
+const missingTc = tcFonts.filter((f) => !existsSync(join(DIST, 'fonts', f)));
+check('Traditional Chinese webfont subset is served', missingTc.length === 0,
+  `missing from dist/fonts/: ${missingTc.join(', ')} — run scripts/build-cjk-subset.sh zh-tw`);
+
+// og:locale is a hand-maintained language_TERRITORY map in Base.astro that cannot
+// be derived from hreflang, so a new locale silently inherits the en_US fallback.
+// Nothing about the page looks wrong — only the link unfurl is mislabelled, which
+// is exactly the class of bug that survives to production unnoticed.
+// Reuses liveLocales from the llms.txt check above: English pages sit at the
+// root, so a URL's first segment is only a locale when it matches that pattern —
+// keying on "has a directory" would flag every English page as a broken locale.
+const ogLocaleByDir = new Map();
+for (const [url, html] of pages) {
+  const dir = url.split('/')[1] || '';
+  if (!liveLocales.includes(dir)) continue;
+  const m = html.match(/property="og:locale"[^>]*content="([^"]+)"/);
+  if (m && !ogLocaleByDir.has(dir)) ogLocaleByDir.set(dir, m[1]);
+}
+const missingOg = liveLocales.filter((l) => !ogLocaleByDir.has(l));
+const wrongOg = [...ogLocaleByDir].filter(([, v]) => v === 'en_US');
+check('every live locale has its own og:locale', wrongOg.length === 0 && missingOg.length === 0,
+  `${[...wrongOg.map(([d]) => `${d} fell back to en_US`), ...missingOg.map((d) => `${d} has no og:locale`)].join(', ')}`
+  + ' — add the locale to OG_LOCALE in src/layouts/Base.astro');
+
+// The per-locale family swap in tokens/typography.css is what keeps the two CJK
+// faces apart; both declare U+4E00-9FFF, so if this collapses back to one shared
+// stack the JP face silently claims Traditional Chinese text.
+const typography = readFileSync('src/styles/tokens/typography.css', 'utf8');
+check('CJK family is swapped per locale, not stacked',
+  /--font-cjk:\s*'Noto Sans JP'/.test(typography)
+  && /\[lang="zh-Hant"\][\s\S]*--font-cjk:\s*'Noto Sans TC'/.test(typography),
+  'typography.css must define --font-cjk and override it under [lang="zh-Hant"]');
 check('favicon present', existsSync(join(DIST, 'favicon.svg')));
 const robots = readFileSync(join(DIST, 'robots.txt'), 'utf8');
 check('robots names AI crawlers', ['GPTBot', 'PerplexityBot', 'ClaudeBot'].every((b) => robots.includes(b)));

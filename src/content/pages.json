@@ -59,6 +59,11 @@
         "code": "ru",
         "prefix": "/ru",
         "label": "Русский"
+      },
+      {
+        "code": "zh-TW",
+        "prefix": "/zh-tw",
+        "label": "繁體中文"
       }
     ],
     "primary_nav": [
