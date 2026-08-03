@@ -855,9 +855,9 @@
       ]
     },
     "menu-qr-code": {
-      "title": "餐廳免費 QR Code 菜單產生器",
+      "title": "菜單 QR Code Generator — 免費",
       "meta": "免費製作 QR Code 菜單。客人一掃就看得到你的菜單——免 App、免重印。連到頁面或 PDF，加上品牌並下載。",
-      "h1": "QR Code 菜單產生器",
+      "h1": "菜單 QR Code Generator",
       "subhead": "讓客人掃描就看得到你的菜單。隨時更新，一組碼都不必重印。免費，還能加上品牌。",
       "intro": "QR Code 菜單把客人帶到你放在網路上的菜單，讓他們用自己的手機掃描瀏覽——不必共用護貝菜單、沒有印刷成本，更新也立刻生效。連上你的菜單頁面或一份已上線的 PDF、把這組碼設計成符合餐廳的樣子，再印在桌卡或櫥窗上。完全免費，而且在你的瀏覽器裡完成。",
       "whereToUse": [
@@ -1069,9 +1069,9 @@
       ]
     },
     "wifi-qr-code": {
-      "title": "WiFi QR Code 產生器 — 免費立即連線",
+      "title": "WiFi QR Code Generator — 免費",
       "meta": "免費製作 WiFi QR Code。客人掃描就能連上你的網路，不必輸入密碼。可設計外觀、加上 Logo，下載 PNG 或 SVG。",
-      "h1": "WiFi QR Code 產生器",
+      "h1": "WiFi QR Code Generator",
       "subhead": "讓客人一掃就連上你的 WiFi——不必再把密碼唸出來。免費、可設計外觀，並能下載成 PNG 或 SVG。",
       "intro": "WiFi QR Code 讓任何人用手機相機掃一下就能連上你的網路——不必輸入一長串密碼。輸入你的網路名稱、安全性類型和密碼，把這組碼設計得符合你的空間，再印在桌卡、櫥窗或迎賓卡上。你的 WiFi 憑證在你的瀏覽器裡編碼，從不會送往伺服器。",
       "whereToUse": [
@@ -1315,9 +1315,9 @@
       ]
     },
     "email-qr-code": {
-      "title": "電子郵件 QR Code 產生器 — 免費、免註冊",
+      "title": "電子郵件 QR Code Generator — 免費",
       "meta": "免費製作電子郵件 QR Code。一掃就開啟一封寄給你、主旨與內文都已填好的新郵件。可加上品牌，下載 PNG 或 SVG。",
-      "h1": "電子郵件 QR Code 產生器",
+      "h1": "電子郵件 QR Code Generator",
       "subhead": "掃描即寄信給你——地址、主旨和內文都已經填好了。免費，還能加上品牌。",
       "intro": "電子郵件 QR Code 會開啟一封寄到你信箱的新郵件，主旨和內文都已經寫好，對方只要按下傳送就行。適合從印刷品接收客服請求、意見回饋、出席回覆和業務詢問。輸入地址、加上主旨和訊息、替這組碼加上品牌，然後免費下載。",
       "whereToUse": [
@@ -1569,9 +1569,9 @@
       ]
     },
     "home": {
-      "title": "免費 QR Code 產生器 — 無限量、免註冊",
+      "title": "免費 QR Code Generator — 無限量",
       "meta": "免費製作無限組 QR Code，可加上你的 Logo、自訂顏色與點陣樣式。免註冊、無浮水印，在瀏覽器裡下載 PNG 或 SVG。",
-      "h1": "含 Logo 的免費 QR Code 產生器",
+      "h1": "含 Logo 的免費 QR Code Generator",
       "subhead": "免費製作無限組自訂 QR Code——加上你的 Logo、挑選顏色、下載 PNG 或 SVG。免帳號、無浮水印、不會過期。",
       "intro": "QR Code Agent 是一個完全在你瀏覽器裡執行的免費 QR Code 產生器。貼上任何連結、選擇點陣樣式和顏色、放進你的 Logo，然後下載高解析度 PNG 或可直接印刷的 SVG。免註冊、無浮水印，你做幾組碼也沒有上限。美國、英國、德國、印度乃至全球的企業都在使用——這些碼永不失效，因為資料就存在圖片本身裡。",
       "benefits": [
@@ -1862,9 +1862,9 @@
       ]
     },
     "sms-qr-code": {
-      "title": "簡訊 QR Code 產生器 — 免費、免註冊",
+      "title": "簡訊 QR Code Generator — 免費",
       "meta": "免費製作簡訊 QR Code。一掃就開啟一則寄給你號碼、內文已填好的簡訊。可加上品牌與 Logo，下載 PNG 或 SVG。",
-      "h1": "簡訊 QR Code 產生器",
+      "h1": "簡訊 QR Code Generator",
       "subhead": "掃描即傳簡訊——你的號碼和訊息都已經填好了。免費，還能加上品牌。",
       "intro": "簡訊 QR Code 會開啟一則寄給你號碼的新簡訊，內文已經寫好，對方只要按下傳送就行。適合用在關鍵字訂閱、客服請求和桌邊點餐。輸入號碼和訊息、替這組碼加上品牌，然後免費下載。",
       "benefits": [
@@ -2077,9 +2077,9 @@
       ]
     },
     "pdf-qr-code": {
-      "title": "PDF QR Code 產生器 — 免費連結 PDF",
+      "title": "PDF QR Code Generator — 免費",
       "meta": "免費製作 PDF 的 QR Code。掃描即開啟菜單、型錄或使用手冊。連到你已上線的 PDF，加上品牌並下載 PNG 或 SVG。",
-      "h1": "PDF QR Code 產生器",
+      "h1": "PDF QR Code Generator",
       "subhead": "把已上線的 PDF 變成掃得到的碼——菜單、型錄、使用手冊、傳單。免費，還能加上品牌。",
       "intro": "PDF QR Code 連到一份你已放上網的文件——菜單、型錄、規格表或使用手冊——讓人一掃就在手機上開啟它。把 PDF 上傳到你的網站或檔案代管服務，貼上連結、替這組碼加上品牌，然後免費下載。",
       "benefits": [
@@ -2321,7 +2321,7 @@
       }
     },
     "qr-code-with-logo": {
-      "title": "含 Logo 的 QR Code 產生器 — 免費",
+      "title": "含 Logo 的 QR Code Generator",
       "meta": "免費在 QR Code 上加入你的 Logo。上傳 PNG、以高容錯率維持可掃描，再下載 PNG 或 SVG，不必開帳號。",
       "h1": "免費在 QR Code 上加入你的 Logo",
       "subhead": "把你的 Logo 放進完整設計過的 QR Code 正中央，幾秒鐘就能下載。免費、免註冊、無浮水印。",
@@ -2509,9 +2509,9 @@
       ]
     },
     "vcard-qr-code": {
-      "title": "vCard QR Code 產生器 — 免費電子名片",
+      "title": "vCard QR Code Generator — 免費",
       "meta": "免費製作 vCard QR Code。一掃就把你的姓名、電話、電子郵件和公司存進通訊錄。可設計外觀、加上 Logo。",
-      "h1": "vCard QR Code 產生器",
+      "h1": "vCard QR Code Generator",
       "subhead": "把你的聯絡資訊變成一組碼，讓人一掃就立刻把你存起來。免費、可加品牌、適合印刷。",
       "intro": "vCard QR Code 裝著你完整的聯絡資訊，所以一次掃描就能把你的姓名、電話、電子郵件和公司直接存進對方的手機。在活動現場、名片上或電子郵件簽名檔裡，這是分享聯絡資訊最快的方式。填好你的資料、用你的顏色和 Logo 替這組碼加上品牌，然後下載——不必裝 App，也不必開帳號。",
       "whereToUse": [
@@ -3276,9 +3276,9 @@
       ]
     },
     "url-qr-code": {
-      "title": "網址 QR Code 產生器 — 免費、免註冊",
+      "title": "網址 QR Code Generator — 免費",
       "meta": "免費把任何網址變成 QR Code。貼上連結、設計外觀、下載 PNG 或 SVG。免帳號、無浮水印，這組碼也永不失效。",
-      "h1": "網址 QR Code 產生器",
+      "h1": "網址 QR Code Generator",
       "subhead": "貼上連結，就得到一組掃得到的碼。免費、免註冊、永不失效。",
       "intro": "貼上任何網址，就得到一組能開啟它的 QR Code。到達頁面、表單、文件、預約連結，只要有網址都適用。設計點陣與顏色、加上 Logo，再下載 PNG 或 SVG。完全免費、免註冊，而且連結已經烤進圖片裡，所以永不失效。",
       "whereToUse": [
@@ -3411,9 +3411,9 @@
       }
     },
     "spotify-qr-code": {
-      "title": "Spotify QR Code 產生器 — 免費",
+      "title": "Spotify QR Code Generator",
       "meta": "免費製作單曲、播放清單或歌手的 Spotify QR Code。粉絲一掃就立刻收聽，可加上品牌與 Logo，下載 PNG 或 SVG。",
-      "h1": "Spotify QR Code 產生器",
+      "h1": "Spotify QR Code Generator",
       "subhead": "分享一首歌、一份播放清單或歌手頁面，一掃就開啟。免費，還能加上品牌。",
       "intro": "Spotify QR Code 把聽眾直接送到你的單曲、播放清單或歌手頁面。用在海報、周邊商品和展演場地都很合適。貼上 Spotify 連結、替這組碼加上品牌，然後免費下載——免註冊。",
       "benefits": [
@@ -3738,9 +3738,9 @@
       ]
     },
     "facebook-qr-code": {
-      "title": "Facebook QR Code 產生器 — 免費",
+      "title": "Facebook QR Code Generator",
       "meta": "免費製作連到你的粉絲專頁或個人檔案的 Facebook QR Code。可加上品牌與 Logo，下載 PNG 或 SVG，免註冊。",
-      "h1": "Facebook QR Code 產生器",
+      "h1": "Facebook QR Code Generator",
       "subhead": "一掃就把人直接送到你的 Facebook 專頁。免費、可加品牌、適合印刷。",
       "intro": "Facebook QR Code 一掃就開啟你的專頁或個人檔案，讓你更容易從紙本和面對面的接觸點擴大受眾。貼上專頁連結，用你的品牌設計這組碼的外觀，然後免費下載——免帳號，也不會過期。",
       "benefits": [
@@ -4027,9 +4027,9 @@
       ]
     },
     "crypto-qr-code": {
-      "title": "Bitcoin QR Code 產生器 — 免費、免註冊",
+      "title": "Bitcoin QR Code Generator",
       "meta": "免費把錢包地址或付款 URI 變成 QR Code。適用於 Bitcoin 與其他加密貨幣，可加品牌並下載 PNG 或 SVG。",
-      "h1": "Bitcoin QR Code 產生器",
+      "h1": "Bitcoin QR Code Generator",
       "subhead": "把錢包地址或付款 URI 編碼成碼，讓人用掃的而不是用打的。免費，還能加上品牌。",
       "intro": "錢包地址是一長串很容易打錯的字元。QR Code 讓對方把你現有的地址直接掃進他的錢包 App。貼上地址或完整的付款 URI，設計這組碼的外觀，然後免費下載。過程不會上傳任何東西，全部在你的瀏覽器裡產生，而且這組碼永不失效。",
       "benefits": [
@@ -4083,9 +4083,9 @@
       }
     },
     "google-review-qr-code": {
-      "title": "Google 評論 QR Code 產生器 — 免費",
+      "title": "Google 評論 QR Code Generator",
       "meta": "免費製作 Google 評論 QR Code。客人一掃就能在幾秒內留下評論，可加上品牌與 Logo，下載 PNG 或 SVG。",
-      "h1": "Google 評論 QR Code 產生器",
+      "h1": "Google 評論 QR Code Generator",
       "subhead": "把可掃描的評論連結放在櫃檯、收據或桌上——看著你的 Google 評論一路增加。免費，還能加上品牌。",
       "intro": "要蒐集更多 Google 評論，最有效的做法就是把阻力拿掉：一組直接打開評論表單的 QR Code。貼上你的 Google 評論連結，用顏色和 Logo 替這組碼加上品牌，然後把它放在滿意的客人面前——櫃檯、收據、桌卡。評論越多，在地排名越高，也越容易贏得新客戶的信任。完全免費，而且在你的瀏覽器裡產生。",
       "benefits": [
@@ -4139,9 +4139,9 @@
       }
     },
     "youtube-qr-code": {
-      "title": "YouTube QR Code 產生器 — 免費影片連結",
+      "title": "YouTube QR Code Generator",
       "meta": "免費製作影片或頻道的 YouTube QR Code。觀眾一掃就立刻觀看，可加上品牌與 Logo，下載 PNG 或 SVG。",
-      "h1": "YouTube QR Code 產生器",
+      "h1": "YouTube QR Code Generator",
       "subhead": "衝高觀看次數——連到一支影片或頻道，一掃就開啟。免費，還能加上品牌。",
       "intro": "YouTube QR Code 把觀眾直接帶到你的影片或頻道，最適合用在包裝、海報和簡報上。貼上連結、替這組碼加上品牌，然後免費下載——免註冊，而且永不失效。",
       "benefits": [
@@ -4191,9 +4191,9 @@
       }
     },
     "custom-qr-code-generator": {
-      "title": "自訂 QR Code 產生器 — 免費、免註冊",
+      "title": "自訂 QR Code Generator — 免費",
       "meta": "免費設計自訂 QR Code：挑選點陣樣式、定位點、顏色與中央 Logo，再下載 PNG 或 SVG。免帳號，無浮水印。",
-      "h1": "自訂 QR Code 產生器",
+      "h1": "自訂 QR Code Generator",
       "subhead": "完全掌控點陣、定位點、顏色與你的 Logo。免費、免註冊、永不失效。",
       "intro": "多數免費產生器只給你一個死板的黑色方塊。這一個讓你更換點陣形狀、重新設計三個角落的定位點、指定前景色與背景色，並把 Logo 放進正中央。調整容錯率讓它照樣掃得到，再匯出 PNG 或可直接印刷的 SVG。完全免費、免帳號，而且這組碼永不失效。",
       "benefits": [
@@ -4247,9 +4247,9 @@
       }
     },
     "app-download-qr-code": {
-      "title": "App Store QR Code 產生器 — 免費",
+      "title": "App Store QR Code Generator",
       "meta": "為你的 App 頁面製作免費 QR Code。掃描即開啟 App Store 或 Google Play 頁面，可加上品牌並下載 PNG 或 SVG。",
-      "h1": "App Store QR Code 產生器",
+      "h1": "App Store QR Code Generator",
       "subhead": "一組碼把人直接送到你的 App 頁面。免費、可加品牌、適合印刷。",
       "intro": "要人家自己去商店搜尋名稱，安裝數就這樣流失了。QR Code 讓他們一掃就落在你的 App 頁面。貼上 App Store 或 Google Play 網址，或是能自動把每支手機導向正確商店的智慧連結，接著替這組碼加上品牌並下載。免費、免註冊，而且永不失效。",
       "benefits": [
@@ -4303,9 +4303,9 @@
       }
     },
     "event-qr-code": {
-      "title": "活動 QR Code 產生器 — 免費、免註冊",
+      "title": "活動 QR Code Generator — 免費",
       "meta": "免費製作活動 QR Code，連到票券、報到頁或活動頁面。可加上品牌並下載 PNG 或 SVG，免帳號也不會過期。",
-      "h1": "活動 QR Code 產生器",
+      "h1": "活動 QR Code Generator",
       "subhead": "一掃就連到票券、報到頁或活動細節。免費，還能加上品牌。",
       "intro": "活動 QR Code 指向與會者接下來需要的任何東西：票券頁、報名表單、報到連結或議程。把它放在邀請函、名牌、海報和指示牌上，大家一掃就到得了。貼上連結、替這組碼加上品牌，然後免費下載，全程免註冊。",
       "benefits": [
@@ -4414,9 +4414,9 @@
       ]
     },
     "instagram-qr-code": {
-      "title": "Instagram QR Code 產生器 — 免費",
+      "title": "Instagram QR Code Generator",
       "meta": "免費製作 Instagram QR Code，讓人掃描就開啟並追蹤你的個人檔案。可設計樣式、加上 Logo，下載 PNG 或 SVG。",
-      "h1": "Instagram QR Code 產生器",
+      "h1": "Instagram QR Code Generator",
       "subhead": "一掃就漲粉——直接連到你的 Instagram 個人檔案。免費、可加品牌、適合印刷。",
       "intro": "Instagram QR Code 把人直接送到你的個人檔案追蹤你——最適合放在店面櫥窗、包裝、傳單和活動現場。貼上個人檔案連結，用品牌色和 Logo 設計這組碼，然後下載。完全免費、免註冊，而且永不失效。",
       "benefits": [
@@ -4466,9 +4466,9 @@
       }
     },
     "phone-qr-code": {
-      "title": "電話號碼 QR Code 產生器 — 免費",
+      "title": "電話號碼 QR Code Generator — 免費",
       "meta": "免費製作電話號碼 QR Code。一掃就撥號，不必手動輸入數字。可加上品牌與 Logo，下載 PNG 或 SVG，免註冊。",
-      "h1": "電話號碼 QR Code 產生器",
+      "h1": "電話號碼 QR Code Generator",
       "subhead": "掃描即撥號——號碼直接進到撥號畫面，按下就通。免費，還能加上品牌。",
       "intro": "電話 QR Code 一掃就把你的號碼帶進撥號畫面，沒人會再從傳單或車身上把號碼抄錯。以國際格式輸入號碼、替這組碼加上品牌，然後免費下載——免註冊，而且永不失效。",
       "benefits": [
@@ -4522,9 +4522,9 @@
       }
     },
     "whatsapp-qr-code": {
-      "title": "WhatsApp QR Code 產生器 — 免費聊天連結",
+      "title": "WhatsApp QR Code Generator",
       "meta": "免費製作 WhatsApp QR Code。客戶掃描就能和你的號碼開始聊天，可選填預設訊息，加上品牌後下載 PNG 或 SVG。",
-      "h1": "WhatsApp QR Code 產生器",
+      "h1": "WhatsApp QR Code Generator",
       "subhead": "讓客戶一掃就開啟 WhatsApp 對話——不必先存你的號碼。免費，還能加上品牌。",
       "intro": "WhatsApp QR Code 一掃就開啟與你商務號碼的對話——不必存聯絡人，也不必打字。用在客服、接單和名單蒐集都很合適。輸入號碼和選填的預設訊息，替這組碼加上品牌，然後免費下載。",
       "benefits": [
@@ -4574,9 +4574,9 @@
       }
     },
     "text-qr-code": {
-      "title": "純文字 QR Code 產生器 — 免費",
+      "title": "純文字 QR Code Generator — 免費",
       "meta": "免費製作純文字 QR Code。掃描即顯示一段純文字訊息，不需連結也不必連網。可加上品牌並下載 PNG 或 SVG。",
-      "h1": "純文字 QR Code 產生器",
+      "h1": "純文字 QR Code Generator",
       "subhead": "掃描就顯示純文字訊息——不需連結，也不必連網。免費，還能加上品牌。",
       "intro": "純文字 QR Code 存的是文字而不是連結，所以有人一掃，訊息就直接出現在螢幕上。用在序號、操作說明、貨架標示和活動細節都很方便。打上文字、替這組碼加上品牌，然後免費下載。",
       "benefits": [
