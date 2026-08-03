@@ -328,8 +328,13 @@ the locale's URLs discovered within 14 days.
 This is what turns 517 URLs from a liability into an asset. **Sequence matters: do not launch
 before §3 is done** or you'll spend your one launch spike unmeasured.
 
-- [ ] **D1** `[MYK]` · 2 hrs · Directory submissions: AlternativeTo, SaaSHub, ToolFinder.
-      ~30 min each, durable, and they are themselves cited by LLMs.
+- [ ] **D1** `[MYK]` · ~30 min · Directory submissions: AlternativeTo, SaaSHub, ToolFinder.
+      **Prepared 2026-08-02 — see `docs/DIRECTORY-SUBMISSIONS.md` for paste-ready copy.** All
+      three require an account, so the submitting is yours; the drafting, requirements check and
+      competitor lists are done, which is why the estimate drops from 2 hrs. Two corrections to
+      this row: **ToolFinder is $29**, not free (`toolfinder.co` → `toolfinder.com`), and
+      **SaaSHub deprioritises submissions that name no listed competitors** — the pack supplies
+      them. Recommendation recorded there: do the two free ones, skip ToolFinder for now.
 - [ ] **D2** `[MYK]` · 4 hrs · **Product Hunt + Show HN**, same week. Lead with the **privacy
       claim** ("nothing is uploaded, no scans tracked, works offline"), not "free QR generator" —
       the latter reads as spam on HN. Block the full day for comments; the comment thread is where
