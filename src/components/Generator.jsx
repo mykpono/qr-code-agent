@@ -191,7 +191,15 @@ const ECC_RECOVERY = { L: 7, M: 15, Q: 25, H: 30 };
 const PLATE_COVER = 22;
 const FORMATS = ['PNG', 'SVG', 'PDF'];
 const CTA_SIZES = ['XS', 'S', 'M', 'L', 'XL'];
-const THEMES = [['cream', '#faf6ec'], ['sand', '#e7dcc4'], ['olive', '#59603c'], ['slate', '#302c3b']];
+/* Light set from ../light-theme-spec.md §1, then the two cream-build themes
+   kept by request. The chip is the theme's own --surface except Paper and Snow,
+   which the spec gives a slightly deeper chip than their surface so the swatch
+   reads as an object on a white card. Olive is the only dark one. */
+const THEMES = [
+  ['paper', '#ffffff'], ['snow', '#f6f7f9'], ['mist', '#eaeef3'], ['linen', '#f3efe9'],
+  ['sand', '#e7dcc4'], ['olive', '#59603c'],
+];
+const DEFAULT_THEME = 'paper';
 const THEME_KEY = 'qra:theme';
 const SAVED_KEY = 'qra:saved';
 
@@ -371,7 +379,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
   // Must match the server render exactly — reading localStorage or innerWidth
   // during render made the first client pass disagree with the SSR HTML and
   // React threw away the whole island. The effects below sync after mount.
-  const [theme, setTheme] = useState('cream');
+  const [theme, setTheme] = useState(DEFAULT_THEME);
   const [scannable, setScannable] = useState(true);
   const [saved, setSaved] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -570,7 +578,17 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
   }, [openPop, drawerOpen]);
 
   useEffect(() => { if (drawerOpen) drawerRef.current?.focus(); }, [drawerOpen]);
-  useEffect(() => { try { const s = localStorage.getItem(THEME_KEY); if (s) setTheme(s); } catch {} }, []);
+  // Only adopt a stored theme that still exists. Visitors from the cream build
+  // carry 'cream'/'sand'/'olive'/'slate' in this key; those scopes are gone, so
+  // the page already paints Paper — restoring the name would only leave the
+  // swatch row with nothing selected.
+  useEffect(() => {
+    try {
+      const s = localStorage.getItem(THEME_KEY);
+      if (s && THEMES.some(([n]) => n === s)) setTheme(s);
+      else if (s) localStorage.removeItem(THEME_KEY);
+    } catch {}
+  }, []);
   useEffect(() => { setSaved(readSaved()); }, []);
   // Track the breakpoint where the two columns stack. Below it the preview sits
   // FIRST, which would leave the feedback strip stranded in the middle of the
@@ -593,7 +611,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
 
   function applyTheme(name) {
     setTheme(name);
-    try { document.documentElement.setAttribute('data-theme', name === 'cream' ? '' : name); } catch {}
+    try { document.documentElement.setAttribute('data-theme', name === DEFAULT_THEME ? '' : name); } catch {}
     try { localStorage.setItem(THEME_KEY, name); } catch {}
     track('theme_switch', { theme: name });
   }
@@ -865,7 +883,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
         <div className="gf-themes">
           {THEMES.map(([n, c]) => (
             <button key={n} type="button" aria-pressed={theme === n} className={theme === n ? 'on' : ''}
-              style={{ background: c }} title={n} aria-label={n} onClick={() => applyTheme(n)} />
+              style={{ background: c }} title={t.appTheme[n]} aria-label={t.appTheme[n]} onClick={() => applyTheme(n)} />
           ))}
         </div>
       </div>

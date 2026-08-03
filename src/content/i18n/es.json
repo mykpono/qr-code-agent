@@ -497,6 +497,14 @@
       "mint": "Menta",
       "black": "Negro"
     },
+    "appTheme": {
+      "paper": "Papel",
+      "snow": "Nieve",
+      "mist": "Bruma",
+      "linen": "Lino",
+      "sand": "Arena",
+      "olive": "Oliva"
+    },
     "ctaSize": {
       "XS": "Muy pequeño",
       "S": "Pequeño",

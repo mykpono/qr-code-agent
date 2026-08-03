@@ -1,9 +1,86 @@
 /* QR Code Agent — Theme variants
-   The generator ships four themes selected from header swatches.
-   Cream (default) lives on :root in colors.css; these scopes override it.
-   Apply with <html data-theme="sand|olive|slate"> or on any container. */
+   The generator ships six themes selected from the swatches in the widget
+   header. Paper (default) lives on :root in colors.css; these scopes override it.
+   Apply with <html data-theme="snow|mist|linen|sand|olive"> or on any container.
 
-/* ── Sand — warmer light ─────────────────────────────── */
+   TWO FAMILIES, deliberately kept side by side:
+   · Snow / Mist / Linen — the light set from ../light-theme-spec.md §1, values
+     verbatim from its tables except where AA forced a shift (see inline).
+   · Sand / Olive — carried over from the cream build by request. They are NOT
+     in the light spec, so they keep their own --page and their own solved
+     greys; do not "reconcile" them with the light tokens.
+
+   Olive is the only DARK theme, and it is why the dark-theme escapes still
+   exist: a white --focus-ring, an opaque --surface-white, an rgba --brand-soft
+   and a light --brand-500. Anything added to :root that assumes a light surface
+   needs an Olive override.
+
+   AA: --brand-500 is #5d3ff0 on :root (see the deviation note in colors.css);
+   Sand and Olive re-solve it against their own surfaces. */
+
+/* ── Snow — cooler, very slightly off-white ──────────── */
+[data-theme="snow"] {
+  --surface: #fbfcfd;
+  --surface-2: #f1f3f6;
+  --surface-3: #f6f8fa;
+  --border: #e1e5ea;
+  --border-soft: #ebeef2;
+  --border-2: #d2d7de;
+  --border-3: #c4cad3;
+  --ink: #1f2028;
+  --ink-2: #42444f;
+  --muted: #4b4e59;
+  --muted-2: #61646e;
+  --label: #5c606b;
+  --label-2: #6a6e79;
+  --brand-soft: #eae6ff;
+  --preview: linear-gradient(160deg, #fbfcfd, #eef1f5);
+}
+
+/* ── Mist — coolest, a blue-grey paper ───────────────── */
+[data-theme="mist"] {
+  --surface: #f3f6f9;
+  --surface-2: #e9edf2;
+  --surface-3: #eff2f6;
+  --border: #d9dfe6;
+  --border-soft: #e3e8ee;
+  --border-2: #c9d1da;
+  --border-3: #bac3ce;
+  --ink: #1d2530;
+  --ink-2: #3f4753;
+  --muted: #464e59;
+  --muted-2: #5b636d;
+  --label: #586069;
+  --label-2: #646a74;      /* a11y: the spec's #666d77 is 4.44:1 on this theme's
+                              --surface-2, the darkest fill a placeholder lands
+                              on. Darkened to the first value that clears AA
+                              (4.63:1); hue and saturation unchanged. */
+  --brand-soft: #e4e0fb;
+  --preview: linear-gradient(160deg, #f3f6f9, #e6ebf1);
+}
+
+/* ── Linen — warmest, a paper white with a cream cast ── */
+[data-theme="linen"] {
+  --surface: #fbf9f6;
+  --surface-2: #f2efe9;
+  --surface-3: #f7f5f1;
+  --border: #e7e2d9;
+  --border-soft: #f0ece5;
+  --border-2: #dad4c9;
+  --border-3: #cbc4b7;
+  --ink: #242028;
+  --ink-2: #4a4550;
+  --muted: #4c4850;
+  --muted-2: #615d61;
+  --label: #605c60;
+  --label-2: #6e6a6d;
+  --brand-soft: #ece7ff;
+  --preview: linear-gradient(160deg, #fbf9f6, #f1ede6);
+}
+
+/* ── Sand — warmer light (cream build, kept by request) ── */
+/* Keeps its own --page: its greys and its accent were solved against #d8cdb4,
+   not against the light set's #eceef2. */
 [data-theme="sand"] {
   --page: #d8cdb4;
   --surface: #efe7d3;
@@ -16,7 +93,10 @@
   --ink: #2b2140;
   --ink-2: #4a4030;
   --muted: #5e5548;        /* a11y: was #6b6152, 3.85:1 on --page */
-  --muted-2: #6f6656;      /* a11y: was #9a8f7c, 2.58:1 */
+  --muted-2: #5a5344;      /* a11y: was #9a8f7c (2.58:1), then #6f6656 — which
+                              was solved against --surface and left `.crumb` at
+                              3.59:1, since the breadcrumb renders straight on
+                              --page. Now 4.83:1 there. */
   --label: #6c6250;        /* a11y: was #9c907a, 2.55:1 */
   --label-2: #5f5642;      /* a11y: was #ab9f86, 2.12:1 — solved against --page */
   --brand-soft: #e7e0fb;
@@ -24,7 +104,9 @@
   --preview: linear-gradient(160deg, #ede4cf, #e5dcc4);
 }
 
-/* ── Olive — dark, warm green ────────────────────────── */
+/* ── Olive — dark, warm green (cream build, kept by request) ── */
+/* The ONLY dark theme. Every override above --border exists because a token on
+   :root assumes a light surface; keep them in step with colors.css. */
 [data-theme="olive"] {
   --focus-ring: #ffffff;        /* dark theme: white ring reads on every surface */
   --page: #3d4029;
@@ -41,33 +123,16 @@
   --muted: #cfcdb8;        /* a11y: was #c3c1a6, 4.04:1 on --surface-2 */
   --muted-2: #bfbda9;      /* a11y: was #a7a488, 3.46:1 */
   --label: #c5c4b2;        /* a11y: was #a3a184, 3.33:1 */
-  --label-2: #c6c4ac;      /* a11y: was #bbb99b — solved against --surface-3, the lightest olive surface it lands on */
+  --label-2: #d2d0ba;      /* a11y: was #bbb99b, then #c6c4ac — solved against
+                              --surface-3, but --label-2 is also the
+                              ::placeholder colour and .gf-field is --surface-2,
+                              the LIGHTEST olive fill. 4.18:1 there, now 4.73:1
+                              (4.50 exactly would sit on the rounding line). */
   --brand-soft: rgba(150,120,255,.32);
   --brand-soft-border: rgba(150,120,255,.5);
   --brand-500: #ddd5ff;    /* a11y: was #cabdff, 3.75:1 on composited --brand-soft */
   --preview: linear-gradient(160deg, #464a30, #3d4029);
-}
-
-/* ── Slate — dark, cool violet ───────────────────────── */
-[data-theme="slate"] {
-  --focus-ring: #ffffff;        /* dark theme: white ring reads on every surface */
-  --page: #1b1922;
-  --surface: #262330;
-  --surface-2: #302c3b;
-  --surface-3: #2b2734;
-  --surface-white: #2b2734;
-  --border: #3a3548;
-  --border-soft: #332f40;
-  --border-2: #423c52;
-  --border-3: #4a4358;
-  --ink: #f4f0e6;
-  --ink-2: #ddd7e6;
-  --muted: #a8a1b6;
-  --muted-2: #8f8aa0;
-  --label: #948da7;        /* a11y: was #8b83a0, 4.29:1 */
-  --label-2: #a49db4;
-  --brand-soft: rgba(139,110,255,.30);
-  --brand-soft-border: rgba(139,110,255,.5);
-  --brand-500: #cabdff;
-  --preview: linear-gradient(160deg, #211f2b, #1b1922);
+  /* The chip border from :root is a light grey tuned to keep the white Paper
+     chip visible on a white card; on this dark surface it reads as a hairline
+     around every chip, which is the same job. */
 }

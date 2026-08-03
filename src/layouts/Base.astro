@@ -4,7 +4,7 @@ import '../styles/app.css';
 import { alternates, schemaGraph, SITE, urlFor } from '../lib/content.js';
 import Consent from '../components/Consent.astro';
 
-const { page, locale = 'en', theme = 'cream' } = Astro.props;
+const { page, locale = 'en', theme = 'paper' } = Astro.props;
 const canonical = urlFor(page.slug, locale);
 const alts = alternates(page.slug);
 const graph = schemaGraph(page, locale);
@@ -38,11 +38,15 @@ const GA = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
       so every navigation serves the default theme in the HTML; without this the
       chosen theme was lost on each page load. Must stay inline and render-
       blocking here — moving it into a module or the footer reintroduces a flash
-      of the default theme. */}
+      of the default theme. The allow-list is spelled out rather than derived so
+      this stays dependency-free; it must match THEMES in Generator.jsx. Names
+      retired with the cream build (cream, slate) have no scope any more, so
+      they are dropped rather than written onto the element. */}
   <script is:inline>
     try {
       var t = localStorage.getItem('qra:theme');
-      if (t && t !== 'cream') document.documentElement.setAttribute('data-theme', t);
+      if (['snow', 'mist', 'linen', 'sand', 'olive'].indexOf(t) !== -1) document.documentElement.setAttribute('data-theme', t);
+      else if (t && t !== 'paper') localStorage.removeItem('qra:theme');
     } catch (e) {}
   </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

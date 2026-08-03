@@ -26,12 +26,16 @@
   --radius-pill: 999px;
 
   /* ── Elevation ────────────────────────────────────── */
-  --shadow-card: 0 40px 80px -40px rgba(60,40,80,.35);      /* app shell */
-  --shadow-preview: 0 30px 60px -25px rgba(40,30,60,.40);   /* QR preview mat */
-  --shadow-popover: 0 20px 44px -14px rgba(30,20,50,.40);   /* color popovers */
-  --shadow-tooltip: 0 14px 34px -12px rgba(30,20,50,.55);   /* dark tooltip */
+  /* Re-tinted from warm violet-brown to the cool rgba(30,35,60) of the light
+     theme spec (§1, "Widget shadow"). The old warm cast read as a brown smudge
+     under a white card. Geometry is unchanged except --shadow-card, which takes
+     the spec's own value. */
+  --shadow-card: 0 30px 70px -36px rgba(30,35,60,.22);      /* app shell */
+  --shadow-preview: 0 30px 60px -25px rgba(30,35,60,.30);   /* QR preview mat */
+  --shadow-popover: 0 20px 44px -14px rgba(30,35,60,.28);   /* color popovers */
+  --shadow-tooltip: 0 14px 34px -12px rgba(30,35,60,.40);   /* dark tooltip */
   --shadow-cta: 0 12px 28px -10px rgba(109,77,255,.70);     /* accent CTA glow */
-  --shadow-soft: 0 1px 3px rgba(60,40,80,.14);              /* segment knob */
+  --shadow-soft: 0 1px 3px rgba(30,35,60,.14);              /* segment knob */
 
   /* ── Motion ───────────────────────────────────────── */
   --ease-standard: cubic-bezier(.4, 0, .2, 1);

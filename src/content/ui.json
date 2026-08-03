@@ -474,6 +474,15 @@
     "mint": "Mint",
     "black": "Black"
   },
+  "appTheme": {
+    "_comment": "Names of the six widget themes, shown only in the swatch's title and aria-label — the chip itself is a colour with no text, so there is no width limit. These DO translate: like the `color` names above they are everyday material and weather nouns describing an appearance, not proper names of designs (contrast the Creative-theme presets, which stay English). Keep each one consistent with its `color` counterpart where they overlap — `sand` is the same word in both. Translating is not optional here: left in English, `mist` reads in German as a mild expletive rather than as haze.",
+    "paper": "Paper",
+    "snow": "Snow",
+    "mist": "Mist",
+    "linen": "Linen",
+    "sand": "Sand",
+    "olive": "Olive"
+  },
   "fb": {
     "ask": "Did this give you the code you wanted?",
     "yes": "✓ Yes",
