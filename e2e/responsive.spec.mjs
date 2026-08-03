@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 /*
   Where the feedback strip lives depends on the breakpoint.
@@ -20,47 +22,82 @@ import { test, expect } from '@playwright/test';
 const DESKTOP = { width: 1700, height: 1000 };
 const MOBILE = { width: 390, height: 844 };
 
+/*
+  The strip only exists when PUBLIC_FEEDBACK_ENDPOINT was set AT BUILD TIME —
+  Generator.jsx renders nothing without it, deliberately, because a form that
+  silently drops what you typed is worse than no form. Nobody has that value in
+  local dev, so these four tests failed on every local run and looked like a
+  broken widget. CI stayed green (ci.yml sets it on the Build step), which is
+  the worst shape for a false alarm: only the people who could fix it saw it.
+
+  The signal is the BUILD, not process.env: ci.yml sets the variable on `npm run
+  build` and NOT on `npm run test:e2e`, so reading the environment here would
+  skip in CI too and quietly drop coverage that currently passes. Astro SSRs the
+  island, so the strip's markup is in dist/index.html exactly when the build had
+  an endpoint.
+
+  Known blind spot, accepted deliberately: a regression that removed the strip
+  from a build that DID configure an endpoint would skip rather than fail. The
+  env check below catches that whenever the variable is visible at test time;
+  when it is not, smoke.spec.mjs still proves the island itself mounts.
+*/
+const DIST_INDEX = fileURLToPath(new URL('../dist/index.html', import.meta.url));
+const FEEDBACK_IN_BUILD = existsSync(DIST_INDEX)
+  && readFileSync(DIST_INDEX, 'utf8').includes('gf-fb');
+
+// Set locally but missing from the build is a real mismatch — a stale dist, or
+// the strip genuinely broken. Never skip that; let the tests run and fail.
+const ENDPOINT_IN_ENV = !!process.env.PUBLIC_FEEDBACK_ENDPOINT;
+const SKIP_FEEDBACK = !FEEDBACK_IN_BUILD && !ENDPOINT_IN_ENV;
+const SKIP_REASON =
+  'no feedback strip in dist/ — PUBLIC_FEEDBACK_ENDPOINT was unset at build time. '
+  + 'Set it and rebuild to run these: PUBLIC_FEEDBACK_ENDPOINT=https://example.invalid/exec npm run build';
+
 const parentClass = (page) => page.locator('.gf-fb').evaluate((el) => el.parentElement.className);
 
-test('the feedback strip sits inside the preview column on desktop', async ({ page }) => {
-  await page.setViewportSize(DESKTOP);
-  await page.goto('/', { waitUntil: 'networkidle' });
-  await expect(page.locator('.genflag')).toBeVisible();
-  expect(await parentClass(page)).toContain('gf-preview');
-});
+test.describe('feedback strip placement', () => {
+  test.skip(SKIP_FEEDBACK, SKIP_REASON);
 
-test('the feedback strip is the last band once the columns stack', async ({ page }) => {
-  await page.setViewportSize(MOBILE);
-  await page.goto('/', { waitUntil: 'networkidle' });
-  await expect(page.locator('.genflag')).toBeVisible();
-  expect(await parentClass(page)).toBe('gf-body');
+  test('the feedback strip sits inside the preview column on desktop', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await expect(page.locator('.genflag')).toBeVisible();
+    expect(await parentClass(page)).toContain('gf-preview');
+  });
 
-  // …and it really is last: below the setup column, above the coffee footer.
-  const fb = await page.locator('.gf-fb').boundingBox();
-  const setup = await page.locator('.gf-setup').boundingBox();
-  const footer = await page.locator('.gf-support-footer').boundingBox();
-  expect(fb.y).toBeGreaterThan(setup.y + setup.height - 1);
-  expect(fb.y + fb.height).toBeLessThanOrEqual(footer.y + 1);
-});
+  test('the feedback strip is the last band once the columns stack', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await expect(page.locator('.genflag')).toBeVisible();
+    expect(await parentClass(page)).toBe('gf-body');
 
-test('crossing the breakpoint live moves it, without losing what was typed', async ({ page }) => {
-  await page.setViewportSize(DESKTOP);
-  await page.goto('/', { waitUntil: 'networkidle' });
-  await expect(page.locator('.genflag')).toBeVisible();
+    // …and it really is last: below the setup column, above the coffee footer.
+    const fb = await page.locator('.gf-fb').boundingBox();
+    const setup = await page.locator('.gf-setup').boundingBox();
+    const footer = await page.locator('.gf-support-footer').boundingBox();
+    expect(fb.y).toBeGreaterThan(setup.y + setup.height - 1);
+    expect(fb.y + fb.height).toBeLessThanOrEqual(footer.y + 1);
+  });
 
-  // Open the form and type, so the move is proven to preserve state — the strip
-  // is one element rendered in two places, not two copies.
-  await page.locator('.gf-fb .ask button').first().click();
-  await page.locator('.gf-fb textarea').fill('the corner had a white line');
-  expect(await parentClass(page)).toContain('gf-preview');
+  test('crossing the breakpoint live moves it, without losing what was typed', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await expect(page.locator('.genflag')).toBeVisible();
 
-  await page.setViewportSize(MOBILE);
-  await expect.poll(() => parentClass(page)).toBe('gf-body');
-  await expect(page.locator('.gf-fb textarea')).toHaveValue('the corner had a white line');
+    // Open the form and type, so the move is proven to preserve state — the strip
+    // is one element rendered in two places, not two copies.
+    await page.locator('.gf-fb .ask button').first().click();
+    await page.locator('.gf-fb textarea').fill('the corner had a white line');
+    expect(await parentClass(page)).toContain('gf-preview');
 
-  await page.setViewportSize(DESKTOP);
-  await expect.poll(() => parentClass(page)).toContain('gf-preview');
-  await expect(page.locator('.gf-fb textarea')).toHaveValue('the corner had a white line');
+    await page.setViewportSize(MOBILE);
+    await expect.poll(() => parentClass(page)).toBe('gf-body');
+    await expect(page.locator('.gf-fb textarea')).toHaveValue('the corner had a white line');
+
+    await page.setViewportSize(DESKTOP);
+    await expect.poll(() => parentClass(page)).toContain('gf-preview');
+    await expect(page.locator('.gf-fb textarea')).toHaveValue('the corner had a white line');
+  });
 });
 
 /*
@@ -82,7 +119,9 @@ test('between 900 and 1200 the columns stack at full size, not phone size', asyn
   const preview = await page.locator('.gf-preview').boundingBox();
   expect(Math.abs(setup.y - preview.y), 'the columns must be stacked here').toBeGreaterThan(5);
   expect(preview.y, 'the preview column comes first once stacked').toBeLessThan(setup.y);
-  expect(await parentClass(page)).toBe('gf-body');
+  // Everything else here is about the columns, not the strip, so this test runs
+  // either way — only the one strip assertion is conditional.
+  if (!SKIP_FEEDBACK) expect(await parentClass(page)).toBe('gf-body');
 
   // …but still at desktop padding, NOT the 16px phone padding.
   const padX = await page.locator('.gf-setup').evaluate((el) => getComputedStyle(el).paddingLeft);
