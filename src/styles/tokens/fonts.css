@@ -258,3 +258,63 @@
   src: url(/fonts/noto-sans-jp-700-japanese.woff2) format('woff2');
   unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+4E00-9FFF, U+FF00-FFEF, U+3200-32FF, U+FE30-FE4F;
 }
+
+/* ── Noto Sans TC — Traditional Chinese (zh-tw) ────────────────────────────
+   A SECOND CJK family, not an addition to the Japanese stack. Its unicode-range
+   below deliberately OVERLAPS Noto Sans JP's on U+4E00-9FFF, because the two are
+   never in the same font stack: typography.css declares one --font-cjk and
+   :root[lang="zh-Hant"] swaps it. That indirection is what makes the overlap
+   safe, and removing it would silently regress zh-tw to Japanese glyph forms.
+
+   Measured against the shipped bundle when this landed: 391 of the 1,301
+   Traditional han characters this site's Chinese copy uses do not exist in the
+   Jōyō-based JP subset at all. Reusing the JP face would have dropped roughly a
+   third of every Chinese page to a system fallback mid-sentence — the exact
+   failure golden rule 1 exists to prevent.
+
+   Character set: CLDR zh_Hant exemplars (~2,700 hanzi) plus every han character
+   the shipped zh-tw bundle and ui.json actually use, so site copy can never fall
+   back and a visitor typing their own text still gets real glyphs. 3,760
+   codepoints, ~470 KB per weight. Regenerate with
+   `bash scripts/build-cjk-subset.sh zh-tw`; test/cjk-font.test.mjs fails CI if
+   the copy grows a character the committed font does not carry. */
+
+/* Noto Sans TC 400 — zh-Hant (CLDR + shipped-copy subset) */
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/noto-sans-tc-400-zh-hant.woff2) format('woff2');
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+3100-312F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+}
+
+/* Noto Sans TC 500 — zh-Hant (CLDR + shipped-copy subset) */
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/fonts/noto-sans-tc-500-zh-hant.woff2) format('woff2');
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+3100-312F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+}
+
+/* Noto Sans TC 600 — zh-Hant (CLDR + shipped-copy subset) */
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(/fonts/noto-sans-tc-600-zh-hant.woff2) format('woff2');
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+3100-312F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+}
+
+/* Noto Sans TC 700 — zh-Hant (CLDR + shipped-copy subset) */
+@font-face {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/noto-sans-tc-700-zh-hant.woff2) format('woff2');
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+3100-312F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+}

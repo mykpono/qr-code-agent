@@ -4,16 +4,25 @@
 
 :root {
   /* ── Families ─────────────────────────────────────── */
-  /* 'Noto Sans JP' sits AFTER the Latin family in both stacks, never before.
-     Its @font-face unicode-range covers only Japanese, so on en/de/es/id/pt-br it
-     is never downloaded, and on ja pages Latin characters still render in Space
-     Grotesk / IBM Plex Mono while kana and kanji fall to Noto. Putting it first
-     would hand Latin text to Noto and quietly change the look of every locale. */
-  --font-sans: 'Space Grotesk', 'Noto Sans JP', system-ui, -apple-system, sans-serif;
+  /* The CJK family sits AFTER the Latin family in both stacks, never before.
+     Its @font-face unicode-range covers only CJK, so on en/de/es/id/pt-br it
+     is never downloaded, and on CJK pages Latin characters still render in Space
+     Grotesk / IBM Plex Mono while the CJK glyphs fall to Noto. Putting it first
+     would hand Latin text to Noto and quietly change the look of every locale.
+
+     --font-cjk is ONE family, swapped per locale below, and that indirection is
+     load-bearing. Noto Sans JP and Noto Sans TC both declare U+4E00-9FFF, so
+     listing both in one stack would let the Japanese face claim Traditional
+     Chinese text: the shared codepoints would render in Japanese regional forms,
+     and the Traditional-only characters missing from the Jōyō subset (這, 說,
+     麼, 灣…) would drop to a system fallback mid-sentence. One family at a time
+     is what keeps each locale in its own typeface. */
+  --font-cjk: 'Noto Sans JP';
+  --font-sans: 'Space Grotesk', var(--font-cjk), system-ui, -apple-system, sans-serif;
   /* No CJK monospace is shipped: a real one is several MB for label text that is
-     mostly Latin anyway. Japanese glyphs inside mono labels render in Noto Sans JP
+     mostly Latin anyway. CJK glyphs inside mono labels render in the Noto face
      (proportional) — a deliberate trade, not an oversight. */
-  --font-mono: 'IBM Plex Mono', 'Noto Sans JP', ui-monospace, 'SFMono-Regular', monospace;
+  --font-mono: 'IBM Plex Mono', var(--font-cjk), ui-monospace, 'SFMono-Regular', monospace;
 
   /* ── Weights ──────────────────────────────────────── */
   --fw-regular: 400;
@@ -40,4 +49,14 @@
   --track-micro: .12em;   /* micro-labels */
   --track-btn: .09em;     /* buttons */
   --track-chip: .04em;    /* chips / meta */
+}
+
+/* Traditional Chinese swaps the single CJK family rather than appending to it.
+   `lang` here is the hreflang Base.astro puts on <html>, so this matches exactly
+   the zh-tw pages and nothing else. Selecting on the attribute rather than
+   :lang() keeps it a plain attribute match with no locale-negotiation rules in
+   play. If Simplified ever ships it gets its own block and its own face — never
+   a second family bolted onto this stack. */
+:root[lang="zh-Hant"] {
+  --font-cjk: 'Noto Sans TC';
 }
