@@ -2816,6 +2816,18 @@
       "articles": [
         {
           "cat": "Fundamentos",
+          "title": "Código QR o código de barras: la diferencia real",
+          "text": "Puntero frente a contenido, y qué cambia GS1 Sunrise 2027 para los envases.",
+          "meta": "8 min de lectura"
+        },
+        {
+          "cat": "Fundamentos",
+          "title": "Código QR o enlace corto: ¿qué necesitas?",
+          "text": "Resuelven mitades opuestas del mismo problema, y decidir si uno va dentro del otro es lo que de verdad importa.",
+          "meta": "7 min de lectura"
+        },
+        {
+          "cat": "Fundamentos",
           "title": "Los mejores generadores de códigos QR gratis en 2026",
           "text": "Qué herramientas son gratis para siempre, cuáles lo son hasta que acaba una prueba, y dónde se queda corta esta.",
           "meta": "8 min de lectura"
@@ -4384,6 +4396,224 @@
         {
           "q": "¿Dónde está la trampa en los generadores totalmente gratuitos?",
           "a": "Normalmente una de tres: tus códigos se guardan en el servidor de otro, el plan gratuito es una prueba que termina, o la herramienta se financia vendiéndote códigos dinámicos. En una herramienta que funciona solo en tu navegador y no guarda nada, la respuesta honesta es que únicamente puede crear códigos estáticos, lo cual es una limitación real y no un coste oculto."
+        }
+      ]
+    },
+    "learn/qr-code-vs-short-link": {
+      "updated": "Agosto 2026",
+      "reading": "7 min de lectura",
+      "cat": "Fundamentos",
+      "title": "Código QR o enlace corto: ¿qué necesitas de verdad?",
+      "meta": "Un enlace corto es para quien puede teclear. Un código QR, para quien no. La pregunta real es si conviene meter uno dentro del otro.",
+      "h1": "Código QR o enlace corto: ¿qué necesitas de verdad?",
+      "subhead": "No son competidores. Resuelven mitades opuestas del mismo problema, y lo interesante es decidir si conviene combinarlos.",
+      "sections": [
+        {
+          "h": "La respuesta corta",
+          "p": [
+            "Si alguien ve tu enlace en una pantalla, dale un enlace corto y deja que lo toque. Si alguien está delante de algo impreso, dale un código QR, porque ahí no hay nada que tocar y nadie va a teclear una URL desde un cartel.",
+            "El error es plantearlos como alternativas. Un enlace corto convierte una dirección larga en una que se puede teclear. Un código QR convierte cualquier dirección en algo que una cámara puede leer. Son trabajos distintos, y la mayoría de los proyectos que necesitan uno no necesitan el otro."
+          ],
+          "callout": "Una forma útil de verlo: un enlace corto acorta la dirección, un código QR elimina la necesidad de que haya dirección. Si nadie iba a leer la URL en voz alta ni a teclearla, acortarla no te aporta nada."
+        },
+        {
+          "h": "Qué es realmente cada uno",
+          "p": [
+            "Un enlace corto es una redirección. Otra persona opera un servidor que recibe una petición a una dirección diminuta y responde con la instrucción de ir a otro sitio. La dirección original no está dentro del enlace corto: está en una base de datos que pertenece a quien opera el servicio.",
+            "Un código QR es una imagen. La dirección va codificada en el propio patrón, así que el teléfono lee el destino directamente del papel sin preguntarle a nadie. No se guarda nada, no se consulta nada y nadie registra que el escaneo ocurrió.",
+            "Esa diferencia decide todo lo demás. Una redirección se puede cambiar, contar y apagar, porque hay un sistema vivo en medio. Un código QR estático no puede hacer nada de eso, exactamente por la misma razón."
+          ]
+        },
+        {
+          "h": "La decisión que de verdad importa",
+          "p": [
+            "La pregunta real no suele ser cuál elegir, sino si meter un enlace corto dentro de un código QR. Es muy habitual, y es un intercambio real, no una mejora gratuita."
+          ],
+          "list": [
+            "Lo que ganas: poder cambiar el destino después de imprimir, y una cuenta de cuánta gente escaneó. El código QR nunca cambia, así que el material impreso sigue siendo válido mientras el destino se mueve.",
+            "Lo que cedes: independencia. Tu cartel ahora depende de que un servicio de redirección ajeno siga existiendo, siga reconociendo tu cuenta y siga resolviendo ese enlace. Si algo de eso falla, todas las copias impresas fallan a la vez.",
+            "Lo que también cedes: transparencia. El escáner le muestra a la persona una dirección acortada que no dice nada de adónde va. Las recomendaciones de seguridad cada vez desaconsejan más seguir enlaces opacos desde códigos impresos, y cada vez más gente simplemente no continúa.",
+            "Lo que no cambia: el código QR sigue siendo estático. Codificar una redirección no lo vuelve dinámico en ningún sentido técnico. La capacidad de cambio vive por completo en el sistema de la otra empresa."
+          ]
+        },
+        {
+          "h": "Lo que cuesta un acortador en plan gratuito",
+          "p": [
+            "Los planes gratuitos aquí son más pequeños de lo que casi todo el mundo supone, y los límites son mensuales, no de una vez. Comprobado en la propia página de planes de Bitly en agosto de 2026: cinco enlaces cortos al mes, dos códigos QR al mes y tres finales de enlace personalizados. Sustituir bit.ly por tu propio dominio empieza en el plan Growth, a veintinueve dólares al mes.",
+            "Bitly deja claro que los enlaces creados en el plan gratuito no caducan y no tienen tope de clics, lo cual es una política genuinamente buena y merece decirse sin rodeos. La restricción es de volumen, no de duración. Si necesitas once enlaces este mes, el plan gratuito ya se agotó.",
+            "Compara eso con el lado QR de la misma decisión. Un código QR estático no tiene cupo mensual porque no hay cuenta ni servidor, y ninguna empresa puede saber cuántos hiciste. Que eso sea una ventaja depende por completo de si querías la analítica."
+          ]
+        },
+        {
+          "h": "Cuándo cada uno es claramente el correcto",
+          "p": [
+            "La mayoría de los casos se resuelven en una línea. Encuentra la tuya y deja de leer."
+          ],
+          "list": [
+            "Un enlace en un correo, un mensaje, una publicación o una diapositiva: enlace corto, o simplemente el enlace normal. Un código QR en pantalla pide fotografiar la pantalla que ya tienes en la mano.",
+            "Un cartel, una carta de menú, una tarjeta de visita, un embalaje, un folleto o un vehículo: código QR. No hay nada que tocar.",
+            "Una charla en la que el público mira una diapositiva proyectada desde lejos: código QR, generoso de tamaño y en pantalla el tiempo suficiente para que dé tiempo a escanearlo.",
+            "Algo que vas a leer en voz alta, imprimir dentro de un texto o esperar que la gente teclee: enlace corto, porque tiene que sobrevivir a ser dicho y reescrito.",
+            "Una campaña impresa cuyo destino aún no está decidido de verdad: un enlace corto dentro de un código QR, aceptando la dependencia a conciencia y con un proveedor al que confiarías la campaña entera."
+          ],
+          "callout": "Si codificas una redirección, usa un plan de pago en un servicio con trayectoria y mantén el destino bajo tu control donde puedas, por ejemplo tu propio dominio redirigiendo hacia adelante. El riesgo del que te proteges no es que el enlace se rompa mañana, sino que el servicio cambie condiciones dentro de tres años mientras tus carteles siguen en las paredes."
+        },
+        {
+          "h": "Qué hace y qué no hace esta herramienta aquí",
+          "p": [
+            "Este generador crea solo códigos estáticos. Codificará sin problema una URL acortada si la pegas, pero no acorta nada por ti, no crea la redirección y no puede contar escaneos. Si pegas un enlace de Bitly, tu relación es con Bitly y este sitio no participa en ella.",
+            "Eso también significa que la recomendación honesta a veces es usar otra cosa. Si los destinos editables y la analítica de escaneos son centrales para lo que haces, necesitas un proveedor de códigos QR dinámicos y deberías contar con pagarlo."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Debo acortar una URL antes de crear un código QR?",
+          "a": "Normalmente no. Un código QR maneja una URL larga sin dificultad, y acortar añade una dependencia, mientras que el patrón más denso rara vez es el problema real. Acorta solo si quieres cambiar el destino más adelante o contar escaneos, y sabiendo que aceptas una redirección ajena en el camino."
+        },
+        {
+          "q": "¿Un enlace más corto hace que el código QR se escanee mejor?",
+          "a": "Un poco, pero mucho menos de lo que se cree. Menos datos significan menos módulos y cuadros más grandes, lo que ayuda en tamaños de impresión pequeños. En la práctica, imprimir el código más grande y cuidar el contraste ayuda muchísimo más que acortar la URL."
+        },
+        {
+          "q": "¿Caducan los enlaces cortos?",
+          "a": "Depende del proveedor. Bitly indica que los enlaces del plan gratuito no caducan y no tienen tope de clics. Otros funcionan de otra forma, y cualquier enlace corto puede dejar de funcionar si se cierra la cuenta, el servicio termina o cambian las condiciones. Un código QR estático no tiene ese modo de fallo porque no hay servicio en el camino."
+        },
+        {
+          "q": "¿Puedo cambiar adónde apunta un código QR sin reimprimir?",
+          "a": "Solo si codificaste algo redirigible, como un enlace corto o una URL en un dominio que controlas. El código QR en sí queda fijo para siempre una vez impreso. Si codificaste el destino final directamente, cambiarlo implica códigos nuevos e impresión nueva."
+        },
+        {
+          "q": "¿Es seguro escanear un código QR que contiene un enlace corto?",
+          "a": "Es el patrón que usa el phishing, así que la cautela es razonable. El escaneo en sí es inofensivo, porque un código QR no puede ejecutar nada, pero la dirección acortada oculta el destino hasta que llegas. Comprueba la URL que previsualiza tu teléfono antes de abrirla, y desconfía más de los códigos pegados en lugares públicos."
+        }
+      ]
+    },
+    "learn/qr-code-vs-barcode": {
+      "updated": "Agosto 2026",
+      "reading": "8 min de lectura",
+      "cat": "Fundamentos",
+      "title": "Código QR o código de barras: la diferencia real",
+      "meta": "Un código de barras guarda doce dígitos y apunta a una base de datos. Un QR guarda miles de caracteres y aguanta daños. Dónde gana cada uno.",
+      "h1": "Código QR o código de barras: la diferencia real",
+      "subhead": "Uno identifica un producto ante una caja registradora. El otro lleva la información dentro. El comercio está pasando despacio del primero al segundo.",
+      "sections": [
+        {
+          "h": "La respuesta corta",
+          "p": [
+            "Un código de barras comercial clásico es un número de producto y nada más. Las rayas de una caja de cereales codifican doce dígitos, y cada precio, cada nombre y cada nivel de stock viven en una base de datos a la que ese número apunta. Lejos de esa base de datos, el código de barras no significa nada.",
+            "Un código QR lleva la información dentro. Admite hasta 7.089 dígitos o 4.296 caracteres alfanuméricos, así que la dirección entera, la tarjeta de contacto entera o las credenciales de wifi enteras caben en el patrón. Sin consulta, sin base de datos, sin ningún sistema al que haya que estar conectado."
+          ],
+          "callout": "La distinción que de verdad importa no es una dimensión frente a dos. Es puntero frente a contenido. Un código de barras se refiere a algo. Un código QR contiene algo."
+        },
+        {
+          "h": "Qué guarda cada uno",
+          "p": [
+            "La diferencia de capacidad no es gradual, son tres órdenes de magnitud, y por eso ambos acabaron usándose para cosas completamente distintas."
+          ],
+          "table": {
+            "head": [
+              "",
+              "Código de barras UPC-A",
+              "Código QR"
+            ],
+            "rows": [
+              [
+                "Forma",
+                "Rayas, se leen en un eje",
+                "Cuadros, se leen en dos ejes"
+              ],
+              [
+                "Datos máximos",
+                "12 dígitos",
+                "7.089 dígitos o 4.296 caracteres"
+              ],
+              [
+                "Admite una dirección web",
+                "No",
+                "Sí"
+              ],
+              [
+                "Tolerancia a daños",
+                "El dígito de control solo detecta errores",
+                "Reconstruye hasta un 30 por ciento"
+              ],
+              [
+                "Necesita una base de datos",
+                "Sí, para significar algo",
+                "No"
+              ],
+              [
+                "Lo lee la cámara normal del móvil",
+                "Suele necesitar una app",
+                "Sí, de forma nativa"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "La tolerancia a daños es la diferencia infravalorada",
+          "p": [
+            "Un código de barras UPC tiene un dígito de control que permite al escáner darse cuenta de que una lectura fue incorrecta. Darse cuenta es todo lo que puede hacer. Si una raya está rayada, emborronada o rota, el código no se puede recuperar y la persona de caja teclea el número a mano.",
+            "Un código QR usa corrección de errores Reed-Solomon, que no solo detecta el daño sino que reconstruye los datos que faltan a partir de redundancia repartida a propósito por el patrón. Hay cuatro niveles: aproximadamente un 7, 15, 25 y 30 por ciento recuperable, llamados L, M, Q y H. En el nivel más alto se puede destruir casi un tercio del código y aun así se lee.",
+            "Ese es además el mecanismo que hace posible poner un logo en el centro de un código QR. El logo es daño. La corrección de errores lo absorbe, por eso el consejo estándar al añadirlo es subir el nivel de corrección, y por eso un logo que tapa demasiado rompe el código igualmente, elijas el nivel que elijas."
+          ]
+        },
+        {
+          "h": "Por qué las tiendas siguen usando las rayas",
+          "p": [
+            "Con todo lo anterior, la pregunta obvia es por qué el comercio no cambió hace años. La respuesta no es conservadurismo técnico, es infraestructura, y los motivos son buenos."
+          ],
+          "list": [
+            "El número se licencia, no se inventa. Un número de producto comercial es un GTIN emitido a través de GS1. No puedes generar uno válido por tu cuenta, en ningún formato de código, y un minorista no pondrá en venta un producto cuyo número no esté registrado como corresponde.",
+            "Los escáneres láser están hechos para rayas. Un escáner de supermercado barre una línea láser y lee un patrón unidimensional a enorme velocidad desde ángulos incómodos. Leer un código 2D exige un lector basado en cámara, que muchas cajas solo tienen desde hace poco.",
+            "La velocidad en caja se mide en fracciones de segundo, multiplicadas por millones de escaneos. Un cambio que ralentice el cobro aunque sea un poco sale caro de una forma fácil de subestimar.",
+            "Ya funciona. Sustituir algo que funciona en cada tienda, almacén y proveedor del planeta exige más justificación que la capacidad extra por sí sola."
+          ]
+        },
+        {
+          "h": "Qué cambia de aquí a 2027",
+          "p": [
+            "Esa justificación ya existe, y la transición está formalmente en marcha. Dentro de la iniciativa GS1 Sunrise 2027, se espera que los sistemas de punto de venta de más de cuarenta países puedan leer códigos 2D, es decir GS1 DataMatrix y códigos QR GS1 Digital Link, para finales de 2027. Walmart, Carrefour, Tesco y otros han publicado hojas de ruta y ya están renovando sus escáneres.",
+            "El atractivo es que un solo código en el envase sirve a la caja y a quien compra a la vez. El mismo cuadrado puede llevar el número de producto para el cobro además del número de lote, la fecha de caducidad y un enlace a información de alérgenos, ingredientes o instrucciones de reciclaje. Durante la transición se espera que el envase lleve ambas marcas, así que las rayas no desaparecen pronto.",
+            "Una advertencia que conviene decir claramente, porque es donde este artículo podría inducirte a error: un código QR GS1 Digital Link no es simplemente un QR con tu web dentro. Codifica un GTIN licenciado con una estructura especificada. Un código de este generador, o de cualquiera de uso general, no funcionará en la caja de un supermercado. Si estás envasando un producto para comercio, tu punto de partida es GS1, no una herramienta gratuita."
+          ]
+        },
+        {
+          "h": "Cuál deberías estar creando",
+          "p": [
+            "Para casi todo el mundo que lea esto la pregunta se responde sola, pero conviene explicitar la frontera."
+          ],
+          "list": [
+            "Vendes un producto en tiendas: necesitas un GTIN de GS1 y un código construido a partir de él. Pregunta a tu minorista qué acepta hoy y si quiere además un código 2D.",
+            "Controlas tu propio inventario, activos o equipos internamente: sirve cualquiera, y el código QR suele ser más cómodo porque el personal lo escanea con los móviles que ya lleva encima.",
+            "Envías a alguien a una dirección web, una carta, un formulario, una página de reseñas o una red wifi: código QR, sin duda. Un código de barras no puede contener una URL en absoluto.",
+            "Pones información en algo que se va a rozar, mojar o manosear: código QR, y sube el nivel de corrección de errores.",
+            "Cualquier caso en el que quien escanea es público general y no personal: código QR, porque su móvil lo lee sin app y sin formación."
+          ],
+          "callout": "Conviene aclarar un malentendido habitual: un código QR es un código de barras, uno bidimensional. Cuando la gente dice \"código de barras\" suele referirse al unidimensional de tienda, y cuando piden \"un código de barras, no un QR\" casi siempre quieren un UPC o EAN para el lineal, que es un asunto de GS1 y no de diseño."
+        }
+      ],
+      "faq": [
+        {
+          "q": "¿Un código QR es un tipo de código de barras?",
+          "a": "Sí. Un código QR es un código de barras bidimensional, inventado por Denso Wave en 1994. En el habla corriente \"código de barras\" suele significar el de rayas unidimensional, como UPC o EAN, y por eso se tratan como cosas distintas."
+        },
+        {
+          "q": "¿Cuántos más datos guarda un código QR que uno de barras?",
+          "a": "Unos tres órdenes de magnitud más. Un código de barras UPC-A guarda doce dígitos. Un código QR guarda hasta 7.089 dígitos, 4.296 caracteres alfanuméricos, 1.817 caracteres Kanji o 2.953 bytes, según lo que codifiques."
+        },
+        {
+          "q": "¿Puedo usar un código QR en vez de uno de barras en un producto que vendo en tiendas?",
+          "a": "Todavía no como sustituto directo. El cobro necesita un GTIN licenciado por GS1, y la mayoría de las cajas siguen esperando el formato de rayas. Con GS1 Sunrise 2027 se espera que los sistemas manejen códigos 2D para finales de 2027, con el envase llevando ambas marcas durante la transición. Pregunta a tu minorista qué acepta hoy."
+        },
+        {
+          "q": "¿Por qué los códigos QR se siguen leyendo aunque estén dañados?",
+          "a": "Por la corrección de errores Reed-Solomon. Los datos redundantes se reparten a propósito por el patrón para que las partes que faltan se reconstruyan y no solo se detecten. En el más alto de cuatro niveles se puede perder alrededor de un treinta por ciento y el código se sigue leyendo, el mismo mecanismo que permite el logo central."
+        },
+        {
+          "q": "¿Mi móvil puede escanear un código de barras normal de tienda?",
+          "a": "Normalmente solo con una app. Las cámaras de móvil detectan códigos QR de forma nativa, pero los códigos de barras unidimensionales suelen necesitar una app de escaneo específica, y aun así el móvil solo te dirá el número salvo que la app lo consulte en una base de datos de productos."
         }
       ]
     }

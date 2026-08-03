@@ -3491,6 +3491,20 @@
       "articles": [
         {
           "cat": "Basics",
+          "title": "QR code vs barcode: the real difference",
+          "text": "A pointer versus a payload — plus what GS1 Sunrise 2027 changes for packaging.",
+          "meta": "8 min read",
+          "href": "/learn/qr-code-vs-barcode"
+        },
+        {
+          "cat": "Basics",
+          "title": "QR code vs short link: which do you need?",
+          "text": "They solve opposite halves of the same problem — and whether to put one inside the other is the real decision.",
+          "meta": "7 min read",
+          "href": "/learn/qr-code-vs-short-link"
+        },
+        {
+          "cat": "Basics",
           "title": "Best free QR code generators in 2026",
           "text": "Which tools are free forever, which are free until a trial ends, and where this one falls short.",
           "meta": "8 min read",
@@ -5577,6 +5591,278 @@
         "FAQPage"
       ],
       "cta_href": "/"
+    },
+    {
+      "slug": "learn/qr-code-vs-short-link",
+      "archetype": "article",
+      "phase": "4",
+      "primary": "qr code vs short link",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "should i put a short link in a qr code",
+        "qr code or link shortener",
+        "bitly qr code alternative",
+        "shorten url for qr code"
+      ],
+      "cat": "Basics",
+      "reading": "7 min read",
+      "updated": "August 2026",
+      "published": "2026-08-03",
+      "updated_iso": "2026-08-03",
+      "cta_href": "/url-qr-code",
+      "title": "QR Code vs Short Link: Which Do You Actually Need?",
+      "meta": "A short link is for people who can type. A QR code is for people who cannot. The real question is whether to put one inside the other.",
+      "h1": "QR code vs short link: which do you actually need?",
+      "subhead": "They are not competitors. They solve opposite halves of the same problem, and the interesting decision is whether to combine them.",
+      "sections": [
+        {
+          "h": "The short answer",
+          "p": [
+            "If someone can see your link on a screen, give them a short link and let them tap it. If someone is standing in front of a printed thing, give them a QR code, because there is no tap available and nobody wants to type a URL from a poster.",
+            "Framing these as alternatives is the mistake. A short link turns a long address into a typeable one. A QR code turns any address into something a camera can read. Those are different jobs, and most projects that need one do not need the other."
+          ],
+          "callout": "A useful way to hold it: a short link shortens the address, a QR code removes the need for an address at all. If nobody was ever going to read the URL out loud or type it, shortening it buys you nothing."
+        },
+        {
+          "h": "What each one actually is",
+          "p": [
+            "A short link is a redirect. Someone else runs a server that receives a request for a tiny address and answers with instructions to go somewhere else. The original address is not inside the short link, it is stored in a database that belongs to whoever operates the service.",
+            "A QR code is an image. The address is encoded in the pattern itself, so the phone reads the destination directly off the paper without asking anyone. Nothing is stored, nothing is looked up, and nobody has a record that the scan happened.",
+            "That difference decides everything else. A redirect can be changed, counted and switched off, because there is a live system in the middle. A static QR code can do none of those things, for exactly the same reason."
+          ]
+        },
+        {
+          "h": "The decision that actually matters",
+          "p": [
+            "The real question people are asking is usually not which to pick, but whether to put a short link inside a QR code. This is very common, and it is a genuine trade rather than a free upgrade."
+          ],
+          "list": [
+            "What you gain: the ability to change the destination after printing, and a count of how many people scanned. The QR code itself never changes, so the printed material stays valid while the target moves.",
+            "What you give up: independence. Your poster now depends on a third-party redirect service continuing to exist, continuing to honour your account, and continuing to resolve that link. If any of those stops, every printed copy fails at once.",
+            "What you also give up: transparency. A scanner shows the person a shortened address that says nothing about where they are going. Security guidance increasingly tells people not to follow opaque links from printed codes, and a growing number will simply not proceed.",
+            "What it does not change: the QR code is still static. Encoding a redirect does not make the code dynamic in any technical sense. The mutability lives entirely in the other company system."
+          ]
+        },
+        {
+          "h": "What a shortener costs on a free plan",
+          "p": [
+            "Free tiers here are smaller than most people assume, and the limits are per month rather than one-off. Checked against Bitly own published plan in August 2026: five short links a month, two QR codes a month, and three custom back-halves. Replacing bit.ly with your own domain starts at the Growth plan, priced at twenty-nine dollars a month.",
+            "Bitly is clear that links created on the free plan do not expire and have no click cap, which is a genuinely good policy and worth saying plainly. The constraint is volume, not longevity. If you need eleven links this month, the free plan has already run out.",
+            "Compare that with the QR side of the same decision. A static QR code has no monthly allowance because there is no account and no server, and no company has any way of knowing how many you made. Whether that is an advantage depends entirely on whether you wanted the analytics."
+          ]
+        },
+        {
+          "h": "When each one is clearly right",
+          "p": [
+            "Most cases resolve in one line. Find yours and stop reading."
+          ],
+          "list": [
+            "A link in an email, a message, a social post or a slide: short link, or just the normal link. A QR code on a screen asks someone to photograph the screen they are already holding.",
+            "A poster, menu, business card, package, flyer or vehicle: QR code. There is nothing to tap.",
+            "A conference talk where people are looking at a projected slide from a distance: QR code, sized generously, and leave it on screen long enough to actually be scanned.",
+            "Something you will read aloud, print in body text, or expect people to type: short link, because it has to survive being spoken and retyped.",
+            "A printed campaign whose destination is genuinely not decided yet: a short link inside a QR code, accepting the dependency knowingly, and using a provider you would trust with the whole campaign."
+          ],
+          "callout": "If you do encode a redirect, use a paid plan on a service with a track record, and keep the destination under your own control where you can, for example your own domain redirecting onward. The failure you are guarding against is not the link breaking tomorrow, it is the service changing terms in three years while your posters are still on walls."
+        },
+        {
+          "h": "What this tool does and does not do here",
+          "p": [
+            "This generator makes static codes only. It will happily encode a shortened URL if you paste one, but it does not shorten anything for you, does not create the redirect, and cannot count scans. If you paste a Bitly link, your relationship is with Bitly and this site has no part in it.",
+            "That also means the honest recommendation is sometimes to use something else. If editable destinations and scan analytics are central to what you are doing, you want a dynamic QR provider, and you should expect to pay one."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Should I shorten a URL before making a QR code?",
+          "a": "Usually not. A QR code handles a long URL without difficulty, and shortening adds a dependency plus a slightly denser pattern is rarely the real issue. Shorten only when you specifically want to change the destination later or count scans, and understand you are accepting a third-party redirect in the path."
+        },
+        {
+          "q": "Does a shorter URL make a QR code easier to scan?",
+          "a": "Slightly, but far less than people expect. Less data means fewer modules and larger squares, which helps at small print sizes. In practice, printing the code bigger and keeping good contrast helps far more than shortening the URL ever will."
+        },
+        {
+          "q": "Do short links expire?",
+          "a": "It depends on the provider. Bitly states that free-plan links do not expire and have no click cap. Others differ, and any short link can stop working if the account is closed, the service shuts down or the terms change. A static QR code has no equivalent failure mode because there is no service in the path."
+        },
+        {
+          "q": "Can I change where a QR code points without reprinting?",
+          "a": "Only if you encoded something redirectable, such as a short link or a URL on a domain you control. The QR code itself is fixed forever once printed. If you encoded the final destination directly, changing it means new codes and new printing."
+        },
+        {
+          "q": "Is it safe to scan a QR code containing a short link?",
+          "a": "It is the pattern phishing uses, so caution is reasonable. The scan itself is harmless, since a QR code cannot run anything, but the shortened address hides the destination until you arrive. Check the URL your phone previews before opening it, and be more careful with codes stuck up in public places."
+        }
+      ],
+      "related": [
+        "/url-qr-code",
+        "/learn/static-vs-dynamic-qr-codes",
+        "/learn/are-qr-codes-safe",
+        "/learn/qr-code-vs-nfc",
+        "/learn"
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
+    },
+    {
+      "slug": "learn/qr-code-vs-barcode",
+      "archetype": "article",
+      "phase": "4",
+      "primary": "qr code vs barcode",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "difference between qr code and barcode",
+        "is a qr code a barcode",
+        "qr code vs upc",
+        "2d barcode retail 2027"
+      ],
+      "cat": "Basics",
+      "reading": "8 min read",
+      "updated": "August 2026",
+      "published": "2026-08-03",
+      "updated_iso": "2026-08-03",
+      "cta_href": "/",
+      "title": "QR Code vs Barcode: The Difference, and What Changes",
+      "meta": "A barcode holds twelve digits and points at a database. A QR code holds thousands of characters and survives damage. Where each still wins in 2026.",
+      "h1": "QR code vs barcode: the real difference",
+      "subhead": "One identifies a product to a till. The other carries the information itself. Retail is now slowly moving from the first to the second.",
+      "sections": [
+        {
+          "h": "The short answer",
+          "p": [
+            "A traditional retail barcode is a product number and nothing else. The stripes on a cereal box encode twelve digits, and every price, name and stock level lives in a database that the number points at. Away from that database the barcode means nothing.",
+            "A QR code carries the information itself. It can hold up to 7,089 digits, or 4,296 alphanumeric characters, so the whole address, the whole contact card or the whole WiFi credential fits inside the pattern. No lookup, no database, no system to be connected to."
+          ],
+          "callout": "The distinction that actually matters is not one dimension versus two. It is a pointer versus a payload. A barcode refers to something. A QR code contains something."
+        },
+        {
+          "h": "What each one holds",
+          "p": [
+            "The capacity gap is not incremental, it is three orders of magnitude, and it is why the two ended up used for completely different things."
+          ],
+          "table": {
+            "head": [
+              "",
+              "UPC-A barcode",
+              "QR code"
+            ],
+            "rows": [
+              [
+                "Shape",
+                "Stripes, read across one axis",
+                "Squares, read across two axes"
+              ],
+              [
+                "Maximum data",
+                "12 digits",
+                "7,089 digits or 4,296 characters"
+              ],
+              [
+                "Holds a web address",
+                "No",
+                "Yes"
+              ],
+              [
+                "Damage tolerance",
+                "Check digit detects errors only",
+                "Reconstructs up to 30 per cent"
+              ],
+              [
+                "Needs a database",
+                "Yes, to mean anything",
+                "No"
+              ],
+              [
+                "Read by a plain phone camera",
+                "Usually needs an app",
+                "Yes, natively"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Damage tolerance is the underrated difference",
+          "p": [
+            "A UPC barcode has a check digit, which lets a scanner notice that a read was wrong. Noticing is all it can do. If a stripe is scratched, smeared or torn, the barcode cannot be recovered and the cashier types the number by hand.",
+            "A QR code uses Reed-Solomon error correction, which does not merely detect damage but rebuilds the missing data from redundancy deliberately spread across the pattern. There are four levels: roughly 7, 15, 25 and 30 per cent recoverable, named L, M, Q and H. At the highest level almost a third of the code can be destroyed and it still reads.",
+            "This is also the mechanism that makes a logo in the middle of a QR code work at all. The logo is damage. Error correction absorbs it, which is why raising the correction level is the standard advice when adding one, and why a logo that covers too much still breaks the code no matter what level you choose."
+          ]
+        },
+        {
+          "h": "Why shops still use the stripes",
+          "p": [
+            "Given all of the above, the obvious question is why retail did not switch years ago. The answer is not technical conservatism, it is infrastructure, and the reasons are good ones."
+          ],
+          "list": [
+            "The number is licensed, not invented. A retail product number is a GTIN issued through GS1. You cannot generate a valid one yourself, in any barcode format, and a retailer will not stock a product whose number is not properly registered.",
+            "Laser scanners are built for stripes. A supermarket scanner sweeps a laser line and reads a one-dimensional pattern extremely fast from awkward angles. Reading a 2D code needs a camera-based imager, which many tills only recently acquired.",
+            "Speed at the till is measured in fractions of a second, multiplied by millions of scans. A change that slows checkout even slightly is expensive in a way that is easy to underestimate.",
+            "It already works. Replacing something functional across every shop, warehouse and supplier on earth requires more justification than extra capacity alone."
+          ]
+        },
+        {
+          "h": "What changes by 2027",
+          "p": [
+            "That justification now exists, and the transition is formally under way. Under the GS1 Sunrise 2027 initiative, retail point-of-sale systems across more than forty countries are expected to be able to scan 2D codes, meaning GS1 DataMatrix and GS1 Digital Link QR codes, by the end of 2027. Walmart, Carrefour, Tesco and others have published roadmaps and are upgrading scanner hardware now.",
+            "The appeal is that one code on the pack can serve the till and the shopper at once. The same square can carry the product number for checkout plus a batch number, an expiry date and a link to allergen information, ingredients or recycling instructions. During the transition, packaging is expected to carry both marks, so the stripes are not disappearing soon.",
+            "A caveat worth stating plainly, because it is where this article could mislead you: a GS1 Digital Link QR code is not simply a QR code with your website in it. It encodes a licensed GTIN in a specified structure. A code from this generator, or any general-purpose one, will not work at a supermarket till. If you are packaging a product for retail, your starting point is GS1, not a free tool."
+          ]
+        },
+        {
+          "h": "Which one should you be making",
+          "p": [
+            "For almost everyone reading this, the question answers itself, but it is worth being explicit about the boundary."
+          ],
+          "list": [
+            "Selling a product through shops: you need a GTIN from GS1 and a barcode built from it. Ask your retailer what they currently accept, and whether they want a 2D code alongside it.",
+            "Tracking your own stock, assets or equipment internally: either works, and a QR code is usually easier because staff can scan it with the phones they already carry.",
+            "Sending someone to a web address, menu, form, review page or WiFi network: QR code, without question. A barcode cannot hold a URL at all.",
+            "Putting information on something that will get scuffed, wet or handled: QR code, and raise the error correction level.",
+            "Anything where the person scanning is a member of the public rather than a member of staff: QR code, because their phone reads it with no app and no training."
+          ],
+          "callout": "A common misconception worth clearing up: a QR code is a barcode. It is a two-dimensional one. When people say \"barcode\" they usually mean the one-dimensional retail kind, and when they ask for \"a barcode, not a QR code\" they almost always mean a UPC or EAN for shop shelves, which is a GS1 matter rather than a design one."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Is a QR code a type of barcode?",
+          "a": "Yes. A QR code is a two-dimensional barcode, invented by Denso Wave in 1994. In everyday speech \"barcode\" usually means the one-dimensional striped kind such as UPC or EAN, which is why the two get treated as separate things."
+        },
+        {
+          "q": "How much more data does a QR code hold than a barcode?",
+          "a": "Around three orders of magnitude more. A UPC-A barcode holds twelve digits. A QR code holds up to 7,089 digits, 4,296 alphanumeric characters, 1,817 Kanji characters or 2,953 bytes, depending on what you encode."
+        },
+        {
+          "q": "Can I use a QR code instead of a barcode on a product I sell in shops?",
+          "a": "Not yet as a straight replacement. Retail checkout needs a GTIN licensed through GS1, and most tills still expect the striped format. Under GS1 Sunrise 2027, systems are expected to handle 2D codes by the end of 2027, with packaging carrying both marks during the transition. Ask your retailer what they accept today."
+        },
+        {
+          "q": "Why do QR codes still scan when they are damaged?",
+          "a": "Reed-Solomon error correction. Redundant data is spread deliberately across the pattern so missing pieces can be rebuilt rather than merely detected. At the highest of four levels roughly thirty per cent can be lost and the code still reads, which is the same mechanism that lets a logo sit in the middle."
+        },
+        {
+          "q": "Can my phone scan a normal shop barcode?",
+          "a": "Usually only with an app. Phone cameras detect QR codes natively, but one-dimensional retail barcodes generally need a dedicated scanning app, and even then the phone can only tell you the number unless the app looks it up in a product database."
+        }
+      ],
+      "related": [
+        "/learn/static-vs-dynamic-qr-codes",
+        "/learn/add-logo-without-breaking-qr-code",
+        "/qr-codes-for-packaging",
+        "/learn/qr-code-vs-nfc",
+        "/learn"
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ]
     }
   ]
 }

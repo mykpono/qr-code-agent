@@ -1322,6 +1322,18 @@
       "articles": [
         {
           "cat": "Grundlagen",
+          "title": "QR-Code oder Barcode: Der wirkliche Unterschied",
+          "text": "Verweis gegen Inhalt — und was GS1 Sunrise 2027 für Verpackungen ändert.",
+          "meta": "8 Min. Lesezeit"
+        },
+        {
+          "cat": "Grundlagen",
+          "title": "QR-Code oder Kurzlink: Was brauchen Sie?",
+          "text": "Sie lösen entgegengesetzte Hälften desselben Problems — und ob eines ins andere gehört, ist die eigentliche Entscheidung.",
+          "meta": "7 Min. Lesezeit"
+        },
+        {
+          "cat": "Grundlagen",
           "title": "Die besten kostenlosen QR-Code-Generatoren 2026",
           "text": "Welche Werkzeuge dauerhaft kostenlos sind, welche nur bis zum Ende einer Testphase, und wo dieses hier schwächelt.",
           "meta": "8 Min. Lesezeit"
@@ -4384,6 +4396,224 @@
         {
           "q": "Wo ist der Haken bei völlig kostenlosen Generatoren?",
           "a": "Meist einer von dreien: Ihre Codes liegen auf fremden Servern, die kostenlose Stufe ist eine Testphase mit Ende, oder das Werkzeug finanziert sich über den Verkauf dynamischer Codes. Bei einem Werkzeug, das ausschließlich im Browser läuft und nichts speichert, lautet die ehrliche Antwort: Es kann nur statische Codes erzeugen. Das ist eine echte Einschränkung, aber keine versteckten Kosten."
+        }
+      ]
+    },
+    "learn/qr-code-vs-short-link": {
+      "updated": "August 2026",
+      "reading": "7 Min. Lesezeit",
+      "cat": "Grundlagen",
+      "title": "QR-Code oder Kurzlink: Was brauchen Sie wirklich?",
+      "meta": "Ein Kurzlink ist für Menschen, die tippen können. Ein QR-Code für die, die es nicht können. Die eigentliche Frage ist, ob eines ins andere gehört.",
+      "h1": "QR-Code oder Kurzlink: Was brauchen Sie wirklich?",
+      "subhead": "Sie sind keine Konkurrenten. Sie lösen entgegengesetzte Hälften desselben Problems, und interessant ist die Frage, ob man sie kombiniert.",
+      "sections": [
+        {
+          "h": "Die kurze Antwort",
+          "p": [
+            "Wenn jemand Ihren Link auf einem Bildschirm sieht, geben Sie ihm einen Kurzlink zum Antippen. Wenn jemand vor einem gedruckten Objekt steht, geben Sie ihm einen QR-Code, denn dort gibt es nichts anzutippen, und niemand tippt eine URL von einem Plakat ab.",
+            "Der Fehler liegt darin, beides als Alternativen zu sehen. Ein Kurzlink macht aus einer langen Adresse eine tippbare. Ein QR-Code macht aus jeder Adresse etwas, das eine Kamera lesen kann. Das sind verschiedene Aufgaben, und die meisten Projekte, die eines brauchen, brauchen das andere nicht."
+          ],
+          "callout": "Eine nützliche Merkhilfe: Ein Kurzlink verkürzt die Adresse, ein QR-Code macht eine Adresse überflüssig. Wenn niemand die URL je vorlesen oder eintippen sollte, bringt Verkürzen gar nichts."
+        },
+        {
+          "h": "Was beides tatsächlich ist",
+          "p": [
+            "Ein Kurzlink ist eine Weiterleitung. Jemand anderes betreibt einen Server, der eine Anfrage an eine winzige Adresse entgegennimmt und mit der Anweisung antwortet, woanders hinzugehen. Die ursprüngliche Adresse steckt nicht im Kurzlink, sie liegt in einer Datenbank, die dem Betreiber des Dienstes gehört.",
+            "Ein QR-Code ist ein Bild. Die Adresse ist im Muster selbst kodiert, das Telefon liest das Ziel also direkt vom Papier ab, ohne jemanden zu fragen. Nichts wird gespeichert, nichts nachgeschlagen, und niemand führt Buch darüber, dass gescannt wurde.",
+            "Dieser Unterschied entscheidet alles Weitere. Eine Weiterleitung lässt sich ändern, zählen und abschalten, weil ein laufendes System dazwischen sitzt. Ein statischer QR-Code kann nichts davon, aus genau demselben Grund."
+          ]
+        },
+        {
+          "h": "Die Entscheidung, auf die es ankommt",
+          "p": [
+            "Die eigentliche Frage lautet meist nicht, was man wählt, sondern ob man einen Kurzlink in einen QR-Code steckt. Das ist sehr verbreitet und ein echter Tausch, kein kostenloses Upgrade."
+          ],
+          "list": [
+            "Was Sie gewinnen: die Möglichkeit, das Ziel nach dem Druck zu ändern, und eine Zählung der Scans. Der QR-Code selbst bleibt gleich, das gedruckte Material bleibt also gültig, während das Ziel wandert.",
+            "Was Sie aufgeben: Unabhängigkeit. Ihr Plakat hängt nun davon ab, dass ein fremder Weiterleitungsdienst weiter existiert, Ihr Konto weiter anerkennt und diesen Link weiter auflöst. Fällt eines davon aus, versagen alle gedruckten Exemplare gleichzeitig.",
+            "Was Sie ebenfalls aufgeben: Nachvollziehbarkeit. Der Scanner zeigt eine verkürzte Adresse, die nichts darüber verrät, wohin es geht. Sicherheitshinweise raten zunehmend davon ab, undurchsichtigen Links aus gedruckten Codes zu folgen, und immer mehr Menschen brechen dann einfach ab.",
+            "Was sich nicht ändert: Der QR-Code bleibt statisch. Eine Weiterleitung zu kodieren macht ihn technisch nicht dynamisch. Die Veränderbarkeit liegt vollständig im System des anderen Unternehmens."
+          ]
+        },
+        {
+          "h": "Was ein Kurzlinkdienst im Gratistarif kostet",
+          "p": [
+            "Die kostenlosen Stufen sind kleiner, als die meisten annehmen, und die Grenzen gelten pro Monat statt einmalig. Geprüft an Bitlys eigener Tarifseite im August 2026: fünf Kurzlinks pro Monat, zwei QR-Codes pro Monat und drei eigene Linkendungen. Bit.ly durch eine eigene Domain zu ersetzen beginnt beim Growth-Tarif für neunundzwanzig Dollar im Monat.",
+            "Bitly stellt klar, dass im Gratistarif erstellte Links nicht ablaufen und keine Klickgrenze haben, was eine wirklich gute Regelung ist und ausdrücklich erwähnt gehört. Die Einschränkung betrifft die Menge, nicht die Haltbarkeit. Wer diesen Monat elf Links braucht, hat das Kontingent bereits ausgeschöpft.",
+            "Vergleichen Sie das mit der QR-Seite derselben Entscheidung. Ein statischer QR-Code hat kein Monatskontingent, weil es weder Konto noch Server gibt, und kein Unternehmen kann wissen, wie viele Sie erstellt haben. Ob das ein Vorteil ist, hängt allein davon ab, ob Sie die Auswertung wollten."
+          ]
+        },
+        {
+          "h": "Wann was eindeutig richtig ist",
+          "p": [
+            "Die meisten Fälle klären sich in einer Zeile. Suchen Sie Ihre und hören Sie dort auf."
+          ],
+          "list": [
+            "Ein Link in einer E-Mail, Nachricht, einem Social-Beitrag oder auf einer Folie: Kurzlink oder einfach der normale Link. Ein QR-Code auf dem Bildschirm verlangt, den Bildschirm zu fotografieren, den man ohnehin in der Hand hält.",
+            "Plakat, Speisekarte, Visitenkarte, Verpackung, Flyer oder Fahrzeug: QR-Code. Es gibt nichts anzutippen.",
+            "Ein Vortrag, bei dem das Publikum aus der Entfernung auf eine projizierte Folie schaut: QR-Code, großzügig dimensioniert und lange genug eingeblendet, um tatsächlich gescannt zu werden.",
+            "Etwas, das vorgelesen, im Fließtext gedruckt oder abgetippt werden soll: Kurzlink, denn er muss gesprochen und erneut eingegeben überstehen.",
+            "Eine Printkampagne, deren Ziel wirklich noch nicht feststeht: ein Kurzlink im QR-Code, mit bewusst akzeptierter Abhängigkeit und einem Anbieter, dem Sie die gesamte Kampagne anvertrauen würden."
+          ],
+          "callout": "Wenn Sie eine Weiterleitung kodieren, nutzen Sie einen bezahlten Tarif bei einem Dienst mit Historie und behalten Sie das Ziel möglichst selbst in der Hand, etwa über Ihre eigene Domain, die weiterleitet. Sie schützen sich nicht davor, dass der Link morgen bricht, sondern davor, dass der Dienst in drei Jahren die Bedingungen ändert, während Ihre Plakate noch hängen."
+        },
+        {
+          "h": "Was dieses Werkzeug hier leistet und was nicht",
+          "p": [
+            "Dieser Generator erzeugt ausschließlich statische Codes. Er kodiert bereitwillig eine verkürzte URL, wenn Sie eine einfügen, verkürzt aber selbst nichts, legt keine Weiterleitung an und kann keine Scans zählen. Wenn Sie einen Bitly-Link einfügen, besteht Ihre Beziehung zu Bitly, und diese Seite hat damit nichts zu tun.",
+            "Das heißt auch, dass die ehrliche Empfehlung manchmal lautet, etwas anderes zu nehmen. Wenn änderbare Ziele und Scan-Auswertung zentral für Ihr Vorhaben sind, brauchen Sie einen Anbieter für dynamische QR-Codes und sollten mit Kosten rechnen."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Soll ich eine URL vor dem Erstellen eines QR-Codes kürzen?",
+          "a": "Meist nicht. Ein QR-Code verarbeitet eine lange URL problemlos, und Kürzen fügt eine Abhängigkeit hinzu, während das dichtere Muster selten das eigentliche Problem ist. Kürzen Sie nur, wenn Sie das Ziel später ändern oder Scans zählen wollen, und im Bewusstsein, eine fremde Weiterleitung in den Weg zu nehmen."
+        },
+        {
+          "q": "Lässt sich ein kürzerer Link leichter scannen?",
+          "a": "Ein wenig, aber weit weniger als erwartet. Weniger Daten bedeuten weniger Module und größere Quadrate, was bei kleinen Druckgrößen hilft. In der Praxis bringt es viel mehr, den Code größer zu drucken und auf guten Kontrast zu achten."
+        },
+        {
+          "q": "Laufen Kurzlinks ab?",
+          "a": "Das hängt vom Anbieter ab. Bitly gibt an, dass Links im Gratistarif nicht ablaufen und keine Klickgrenze haben. Andere handhaben es anders, und jeder Kurzlink kann ausfallen, wenn das Konto geschlossen wird, der Dienst endet oder sich die Bedingungen ändern. Ein statischer QR-Code kennt diesen Fehlerfall nicht, weil kein Dienst im Weg steht."
+        },
+        {
+          "q": "Kann ich das Ziel eines QR-Codes ohne Neudruck ändern?",
+          "a": "Nur wenn Sie etwas Weiterleitbares kodiert haben, etwa einen Kurzlink oder eine URL auf einer Domain, die Ihnen gehört. Der QR-Code selbst ist nach dem Druck für immer festgelegt. Haben Sie das endgültige Ziel direkt kodiert, bedeutet eine Änderung neue Codes und neuen Druck."
+        },
+        {
+          "q": "Ist es sicher, einen QR-Code mit Kurzlink zu scannen?",
+          "a": "Es ist das Muster, das Phishing nutzt, Vorsicht ist also angebracht. Der Scan selbst ist harmlos, denn ein QR-Code kann nichts ausführen, aber die verkürzte Adresse verbirgt das Ziel bis zur Ankunft. Prüfen Sie die URL in der Vorschau Ihres Telefons und seien Sie bei Codes an öffentlichen Orten besonders vorsichtig."
+        }
+      ]
+    },
+    "learn/qr-code-vs-barcode": {
+      "updated": "August 2026",
+      "reading": "8 Min. Lesezeit",
+      "cat": "Grundlagen",
+      "title": "QR-Code oder Barcode: Der Unterschied im Detail",
+      "meta": "Ein Barcode enthält zwölf Ziffern und verweist auf eine Datenbank. Ein QR-Code trägt Tausende Zeichen und übersteht Schäden. Wo was gewinnt.",
+      "h1": "QR-Code oder Barcode: Der wirkliche Unterschied",
+      "subhead": "Der eine meldet ein Produkt an der Kasse an. Der andere trägt die Information selbst. Der Handel wechselt gerade langsam vom ersten zum zweiten.",
+      "sections": [
+        {
+          "h": "Die kurze Antwort",
+          "p": [
+            "Ein klassischer Handelsbarcode ist eine Produktnummer und sonst nichts. Die Striche auf der Müslipackung kodieren zwölf Ziffern, und jeder Preis, jeder Name und jeder Lagerbestand liegt in einer Datenbank, auf die diese Nummer verweist. Ohne diese Datenbank bedeutet der Barcode nichts.",
+            "Ein QR-Code trägt die Information selbst. Er fasst bis zu 7.089 Ziffern oder 4.296 alphanumerische Zeichen, also passen die vollständige Adresse, die vollständige Kontaktkarte oder die vollständigen WLAN-Zugangsdaten in das Muster. Kein Nachschlagen, keine Datenbank, kein System, mit dem man verbunden sein müsste."
+          ],
+          "callout": "Der Unterschied, auf den es ankommt, ist nicht eine gegen zwei Dimensionen. Es ist Verweis gegen Inhalt. Ein Barcode verweist auf etwas. Ein QR-Code enthält etwas."
+        },
+        {
+          "h": "Was beide fassen",
+          "p": [
+            "Der Kapazitätsunterschied ist nicht graduell, sondern drei Größenordnungen, und genau deshalb werden beide für völlig verschiedene Dinge eingesetzt."
+          ],
+          "table": {
+            "head": [
+              "",
+              "UPC-A-Barcode",
+              "QR-Code"
+            ],
+            "rows": [
+              [
+                "Form",
+                "Striche, entlang einer Achse gelesen",
+                "Quadrate, entlang zweier Achsen gelesen"
+              ],
+              [
+                "Maximale Daten",
+                "12 Ziffern",
+                "7.089 Ziffern oder 4.296 Zeichen"
+              ],
+              [
+                "Enthält eine Webadresse",
+                "Nein",
+                "Ja"
+              ],
+              [
+                "Schadenstoleranz",
+                "Prüfziffer erkennt Fehler nur",
+                "Stellt bis zu 30 Prozent wieder her"
+              ],
+              [
+                "Braucht eine Datenbank",
+                "Ja, um überhaupt etwas zu bedeuten",
+                "Nein"
+              ],
+              [
+                "Von einer normalen Handykamera lesbar",
+                "Meist nur mit App",
+                "Ja, ohne Zusatz"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "Schadenstoleranz ist der unterschätzte Unterschied",
+          "p": [
+            "Ein UPC-Barcode hat eine Prüfziffer, mit der ein Scanner bemerkt, dass eine Lesung falsch war. Mehr als bemerken kann er nicht. Ist ein Strich zerkratzt, verschmiert oder eingerissen, lässt sich der Barcode nicht wiederherstellen, und die Nummer wird von Hand eingetippt.",
+            "Ein QR-Code nutzt Reed-Solomon-Fehlerkorrektur, die Schäden nicht nur erkennt, sondern die fehlenden Daten aus gezielt über das Muster verteilter Redundanz wiederaufbaut. Es gibt vier Stufen: etwa 7, 15, 25 und 30 Prozent wiederherstellbar, benannt L, M, Q und H. Auf der höchsten Stufe kann fast ein Drittel des Codes zerstört sein und er wird trotzdem gelesen.",
+            "Das ist zugleich der Mechanismus, der ein Logo in der Mitte eines QR-Codes überhaupt ermöglicht. Das Logo ist ein Schaden. Die Fehlerkorrektur fängt ihn auf, deshalb lautet der Standardrat, beim Einfügen die Korrekturstufe anzuheben, und deshalb zerstört ein zu großes Logo den Code trotzdem, egal welche Stufe Sie wählen."
+          ]
+        },
+        {
+          "h": "Warum Geschäfte weiter die Striche nutzen",
+          "p": [
+            "Angesichts alldem stellt sich die Frage, warum der Handel nicht längst gewechselt hat. Die Antwort ist kein technischer Konservatismus, sondern Infrastruktur, und die Gründe sind gut."
+          ],
+          "list": [
+            "Die Nummer wird lizenziert, nicht erfunden. Eine Handelsproduktnummer ist eine über GS1 vergebene GTIN. Sie können keine gültige selbst erzeugen, in keinem Barcodeformat, und ein Händler nimmt kein Produkt ins Sortiment, dessen Nummer nicht ordentlich registriert ist.",
+            "Laserscanner sind für Striche gebaut. Ein Supermarktscanner überstreicht mit einer Laserlinie und liest ein eindimensionales Muster extrem schnell aus ungünstigen Winkeln. Ein 2D-Code braucht einen kamerabasierten Leser, den viele Kassen erst seit Kurzem haben.",
+            "Tempo an der Kasse wird in Sekundenbruchteilen gemessen, multipliziert mit Millionen Scans. Eine Änderung, die den Kassiervorgang auch nur leicht verlangsamt, ist teurer, als man annimmt.",
+            "Es funktioniert bereits. Etwas Funktionierendes in jedem Geschäft, Lager und bei jedem Lieferanten weltweit zu ersetzen, verlangt mehr Begründung als zusätzliche Kapazität allein."
+          ]
+        },
+        {
+          "h": "Was sich bis 2027 ändert",
+          "p": [
+            "Diese Begründung gibt es inzwischen, und der Übergang läuft offiziell. Im Rahmen der Initiative GS1 Sunrise 2027 sollen Kassensysteme in mehr als vierzig Ländern bis Ende 2027 in der Lage sein, 2D-Codes zu lesen, also GS1 DataMatrix und GS1 Digital Link QR-Codes. Walmart, Carrefour, Tesco und andere haben Fahrpläne veröffentlicht und rüsten ihre Scanner bereits um.",
+            "Der Reiz liegt darin, dass ein einziger Code auf der Packung Kasse und Kundschaft zugleich bedient. Dasselbe Quadrat kann die Produktnummer für den Kassiervorgang tragen sowie Chargennummer, Haltbarkeitsdatum und einen Link zu Allergenhinweisen, Zutaten oder Recyclinganweisungen. Während des Übergangs soll die Verpackung beide Markierungen tragen, die Striche verschwinden also so bald nicht.",
+            "Ein Vorbehalt, der klar gesagt gehört, weil dieser Artikel hier in die Irre führen könnte: Ein GS1-Digital-Link-QR-Code ist nicht einfach ein QR-Code mit Ihrer Website darin. Er kodiert eine lizenzierte GTIN in einer festgelegten Struktur. Ein Code aus diesem Generator oder aus irgendeinem Allzweckwerkzeug funktioniert an keiner Supermarktkasse. Wenn Sie ein Produkt für den Handel verpacken, ist Ihr Ausgangspunkt GS1, nicht ein kostenloses Werkzeug."
+          ]
+        },
+        {
+          "h": "Was Sie erstellen sollten",
+          "p": [
+            "Für fast alle, die das hier lesen, beantwortet sich die Frage von selbst, aber die Grenze gehört ausdrücklich benannt."
+          ],
+          "list": [
+            "Sie verkaufen ein Produkt über Geschäfte: Sie brauchen eine GTIN von GS1 und einen daraus erzeugten Barcode. Fragen Sie Ihren Händler, was er derzeit akzeptiert und ob er zusätzlich einen 2D-Code wünscht.",
+            "Sie erfassen eigenen Bestand, Anlagen oder Geräte intern: beides geht, und ein QR-Code ist meist einfacher, weil Ihr Personal ihn mit den ohnehin vorhandenen Telefonen scannen kann.",
+            "Sie schicken jemanden zu einer Webadresse, Speisekarte, einem Formular, einer Bewertungsseite oder ins WLAN: eindeutig QR-Code. Ein Barcode kann eine URL überhaupt nicht fassen.",
+            "Sie bringen Informationen auf etwas an, das zerkratzt, nass oder viel angefasst wird: QR-Code, und heben Sie die Fehlerkorrekturstufe an.",
+            "Überall dort, wo die scannende Person aus der Öffentlichkeit kommt und nicht zum Personal gehört: QR-Code, denn ihr Telefon liest ihn ohne App und ohne Einweisung."
+          ],
+          "callout": "Ein verbreitetes Missverständnis sei ausgeräumt: Ein QR-Code ist ein Barcode, nämlich ein zweidimensionaler. Wer \"Barcode\" sagt, meint meist die eindimensionale Handelsvariante, und wer \"einen Barcode, keinen QR-Code\" verlangt, meint fast immer einen UPC oder EAN fürs Ladenregal, was eine GS1-Angelegenheit ist und keine gestalterische."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Ist ein QR-Code eine Art Barcode?",
+          "a": "Ja. Ein QR-Code ist ein zweidimensionaler Barcode, 1994 von Denso Wave entwickelt. Umgangssprachlich meint \"Barcode\" meist die eindimensionale Strichvariante wie UPC oder EAN, weshalb beide als getrennte Dinge behandelt werden."
+        },
+        {
+          "q": "Wie viel mehr Daten fasst ein QR-Code als ein Barcode?",
+          "a": "Etwa drei Größenordnungen mehr. Ein UPC-A-Barcode fasst zwölf Ziffern. Ein QR-Code fasst bis zu 7.089 Ziffern, 4.296 alphanumerische Zeichen, 1.817 Kanji-Zeichen oder 2.953 Byte, je nachdem, was Sie kodieren."
+        },
+        {
+          "q": "Kann ich statt eines Barcodes einen QR-Code auf ein Produkt für den Handel drucken?",
+          "a": "Als direkter Ersatz noch nicht. Der Kassiervorgang braucht eine über GS1 lizenzierte GTIN, und die meisten Kassen erwarten weiterhin das Strichformat. Im Rahmen von GS1 Sunrise 2027 sollen die Systeme bis Ende 2027 2D-Codes verarbeiten, wobei die Verpackung im Übergang beide Markierungen trägt. Fragen Sie Ihren Händler, was er heute akzeptiert."
+        },
+        {
+          "q": "Warum lassen sich QR-Codes auch beschädigt noch scannen?",
+          "a": "Wegen der Reed-Solomon-Fehlerkorrektur. Redundante Daten sind gezielt über das Muster verteilt, sodass fehlende Teile wiederaufgebaut und nicht nur erkannt werden. Auf der höchsten von vier Stufen können etwa dreißig Prozent verloren gehen und der Code wird weiterhin gelesen, derselbe Mechanismus erlaubt auch das Logo in der Mitte."
+        },
+        {
+          "q": "Kann mein Telefon einen normalen Ladenbarcode scannen?",
+          "a": "Meist nur mit einer App. Handykameras erkennen QR-Codes ohne Zusatz, eindimensionale Handelsbarcodes brauchen in der Regel eine eigene Scan-App, und selbst dann nennt Ihnen das Telefon nur die Nummer, sofern die App sie nicht in einer Produktdatenbank nachschlägt."
         }
       ]
     }
