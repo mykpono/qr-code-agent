@@ -378,12 +378,17 @@ carrying that relaxation forward unchanged.
       glyph, so every heading and mono label would fall back to an arbitrary system font, on a
       site whose golden rule 1 is "never invent UI". Needs a subset Noto Sans JP (or equivalent)
       self-hosted like the others.
-      **(b) The 70–155-char meta rule is wrong for Japanese.** It is enforced with no per-locale
-      exception in `scripts/i18n-merge.mjs`, `test/i18n.test.mjs` and `scripts/check-build.mjs`,
-      while Google truncates Japanese snippets around 50 full-width characters — so a compliant
-      JA meta is roughly 3× the visible limit and the rule would force 50 pages of keyword
-      padding. Needs the limits made per-locale across those three call sites.
-      Clear (a) and (b) in their own PR first; only then is this the 7-hr bundle the table implies.
+      ~~**(b) The 70–155-char meta rule is wrong for Japanese.**~~ **CLEARED 2026-08-03.** Limits
+      are now per-locale in `src/lib/seo-limits.js`, and all three call sites read from it —
+      `i18n-merge.mjs`, `test/i18n.test.mjs`, `check-build.mjs` — so the numbers exist once.
+      Latin locales keep 60 / 70–155 unchanged; `ja` gets 30 / 35–90, the same pixel budget
+      halved because full-width glyphs are ~2× Latin width. Google truncates by **pixel width**,
+      not character count, which is why one global rule was always wrong.
+      Proven non-vacuous: an over-long EN title and a short EN meta are still rejected, now naming
+      the locale and the limit applied. 7 unit tests, including the real JA meta the old rule made
+      impossible (62 chars — valid `ja`, still correctly rejected for `de`).
+      **(a) is the only remaining blocker** — a subset CJK font still needs self-hosting. Clear it
+      in its own PR; only then is this the 7-hr bundle the table implies.
 - [ ] **C5** `[BOTH]` · 6 hrs · **IT** bundle (retarget to `crea`)
 - [ ] **C6** `[BOTH]` · 6 hrs · **FR** bundle
 - [ ] **C7** `[BOTH]` · 6 hrs · **UK** bundle

@@ -11,6 +11,7 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { extractPage } from './i18n-extract.mjs';
+import { checkLengths, limitsFor } from '../src/lib/seo-limits.js';
 
 const locale = process.argv[2];
 const dryRun = process.argv.includes('--dry-run');
@@ -71,12 +72,16 @@ const sameShape = (en, tr, path) => {
 for (const [slug, en] of Object.entries(EN)) if (merged[slug]) sameShape(en, merged[slug], slug);
 
 // 3. the same length rules check-build.mjs enforces on the built HTML — caught
-//    here instead, where the offending string is identifiable.
+//    here instead, where the offending string is identifiable. Limits are
+//    PER-LOCALE (src/lib/seo-limits.js): Google truncates by pixel width, and
+//    full-width CJK glyphs are ~2x Latin, so the Latin rule would force pages of
+//    keyword padding on Japanese. All three enforcement points share that module.
+const lim = limitsFor(locale);
+console.log(`length limits for ${locale}: title ≤ ${lim.titleMax}, meta ${lim.metaMin}-${lim.metaMax}`);
 const metas = new Map();
 for (const [slug, t] of Object.entries(merged)) {
-  if (typeof t.title === 'string' && t.title.length > 60) errors.push(`${slug}.title ${t.title.length} chars (max 60): ${t.title}`);
+  errors.push(...checkLengths({ title: t.title, meta: t.meta, locale, label: slug }));
   if (typeof t.meta === 'string') {
-    if (t.meta.length < 70 || t.meta.length > 155) errors.push(`${slug}.meta ${t.meta.length} chars (need 70-155)`);
     if (metas.has(t.meta)) errors.push(`${slug}.meta duplicates ${metas.get(t.meta)}`);
     metas.set(t.meta, slug);
   }
