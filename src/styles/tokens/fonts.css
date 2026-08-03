@@ -1,8 +1,23 @@
-/* Self-hosted fonts (BACKLOG P0). Downloaded from Google Fonts; both families are
-   open-licensed — Space Grotesk (OFL) and IBM Plex Mono (OFL). unicode-range is
-   preserved from the upstream CSS so browsers fetch only the subsets a page needs.
-   Cyrillic subsets are included for the uk/ru locales; ja is not covered by these
-   families and falls back to system fonts by design. */
+/* Self-hosted fonts (BACKLOG P0). Downloaded from Google Fonts; all three families
+   are open-licensed — Space Grotesk (OFL), IBM Plex Mono (OFL), Noto Sans JP (OFL).
+   unicode-range is preserved from the upstream CSS so browsers fetch only the
+   subsets a page needs. Cyrillic subsets are included for the uk locale.
+
+   Noto Sans JP covers ja (traffic-plan C4 blocker (a), cleared 2026-08-03).
+   Neither Space Grotesk nor IBM Plex Mono contains a single kana or kanji glyph,
+   so before this every Japanese heading fell back to an arbitrary system font —
+   against golden rule 1.
+
+   It is a CUSTOM SUBSET, not the upstream chunk set. Google serves Noto Sans JP as
+   124 unicode-range chunks per weight (~18 MB across four weights, far too much to
+   commit). These four files are the 2,136 Jōyō kanji plus the top ~1,200 kanji by
+   corpus frequency, all kana, CJK and full-width punctuation, and Latin — 3,745
+   codepoints, ~370 KB per weight, 1.5 MB total. Regenerate with
+   scripts/build-cjk-subset.sh if the character set ever needs to grow.
+
+   The unicode-range below deliberately lists ONLY Japanese ranges, so en/de/es/id/
+   pt-br pages never download a byte of it. A kanji outside the subset falls back
+   per-glyph rather than breaking the page. */
 
 /* IBM Plex Mono 400 — cyrillic-ext */
 @font-face {
@@ -202,4 +217,44 @@
   font-display: swap;
   src: url(/fonts/space-grotesk-700-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Noto Sans JP 400 — japanese (custom Jōyō subset) */
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/noto-sans-jp-400-japanese.woff2) format('woff2');
+  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+4E00-9FFF, U+FF00-FFEF, U+3200-32FF, U+FE30-FE4F;
+}
+
+/* Noto Sans JP 500 — japanese (custom Jōyō subset) */
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/fonts/noto-sans-jp-500-japanese.woff2) format('woff2');
+  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+4E00-9FFF, U+FF00-FFEF, U+3200-32FF, U+FE30-FE4F;
+}
+
+/* Noto Sans JP 600 — japanese (custom Jōyō subset) */
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(/fonts/noto-sans-jp-600-japanese.woff2) format('woff2');
+  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+4E00-9FFF, U+FF00-FFEF, U+3200-32FF, U+FE30-FE4F;
+}
+
+/* Noto Sans JP 700 — japanese (custom Jōyō subset) */
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/noto-sans-jp-700-japanese.woff2) format('woff2');
+  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+4E00-9FFF, U+FF00-FFEF, U+3200-32FF, U+FE30-FE4F;
 }

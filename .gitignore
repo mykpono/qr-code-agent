@@ -36,3 +36,6 @@ playwright-report/
 *service-account*.json
 gsc-key*.json
 *.gcp-key.json
+
+# Font subsetting venv (scripts/build-cjk-subset.sh) — tooling, not output.
+.fontenv/
