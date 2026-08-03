@@ -1078,8 +1078,11 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                 {sectionCaret(logoOpen)}<span className="gf-sectitle">{t.gen.centerLogo}</span>
                 <span className="gf-secsum">{logoSummary}</span>
               </button>
+              {/* Also `keepMark`: turning the logo off is not the same as discarding
+                  the mark. Dropping it here made the switch one-way — flick it back on
+                  and the default mark was gone for good, replaced by the placeholder. */}
               <button type="button" role="switch" aria-checked={useLogo} aria-label={t.a11y.toggleLogo}
-                className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => mutate(() => setUseLogo(!useLogo))}><span /></button>
+                className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => mutate(() => setUseLogo(!useLogo), { keepMark: true })}><span /></button>
             </div>
             {logoOpen && (
               <div className={`gf-logo${useLogo ? '' : ' off'}`} inert={useLogo ? undefined : ''}>
@@ -1101,18 +1104,21 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                   <input type="file" accept="image/*" hidden onChange={onLogoFile} aria-label={t.gen.dropImage} />
                 </label>
 
+                {/* Every control in this row shapes the MARK, so it is the `keepMark`
+                    exception in mutate(): dropping the demo mark here would delete the
+                    very thing the user is adjusting, mid-adjustment. */}
                 <div className="gf-platerow">
                   <span className="micro">{t.gen.plate}</span>
                   <div className="gf-plateswatches">
                     {['circle', 'square'].map((s) => (
                       <button key={s} type="button" aria-pressed={logoShape === s} title={t.logoShape[s]} aria-label={t.logoShape[s]}
-                        className={`gf-platesw${logoShape === s ? ' on' : ''}`} onClick={() => mutate(() => setLogoShape(s))}>
+                        className={`gf-platesw${logoShape === s ? ' on' : ''}`} onClick={() => mutate(() => setLogoShape(s), { keepMark: true })}>
                         <span className={`glyph ${s}`} />
                       </button>
                     ))}
                   </div>
                   <button type="button" role="checkbox" aria-checked={logoBorder === 'border'} className="gf-check"
-                    onClick={() => mutate(() => setLogoBorder(logoBorder === 'border' ? 'none' : 'border'))}>
+                    onClick={() => mutate(() => setLogoBorder(logoBorder === 'border' ? 'none' : 'border'), { keepMark: true })}>
                     <span className="box">{logoBorder === 'border' ? '✓' : ''}</span>{t.gen.borderCheck}
                   </button>
                   <div className="gf-fit">
@@ -1122,7 +1128,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                       <span className="fill" style={{ width: `${((logoZoom - 60) / 160) * 100}%` }} />
                       <span className="knob" style={{ left: `${((logoZoom - 60) / 160) * 100}%` }} />
                       <input type="range" min="60" max="220" step="5" value={logoZoom} aria-label={t.a11y.logoFitRange}
-                        aria-valuetext={`${logoZoom}%`} onChange={(e) => mutate(() => setLogoZoom(+e.target.value))} />
+                        aria-valuetext={`${logoZoom}%`} onChange={(e) => mutate(() => setLogoZoom(+e.target.value), { keepMark: true })} />
                     </div>
                     <span className="val">{logoZoom}%</span>
                   </div>
