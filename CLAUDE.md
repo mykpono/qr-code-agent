@@ -63,7 +63,10 @@ build of **qrcodeagent.net** — a free, no-sign-up QR code generator plus its p
 
 - **Astro** static SSG + **@astrojs/react** islands. **qrcode-generator** for encoding.
 - Deploy: **GitHub → Vercel** (auto-build on push, PR previews, prod on `main`). Static output; no adapter.
-- Analytics: **Umami** (primary, cookieless) + **GA4** (consent-gated). **Stripe Payment Link** for support.
+- Analytics: **Umami only** (cookieless, live on all 150 URLs since 2026-08-03), proxied via the
+  `/stats/` rewrite in `vercel.json`. **GA4 is deliberately unset and stays that way** — see plan
+  task A3 / `NEXT-PHASES.md` §2.1. The GA4 code path in `Base.astro` remains but never activates,
+  and **the consent banner's absence is the decision, not a bug**. **Stripe Payment Link** for support.
 - Node ≥ 18. Package manager: npm.
 
 ## Commands
