@@ -34,7 +34,7 @@ fact** — re-check them before acting.
 | Umami / GA4 **not firing** on production | *Inferred* | No references found in fetched homepage, and no consent banner. **Caveat: the fetch tool strips `<script>` tags, so absence is weak evidence.** Consistent with `NEXT-PHASES.md` §2.1. Verify in a real browser. |
 | Site **is indexed** by Google | **Confirmed** | `qrcodeagent.net` returns in web search for brand-adjacent queries |
 | Site is **absent** from its own money query | **Confirmed** | Search for "best free QR code generator with logo no sign up 2026" returns 6 roundups, none mentioning QR Code Agent |
-| **Brand entity collision** | **Confirmed** | An unrelated Android app "QRCodeAgent QR Scan & Generate" (`com.webtechxp.qrcodeagent`) ranks on Google Play under a different developer |
+| **Brand entity collision** | **Confirmed, but understated** | An unrelated Android app "QRCodeAgent QR Scan & Generate" (`com.webtechxp.qrcodeagent`) ranks on Google Play under a different developer. **Revised 2026-08-02:** measurement for E4 found the app is *not* the main competitor — it appears on neither brand query. "QR code" + "agent" is a generic phrase already owned by real-estate agents, payment-QR agents, AI agents and rivals literally named `agentqr.com` / `agenttext.com`. Schema cannot fix this; see `AEO-BASELINE.md` §2 |
 | GitHub repo is a **weak** link asset | **Confirmed** | Public, but 0 stars, no topics, auto-generated description |
 | `sitemap.xml` may have a **serving problem** | *Unverified* | Returned as unparseable binary to the fetch tool; `sitemap-index.xml` 404s. Could be normal gzip. **Check in GSC before assuming a bug.** |
 | i18n pipeline is **production-grade** | **Confirmed** | `de.json` contains `{ui, pages}`, ~25k words, all 47 pages. Scripts `i18n:coverage / extract / merge` exist in `package.json`. UI chrome override mechanism is implemented (`ui.json` + `uiStrings()`). |
@@ -351,9 +351,13 @@ before §3 is done** or you'll spend your one launch spike unmeasured.
 - [ ] **E2** `[BOTH]` · 2 hrs · `/learn/qr-code-vs-short-link` — already a named candidate in
       `NEXT-PHASES.md` §4.
 - [ ] **E3** `[BOTH]` · 2 hrs · `/learn/qr-code-vs-barcode` — same.
-- [ ] **E4** `[MYK]` · 1 hr · **AEO baseline measurement.** Query ChatGPT, Perplexity, Claude and
+- [x] **E4** `[MYK]` · 1 hr · **AEO baseline measurement.** Query ChatGPT, Perplexity, Claude and
       Google AI Overviews for "best free qr code generator with logo" and record whether
       qrcodeagent.net is mentioned. Repeat monthly. Without a baseline, §7 is unfalsifiable.
+      **First reading taken 2026-08-02 → `docs/AEO-BASELINE.md`.** Absent from Google organic,
+      Google AI Overviews and Perplexity on the money query. **ChatGPT and Claude still
+      unmeasured** — both need a sign-in, so that half remains `[MYK]`. Next reading due
+      2026-09-02.
 
 ⚠️ **Every new article must be added to every live bundle in the same change** (`test/i18n.test.mjs`
 enforces this). By Week 10 that means translating each new article into 5+ locales — so the true
@@ -451,4 +455,5 @@ Stated so a future session doesn't quietly re-add them:
 - `docs/I18N-RUNBOOK.md` — **the operational procedure for §5**
 - `docs/FINAL-TAXONOMY.md` — 47 built / 13 planned, with validated MSV/KD
 - `docs/SEO-BRIEF.md` — §8.2 per-locale head terms (the basis for §5.1), §11 phased rollout
+- `docs/AEO-BASELINE.md` — **the E4 measurement series**; append a dated block monthly
 - `SEO-AEO-TRAFFIC-STRATEGY.md` — the strategic analysis this plan operationalizes
