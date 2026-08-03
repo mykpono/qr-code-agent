@@ -346,12 +346,17 @@ carrying that relaxation forward unchanged.
 3. **Gate on results.** If ID and PT-BR are not indexing by Week 9, stop — do not ship 6 more.
 4. **Keep locale count honest in `llms.txt`** so AI crawlers see a consistent picture.
 
-- [ ] **C-risk** `[MYK]` · decision · Decide and record: full review, partial review (option 2), or
-      none. Write the decision and its date into `CLAUDE.md` rule 9 so it doesn't drift again.
+- [x] **C-risk** `[MYK]` · **DONE 2026-08-03** · Decided: **partial review** (option 2). Recorded
+      as `CLAUDE.md` rule 9b and decision D-015. Open question 2 in §11 is closed by it.
 
 ### 5.5 Tasks
 
-- [ ] **C1** `[BOTH]` · 6 hrs · **ID** bundle → PR → verify → merge (blocked by C0)
+- [x] **C1** `[BOTH]` · **DONE 2026-08-03** · **ID** bundle shipped in #42 — 50 pages, 416 UI
+      strings, 150 → 200 live URLs. Head term declared *before* translating (the runbook puts
+      step 6 last; that order would have failed all 21 money pages after the fact, because ID's
+      head term is the ENGLISH `qr code generator`). Verified live: `lang="id"`, reciprocal
+      hreflang, 50 `/id/` URLs in the sitemap, 200 submitted to IndexNow. **Not done:** the
+      C-risk partial review — ID shipped without it; GSC resubmit needs credentials.
 - [ ] **C2** `[BOTH]` · 6 hrs · **PT-BR** bundle
 - [ ] **GATE** — Week 9 review. See §9. Do not proceed past here on schedule alone.
 - [ ] **C3** `[BOTH]` · 7 hrs · **JA** bundle
