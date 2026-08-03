@@ -236,7 +236,7 @@ Live today: **en, de, es**. Remaining, in impact order:
 | 1 | **ID** (Indonesian) | **135,000** | ~6 hrs | Highest remaining. **English head term dominates** — title/H1 must contain `qr code generator` verbatim; `buat kode qr` (2,400) as secondary. |
 | 2 | **PT-BR** | **49,500** | ~6 hrs | `gerador de qr code`. English-style "QR code" beats "código QR". Localize examples to Brazil (PIX payment context). |
 | 3 | **PL** | **9,900** | ~6 hrs | `generator kodów qr` — **plural genitive**, not singular (720). Promoted over JA (D-015): lower demand, but latin-ext and content-only. |
-| 4 | **JA** | **27,100** | ~7 hrs + **5–7 hrs engineering** | **Demand ranks 3rd; readiness does not.** `QRコード生成` native preferred; EN form also strong (18,100). Keep 無料 in copy. Deferred until the two blockers below are cleared — see C4. |
+| 4 | **JA** | **27,100** | ~7 hrs | **Highest remaining demand, and no longer gated.** `QRコード生成` native preferred; EN form also strong (18,100). Keep 無料 in copy. Both blockers cleared 2026-08-03 (#50 self-hosted Noto Sans JP subset, #48 per-locale title/meta limits) — the engineering estimate is spent, so on `volume ÷ difficulty` JA now outranks PL. See C4. |
 | 5 | **IT** | **8,100** | ~6 hrs | **Retarget to the verb:** `crea qr code` ≫ `generatore di qr code` (1,300). |
 | 6 | **FR** | **3,600** | ~6 hrs | Noun + verb both: `generateur de qr code`, `creer un qr code` (2,900), `…gratuit` (1,600). |
 | 7 | **UK** (Ukrainian) | **3,600** | ~6 hrs | `створити qr код` (verb) slightly ahead of the noun form. **Ukrainian ≠ Russian — never reuse.** |
@@ -369,10 +369,16 @@ carrying that relaxation forward unchanged.
       C-risk partial review — ID shipped without it; GSC resubmit needs credentials.
 - [ ] **C2** `[BOTH]` · 6 hrs · **PT-BR** bundle
 - [ ] **GATE** — Week 9 review. See §9. Do not proceed past here on schedule alone.
-- [ ] **C3** `[BOTH]` · 6 hrs · **PL** bundle *(promoted over JA — D-015)*
-- [ ] **C4** `[BOTH]` · 7 hrs content + **5–7 hrs engineering** · **JA** bundle — **BLOCKED, do not
-      start as a content job.** JA is the only remaining locale that is not content-only, and both
-      blockers are silent if ignored:
+- [ ] **C3** `[BOTH]` · 6 hrs · **PL** bundle *(promoted over JA by D-015 — but that reason was
+      JA's engineering cost, which is now spent; re-decide C3 vs C4 before starting either)*
+- [ ] **C4** `[BOTH]` · 7 hrs · **JA** bundle — **UNBLOCKED 2026-08-03.** Both blockers below were
+      cleared the same day, by #50 (font) and #48 (per-locale limits), so JA is now an ordinary
+      content job like every other locale. On the plan's own `volume ÷ difficulty` rule it is the
+      strongest remaining bet — 27,100 MSV at ~7 hrs, against PL's 9,900 at ~6 — so **C3/C4 order
+      is now a live question, not a settled one** (D-015 promoted PL only because JA carried
+      engineering; that reason is gone). The blocker write-ups are kept in full, not deleted:
+      both failed silently when ignored, and the record of how they were closed is what stops
+      them being reintroduced.
       ~~**(a) No CJK font is self-hosted.**~~ **CLEARED 2026-08-03.** Noto Sans JP (OFL) is now
       self-hosted at 400/500/600/700 to match Space Grotesk — a **custom Jōyō subset**, since
       Google serves it as 124 unicode-range chunks per weight (~18 MB across four, not
