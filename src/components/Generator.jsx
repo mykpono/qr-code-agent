@@ -322,6 +322,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
   const mainRef = useRef(null);
   const pulseRef = useRef(false);
   const typeTabsRef = useRef([]);
+  const urlRef = useRef(null);
   const drawerTriggerRef = useRef(null);
   const drawerRef = useRef(null);
 
@@ -392,15 +393,28 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
   const [fbSending, setFbSending] = useState(false);
   const fbTrap = useRef(null);
 
-  /* Every design interaction routes through this. On the FIRST one the branded
-     demo is dropped in the same state update, so the user never has to clear it
-     by hand: the CTA falls back to SCAN ME, the default mark goes, and the demo
-     URL empties — except where the interaction itself set that very thing.
-     Chrome that is not part of the design (carets, tabs, popovers, theme,
-     feedback) uses the plain setters and leaves the demo alone. */
+  /* DESIGN interactions route through this: colours, patterns, corners, ECC,
+     size, frames, CTA styling, templates, every logo control. They restyle the
+     card and nothing else, so the branded demo SURVIVES them — the preview stays
+     a real, scannable code the whole time you are styling it. Chrome that is not
+     part of the design (carets, tabs, popovers, theme, feedback) uses the plain
+     setters and does not even pulse. */
   function mutate(apply, opts = {}) {
     pulseRef.current = opts.pulse !== false;
     apply();
+  }
+
+  /* CONTENT interactions route through this instead: editing a field, a UTM
+     value, or picking a social shortcut that writes an example link. Those hand
+     the widget over to the user, so the branded demo is dropped in the same
+     update — the CTA falls back to SCAN ME, the default mark goes, and the demo
+     URL empties — except where the interaction itself set that very thing. */
+  function mutateContent(apply, opts = {}) {
+    mutate(apply, opts);
+    dropDemo(opts);
+  }
+
+  function dropDemo(opts = {}) {
     if (!pristine) return;
     setPristine(false);
     if (!opts.keepText) setFrameText(t.gen.ctaPlaceholder);
@@ -418,12 +432,12 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
     : (t.density[density.level] || '').replace('{n}', payload.length);
   const suggestEcc = density.suggest && density.suggest !== ecc ? density.suggest : '';
 
-  const setF = (k, v) => mutate(() => setFields((f) => ({ ...f, [k]: v })), { keepUrl: k === 'url' });
+  const setF = (k, v) => mutateContent(() => setFields((f) => ({ ...f, [k]: v })), { keepUrl: k === 'url' });
   // The URL field shows the TAGGED link, so what you see is what the code
   // encodes. `fields.url` stays the untagged base so editing a UTM value
   // recomposes rather than appending to an already-tagged string.
-  const onUrlInput = (v) => mutate(() => { const { base, utm } = splitUtm(v); setFields((f) => ({ ...f, url: base, utm })); }, { keepUrl: true });
-  const setUtm = (k, v) => mutate(() => setFields((f) => ({ ...f, utm: { ...f.utm, [k]: v } })), { keepUrl: true });
+  const onUrlInput = (v) => mutateContent(() => { const { base, utm } = splitUtm(v); setFields((f) => ({ ...f, url: base, utm })); }, { keepUrl: true });
+  const setUtm = (k, v) => mutateContent(() => setFields((f) => ({ ...f, utm: { ...f.utm, [k]: v } })), { keepUrl: true });
 
   function changeType(m) {
     if (m === mode && !social) return;
@@ -452,8 +466,10 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
     track('type_switch', { type: m });
   }
 
+  // A social shortcut is the one "template" that IS content — it writes an
+  // example link into the URL field — so it hands the widget over.
   function pickSocial(s) {
-    mutate(() => {
+    mutateContent(() => {
       setMode('url'); setSocial(s.key); setSel(s.name); setUtmOpen(false);
       setFields((f) => ({ ...f, url: s.url, utm: {} }));
       setFg(s.fg); setBg(s.bg); setDot(s.dot); setFinder(s.finder); setEcc(s.ecc);
@@ -499,7 +515,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
     const file = e.target.files?.[0];
     if (!file) return;
     const rd = new FileReader();
-    rd.onload = (ev) => mutate(() => { setLogoMark({ src: ev.target.result, name: file.name.replace(/\.[^.]+$/, ''), upload: true }); setUseLogo(true); }, { keepMark: true });
+    rd.onload = (ev) => mutate(() => { setLogoMark({ src: ev.target.result, name: file.name.replace(/\.[^.]+$/, ''), upload: true }); setUseLogo(true); });
     rd.readAsDataURL(file);
     e.target.value = '';
   }
@@ -610,7 +626,20 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
     setTimeout(() => URL.revokeObjectURL(url), 0);
   }
 
+  /* Styling no longer clears the demo, so the export path is the last place the
+     owner's own coffee link could slip out as if it were the user's code. The
+     first Download or Copy on an UNTOUCHED demo spends it instead of writing a
+     file: the field empties, the CTA falls back, and the widget lands in its
+     ordinary "nothing to encode" state with the cursor in the URL box. One
+     click, no new copy to translate, and the second click exports normally. */
+  const demoIntact = pristine && mode === 'url' && !social && fields.url === DEMO_URL;
+  function claimDemo() {
+    dropDemo();
+    urlRef.current?.focus();
+  }
+
   async function onDownload() {
+    if (demoIntact) { claimDemo(); return; }
     if (!hasContent || !matrix) return;
     if (format === 'SVG') {
       const svg = buildFramedSVG({ ...exportOpts(), logoDataUrl: useLogo && markImg ? markImg.src : null });
@@ -627,6 +656,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
   }
 
   async function onCopy() {
+    if (demoIntact) { claimDemo(); return; }
     if (!hasContent || !matrix) return;
     try {
       const blob = await new Promise((res) => renderExportCanvas().toBlob(res, 'image/png'));
@@ -661,7 +691,9 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
   }
   function applySaved(s) {
     // Entries predate several fields, so each is guarded before it is applied.
-    mutate(() => {
+    // Content, not design: the entry replaces the payload outright, so the demo
+    // is spent even though every keep* flag leaves this particular one intact.
+    mutateContent(() => {
       if (s.mode) { setMode(s.mode); setSocial(''); }
       setFields(s.fields); setDot(s.dot); setFinder(s.finder);
       setFg(s.fg); setBg(s.bg); setSize(s.size); setEcc(s.ecc);
@@ -851,7 +883,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
         <div className="gf-fieldstack">
           <ContentFields
             mode={mode} social={social} fields={fields} setF={setF}
-            urlValue={payload} onUrlInput={onUrlInput}
+            urlValue={payload} onUrlInput={onUrlInput} urlRef={urlRef}
             utmOpen={utmOpen} toggleUtm={() => setUtmOpen((v) => !v)} setUtm={setUtm} t={t}
           />
 
@@ -1029,7 +1061,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                       </span>
                       <input value={frameText} maxLength={24} size={24} placeholder={t.gen.ctaPlaceholder}
                         aria-label={t.gen.callToAction}
-                        onChange={(e) => mutate(() => setFrameText(e.target.value), { keepText: true })} />
+                        onChange={(e) => mutate(() => setFrameText(e.target.value))} />
                     </label>
 
                     <label className="gf-fontfield">
@@ -1078,11 +1110,8 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                 {sectionCaret(logoOpen)}<span className="gf-sectitle">{t.gen.centerLogo}</span>
                 <span className="gf-secsum">{logoSummary}</span>
               </button>
-              {/* Also `keepMark`: turning the logo off is not the same as discarding
-                  the mark. Dropping it here made the switch one-way — flick it back on
-                  and the default mark was gone for good, replaced by the placeholder. */}
               <button type="button" role="switch" aria-checked={useLogo} aria-label={t.a11y.toggleLogo}
-                className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => mutate(() => setUseLogo(!useLogo), { keepMark: true })}><span /></button>
+                className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => mutate(() => setUseLogo(!useLogo))}><span /></button>
             </div>
             {logoOpen && (
               <div className={`gf-logo${useLogo ? '' : ' off'}`} inert={useLogo ? undefined : ''}>
@@ -1104,21 +1133,18 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                   <input type="file" accept="image/*" hidden onChange={onLogoFile} aria-label={t.gen.dropImage} />
                 </label>
 
-                {/* Every control in this row shapes the MARK, so it is the `keepMark`
-                    exception in mutate(): dropping the demo mark here would delete the
-                    very thing the user is adjusting, mid-adjustment. */}
                 <div className="gf-platerow">
                   <span className="micro">{t.gen.plate}</span>
                   <div className="gf-plateswatches">
                     {['circle', 'square'].map((s) => (
                       <button key={s} type="button" aria-pressed={logoShape === s} title={t.logoShape[s]} aria-label={t.logoShape[s]}
-                        className={`gf-platesw${logoShape === s ? ' on' : ''}`} onClick={() => mutate(() => setLogoShape(s), { keepMark: true })}>
+                        className={`gf-platesw${logoShape === s ? ' on' : ''}`} onClick={() => mutate(() => setLogoShape(s))}>
                         <span className={`glyph ${s}`} />
                       </button>
                     ))}
                   </div>
                   <button type="button" role="checkbox" aria-checked={logoBorder === 'border'} className="gf-check"
-                    onClick={() => mutate(() => setLogoBorder(logoBorder === 'border' ? 'none' : 'border'), { keepMark: true })}>
+                    onClick={() => mutate(() => setLogoBorder(logoBorder === 'border' ? 'none' : 'border'))}>
                     <span className="box">{logoBorder === 'border' ? '✓' : ''}</span>{t.gen.borderCheck}
                   </button>
                   <div className="gf-fit">
@@ -1128,7 +1154,7 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                       <span className="fill" style={{ width: `${((logoZoom - 60) / 160) * 100}%` }} />
                       <span className="knob" style={{ left: `${((logoZoom - 60) / 160) * 100}%` }} />
                       <input type="range" min="60" max="220" step="5" value={logoZoom} aria-label={t.a11y.logoFitRange}
-                        aria-valuetext={`${logoZoom}%`} onChange={(e) => mutate(() => setLogoZoom(+e.target.value), { keepMark: true })} />
+                        aria-valuetext={`${logoZoom}%`} onChange={(e) => mutate(() => setLogoZoom(+e.target.value))} />
                     </div>
                     <span className="val">{logoZoom}%</span>
                   </div>
@@ -1335,14 +1361,14 @@ const UTM_FIELDS = [
   ['term', ''], ['content', ''],
 ];
 
-function ContentFields({ mode, social, fields, setF, urlValue, onUrlInput, utmOpen, toggleUtm, setUtm, t }) {
+function ContentFields({ mode, social, fields, setF, urlValue, onUrlInput, urlRef, utmOpen, toggleUtm, setUtm, t }) {
   const F = (k) => fields[k] || '';
   if (mode === 'url' || social) {
     const ph = social ? (SOCIAL.find((s) => s.key === social) || {}).url : t.gen.contentPlaceholder;
     return (
       <>
         <div className="gf-urlrow">
-          <input className="gf-field" value={urlValue ?? F('url')} onChange={(e) => onUrlInput(e.target.value)}
+          <input ref={urlRef} className="gf-field" value={urlValue ?? F('url')} onChange={(e) => onUrlInput(e.target.value)}
             placeholder={ph} aria-label={t.gen.contentAria} />
           <button type="button" className="gf-utmbtn" onClick={toggleUtm} aria-expanded={utmOpen}>
             {t.gen.utmToggle} <span>{utmOpen ? '▴' : '▾'}</span>
