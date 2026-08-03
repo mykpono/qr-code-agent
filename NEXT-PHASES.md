@@ -79,7 +79,7 @@ Vercel → `qr-generator` → Settings → Environment Variables, for **Producti
 Preview**:
 
 ```
-PUBLIC_STRIPE_SUPPORT_URL=https://buy.stripe.com/7sYfZid6e4A7bg670KdUY00
+PUBLIC_STRIPE_SUPPORT_URL=https://buy.stripe.com/cNi9AU4zI3w31Fw2KudUY01
 PUBLIC_UMAMI_WEBSITE_ID=<from the `umami` project in the same Vercel scope>
 PUBLIC_GA4_MEASUREMENT_ID=<from GA4>
 ```

@@ -85,7 +85,7 @@ npm run scan-sheet # → dist/scan-test.html, print at 100% and scan with a phon
 ```
 PUBLIC_UMAMI_WEBSITE_ID=
 PUBLIC_GA4_MEASUREMENT_ID=
-PUBLIC_STRIPE_SUPPORT_URL=https://buy.stripe.com/7sYfZid6e4A7bg670KdUY00
+PUBLIC_STRIPE_SUPPORT_URL=https://buy.stripe.com/cNi9AU4zI3w31Fw2KudUY01
 ```
 (No secret keys needed until Phase-2 accounts.) The live Payment Link is set. `SUPPORT_URL` in
 `lib/content.js` resolves the env var first and falls back to `site.support.href` in `pages.json`,
