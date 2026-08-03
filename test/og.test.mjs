@@ -18,6 +18,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import jsQR from 'jsqr';
 import { Resvg } from '@resvg/resvg-js';
@@ -72,11 +73,28 @@ test('the OG QR colours clear the scannability threshold', () => {
 
 test('Base.astro points og:image and twitter:image at the shared card', () => {
   const base = readFileSync(root + 'src/layouts/Base.astro', 'utf8');
-  assert.match(base, /ogImg = 'https:\/\/qrcodeagent\.net\/assets\/og\.png'/,
-    'Base.astro should use the single /assets/og.png');
+  assert.match(base, /ogImg = `https:\/\/qrcodeagent\.net\/assets\/og\.png\?v=\$\{ogHash\}`/,
+    'Base.astro should use the single /assets/og.png, cache-busted by content hash');
   // Both meta tags must use ogImg, not a per-page path.
   assert.ok(/property="og:image" content=\{ogImg\}/.test(base), 'og:image should be ogImg');
   assert.ok(/name="twitter:image" content=\{ogImg\}/.test(base), 'twitter:image should be ogImg');
+});
+
+// The ?v= suffix is the only thing that makes a reshoot visible in an unfurl.
+// /assets/* is served `max-age=31536000, immutable`, and Telegram/Slack/X key
+// their preview cache on the image URL — so with a constant URL the old card
+// survives a successful re-scrape, which is exactly what happened after the
+// 2026-08 light-theme redesign. Assert the hash is DERIVED from the file, not
+// typed in: a hand-written constant would go stale the next time silently.
+test('the OG card URL is cache-busted by the image content hash', () => {
+  const base = readFileSync(root + 'src/layouts/Base.astro', 'utf8');
+  assert.match(base, /createHash\('sha256'\)[\s\S]{0,160}public\/assets\/og\.png/,
+    'ogHash must be computed from public/assets/og.png, not hardcoded');
+
+  // And the value it produces must match the committed card.
+  const want = createHash('sha256')
+    .update(readFileSync(root + 'public/assets/og.png')).digest('hex').slice(0, 8);
+  assert.match(want, /^[0-9a-f]{8}$/);
 });
 
 test('the OG card is committed and is a 1200x630 PNG', () => {

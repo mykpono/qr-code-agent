@@ -1,6 +1,8 @@
 ---
 import '../styles/styles.css';
 import '../styles/app.css';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { alternates, schemaGraph, SITE, urlFor } from '../lib/content.js';
 import Consent from '../components/Consent.astro';
 
@@ -12,7 +14,22 @@ const graph = schemaGraph(page, locale);
 // The per-page title and description already render as text beside it in an
 // unfurl, so the image's job is to show what the product is, the same on every
 // page and in every language. Built by scripts/gen-og.mjs at build time.
-const ogImg = 'https://qrcodeagent.net/assets/og.png';
+//
+// ?v= IS LOAD-BEARING — do not "tidy" it away. The path never changes across
+// redesigns, and Vercel serves /assets/* as `max-age=31536000, immutable`,
+// which tells every cache never to revalidate. Telegram, Slack, iMessage and X
+// key their unfurl cache on the image URL, so after the 2026-08 light-theme
+// redesign they kept serving the old cream card even after the page itself was
+// re-scraped and @WebpageBot reported success: the HTML was fresh, the URL was
+// identical, so the stored image was reused. Re-scraping cannot fix that — only
+// a URL the crawler has never seen can.
+//
+// The suffix is the card's own content hash, so it changes if and only if the
+// PNG does. That makes every future reshoot self-busting and needs no bot.
+const ogHash = createHash('sha256')
+  .update(readFileSync(new URL('../../public/assets/og.png', import.meta.url)))
+  .digest('hex').slice(0, 8);
+const ogImg = `https://qrcodeagent.net/assets/og.png?v=${ogHash}`;
 const ogType = page.archetype === 'article' ? 'article' : 'website';
 const OG_LOCALE = {
   en: 'en_US', de: 'de_DE', es: 'es_ES', 'pt-br': 'pt_BR', fr: 'fr_FR', it: 'it_IT',
