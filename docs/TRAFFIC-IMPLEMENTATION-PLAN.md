@@ -33,12 +33,12 @@ fact** — re-check them before acting.
 | Vercel Web Analytics **not enabled** on `qr-generator` | **Confirmed** | Vercel API returns `404 Web Analytics not found` for `prj_7WAwTRtMsTkBNnhjasWCNYjLxGKI` |
 | Umami / GA4 **not firing** on production | *Inferred* | No references found in fetched homepage, and no consent banner. **Caveat: the fetch tool strips `<script>` tags, so absence is weak evidence.** Consistent with `NEXT-PHASES.md` §2.1. Verify in a real browser. |
 | Site **is indexed** by Google | **Confirmed** | `qrcodeagent.net` returns in web search for brand-adjacent queries |
-| Site is **absent** from its own money query | **Confirmed** | Search for "best free QR code generator with logo no sign up 2026" returns 6 roundups, none mentioning QR Code Agent |
+| Site is **absent** from its own money query | **Confirmed, still true 2026-08-02** | Re-measured under E4 after E1–E3 shipped: absent from Google organic, Google AI Overviews and Perplexity. See `docs/AEO-BASELINE.md`. Expected this soon after publishing — the point of the baseline is to make the change measurable later. |
 | **Brand entity collision** | **Confirmed, but understated** | An unrelated Android app "QRCodeAgent QR Scan & Generate" (`com.webtechxp.qrcodeagent`) ranks on Google Play under a different developer. **Revised 2026-08-02:** measurement for E4 found the app is *not* the main competitor — it appears on neither brand query. "QR code" + "agent" is a generic phrase already owned by real-estate agents, payment-QR agents, AI agents and rivals literally named `agentqr.com` / `agenttext.com`. Schema cannot fix this; see `AEO-BASELINE.md` §2 |
 | GitHub repo is a **weak** link asset | **Confirmed** | Public, but 0 stars, no topics, auto-generated description |
 | `sitemap.xml` may have a **serving problem** | *Unverified* | Returned as unparseable binary to the fetch tool; `sitemap-index.xml` 404s. Could be normal gzip. **Check in GSC before assuming a bug.** |
 | i18n pipeline is **production-grade** | **Confirmed** | `de.json` contains `{ui, pages}`, ~25k words, all 47 pages. Scripts `i18n:coverage / extract / merge` exist in `package.json`. UI chrome override mechanism is implemented (`ui.json` + `uiStrings()`). |
-| 47 pages live × 3 locales (en, de, es) = 141 URLs | **Confirmed** | `docs/FINAL-TAXONOMY.md`, reconciled 2026-07-21; `dist/` listing |
+| ~~47 pages live × 3 locales = 141 URLs~~ → **50 × 3 = 150 URLs** | **Confirmed** | Superseded 2026-08-03: E1–E3 added three `/learn` articles in all three locales. `npm run verify` reports `50 × 3`. |
 
 ### Claims from prior docs I could NOT verify
 
@@ -144,9 +144,15 @@ unrelated Play Store app. Cheap, and everything in §6 and §7 depends on it.
         Now generated (512×512) by `scripts/gen-og.mjs`, which already had the resvg + font setup.
       - **`inLanguage` claimed all 11 declared locales** when 3 are live. Now derived from
         `LIVE_LOCALES` — the same honesty §5.4 mitigation 4 asks for in `llms.txt`.
-- [ ] **B2** `[MYK]` · 30 min · GitHub repo metadata: real description ("Free, no-sign-up QR code
-      generator — Astro + React, client-side, 11 locales"), set the **Website** field to
-      qrcodeagent.net, add topics (`qr-code-generator`, `astro`, `privacy`, `no-signup`).
+- [x] **B2** `[MYK]` · **DONE 2026-08-02** · GitHub repo metadata: real description, **Website**
+      field set to qrcodeagent.net, topics added (`qr-code-generator`, `qr-code`, `astro`, `react`,
+      `privacy`, `no-signup`, `static-site` — was empty).
+      Two notes against this row as written. The **Website field was already set**, so §1's
+      "auto-generated description / weak link asset" row was only half right — distrust its
+      neighbours. And the proposed description text said **"11 locales"**; three are live, eleven
+      are merely declared. Since B1 makes all 150 pages point `sameAs` at this repo, that claim
+      would have contradicted the `inLanguage` fix in the same breath, so the shipped description
+      says **"3 languages"** and leads with the privacy claim instead.
 - [x] **B3** `[AGENT]` · **DONE 2026-08-02** · README now leads with the product, the live link and
       an honest-limitations section (static codes, no scan analytics, raster logo in SVG) — per the
       AEO playbook, stated limitations get cited over overselling. The old one led with "This
@@ -350,12 +356,24 @@ before §3 is done** or you'll spend your one launch spike unmeasured.
 
 ## 7. Workstream E — AEO / comparison content `P2` · ~8 hrs
 
-- [ ] **E1** `[BOTH]` · 3 hrs · `/learn/best-free-qr-code-generators-2026` — the query you are
+- [x] **E1** `[BOTH]` · 3 hrs · `/learn/best-free-qr-code-generators-2026` — the query you are
       currently absent from. Honest comparison table, real limitations including your own.
       **Must respect the cannibalization table** in the article spec.
-- [ ] **E2** `[BOTH]` · 2 hrs · `/learn/qr-code-vs-short-link` — already a named candidate in
+      **Shipped 2026-08-02 (#27), EN + DE + ES.** 1,033 words. Names QRCode Monkey as an equal on
+      the two axes where it is one, and states this tool's five limitations outright. Competitor
+      facts verified against sources, not recalled — Adobe Express was dropped because sources
+      disagreed on whether download needs a sign-in.
+- [x] **E2** `[BOTH]` · 2 hrs · `/learn/qr-code-vs-short-link` — already a named candidate in
       `NEXT-PHASES.md` §4.
-- [ ] **E3** `[BOTH]` · 2 hrs · `/learn/qr-code-vs-barcode` — same.
+      **Shipped 2026-08-03 (#29), EN + DE + ES.** 810 words. Argues they are not alternatives, and
+      centres on the decision people actually face: whether to put a redirect *inside* a code.
+      Bitly figures from Bitly's own plan page, including that free links do **not** expire — a
+      fact that weakens our pitch and is stated anyway.
+- [x] **E3** `[BOTH]` · 2 hrs · `/learn/qr-code-vs-barcode` — same.
+      **Shipped 2026-08-03 (#29), EN + DE + ES.** 791 words. Framed as pointer vs payload and built
+      on **GS1 Sunrise 2027**, which most competing explainers miss. States plainly that a GS1
+      Digital Link code is not a QR with a URL in it, and that **a code from this generator will
+      not work at a supermarket till** — the one place the page could otherwise cost a reader money.
 - [x] **E4** `[MYK]` · 1 hr · **AEO baseline measurement.** Query ChatGPT, Perplexity, Claude and
       Google AI Overviews for "best free qr code generator with logo" and record whether
       qrcodeagent.net is mentioned. Repeat monthly. Without a baseline, §7 is unfalsifiable.
