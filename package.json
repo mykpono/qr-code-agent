@@ -16,7 +16,8 @@
     "i18n:coverage": "node scripts/i18n-coverage.mjs",
     "og": "node scripts/gen-og.mjs",
     "logo": "node scripts/gen-logo.mjs",
-    "gsc:submit": "node scripts/gsc-submit.mjs"
+    "gsc:submit": "node scripts/gsc-submit.mjs",
+    "indexnow:submit": "node scripts/indexnow-submit.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^3.6.0",

@@ -36,7 +36,7 @@ fact** — re-check them before acting.
 | Site is **absent** from its own money query | **Confirmed, still true 2026-08-02** | Re-measured under E4 after E1–E3 shipped: absent from Google organic, Google AI Overviews and Perplexity. See `docs/AEO-BASELINE.md`. Expected this soon after publishing — the point of the baseline is to make the change measurable later. |
 | **Brand entity collision** | **Confirmed, but understated** | An unrelated Android app "QRCodeAgent QR Scan & Generate" (`com.webtechxp.qrcodeagent`) ranks on Google Play under a different developer. **Revised 2026-08-02:** measurement for E4 found the app is *not* the main competitor — it appears on neither brand query. "QR code" + "agent" is a generic phrase already owned by real-estate agents, payment-QR agents, AI agents and rivals literally named `agentqr.com` / `agenttext.com`. Schema cannot fix this; see `AEO-BASELINE.md` §2 |
 | GitHub repo is a **weak** link asset | **Confirmed** | Public, but 0 stars, no topics, auto-generated description |
-| `sitemap.xml` may have a **serving problem** | *Unverified* | Returned as unparseable binary to the fetch tool; `sitemap-index.xml` 404s. Could be normal gzip. **Check in GSC before assuming a bug.** |
+| ~~`sitemap.xml` may have a **serving problem**~~ → **no problem exists** | **Confirmed 2026-08-03** | Resolved without GSC. Serves 200 `application/xml`, 88,360 bytes, **uncompressed** (starts `<?xml`, never gzip), parses to 150 unique `<loc>`, 50 per locale. `sitemap-index.xml` 404s **correctly** — nothing generates or references it. The "unparseable binary" was a fetch-tool artifact. See A5. |
 | i18n pipeline is **production-grade** | **Confirmed** | `de.json` contains `{ui, pages}`, ~25k words, all 47 pages. Scripts `i18n:coverage / extract / merge` exist in `package.json`. UI chrome override mechanism is implemented (`ui.json` + `uiStrings()`). |
 | ~~47 pages live × 3 locales = 141 URLs~~ → **50 × 3 = 150 URLs** | **Confirmed** | Superseded 2026-08-03: E1–E3 added three `/learn` articles in all three locales. `npm run verify` reports `50 × 3`. |
 
@@ -99,11 +99,29 @@ complete.**
       `https://qrcodeagent.net/sitemap.xml`, and read **Pages → Indexing**. Record: how many of the
       141 URLs are indexed vs. discovered-not-indexed. **This number is the input to the Week-9
       gate.**
-- [ ] **A5** `[MYK]` · 20 min · Resolve the sitemap question from §1 — GSC will tell you whether it
-      parsed and how many URLs it read. If GSC reports an error, file it as a bug; if it parsed
-      cleanly, the binary response was just gzip and there is nothing to fix.
-- [ ] **A6** `[MYK]` · 30 min · Bing Webmaster Tools: verify + submit sitemap. Bing's index feeds
-      Copilot and parts of ChatGPT search, so this is AEO infrastructure, not just Bing traffic.
+- [x] **A5** `[AGENT]` · **RESOLVED 2026-08-03 — there is no bug. GSC not required.** The question
+      was answerable directly and did not need Search Console at all. `sitemap.xml` serves
+      **HTTP 200, `content-type: application/xml`, 88,360 bytes, uncompressed** — the first bytes
+      are literally `<?xml version="1.0"`, so it was never gzip. It parses cleanly to **150 `<loc>`
+      entries, all unique, 50 per locale**. The "unparseable binary" in §1 was an artifact of the
+      fetch tool, not of the response.
+      `sitemap-index.xml` **does 404 — correctly.** Nothing generates or references it:
+      `robots.txt` points only at `sitemap.xml`, and `gen-sitemap.mjs` emits a single flat
+      `urlset`. A 404 for a file that does not exist and is not advertised is not a defect.
+      **Nothing to fix, nothing to file.**
+- [x] **A6** `[AGENT]` — *partially; the account half is still* `[MYK]` · **IndexNow shipped
+      2026-08-03**, which reaches the same Bing index that A6 targets **without needing an
+      account.** `scripts/indexnow-submit.mjs` + `public/<key>.txt`, wired as
+      `npm run indexnow:submit` (`--dry-run` / `--check`). Verified: 150 URLs, 7.4 KB payload.
+      `check-build.mjs` now fails the build if the key file is missing **or its contents drift from
+      the key the script sends** — proven non-vacuous against both failure modes.
+      **Still yours:** Bing Webmaster Tools verification. IndexNow *pushes* URLs but reports nothing
+      back, so Webmaster Tools remains the only place to **read** Bing indexation. Also note Bing
+      indexation could not be measured here — `site:` queries served a bot challenge, which an
+      agent must not solve.
+      **Order matters:** the key file must be deployed before the first submit, or IndexNow answers
+      403. Merge this, let Vercel build, then run `npm run indexnow:submit -- --check` followed by
+      the real submit.
 - [x] **A7** `[AGENT]` · **DONE 2026-08-02** · `scripts/gsc-submit.mjs` works. Verified with
       `npm run gsc:submit -- --dry-run`: it builds and signs the request correctly.
 
