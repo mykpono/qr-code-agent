@@ -57,6 +57,11 @@
       "google-review-qr-code": {
         "title": "Generador de códigos QR de reseñas de Google — gratis"
       }
+    },
+    "pt-br": {
+      "custom-qr-code-generator": {
+        "title": "Gerador de QR Code Personalizado — Grátis, Sem Cadastro"
+      }
     }
   }
 }
