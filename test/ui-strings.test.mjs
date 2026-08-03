@@ -166,3 +166,28 @@ test('ui label arrays line up with pages.json structure', () => {
     });
   }
 });
+
+// The demo CTA is seeded straight into the frame-text input, which caps at
+// maxLength. A translation longer than that opens the widget already showing
+// the amber over-limit counter, and the string can never be typed back once
+// the visitor edits the field. DE shipped at 25/24 exactly this way.
+test('every locale demo CTA fits the frame-text input', () => {
+  const src = read('components/Generator.jsx');
+  const m = src.match(/value=\{frameText\}\s+maxLength=\{(\d+)\}/);
+  assert.ok(m, 'Generator.jsx no longer caps the frame-text input — update this test');
+  const max = Number(m[1]);
+
+  const check = (label, s) =>
+    assert.ok(
+      typeof s === 'string' && [...s].length <= max,
+      `${label} demoCta is ${[...(s || '')].length} chars, over the ${max} the input allows: ${s}`,
+    );
+
+  check('ui.json', ui.gen.demoCta);
+  const dir = root + 'content/i18n/';
+  if (!existsSync(dir)) return;
+  for (const f of readdirSync(dir).filter((x) => x.endsWith('.json'))) {
+    const cta = JSON.parse(readFileSync(dir + f, 'utf8')).ui?.gen?.demoCta;
+    if (cta !== undefined) check(f, cta);
+  }
+});
