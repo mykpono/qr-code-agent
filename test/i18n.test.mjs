@@ -14,6 +14,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { checkLengths } from '../src/lib/seo-limits.js';
 
 const dir = fileURLToPath(new URL('../src/content/i18n/', import.meta.url));
 const data = JSON.parse(readFileSync(new URL('../src/content/pages.json', import.meta.url), 'utf8'));
@@ -44,23 +45,26 @@ test('no locale bundle references an unknown page', () => {
 // Same limits check-build.mjs asserts on built HTML. Catching them here names
 // the offending string instead of just the URL, and fails before a 46-page
 // locale is generated.
-test('translated titles stay within 60 chars', () => {
+// Limits are PER-LOCALE (src/lib/seo-limits.js). Google truncates by pixel
+// width, and full-width CJK glyphs are ~2x Latin, so a single global rule would
+// force keyword padding across a whole Japanese bundle. Latin locales keep the
+// original 60 / 70-155.
+test('translated titles stay within their locale limit', () => {
   for (const [locale, bundle] of bundles) {
     for (const [slug, p] of Object.entries(bundle.pages || {})) {
-      if (typeof p.title === 'string') {
-        assert.ok(p.title.length <= 60, `${locale}/${slug}: title ${p.title.length} chars — "${p.title}"`);
-      }
+      const problems = checkLengths({ title: p.title, locale, label: `${locale}/${slug}` });
+      assert.deepEqual(problems, [], problems.join('; '));
     }
   }
 });
 
-test('translated meta descriptions are 70-155 chars and unique', () => {
+test('translated meta descriptions are within their locale limit and unique', () => {
   for (const [locale, bundle] of bundles) {
     const seen = new Map();
     for (const [slug, p] of Object.entries(bundle.pages || {})) {
       if (typeof p.meta !== 'string') continue;
-      assert.ok(p.meta.length >= 70 && p.meta.length <= 155,
-        `${locale}/${slug}: meta ${p.meta.length} chars (need 70-155)`);
+      const problems = checkLengths({ meta: p.meta, locale, label: `${locale}/${slug}` });
+      assert.deepEqual(problems, [], problems.join('; '));
       assert.ok(!seen.has(p.meta), `${locale}/${slug}: meta duplicates ${seen.get(p.meta)}`);
       seen.set(p.meta, slug);
     }
