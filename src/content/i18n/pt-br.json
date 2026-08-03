@@ -473,6 +473,14 @@
       "mint": "Menta",
       "black": "Preto"
     },
+    "appTheme": {
+      "paper": "Papel",
+      "snow": "Neve",
+      "mist": "Névoa",
+      "linen": "Linho",
+      "sand": "Areia",
+      "olive": "Oliva"
+    },
     "fb": {
       "ask": "Isso te deu o código que você queria?",
       "yes": "✓ Sim",

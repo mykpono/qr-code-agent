@@ -1,69 +1,87 @@
 /* QR Code Agent — Color tokens
-   Derived from the shipped generator (QR Generator.dc.html).
+   Derived from ../light-theme-spec.md (2026-08-03), which replaces the cream
+   build's palette with a light/white set. Default theme = Paper.
+   Theme variants (Snow, Mist, Linen) live in tokens/themes.css.
 
-   DELIBERATE DEVIATION FROM THE DESIGN FOLDER (BACKLOG P3, WCAG AA):
-   the folder's label/caption greys and the accent-on-accent-soft pairing fail
-   AA for normal-size text — several were under 3:1. Hue and saturation are
-   preserved exactly; only lightness is shifted, by the minimum needed to reach
-   4.5:1 against the surface each token is actually rendered on. Original values
-   are noted inline. Do not "restore" these from the folder without re-checking
-   contrast.
-   Base palette + semantic aliases. Default theme = Cream (light).
-   Theme variants live in tokens/themes.css. */
+   The spec names its tokens --accent-soft / --accent-ink; this codebase already
+   ships them as --brand-soft / --brand-500 and the whole marketing site reads
+   those names, so the spec's VALUES land on the existing names rather than
+   renaming ~40 call sites for no behavioural gain.
+
+   TWO DELIBERATE DEVIATIONS FROM THE SPEC (WCAG AA — the spec's own §2 goal):
+   §2 claims every text token clears 4.5:1 on its intended surface. Measured, two
+   pairs do not, so they are corrected by the minimum lightness shift that reaches
+   AA. Hue and saturation are untouched.
+   1. --accent-ink #6d4dff is 4.20:1 on --accent-soft #ece7ff and 4.35:1 on the
+      #eceef2 page background — under AA at the 11-12px sizes the ECC ticks and
+      chip labels use. Mist's own accent-ink, #5d3ff0, clears 4.5:1 against every
+      surface in all four themes (worst case 4.76:1), so that spec-authored value
+      is used for TEXT in every theme.
+   2. Non-text violet (selection borders, slider fills, tab underlines, ticks)
+      keeps the spec's exact #6d4dff via --brand-mark. Never set type in it.
+   Do not "restore" either from the spec without re-checking contrast. */
 
 :root {
   /* ── Brand / accent ───────────────────────────────── */
-  --brand-500: #5c38ff;          /* primary accent — links, selection ring, sliders (a11y: was #6d4dff; solved against --page, the darkest surface brand-coloured text lands on) */
+  --brand-500: #5d3ff0;          /* spec --accent-ink, AA-corrected (see note 1) */
   --brand-600: #5535e6;          /* hover / pressed accent */
   --brand-grad-a: #7b5cff;       /* CTA gradient start */
   --brand-grad-b: #a24dff;       /* CTA gradient end */
   --brand-gradient: linear-gradient(135deg, #7b5cff, #a24dff);
-  --brand-soft: #ece7ff;         /* accent-tinted surface (pills, active chips) */
+  --brand-soft: #ece7ff;         /* spec --accent-soft */
   --brand-soft-border: #c9beff;  /* border on accent-soft surfaces */
 
-  /* ── Neutral surfaces (Cream) ─────────────────────── */
-  --page: #e8e0cf;              /* app background behind the card */
-  --surface: #faf6ec;           /* primary card surface */
-  --surface-2: #f2ecdd;         /* inset field / control surface */
-  --surface-3: #f7f2e6;         /* subtle raised panel (rail, dropzone) */
+  /* ── Neutral surfaces (Paper) ─────────────────────── */
+  --page: #eceef2;              /* app background behind the card */
+  --surface: #ffffff;           /* primary card surface */
+  --surface-2: #f4f5f7;         /* inset field / control surface */
+  --surface-3: #fafbfc;         /* subtle raised panel (rail, dropzone) */
   --surface-white: #ffffff;     /* popovers, preview mat */
 
   /* ── Borders / hairlines ──────────────────────────── */
-  --border: #e6dfce;            /* default 1px border */
-  --border-soft: #efe8d8;       /* section dividers */
-  --border-2: #d9d0bb;          /* stronger border (swatch outlines) */
-  --border-3: #d4cbb4;          /* dashed dropzone, scrollbar thumb */
+  --border: #e4e7ec;            /* default 1px border */
+  --border-soft: #eef0f4;       /* section dividers */
+  --border-2: #d6dae1;          /* stronger border (swatch outlines) */
+  --border-3: #c9ced7;          /* dashed dropzone, scrollbar thumb */
 
   /* ── Ink / text ───────────────────────────────────── */
-  --ink: #2b2140;               /* primary text + dark tooltip bg */
-  --ink-2: #4a4030;             /* secondary text, values */
-  --muted: #6b6152;             /* muted body / helper text */
-  --muted-2: #796f5d;           /* fainter captions (a11y: was #9a8f7c, 2.95:1) */
-  --label: #766d56;             /* section labels (mono, uppercase) (a11y: was #a2977f, 2.68:1) */
-  --label-2: #6d614c;           /* faintest micro-labels (a11y: was #b3a892, 2.18:1 — solved against --page, the darkest surface it lands on) */
+  --ink: #221f2b;               /* primary text, headings, input values */
+  --ink-2: #37343f;             /* secondary body text */
+  --muted: #4d4a5a;             /* tertiary text, template names */
+  --muted-2: #63606d;           /* hints, counters, payload preview */
+  --label: #5e5b6b;             /* uppercase mono group labels */
+  --label-2: #6d6a7a;           /* uppercase mono field labels, placeholders */
   --on-brand: #ffffff;          /* text on accent gradient */
-  --focus-ring: #5c38ff;        /* keyboard focus outline */
+  --focus-ring: #5d3ff0;        /* keyboard focus outline */
   --focus-ring-invert: #ffffff; /* focus outline on brand-gradient surfaces */
 
-  /* ── Preview mat ──────────────────────────────────── */
-  --preview: linear-gradient(160deg, #f6f1e4, #efe8d7);
+  /* ── Preview mat (marketing art tiles) ────────────── */
+  --preview: linear-gradient(160deg, #ffffff, #f1f3f6);
 
   /* ── Semantic — success / scannable ───────────────── */
-  --success-ink: #1b7f55;       /* a11y: was #22a06b, 3.08:1 on --success-surface */
+  --success-ink: #1b7f55;       /* 4.9:1 on --success-surface */
   --success-surface: #eafaf1;
   --success-border: #c5ecd6;
 
   /* ── Semantic — warning / advisory ────────────────── */
-  --warn-ink: #b4690e;          /* 4.6:1 on --warn-surface, passes AA as-is */
+  /* a11y: was #b4690e, which an inline comment claimed was 4.6:1 on
+     --warn-surface. Measured it is 3.85:1 — the claim was wrong, and it has been
+     wrong since the cream build. Darkened to the first value that clears AA
+     (4.55:1 on --warn-surface, 5.00:1 on white); hue and saturation unchanged. */
+  --warn-ink: #a35f0c;
   --warn-surface: #fdf3e3;
   --warn-border: #f0dcb4;
 
   /* ── Brand, as a FILL ─────────────────────────────── */
-  /* --brand-500 above is darkened for text contrast and re-tinted light on the
-     dark themes. Selection borders, slider fills, ticks and tab underlines are
-     not text and must stay the design's exact violet in every theme, so they
-     use this instead. Never set type in it. */
+  /* --brand-500 above is darkened for text contrast. Selection borders, slider
+     fills, ticks and tab underlines are not text and must stay the spec's exact
+     violet in every theme, so they use this instead. Never set type in it. */
   --brand-mark: #6d4dff;
+
+  /* ── Theme chip border ────────────────────────────── */
+  /* Fixed, not themed: the Paper chip is #ffffff on a #ffffff surface and the
+     Snow chip is barely off it, so a themed --border-2 would make them vanish. */
+  --theme-chip-border: #b7bdc8;
 
   /* ── Focus ring ───────────────────────────────────── */
   --ring: #6d4dff;

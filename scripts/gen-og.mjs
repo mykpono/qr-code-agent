@@ -48,9 +48,9 @@ import { Resvg } from '@resvg/resvg-js';
 const W = 1200, H = 630;          // the OG card
 const SITE = 'https://qrcodeagent.net';
 const PORT = Number(process.env.OG_PORT) || 4398;
-const TOP = 18;                   // cream showing above the shot
-const PAGE_BG = '#e8e0cf';        // --page, cream theme (src/styles/tokens/themes.css)
-const SURFACE = '#faf6ec';        // --surface, behind the shot while it rasterizes
+const TOP = 18;                   // page background showing above the shot
+const PAGE_BG = '#eceef2';        // --page, Paper theme (src/styles/tokens/colors.css)
+const SURFACE = '#ffffff';        // --surface, behind the shot while it rasterizes
 
 // fileURLToPath, not .pathname — the project path contains a space, which
 // .pathname leaves percent-encoded and fs then fails to find.
@@ -148,7 +148,7 @@ async function shootWidget() {
   }
 }
 
-/** Lay the shot on the cream page background, clipped to the widget's radius. */
+/** Lay the shot on the page background, clipped to the widget's radius. */
 function compose({ png, geom }) {
   const scale = (H - TOP) / geom.height;
   const w = geom.width * scale;
@@ -164,7 +164,7 @@ function compose({ png, geom }) {
   <defs>
     <clipPath id="card"><rect x="${x}" y="${TOP}" width="${w}" height="${H - TOP + r}" rx="${r}"/></clipPath>
     <filter id="lift" x="-25%" y="-25%" width="150%" height="150%">
-      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#3c2850" flood-opacity="0.20"/>
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1e233c" flood-opacity="0.22"/>
     </filter>
   </defs>
   <rect width="${W}" height="${H}" fill="${PAGE_BG}"/>

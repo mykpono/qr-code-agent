@@ -25,7 +25,10 @@ a:hover { color: var(--brand-600); }
 .lang { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px; border-radius: 9px; background: var(--surface-2); border: 1px solid var(--border); font: 600 11px var(--font-mono); color: var(--ink-2); cursor: pointer; white-space: nowrap; flex: 0 0 auto; }
 /* Widget footer support line — always visible, part of the generator card. */
 .gf-support-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 15px 30px; border-top: 1px solid var(--border-soft); background: #e9e3fb; }
-.gf-support-footer p { flex: 1 1 200px; margin: 0; font: 500 13px/1.5 var(--font-sans); color: var(--ink-2); }
+/* Literal ink, not var(--ink-2): this band's background is the literal #e9e3fb
+   above and never themes, so themed type lands on the wrong surface — on Olive
+   --ink-2 is #e3e1cd, i.e. 1.06:1, invisible. Same rule as the preview column. */
+.gf-support-footer p { flex: 1 1 200px; margin: 0; font: 500 13px/1.5 var(--font-sans); color: #37343f; }
 .gf-support-footer a { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 18px; border-radius: 11px; background: var(--brand-gradient); color: #fff; text-decoration: none; font: 700 11px var(--font-mono); letter-spacing: .09em; white-space: nowrap; box-shadow: var(--shadow-cta); }
 
 /* Saved designs — ported from ui_kits/website/saved-designs.html (BACKLOG P1).
@@ -111,18 +114,23 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 
 /* ============ Flagship generator (design_handoff_qr_generator) ============
    Five bands in one card: header · type tabs · content fields · setup|preview
-   split · coffee footer. Every value here is read from the handoff.
+   split · coffee footer. Layout and spacing are read from the handoff; colours
+   and the type scale are read from ../light-theme-spec.md (2026-08-03), which
+   replaced the cream palette with the light set and bumped every size one step.
 
    TWO DELIBERATE DEVIATIONS, both pre-existing project decisions:
    1. The muted greys and the accent-on-accent-soft pairing come from the
-      a11y-corrected tokens (colors.css), not the handoff's raw hexes — several
-      of those are under 3:1 for normal-size text. Hue and saturation match; only
+      a11y-corrected tokens (colors.css), not the raw spec hexes — two of those
+      are under 4.5:1 for normal-size text. Hue and saturation match; only
       lightness moves.
    2. Non-text violet (selection borders, slider fills, tab underlines) uses
-      --brand-mark, which IS the handoff's #6d4dff in every theme.
+      --brand-mark, which IS the spec's #6d4dff in every theme.
 
    The preview column is literal #ffffff and its type is literal, by design:
-   the surrounding chrome themes, the artboard does not. */
+   the surrounding chrome themes, the artboard does not. Its literals are the
+   Paper column of the spec's §3 substitution table — with a white artboard they
+   ARE the theme's values, so they no longer read as a warm patch on a cool card
+   the way the cream ones did. */
 /* 1280 (the card's cap) + 2x48 of .tool-scroll padding. This is the real
    constraint on the card's width — changing .genflag alone does nothing, so
    keep the two in step. */
@@ -133,21 +141,24 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 /* The card stops growing at 1280 and centres (margin: 0 auto). Past that the
    extra width would only go into the two columns, which the design does not ask
    for — it draws a fixed-width card on a wide page, not a fluid one. */
-.genflag { width: 100%; max-width: 1280px; margin: 0 auto; background: var(--surface); color: var(--ink); border: 1px solid var(--border); border-radius: var(--radius-3xl); overflow: hidden; box-shadow: 0 40px 80px -40px rgba(60,40,80,.35); }
+.genflag { width: 100%; max-width: 1280px; margin: 0 auto; background: var(--surface); color: var(--ink); border: 1px solid var(--border); border-radius: var(--radius-3xl); overflow: hidden; box-shadow: var(--shadow-card); }
 .genflag button { font-family: inherit; }
 .genflag input, .genflag textarea, .genflag select { font-family: var(--font-sans); }
 .genflag input:focus, .genflag textarea:focus, .genflag select:focus { border-color: var(--brand-mark) !important; box-shadow: 0 0 0 3px rgba(109,77,255,.16); }
 .genflag ::placeholder { color: var(--label-2); opacity: 1; }
-.genflag .micro { display: block; font: 600 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label-2); }
+/* 10px is the widget's floor, and only for tracked uppercase mono (spec §2). */
+.genflag .micro { display: block; font: 600 10px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label-2); }
 
 /* ── Band 1 · header ───────────────────────────────── */
 .gf-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 20px 30px; border-bottom: 1px solid var(--border-soft); }
 .gf-brand { display: flex; align-items: center; gap: 14px; }
 .gf-tile { width: 40px; height: 40px; border-radius: 12px; background: var(--brand-gradient); display: grid; place-items: center; font: 700 17px var(--font-sans); color: #fff; }
 .gf-brand b { display: block; font: 700 20px var(--font-sans); color: var(--ink); line-height: 1; }
-.gf-brand i { display: block; font: 500 11px var(--font-mono); color: var(--muted-2); letter-spacing: .04em; margin-top: 5px; font-style: normal; }
+.gf-brand i { display: block; font: 500 12px var(--font-mono); color: var(--muted-2); letter-spacing: .04em; margin-top: 5px; font-style: normal; }
 .gf-themes { display: flex; gap: 7px; }
-.gf-themes button { position: relative; width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--border-2); cursor: pointer; }
+/* Fixed chip border, not --border-2: the Paper chip is #ffffff on a #ffffff
+   surface and Snow is a hair off it, so a themed border would make them vanish. */
+.gf-themes button { position: relative; width: 24px; height: 24px; border-radius: 7px; border: 1px solid var(--theme-chip-border); cursor: pointer; }
 /* 44px touch target that must NOT be shared with the selection ring below. */
 .gf-themes button:not(.on)::after { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
 .gf-themes button.on::after { content: ''; position: absolute; left: 50%; bottom: -9px; top: auto; transform: translateX(-50%); width: 5px; height: 5px; border-radius: 50%; background: var(--brand-mark); pointer-events: none; }
@@ -158,7 +169,7 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 /* An explicit border-bottom-color of rgba(0,0,0,0), never the `transparent`
    keyword inside a shorthand — the latter can fall back to currentColor and
    draw a visible stub under every idle tab. */
-.gf-type { display: flex; align-items: center; flex: 0 0 auto; padding: 16px 2px 14px; background: transparent; border: none; border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: rgba(0,0,0,0); cursor: pointer; white-space: nowrap; font: 600 13px var(--font-sans); color: var(--muted-2); }
+.gf-type { display: flex; align-items: center; flex: 0 0 auto; padding: 16px 2px 14px; background: transparent; border: none; border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: rgba(0,0,0,0); cursor: pointer; white-space: nowrap; font: 600 15px var(--font-sans); color: var(--muted-2); }
 .gf-type.on { color: var(--ink); border-bottom-color: var(--brand-mark); }
 .gf-type.icon { width: 30px; padding: 16px 0 14px; justify-content: center; opacity: .45; transition: opacity .15s; }
 .gf-type.icon.on { opacity: 1; }
@@ -167,23 +178,28 @@ h1 { font: 700 clamp(30px, 4vw, 46px)/1.05 var(--font-sans); margin: 16px auto 0
 /* ── Band 3 · content fields ───────────────────────── */
 .gf-content { display: flex; flex-direction: column; gap: 12px; padding: 16px 30px 20px; border-bottom: 1px solid var(--border-soft); }
 .gf-labelrow { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-.gf-flabel { font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--label); }
+.gf-flabel { font: 600 11px var(--font-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--label-2); }
 .gf-fnote { font: 500 11px var(--font-mono); color: var(--muted-2); }
 .gf-fieldstack { display: flex; flex-direction: column; gap: 12px; }
 
-.gf-field { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 16px; font: 500 15px var(--font-sans); color: var(--ink); outline: none; width: 100%; }
-.gf-field.sm { padding: 12px 14px; font-size: 14px; }
-.gf-field.mono { font-family: var(--font-mono); }
+.gf-field { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 16px; font: 500 16px var(--font-sans); color: var(--ink); outline: none; width: 100%; }
+.gf-field.sm { padding: 12px 14px; font-size: 15px; }
+/* Mono runs a step smaller than sans at the same optical size (spec §2: sans
+   15–16px, mono 15px for phone / password / hex). */
+.gf-field.mono { font-family: var(--font-mono); font-size: 15px; }
 textarea.gf-field { resize: vertical; line-height: 1.5; }
 
 .gf-urlrow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
 .gf-urlrow .gf-field { flex: 1; min-width: 0; }
-.gf-utmbtn { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; height: 46px; padding: 0 15px; border-radius: 12px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 10px var(--font-mono); letter-spacing: .06em; color: var(--brand-500); cursor: pointer; }
+.gf-utmbtn { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; height: 46px; padding: 0 15px; border-radius: 12px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); font: 600 11px var(--font-mono); letter-spacing: .06em; color: var(--brand-500); cursor: pointer; }
 .gf-utmbtn span { font: 600 12px var(--font-sans); line-height: 1; }
 .gf-utmpanel { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; background: var(--surface-3); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
 .gf-utmpanel label { display: flex; flex-direction: column; gap: 5px; }
-.gf-utmpanel span { font: 600 9px var(--font-mono); letter-spacing: .06em; color: var(--label); }
-.gf-utmpanel input { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; font: 500 12px var(--font-sans); color: var(--ink); outline: none; width: 100%; }
+/* Not uppercased like the other mono labels: these are the literal query
+   parameter names (utm_source, utm_medium), and UTM_SOURCE is not what gets
+   written to the URL. */
+.gf-utmpanel span { font: 600 10px var(--font-mono); letter-spacing: .06em; color: var(--label-2); }
+.gf-utmpanel input { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; font: 500 13px var(--font-sans); color: var(--ink); outline: none; width: 100%; }
 
 .gf-textwrap { display: flex; flex-direction: column; gap: 7px; }
 .gf-count { text-align: right; font: 500 11px var(--font-mono); color: var(--muted-2); }
@@ -198,22 +214,22 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 .gf-single { display: flex; flex-direction: column; gap: 6px; max-width: 340px; }
 
 .gf-seg { display: flex; gap: 3px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 3px; }
-.gf-seg button { padding: 7px 9px; border-radius: 9px; cursor: pointer; font: 600 10px var(--font-mono); background: transparent; color: var(--muted); border: none; }
+.gf-seg button { padding: 7px 9px; border-radius: 9px; cursor: pointer; font: 600 11px var(--font-mono); letter-spacing: .06em; background: transparent; color: var(--muted); border: none; }
 .gf-seg button.on { background: var(--surface-white); color: var(--brand-500); box-shadow: 0 1px 3px rgba(60,40,80,.14); }
 .gf-grid.wifi .gf-seg { border-radius: 12px; }
 .gf-grid.wifi .gf-seg button { padding: 9px 13px; letter-spacing: .06em; }
 
-.gf-check { display: flex; align-items: center; gap: 8px; cursor: pointer; font: 500 12px var(--font-sans); color: var(--ink-2); background: none; border: none; padding: 0; }
+.gf-check { display: flex; align-items: center; gap: 8px; cursor: pointer; font: 500 12.5px var(--font-sans); color: var(--ink-2); background: none; border: none; padding: 0; }
 .gf-check .box { display: flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 5px; font: 700 10px var(--font-sans); background: var(--surface-2); border: 1px solid var(--border-2); color: transparent; flex: 0 0 auto; }
 .gf-check[aria-checked="true"] .box { background: var(--brand-mark); border-color: var(--brand-mark); color: #fff; }
 .gf-check.bottom { padding-bottom: 13px; }
 
 .gf-encode { display: flex; align-items: center; gap: 8px; margin-top: -4px; }
-.gf-encode .pay { flex: 1; min-width: 0; font: 500 10px var(--font-mono); color: var(--muted-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gf-density { flex: 0 0 auto; font: 500 10px var(--font-mono); padding: 5px 10px; border-radius: 20px; white-space: nowrap; color: var(--success-ink); background: var(--success-surface); border: 1px solid var(--success-border); }
+.gf-encode .pay { flex: 1; min-width: 0; font: 500 11px var(--font-mono); color: var(--muted-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gf-density { flex: 0 0 auto; font: 500 11px var(--font-mono); padding: 5px 10px; border-radius: 20px; white-space: nowrap; color: var(--success-ink); background: var(--success-surface); border: 1px solid var(--success-border); }
 .gf-density.high { color: var(--warn-ink); background: var(--warn-surface); border-color: var(--warn-border); }
 .gf-density.empty { color: var(--muted-2); background: transparent; border-color: var(--border); }
-.gf-use { flex: 0 0 auto; font: 600 9px var(--font-mono); letter-spacing: .08em; padding: 5px 9px; border-radius: 8px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); color: var(--brand-500); cursor: pointer; }
+.gf-use { flex: 0 0 auto; font: 600 11px var(--font-mono); letter-spacing: .06em; padding: 5px 9px; border-radius: 8px; background: var(--brand-soft); border: 1px solid var(--brand-soft-border); color: var(--brand-500); cursor: pointer; }
 
 /* ── Band 4 · setup | preview ──────────────────────── */
 /* Both columns are flex:1 1 480px, so they sit ~50/50 on desktop and stack
@@ -229,12 +245,12 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 .gf-sectoggle { display: flex; align-items: center; gap: 9px; background: transparent; border: none; padding: 0; cursor: pointer; text-align: left; }
 .gf-sectoggle.full { width: 100%; }
 .gf-caret { display: inline-block; font: 700 15px var(--font-sans); line-height: 1; color: var(--label); transition: transform .15s; }
-.gf-sectitle { font: 700 13px var(--font-sans); color: var(--ink); }
-.gf-secsum { margin-left: auto; font: 500 11px var(--font-sans); color: var(--muted-2); }
+.gf-sectitle { font: 700 14.5px var(--font-sans); color: var(--ink); }
+.gf-secsum { margin-left: auto; font: 500 12.5px var(--font-sans); color: var(--muted-2); }
 .gf-secbody { display: flex; flex-direction: column; gap: 16px; }
 
 .gf-tabs { display: flex; align-items: stretch; gap: 13px; }
-.gf-tab { flex: 0 0 auto; padding: 2px 1px 7px; background: transparent; border: none; border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: rgba(0,0,0,0); cursor: pointer; white-space: nowrap; font: 600 12px var(--font-sans); color: var(--muted-2); }
+.gf-tab { flex: 0 0 auto; padding: 2px 1px 7px; background: transparent; border: none; border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: rgba(0,0,0,0); cursor: pointer; white-space: nowrap; font: 600 12.5px var(--font-sans); color: var(--muted-2); }
 .gf-tab.on { color: var(--ink); border-bottom-color: var(--brand-mark); }
 
 /* Fixed strip height and fixed card size are deliberate: switching category
@@ -246,11 +262,11 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 .gf-card canvas.thumb { display: block; width: 52px; height: 52px; border-radius: 7px; }
 .gf-card .cardicon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
 .gf-card .cardicon img { width: 20px; height: 20px; box-sizing: border-box; object-fit: contain; background: #fff; border-radius: 7px; padding: 3px; box-shadow: 0 2px 6px rgba(0,0,0,.28); }
-.gf-card .cardname { font: 600 10px var(--font-sans); color: var(--muted); max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gf-card .cardname { font: 600 11.5px var(--font-sans); color: var(--muted); max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .gf-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; }
 .gf-row.top { align-items: flex-start; }
-.gf-rowlab { flex: 0 0 84px; font: 600 10px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--label); }
+.gf-rowlab { flex: 0 0 84px; font: 600 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label); }
 .gf-rowlab.tip { display: flex; align-items: center; gap: 6px; position: relative; padding-top: 2px; }
 
 /* Swatch canvases are drawn in the LIVE foreground colour, so the row previews
@@ -267,26 +283,30 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 .gf-slot { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 9px; background: var(--surface); border: 1px solid var(--border); border-radius: 11px; cursor: pointer; }
 .gf-slot .chip { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border-2); }
 .gf-slot .meta { flex: 1; min-width: 0; text-align: left; overflow: hidden; }
-.gf-slot .lab { display: block; font: 600 8px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--label-2); white-space: nowrap; }
-.gf-slot .hex { display: block; font: 500 10px var(--font-mono); color: var(--ink-2); margin-top: 2px; white-space: nowrap; }
+.gf-slot .lab { display: block; font: 600 10px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--label-2); white-space: nowrap; }
+.gf-slot .hex { display: block; font: 500 11px var(--font-mono); color: var(--ink-2); margin-top: 2px; white-space: nowrap; }
 
 /* The popover is a white surface in every theme — it floats over the card. */
-.gf-pop { position: absolute; left: 0; top: calc(100% + 7px); width: 252px; z-index: 40; background: #fff; border: 1px solid #e6dfce; border-radius: 14px; box-shadow: 0 20px 44px -14px rgba(30,20,50,.4); padding: 14px; }
+.gf-pop { position: absolute; left: 0; top: calc(100% + 7px); width: 252px; z-index: 40; background: #fff; border: 1px solid #e4e7ec; border-radius: 14px; box-shadow: 0 20px 44px -14px rgba(30,35,60,.28); padding: 14px; }
 .gf-pop.right { left: auto; right: 0; }
 .gf-pophead { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
-.gf-pophead .big { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 9px; border: 1px solid #d9d0bb; }
+.gf-pophead .big { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 9px; border: 1px solid #d6dae1; }
 .gf-pophead > div { flex: 1; min-width: 0; }
-.gf-pophead input { width: 100%; background: #f7f4ec; border: 1px solid #e6dfce; border-radius: 8px; padding: 6px 9px; font: 600 13px var(--font-mono); color: #2b2140; outline: none; }
-.gf-pophead .cap { font: 500 10px var(--font-sans); color: #766d56; margin-top: 3px; }
+/* Hex value — the spec's mono 500/15px input row. */
+.gf-pophead input { width: 100%; background: #f5f6f8; border: 1px solid #e4e7ec; border-radius: 8px; padding: 6px 9px; font: 500 15px var(--font-mono); color: #221f2b; outline: none; }
+.gf-pophead .cap { font: 500 11.5px var(--font-sans); color: #5e5b6b; margin-top: 3px; }
 .gf-rainbow { position: relative; display: block; cursor: pointer; }
 .gf-rainbow > span { display: block; height: 18px; border-radius: 9px; background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); border: 1px solid rgba(0,0,0,.08); }
 .gf-rainbow input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-.gf-auto { display: block; width: 100%; margin-top: 11px; padding: 8px 10px; border-radius: 9px; cursor: pointer; font: 600 9px var(--font-mono); letter-spacing: .1em; background: #f7f4ec; border: 1px solid #e6dfce; color: #6b6152; }
-.gf-auto.on { background: #ece7ff; border: 1.5px solid var(--brand-mark); color: var(--brand-mark); }
-.gf-presets { margin-top: 13px; padding-top: 12px; border-top: 1px solid #efe8d8; }
-.gf-presets .micro { color: #6d614c; letter-spacing: .14em; margin-bottom: 9px; }
+.gf-auto { display: block; width: 100%; margin-top: 11px; padding: 8px 10px; border-radius: 9px; cursor: pointer; font: 600 11px var(--font-mono); letter-spacing: .06em; background: #f5f6f8; border: 1px solid #e4e7ec; color: #4d4a5a; }
+/* Literal #5d3ff0, not var(--brand-500): the fill above is literal and never
+   themes, and on Olive --brand-500 is the light #ddd5ff — invisible here. The
+   BORDER stays --brand-mark, which is #6d4dff in every theme anyway. */
+.gf-auto.on { background: #ece7ff; border: 1.5px solid var(--brand-mark); color: #5d3ff0; }
+.gf-presets { margin-top: 13px; padding-top: 12px; border-top: 1px solid #eef0f4; }
+.gf-presets .micro { color: #6d6a7a; letter-spacing: .12em; margin-bottom: 9px; }
 .gf-presets .g6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
-.gf-presets .g6 button { position: relative; height: 32px; border-radius: 9px; cursor: pointer; border: 1px solid #d9d0bb; }
+.gf-presets .g6 button { position: relative; height: 32px; border-radius: 9px; cursor: pointer; border: 1px solid #d6dae1; }
 .gf-presets .g6 button.on { border: 2px solid var(--brand-mark); box-shadow: 0 0 0 2px #fff inset; }
 
 /* ECC + the two range controls that share the track markup. */
@@ -304,29 +324,33 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 /* Percent labels sit at the SAME 0/33.3/66.7/100% offsets as the ticks — a
    4-column grid's centres (12.5/37.5/…) would not line up. */
 .gf-eccmarks { position: relative; height: 16px; margin: 7px 8px 0; }
-.gf-eccmarks button { position: absolute; top: 0; transform: translateX(-50%); padding: 4px 6px; background: transparent; border: none; cursor: pointer; font: 600 11px var(--font-mono); line-height: 1; color: var(--muted-2); }
+.gf-eccmarks button { position: absolute; top: 0; transform: translateX(-50%); padding: 4px 6px; background: transparent; border: none; cursor: pointer; font: 600 12px var(--font-mono); line-height: 1; color: var(--muted-2); }
 .gf-eccmarks button.on { color: var(--brand-500); }
 
-.gf-i { display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; padding: 0; line-height: 1; border-radius: 50%; background: transparent; border: 1px solid var(--border-2); color: var(--label); font: 700 9px var(--font-sans); cursor: help; }
+.gf-i { display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; padding: 0; line-height: 1; border-radius: 50%; background: transparent; border: 1px solid var(--border-2); color: var(--label); font: 700 10px var(--font-sans); cursor: help; }
 .gf-i.on { border-color: var(--brand-mark); color: var(--brand-500); }
-.gf-tip { position: absolute; left: 0; top: 24px; z-index: 30; width: 300px; padding: 13px 15px; background: #fff; color: #2b2140; border: 1px solid #d9d0bb; border-radius: 12px; font: 400 12px/1.6 var(--font-sans); letter-spacing: 0; text-transform: none; box-shadow: 0 18px 38px -14px rgba(30,20,50,.4); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .15s ease; }
+.gf-tip { position: absolute; left: 0; top: 24px; z-index: 30; width: 300px; padding: 13px 15px; background: #fff; color: #221f2b; border: 1px solid #d6dae1; border-radius: 12px; font: 400 12.5px/1.6 var(--font-sans); letter-spacing: 0; text-transform: none; box-shadow: 0 18px 38px -14px rgba(30,35,60,.28); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .15s ease; }
 .gf-tip.on { opacity: 1; visibility: visible; }
-.gf-suggest { flex: 0 0 auto; font: 600 9px var(--font-mono); letter-spacing: .08em; color: var(--brand-500); background: var(--brand-soft); border-radius: 7px; padding: 4px 8px; }
+.gf-suggest { flex: 0 0 auto; font: 600 11px var(--font-mono); letter-spacing: .06em; color: var(--brand-500); background: var(--brand-soft); border-radius: 7px; padding: 4px 8px; }
 
 /* Frames — five per row at desktop width. The tile is a fixed 88px box holding
    a 0.22-scale miniature of the real frame around a hatched placeholder. */
 .gf-frames { display: grid; grid-template-columns: repeat(auto-fit, minmax(108px, 1fr)); gap: 8px; }
 .gf-frametile { display: flex; align-items: center; justify-content: center; justify-self: stretch; height: 88px; padding: 6px; box-sizing: border-box; border-radius: 11px; cursor: pointer; background: var(--surface); border: 1px solid var(--border); transition: border-color .15s; }
 .gf-frametile.on { border: 2px solid var(--brand-mark); }
-.gf-framehatch { display: block; width: 52px; height: 52px; background: repeating-linear-gradient(45deg, #c9c2b4, #c9c2b4 2px, #fff 2px, #fff 4px); }
-.gf-more { align-self: flex-start; background: transparent; border: none; padding: 0; cursor: pointer; font: 600 11px var(--font-sans); color: var(--brand-500); }
+.gf-framehatch { display: block; width: 52px; height: 52px; background: repeating-linear-gradient(45deg, #c9ced7, #c9ced7 2px, #fff 2px, #fff 4px); }
+.gf-more { align-self: flex-start; background: transparent; border: none; padding: 0; cursor: pointer; font: 600 11.5px var(--font-sans); color: var(--brand-500); }
 
 .gf-cta { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 14px; margin-top: 12px; }
-.gf-cta .lab { display: flex; justify-content: space-between; gap: 8px; font: 600 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label-2); margin-bottom: 6px; }
+.gf-cta .lab { display: flex; justify-content: space-between; gap: 8px; font: 600 10px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label-2); margin-bottom: 6px; }
 .gf-ctafield { flex: 1 1 196px; min-width: 170px; display: flex; flex-direction: column; }
-/* Mono at 11px so all 24 permitted characters fit on one line. */
-.gf-ctafield input { width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 10px; font: 600 11px var(--font-mono); letter-spacing: .01em; color: var(--ink); outline: none; }
-.gf-ctafield .count { font: 600 9px var(--font-mono); letter-spacing: 0; color: var(--muted-2); }
+/* Mono at 12px so all 24 permitted characters still fit on one line. */
+/* NOT text-transform:uppercase, though the spec's type table calls it an
+   "uppercase input": buildSVG/drawQR render frameText verbatim, so a CSS-only
+   transform would show SCAN ME in the field and export "Scan me" in the
+   artwork. Uppercasing for real is a content change, not a type change. */
+.gf-ctafield input { width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 10px; font: 600 12px var(--font-mono); letter-spacing: .01em; color: var(--ink); outline: none; }
+.gf-ctafield .count { font: 600 10px var(--font-mono); letter-spacing: 0; color: var(--muted-2); }
 .gf-ctafield .count.warn { color: var(--warn-ink); }
 /* Sized to its longest option rather than left to flex. The select paints the
    CHOSEN face, so the widest it ever has to be is the widest label in its own
@@ -343,22 +367,22 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 .gf-ctacolor .swatch { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 11px; cursor: pointer; font: 700 11px var(--font-mono); border: 1px solid var(--border-2); }
 .gf-ctacolor .swatch.open { border: 2px solid var(--brand-mark); box-shadow: 0 0 0 2px #fff inset; }
 
-.gf-toggle { flex: 0 0 auto; display: flex; justify-content: flex-start; width: 42px; height: 23px; padding: 2px; border: none; border-radius: 999px; background: #cfc6b0; cursor: pointer; transition: background .2s; }
+.gf-toggle { flex: 0 0 auto; display: flex; justify-content: flex-start; width: 42px; height: 23px; padding: 2px; border: none; border-radius: 999px; background: #c9ced7; cursor: pointer; transition: background .2s; }
 .gf-toggle.on { background: var(--brand-mark); justify-content: flex-end; }
 .gf-toggle span { display: block; width: 19px; height: 19px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(40,30,60,.35); transition: all .2s; }
 .gf-logo { display: flex; flex-direction: column; gap: 12px; transition: opacity .2s; }
 .gf-logo.off { opacity: .42; filter: grayscale(.7); pointer-events: none; }
 .gf-drop { display: block; border: 1.5px dashed var(--border-3); border-radius: 12px; padding: 13px; background: var(--surface-3); cursor: pointer; }
 .gf-drop .empty { display: block; text-align: center; }
-.gf-drop .empty b { display: block; font: 500 12px var(--font-sans); color: var(--muted); }
-.gf-drop .empty i { display: block; font: 500 10px var(--font-mono); color: var(--label); margin-top: 3px; font-style: normal; }
+.gf-drop .empty b { display: block; font: 500 12.5px var(--font-sans); color: var(--muted); }
+.gf-drop .empty i { display: block; font: 500 11px var(--font-mono); color: var(--label); margin-top: 3px; font-style: normal; }
 .gf-drop .mark { display: flex; align-items: center; gap: 12px; }
 .gf-drop .mark .thumb { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; box-sizing: border-box; padding: 6px; border-radius: 11px; background: #fff; border: 1px solid var(--border-2); }
 .gf-drop .mark .thumb img { width: 100%; height: 100%; object-fit: contain; }
 .gf-drop .mark .meta { flex: 1; min-width: 0; text-align: left; }
-.gf-drop .mark .meta b { display: block; font: 600 12px var(--font-sans); color: var(--ink); }
-.gf-drop .mark .meta i { display: block; font: 500 10px var(--font-mono); color: var(--label); margin-top: 2px; font-style: normal; }
-.gf-drop .mark .rm { flex: 0 0 auto; font: 600 9px var(--font-mono); letter-spacing: .08em; color: var(--muted); background: var(--surface-2); border: 1px solid var(--border-2); border-radius: 8px; padding: 6px 9px; cursor: pointer; }
+.gf-drop .mark .meta b { display: block; font: 600 12.5px var(--font-sans); color: var(--ink); }
+.gf-drop .mark .meta i { display: block; font: 500 11px var(--font-mono); color: var(--label); margin-top: 2px; font-style: normal; }
+.gf-drop .mark .rm { flex: 0 0 auto; font: 600 11px var(--font-mono); letter-spacing: .06em; color: var(--muted); background: var(--surface-2); border: 1px solid var(--border-2); border-radius: 8px; padding: 6px 9px; cursor: pointer; }
 .gf-platerow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; }
 .gf-platerow .micro { flex: 0 0 auto; }
 .gf-plateswatches { display: flex; gap: 6px; flex: 0 0 auto; }
@@ -372,17 +396,17 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 /* The track's own children are all absolutely positioned, so as a flex item it
    has zero content width — it has to be told to grow or it collapses to a dot. */
 .gf-fit .gf-track { flex: 1; min-width: 0; }
-.gf-fit .val { flex: 0 0 auto; font: 600 10px var(--font-mono); color: var(--brand-500); }
-.gf-warn { font: 500 10px/1.5 var(--font-mono); color: var(--warn-ink); }
+.gf-fit .val { flex: 0 0 auto; font: 600 11px var(--font-mono); color: var(--brand-500); }
+.gf-warn { font: 500 11px/1.5 var(--font-mono); color: var(--warn-ink); }
 
 /* ── Band 4b · preview — always white, whatever the theme ─────────── */
-.gf-preview { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; padding: 22px 30px 26px; background: #ffffff; color: #2b2140; }
+.gf-preview { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; padding: 22px 30px 26px; background: #ffffff; color: #221f2b; }
 .gf-plabel { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 0 0 auto; }
-.gf-plabel .lab { margin: 0; font: 600 11px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: #a2977f; }
+.gf-plabel .lab { margin: 0; font: 600 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: #5e5b6b; }
 .gf-savebtns { display: flex; align-items: center; gap: 8px; }
-.gf-savebtns button { height: 30px; padding: 0 14px; border-radius: 9px; background: #faf6ec; border: 1px solid #d9d0bb; font: 600 11px var(--font-mono); letter-spacing: .08em; color: #4a4030; cursor: pointer; white-space: nowrap; }
-.gf-savebtns button.save:hover { border-color: var(--brand-mark); color: var(--brand-mark); }
-.gf-savebtns button.open { background: #ece7ff; border-color: #c9beff; color: var(--brand-mark); }
+.gf-savebtns button { height: 30px; padding: 0 14px; border-radius: 9px; background: #f4f5f7; border: 1px solid #d6dae1; font: 600 11px var(--font-mono); letter-spacing: .06em; color: #37343f; cursor: pointer; white-space: nowrap; }
+.gf-savebtns button.save:hover { border-color: var(--brand-mark); color: #5d3ff0; }
+.gf-savebtns button.open { background: #ece7ff; border-color: #c9beff; color: #5d3ff0; }
 .gf-toast { align-self: center; margin-top: 10px; padding: 7px 14px; border-radius: 20px; background: #eafaf1; border: 1px solid #c5ecd6; font: 600 11px var(--font-mono); color: #1b7f55; }
 
 .gf-stage { flex: 1; display: flex; align-items: center; justify-content: center; min-width: 0; padding: 18px 0; }
@@ -397,36 +421,36 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
 .gf-mat canvas { display: block; width: 100%; max-width: 470px; aspect-ratio: 1; height: auto; }
 .gf-logoplate { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); box-sizing: border-box; display: flex; align-items: center; justify-content: center; overflow: hidden; width: 23.404%; aspect-ratio: 1; padding: 2.979%; border: 3px solid transparent; background: #fff; box-shadow: 0 6px 20px -6px rgba(40,30,60,.4); pointer-events: none; }
 .gf-logoplate img { width: 100%; height: 100%; object-fit: contain; }
-.gf-logoplate .hatch { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: repeating-linear-gradient(45deg, #e7e1f7, #e7e1f7 5px, #f3f0fb 5px, #f3f0fb 10px); font: 600 9px var(--font-mono); letter-spacing: .12em; color: #8a7bd8; }
+.gf-logoplate .hatch { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: repeating-linear-gradient(45deg, #e7e1f7, #e7e1f7 5px, #f3f0fb 5px, #f3f0fb 10px); font: 600 10px var(--font-mono); letter-spacing: .12em; color: #6d4dff; }
 
 .gf-chips { display: flex; flex-wrap: wrap; gap: 7px; flex: 0 0 auto; }
-.gf-chips .chip { font: 500 10px var(--font-mono); color: #6b6152; background: #faf6ec; border: 1px solid #e6dfce; padding: 6px 10px; border-radius: 20px; white-space: nowrap; }
+.gf-chips .chip { font: 500 11px var(--font-mono); color: #4d4a5a; background: #f4f5f7; border: 1px solid #e4e7ec; padding: 6px 10px; border-radius: 20px; white-space: nowrap; }
 .gf-chips .chip.ok { color: #1b7f55; background: #eafaf1; border-color: #c5ecd6; }
-.gf-chips .chip.warn { color: #b4690e; background: #fdf3e3; border-color: #f0dcb4; }
+.gf-chips .chip.warn { color: #a35f0c; background: #fdf3e3; border-color: #f0dcb4; }
 
-.gf-sizerow { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding-top: 16px; border-top: 1px solid #ececec; flex: 0 0 auto; }
-.gf-sizerow .lab { flex: 0 0 auto; margin: 0; font: 600 10px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: #a2977f; }
+.gf-sizerow { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding-top: 16px; border-top: 1px solid #eef0f4; flex: 0 0 auto; }
+.gf-sizerow .lab { flex: 0 0 auto; margin: 0; font: 600 11px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: #5e5b6b; }
 .gf-sizerow .gf-track { flex: 1; min-width: 0; height: 16px; margin: 0; }
-.gf-sizerow .gf-track .rail { background: #e6dfce; border: none; }
+.gf-sizerow .gf-track .rail { background: #e4e7ec; border: none; }
 .gf-sizerow .gf-track .knob { width: 16px; height: 16px; border: none; box-shadow: 0 2px 7px rgba(109,77,255,.55); }
-.gf-sizerow .val { flex: 0 0 auto; font: 600 11px var(--font-mono); color: var(--brand-mark); }
+.gf-sizerow .val { flex: 0 0 auto; font: 600 11px var(--font-mono); color: #5d3ff0; }
 
 .gf-formatrow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 12px; flex: 0 0 auto; }
-.gf-formatrow .gf-seg { flex: 0 0 auto; background: #faf6ec; border-color: #e6dfce; border-radius: 12px; }
-.gf-formatrow .gf-seg button { padding: 9px 16px; font-size: 11px; letter-spacing: .06em; color: #6b6152; }
-.gf-formatrow .gf-seg button.on { background: #fff; color: var(--brand-mark); }
-.gf-formatrow .hint { flex: 1; min-width: 0; font: 500 10px var(--font-mono); color: #9a8f7c; }
+.gf-formatrow .gf-seg { flex: 0 0 auto; background: #f4f5f7; border-color: #e4e7ec; border-radius: 12px; }
+.gf-formatrow .gf-seg button { padding: 9px 16px; font-size: 11px; letter-spacing: .06em; color: #4d4a5a; }
+.gf-formatrow .gf-seg button.on { background: #fff; color: #5d3ff0; }
+.gf-formatrow .hint { flex: 1; min-width: 0; font: 500 11px var(--font-mono); color: #63606d; }
 
 .gf-dl { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; flex: 0 0 auto; }
 .gf-dl button { flex: 1; padding: 16px; border-radius: 14px; border: none; font: 700 14px var(--font-mono); letter-spacing: .06em; cursor: pointer; }
 .gf-dl .primary { background: linear-gradient(135deg, #7b5cff, #a24dff); color: #fff; box-shadow: 0 12px 26px -12px rgba(109,77,255,.6); }
-.gf-dl .secondary { border: 1px solid #d9d0bb; background: #faf6ec; color: #4a4030; }
-.gf-dl .primary:disabled { background: #efeaff; color: #b6a9f0; box-shadow: none; cursor: not-allowed; }
-.gf-dl .secondary:disabled { border-color: #ececec; background: #f7f7f5; color: #bdb8ae; cursor: not-allowed; }
+.gf-dl .secondary { border: 1px solid #d6dae1; background: #f4f5f7; color: #37343f; }
+.gf-dl .primary:disabled { background: #efeaff; color: #9d8ce8; box-shadow: none; cursor: not-allowed; }
+.gf-dl .secondary:disabled { border-color: #e4e7ec; background: #fafbfc; color: #a7abb4; cursor: not-allowed; }
 
 /* Feedback strip — ask / form / done, mutually exclusive. Monochrome glyphs
    only; there is no emoji anywhere in this widget. */
-.gf-fb { margin-top: 14px; padding-top: 14px; border-top: 1px solid #ececec; flex: 0 0 auto; }
+.gf-fb { margin-top: 14px; padding-top: 14px; border-top: 1px solid #eef0f4; flex: 0 0 auto; }
 /* Belt and braces. Below the stacking breakpoint the strip is rendered as a
    direct child of .gf-body instead of the preview column (Generator.jsx
    `stacked`) so it lands at the end of the widget. If that flag is ever wrong
@@ -434,28 +458,28 @@ textarea.gf-field { resize: vertical; line-height: 1.5; }
    flex item — it takes its own full-width row instead. */
 .gf-body > .gf-fb { flex: 0 0 100%; }
 .gf-fb .ask { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.gf-fb .ask .q { font: 500 12px var(--font-sans); color: #6b6152; }
+.gf-fb .ask .q { font: 500 12.5px var(--font-sans); color: #4d4a5a; }
 .gf-fb .ask .acts { display: flex; gap: 7px; margin-left: auto; }
-.gf-fb .ask button { display: flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 10px; background: #faf6ec; border: 1px solid #e6dfce; cursor: pointer; font: 600 12px var(--font-sans); color: #4a4030; }
+.gf-fb .ask button { display: flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 10px; background: #f4f5f7; border: 1px solid #e4e7ec; cursor: pointer; font: 600 12.5px var(--font-sans); color: #37343f; }
 .gf-fb .head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 9px; }
-.gf-fb .head b { font: 600 12px var(--font-sans); color: #2b2140; }
-.gf-fb .head i { font: 500 11px var(--font-sans); color: #9a8f7c; font-style: normal; }
-.gf-fb .head .x { margin-left: auto; font: 600 13px var(--font-sans); color: #9a8f7c; background: transparent; border: none; cursor: pointer; line-height: 1; }
+.gf-fb .head b { font: 600 12.5px var(--font-sans); color: #221f2b; }
+.gf-fb .head i { font: 500 11.5px var(--font-sans); color: #63606d; font-style: normal; }
+.gf-fb .head .x { margin-left: auto; font: 600 13px var(--font-sans); color: #63606d; background: transparent; border: none; cursor: pointer; line-height: 1; }
 .gf-fb .topics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
-.gf-fb .topics button { padding: 6px 11px; border-radius: 20px; cursor: pointer; font: 500 11px var(--font-sans); background: #faf6ec; border: 1px solid #e6dfce; color: #6b6152; }
-.gf-fb .topics button.on { background: #ece7ff; border: 1.5px solid var(--brand-mark); color: var(--brand-mark); }
-.gf-fb textarea { width: 100%; background: #faf6ec; border: 1px solid #e6dfce; border-radius: 11px; padding: 11px 13px; font: 500 13px var(--font-sans); color: #2b2140; outline: none; resize: vertical; line-height: 1.5; }
+.gf-fb .topics button { padding: 6px 11px; border-radius: 20px; cursor: pointer; font: 500 11.5px var(--font-sans); background: #f4f5f7; border: 1px solid #e4e7ec; color: #4d4a5a; }
+.gf-fb .topics button.on { background: #ece7ff; border: 1.5px solid var(--brand-mark); color: #5d3ff0; }
+.gf-fb textarea { width: 100%; background: #f4f5f7; border: 1px solid #e4e7ec; border-radius: 11px; padding: 11px 13px; font: 500 13.5px var(--font-sans); color: #221f2b; outline: none; resize: vertical; line-height: 1.5; }
 .gf-fb .send { display: flex; align-items: center; gap: 12px; margin-top: 9px; }
-.gf-fb .send input { flex: 1; min-width: 0; background: #faf6ec; border: 1px solid #e6dfce; border-radius: 11px; padding: 9px 12px; font: 500 12px var(--font-sans); color: #2b2140; outline: none; }
+.gf-fb .send input { flex: 1; min-width: 0; background: #f4f5f7; border: 1px solid #e4e7ec; border-radius: 11px; padding: 9px 12px; font: 500 12.5px var(--font-sans); color: #221f2b; outline: none; }
 .gf-fb .send button { flex: 0 0 auto; padding: 9px 20px; border-radius: 11px; border: none; font: 700 11px var(--font-mono); letter-spacing: .06em; background: linear-gradient(135deg, #7b5cff, #a24dff); color: #fff; cursor: pointer; }
-.gf-fb .send button:disabled { background: #efeaff; color: #b6a9f0; cursor: not-allowed; }
-.gf-fb .snap { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 0; background: transparent; border: none; cursor: pointer; text-align: left; font: 500 11px var(--font-sans); color: #6b6152; }
-.gf-fb .snap .box { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 4px; font: 700 9px var(--font-sans); background: #faf6ec; border: 1px solid #d9d0bb; color: transparent; }
+.gf-fb .send button:disabled { background: #efeaff; color: #9d8ce8; cursor: not-allowed; }
+.gf-fb .snap { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 0; background: transparent; border: none; cursor: pointer; text-align: left; font: 500 11.5px var(--font-sans); color: #4d4a5a; }
+.gf-fb .snap .box { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 4px; font: 700 10px var(--font-sans); background: #f4f5f7; border: 1px solid #d6dae1; color: transparent; }
 .gf-fb .snap[aria-checked="true"] .box { background: var(--brand-mark); border-color: var(--brand-mark); color: #fff; }
-.gf-fb .done { font: 500 12px var(--font-sans); color: #1b7f55; background: #eafaf1; border: 1px solid #c5ecd6; border-radius: 11px; padding: 11px 13px; }
+.gf-fb .done { font: 500 12.5px var(--font-sans); color: #1b7f55; background: #eafaf1; border: 1px solid #c5ecd6; border-radius: 11px; padding: 11px 13px; }
 /* Same block as .done, in the warning ink the widget already uses for ⚠. */
-.gf-fb .fail { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font: 500 12px var(--font-sans); color: #8a5a12; background: #fdf5e6; border: 1px solid #ecdcb8; border-radius: 11px; padding: 11px 13px; }
-.gf-fb .fail button { margin-left: auto; padding: 7px 13px; border-radius: 10px; background: #fff; border: 1px solid #e6dfce; cursor: pointer; font: 600 11px var(--font-sans); color: #4a4030; }
+.gf-fb .fail { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font: 500 12.5px var(--font-sans); color: #8a5a12; background: #fdf5e6; border: 1px solid #ecdcb8; border-radius: 11px; padding: 11px 13px; }
+.gf-fb .fail button { margin-left: auto; padding: 7px 13px; border-radius: 10px; background: #fff; border: 1px solid #e4e7ec; cursor: pointer; font: 600 11.5px var(--font-sans); color: #37343f; }
 /* Honeypot: out of sight, out of the tab order, still fillable by a bot. */
 .gf-fb .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
@@ -600,8 +624,8 @@ h2 { font: 700 28px var(--font-sans); margin: 0 0 20px; text-align: center; }
   .gf-setup { order: 0; border-top: 1px solid var(--border-soft); border-right: none; }
   /* Rendered as a direct child of .gf-body (Generator.jsx `stacked`) so it lands
      after the setup column instead of halfway up the widget. It keeps the
-     artboard white because every colour inside it is tuned for white — on the
-     Cream theme its chips are #faf6ec on a #faf6ec surface, i.e. invisible. */
+     artboard white because every colour inside it is tuned for white — on
+     Olive its #221f2b type would sit on a #4a4d33 surface, unreadable. */
   .gf-body > .gf-fb { order: 1; margin-top: 0; padding: 18px 26px; background: #ffffff; border-top: 1px solid var(--border-soft); }
 }
 
