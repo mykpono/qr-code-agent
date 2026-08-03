@@ -392,12 +392,21 @@ before §3 is done** or you'll spend your one launch spike unmeasured.
       (940×940 canvas, `role="img"`), typing a URL regenerates the code, self-reports
       "scannable", zero console errors. **Re-run it the morning of launch** — a generator
       outage has shipped before and was invisible to the build, the tests and `check-build`.
-- [ ] **D3** `[MYK]` · 4 hrs · Outreach to the 6 roundups that currently own your money query.
-      Getting *added to* a ranking roundup is far cheaper than outranking it:
-      Jotform · ME-QR · Andrew Twelftree · MakeBranded · QRForever · Fotify.
-      Angle: you're the only one on the list that is genuinely free, no-sign-up, non-expiring and
-      client-side. **Be honest that codes are static** — per your own AEO playbook, stated
-      limitations get cited over overselling.
+- [ ] **D3** `[MYK]` · ~4 hrs · Outreach to roundups that own your money query.
+      **Prepared 2026-08-03 → `docs/OUTREACH-PACK.md`. Read §1 before starting — the premise
+      does not hold for the six named here.**
+      All six (Jotform · ME-QR · Andrew Twelftree · MakeBranded · QRForever · Fotify) were
+      read: **every one sells a competing QR generator and ranks it first**, and the Andrew
+      Twelftree page is **not a roundup at all** — it is his own tool, listing no alternatives.
+      "Getting added" is cheap only for *independent* roundups; asking a competitor to seat a
+      free rival beside its own funnel is a conflict of interest, not a copywriting problem.
+      **Retargeted, not abandoned:** the pack ranks adjacent-category publishers who already
+      recommend third-party tools. Best is **TxtImpact** (SMS company, scores five tools it
+      does not own, named author).
+      Angle unchanged and still correct: free, no-sign-up, non-expiring, client-side — and
+      **be honest that codes are static.**
+      **Expected yield is low** (~1–2 placements per 10 sends, each worth one link). §6 argues
+      **D1 → D2 → D3**, with D3 as the optional tail: stop after five silent sends.
 
 ---
 
@@ -529,5 +538,6 @@ Stated so a future session doesn't quietly re-add them:
 - `docs/AEO-BASELINE.md` — **the E4 measurement series**; append a dated block monthly
 - `docs/GSC-SETUP.md` — **the A4 runbook**; §6 holds the indexation table the Week-9 gate reads
 - `docs/LAUNCH-PACK.md` — **the D2 pack**; PH + Show HN copy, timing, and prepared answers
+- `docs/OUTREACH-PACK.md` — **the D3 pack**; verified targets, drafts, and why the original six fail
 - `docs/DIRECTORY-SUBMISSIONS.md` — the D1 pack, paste-ready
 - `SEO-AEO-TRAFFIC-STRATEGY.md` — the strategic analysis this plan operationalizes
