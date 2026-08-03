@@ -234,8 +234,13 @@ locally, not that the deploy served it:
 ```bash
 curl -s https://qrcodeagent.net/<loc>/wifi-qr-code | grep -o '"founder"'
 curl -s https://qrcodeagent.net/sitemap.xml | grep -c '<url>'
-npm run indexnow:submit && npm run gsc:submit
+npm run gsc:submit
 ```
+
+**IndexNow is no longer a step here** — `.github/workflows/indexnow.yml` submits every URL
+on each push to `main`, waiting for the deploy first. Confirm the run went green in the
+Actions tab instead of running it by hand; this instruction is why pt-BR's 50 URLs were
+never announced when it shipped in #46. Re-run the workflow manually only if it failed.
 
 Then check GSC discovers the locale's URLs within 14 days.
 

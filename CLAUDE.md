@@ -90,11 +90,21 @@ npm run verify     # test + build + check-build.mjs — run before every push
 npm run test:e2e   # Playwright smoke — boots dist/ and proves the generator hydrates
                    #   (run `npm run build` first; `npx playwright install chromium` once)
 npm run scan-sheet # → dist/scan-test.html, print at 100% and scan with a phone
-npm run indexnow:submit   # push every built URL to IndexNow (Bing/Yandex/Seznam/Naver)
-                          #   --dry-run builds the payload; --check verifies the key file.
+npm run indexnow:submit   # push every built URL to IndexNow (Bing/Yandex/Seznam/Naver).
+                          #   AUTOMATIC on every push to main via .github/workflows/
+                          #   indexnow.yml — you should not need to run this by hand.
+                          #   --dry-run builds the payload; --check verifies the key file;
+                          #   --await-deploy polls the live sitemap until the deploy
+                          #   serves every built URL (what the workflow uses).
                           #   public/<key>.txt is PUBLIC by design — it proves domain
                           #   ownership, is not a secret, and must stay committed.
 ```
+
+**IndexNow submits itself; do not add a manual step back.** It reports nothing back, and
+Bing Webmaster Tools cannot see API submissions — its "Set up IndexNow" recommendation card
+reads identically whether you submit daily or never, so a skipped submit is invisible from
+every direction. That is how pt-BR's 50 URLs (#46) went unannounced while IndexNow still
+believed the site had 200. If the workflow fails, re-run it from the Actions tab.
 
 ## Env vars (Vercel → Project → Environment Variables; all client-safe `PUBLIC_`)
 
