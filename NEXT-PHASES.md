@@ -69,31 +69,39 @@ mounts the island in a browser.
 
 ## Phase 2 — do these first
 
-### 2.1 Set the environment variables (blocking, 10 minutes, needs you)
+### 2.1 Environment variables — RESOLVED 2026-08-03
 
-**The site has recorded zero analytics since launch.** Confirmed live:
-`typeof window.umami === 'undefined'`, `typeof window.gtag === 'undefined'`.
-The project has only two stale Supabase vars from the 2026-03 prototype.
+**Umami is live and firing.** This section previously read "the site has recorded
+zero analytics since launch"; that is no longer true. Verified on production in a
+real browser:
 
-Vercel → `qr-generator` → Settings → Environment Variables, for **Production and
-Preview**:
+- `typeof window.umami` → `object` (`track`, `identify`)
+- `POST /stats/api/send` → **200** on `en`, `de` and `es`, zero console errors
+- the response is a signed session token carrying the correct `websiteId`, so
+  pageviews are **recorded**, not merely accepted
+- the script tag with the right id is present on **150/150** production URLs
+  (50 en · 50 de · 50 es); the `/stats/` rewrite in `vercel.json` serves
+  `script.js` at 200
 
 ```
-PUBLIC_STRIPE_SUPPORT_URL=https://buy.stripe.com/cNi9AU4zI3w31Fw2KudUY01
-PUBLIC_UMAMI_WEBSITE_ID=<from the `umami` project in the same Vercel scope>
-PUBLIC_GA4_MEASUREMENT_ID=<from GA4>
+PUBLIC_STRIPE_SUPPORT_URL=https://buy.stripe.com/cNi9AU4zI3w31Fw2KudUY01   ✅ set
+PUBLIC_UMAMI_WEBSITE_ID=2ab771b5-…                                        ✅ set
+PUBLIC_GA4_MEASUREMENT_ID=                                                ⛔ deliberately unset
 ```
 
-Then redeploy — env vars are baked in at build time, so an existing deployment
-will not pick them up.
+**Decision, recorded here per plan task A3: no GA4, permanently.** Umami is
+cookieless, so dropping GA4 removes the consent banner entirely — faster LCP, no
+cookie UI, and it matches the privacy positioning the whole product rests on.
+Confirmed in effect: no `googletagmanager` reference and no `gtag` on production.
 
-Notes:
-- The Stripe CTA already works via the `pages.json` fallback; setting the var
-  just moves control to Vercel so the link can change without a commit.
-- **The consent banner stays hidden until `PUBLIC_GA4_MEASUREMENT_ID` exists.**
-  That is deliberate — with no GA id there is nothing to consent to. Do not
-  "fix" its absence.
-- Umami is cookieless and ungated; GA4 loads only after explicit accept.
+- **The consent banner stays hidden because there is no GA id.** That is now the
+  decision, not a pending state. **Do not "fix" its absence.**
+- Env vars bake in at **build time**, so changing one still requires a redeploy.
+- The Stripe CTA also works via the `pages.json` fallback; the var just moves
+  control to Vercel so the link can change without a commit.
+
+Still outstanding in workstream A: **GSC and Bing (A4–A6)**. Analytics collection
+is solved; search-side measurement is not.
 
 ### 2.2 Print and scan the test sheet (blocking, 20 minutes, needs you)
 
@@ -230,7 +238,7 @@ link down.
 |---|---|
 | **No screen-reader pass** | Names, roles, focus and contrast are verified programmatically. Nobody has run VoiceOver/NVDA, so whether the QR announcement is *useful* is unproven. ~20 min to close. |
 | ~~**Nothing boots the app in CI**~~ | **Closed 2026-07-20.** `e2e/smoke.spec.mjs` (Playwright) boots the built site and asserts the generator island hydrates, stays mounted and responds to input on three archetypes, with zero page/console errors. Wired into `.github/workflows/ci.yml` as `npm run test:e2e`. Verified it fails on a re-injected hydration crash that the build, the full `npm test` suite and `check-build.mjs` all pass. **Still not gated:** CI runs it but Vercel deploys regardless (Phase 2.3). |
-| **No analytics data at all** | Until 2.1 is done, there is no traffic baseline and no way to measure anything, including the outage's impact. |
+| ~~**No analytics data at all**~~ | **Closed 2026-08-03.** Umami fires on all 150 URLs across all three locales, verified in a real browser (§2.1). Collection is solved; the remaining measurement gap is **GSC/Bing (plan A4–A6)**. Note the baseline starts *now* — there is still no historical data, so the 2026-07-20 outage remains unmeasurable. |
 | **Logo in SVG is raster** | Unavoidable — the user supplies a PNG. The QR pattern itself is true vector. |
 | **`docs/STRIPE-PLAN.md` slightly stale** | PR #8 removed `offerSupport()` from the SVG download path, so the post-download prompt now fires on PNG only. The doc still says "after a successful download". |
 
