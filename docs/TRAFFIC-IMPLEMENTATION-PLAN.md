@@ -31,7 +31,7 @@ fact** — re-check them before acting.
 | Finding | Confidence | Evidence |
 |---|---|---|
 | Vercel Web Analytics **not enabled** on `qr-generator` | **Confirmed** | Vercel API returns `404 Web Analytics not found` for `prj_7WAwTRtMsTkBNnhjasWCNYjLxGKI` |
-| Umami / GA4 **not firing** on production | *Inferred* | No references found in fetched homepage, and no consent banner. **Caveat: the fetch tool strips `<script>` tags, so absence is weak evidence.** Consistent with `NEXT-PHASES.md` §2.1. Verify in a real browser. |
+| ~~Umami / GA4 **not firing**~~ → **Umami fires; GA4 deliberately absent** | **Confirmed 2026-08-03** | Superseded. The *inferred* row was right about GA4 and **wrong about Umami**, which is exactly why it was marked inferred — the fetch tool strips `<script>`, so absence was never evidence. Real-browser check: `window.umami` is an object, `POST /stats/api/send` → 200 on all three locales, tag present on 150/150 URLs. See A1. |
 | Site **is indexed** by Google | **Confirmed** | `qrcodeagent.net` returns in web search for brand-adjacent queries |
 | Site is **absent** from its own money query | **Confirmed, still true 2026-08-02** | Re-measured under E4 after E1–E3 shipped: absent from Google organic, Google AI Overviews and Perplexity. See `docs/AEO-BASELINE.md`. Expected this soon after publishing — the point of the baseline is to make the change measurable later. |
 | **Brand entity collision** | **Confirmed, but understated** | An unrelated Android app "QRCodeAgent QR Scan & Generate" (`com.webtechxp.qrcodeagent`) ranks on Google Play under a different developer. **Revised 2026-08-02:** measurement for E4 found the app is *not* the main competitor — it appears on neither brand query. "QR code" + "agent" is a generic phrase already owned by real-estate agents, payment-QR agents, AI agents and rivals literally named `agentqr.com` / `agenttext.com`. Schema cannot fix this; see `AEO-BASELINE.md` §2 |
@@ -79,16 +79,22 @@ Ordered by `impact ÷ effort`, with hard dependencies respected:
 Nothing else in this plan can be evaluated until this is done. **Do not start §5 before §3 is
 complete.**
 
-- [ ] **A1** `[MYK]` · 30 min · Verify in a real browser whether analytics fire. Open
-      qrcodeagent.net, DevTools console: `typeof window.umami`, `typeof window.gtag`. Record the
-      result — this resolves the one *inferred* row in §1.
-- [ ] **A2** `[MYK]` · 30 min · Set `PUBLIC_UMAMI_WEBSITE_ID` in Vercel (Production + Preview) from
-      the `umami` project in scope `mykola-5698s-projects`, then **redeploy** — env vars bake in at
-      build time.
-- [ ] **A3** `[MYK]` · decision · **Recommend skipping GA4 entirely.** Umami is cookieless, so
-      dropping GA4 removes the consent banner completely — faster LCP, no cookie UI, and it matches
-      the privacy positioning that is your best launch angle. If you agree, leave
-      `PUBLIC_GA4_MEASUREMENT_ID` unset permanently and note the decision in `NEXT-PHASES.md`.
+- [x] **A1** `[MYK]` · **RESOLVED 2026-08-03 — Umami fires.** Verified in a real browser on
+      production: `typeof window.umami` is `object` (`track`, `identify`), `typeof window.gtag` is
+      `undefined`, and `POST /stats/api/send` returns **200** on `en`, `de` and `es` with zero
+      console errors. Confirmed *recorded*, not merely accepted: the response is a signed session
+      token whose payload carries the correct `websiteId` (`2ab771b5-…13b49`).
+      **Swept all 150 production URLs** — 150/150 carry the tag with the correct ID (50 en, 50 de,
+      50 es), none missing, none wrong. The `/stats/` proxy in `vercel.json` serves `script.js`
+      at 200. This closes the one *inferred* row in §1.
+- [x] **A2** `[MYK]` · **DONE** · `PUBLIC_UMAMI_WEBSITE_ID` is set and a build has shipped with it
+      baked in — proven by the tag being present in the static HTML of all 150 pages, which only
+      happens when the var exists at build time.
+- [x] **A3** `[MYK]` · **DECIDED: no GA4.** `PUBLIC_GA4_MEASUREMENT_ID` stays unset permanently.
+      Verified in effect on production — no `googletagmanager` reference, no `gtag`, and therefore
+      no consent banner (`Base.astro` gates the banner on the GA id existing). Umami is cookieless,
+      so there is nothing to consent to. Recorded in `NEXT-PHASES.md` §2.1 and as an AXME decision.
+      **Do not "fix" the missing banner** — its absence is the decision, not a bug.
 - [ ] **A4** `[MYK]` · 45 min · Google Search Console: verify the property, submit
       `https://qrcodeagent.net/sitemap.xml`, and read **Pages → Indexing**. Record: how many of the
       141 URLs are indexed vs. discovered-not-indexed. **This number is the input to the Week-9
@@ -120,6 +126,12 @@ complete.**
 
 **Definition of done:** Umami shows non-zero pageviews for a 24-hour period, and GSC reports an
 indexed-page count.
+
+**Status 2026-08-03 — half met.** A1–A3 are done: Umami fires on all 150 URLs and pageviews are
+accepted and recorded. The *collection* side is therefore proven, but the "non-zero over 24 hours"
+half is a **dashboard reading only you can take** — an agent cannot see the Umami UI. The three
+verification hits from A1 (one per locale) should already be visible there. **A4–A6 remain**, and
+A4's indexed-page count is still the input to the Week-9 gate.
 
 ---
 
@@ -344,7 +356,10 @@ before §3 is done** or you'll spend your one launch spike unmeasured.
 - [ ] **D2** `[MYK]` · 4 hrs · **Product Hunt + Show HN**, same week. Lead with the **privacy
       claim** ("nothing is uploaded, no scans tracked, works offline"), not "free QR generator" —
       the latter reads as spam on HN. Block the full day for comments; the comment thread is where
-      the mentions come from. **Requires §3 complete** so you can see what it does.
+      the mentions come from. ~~**Requires §3 complete**~~ → **the analytics half of that gate is
+      now met** (A1–A3 done 2026-08-03), so a launch spike *will* be measured in Umami. Referral
+      traffic and backlinks are visible without GSC, so D2 is **no longer blocked** — though doing
+      A4 first still means you can watch indexation respond to the launch.
 - [ ] **D3** `[MYK]` · 4 hrs · Outreach to the 6 roundups that currently own your money query.
       Getting *added to* a ranking roundup is far cheaper than outranking it:
       Jotform · ME-QR · Andrew Twelftree · MakeBranded · QRForever · Fotify.
@@ -460,7 +475,8 @@ Stated so a future session doesn't quietly re-add them:
 
 ## 11. Open questions
 
-1. **Does Umami actually fire?** (A1) — the single unresolved fact blocking everything.
+1. ~~**Does Umami actually fire?**~~ **Resolved 2026-08-03 — yes, on all 150 URLs in all three
+   locales.** See A1. The remaining measurement gap is **GSC/Bing (A4–A6)**, not analytics.
 2. **Native review policy for 8 new locales?** (C-risk) — needs a decision before C1.
 3. ~~**Is `scripts/gsc-submit.mjs` functional?**~~ **Resolved 2026-08-02 — yes.** See A7.
 4. **Per-locale KD was never pulled.** All locale prioritization rests on demand volume alone. A
