@@ -61,11 +61,13 @@ test.describe('the default mark survives the plate controls', () => {
     expect(await plateState(page)).toEqual({ img: true, hatch: false });
   });
 
-  test('the demo still clears on that same first touch', async ({ page }) => {
-    // The exception is scoped to the mark. Everything else mutate() drops must
-    // still drop, or this fix has quietly turned the branded demo permanent.
+  test('styling the plate leaves the rest of the demo alone too', async ({ page }) => {
+    // The demo is dropped by CONTENT edits, not design ones — see demo.spec.mjs.
+    // A plate control is design, so nothing about the demo may move: not the
+    // mark, not the CTA, not the encoded link.
     await page.locator('.gf-platesw').nth(1).click();
-    await expect(page.locator('.gf-cta input')).toHaveValue('SCAN ME');
+    await expect(page.locator('.gf-ctafield input')).toHaveValue('Buy me a coffee');
+    await expect(page.locator('.gf-urlrow .gf-field')).toHaveValue(/buy\.stripe\.com/);
   });
 
   test('REMOVE still clears the mark', async ({ page }) => {
