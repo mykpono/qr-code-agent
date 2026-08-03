@@ -379,13 +379,19 @@ before §3 is done** or you'll spend your one launch spike unmeasured.
       this row: **ToolFinder is $29**, not free (`toolfinder.co` → `toolfinder.com`), and
       **SaaSHub deprioritises submissions that name no listed competitors** — the pack supplies
       them. Recommendation recorded there: do the two free ones, skip ToolFinder for now.
-- [ ] **D2** `[MYK]` · 4 hrs · **Product Hunt + Show HN**, same week. Lead with the **privacy
-      claim** ("nothing is uploaded, no scans tracked, works offline"), not "free QR generator" —
-      the latter reads as spam on HN. Block the full day for comments; the comment thread is where
-      the mentions come from. ~~**Requires §3 complete**~~ → **the analytics half of that gate is
-      now met** (A1–A3 done 2026-08-03), so a launch spike *will* be measured in Umami. Referral
-      traffic and backlinks are visible without GSC, so D2 is **no longer blocked** — though doing
-      A4 first still means you can watch indexation respond to the launch.
+- [ ] **D2** `[MYK]` · ~4 hrs on the day · **Product Hunt + Show HN**, same week. Lead with the
+      **privacy claim** ("nothing is uploaded, no scans tracked, works offline"), not "free QR
+      generator" — the latter reads as spam on HN. Block the full day for comments; the comment
+      thread is where the mentions come from.
+      **Prepared 2026-08-03 → `docs/LAUNCH-PACK.md`.** Both platforms need accounts, so posting
+      is yours; copy for both, timing, and prepared answers to the seven questions that will
+      actually come up are written.
+      ~~**Requires §3 complete**~~ → **gate met.** Umami has been live on all 150 URLs since
+      2026-08-03 (A1–A3), so the spike will be measured. **D2 is unblocked.**
+      **Pre-flight passed 2026-08-03** in a real browser on production: generator hydrates
+      (940×940 canvas, `role="img"`), typing a URL regenerates the code, self-reports
+      "scannable", zero console errors. **Re-run it the morning of launch** — a generator
+      outage has shipped before and was invisible to the build, the tests and `check-build`.
 - [ ] **D3** `[MYK]` · 4 hrs · Outreach to the 6 roundups that currently own your money query.
       Getting *added to* a ranking roundup is far cheaper than outranking it:
       Jotform · ME-QR · Andrew Twelftree · MakeBranded · QRForever · Fotify.
@@ -522,5 +528,6 @@ Stated so a future session doesn't quietly re-add them:
 - `docs/SEO-BRIEF.md` — §8.2 per-locale head terms (the basis for §5.1), §11 phased rollout
 - `docs/AEO-BASELINE.md` — **the E4 measurement series**; append a dated block monthly
 - `docs/GSC-SETUP.md` — **the A4 runbook**; §6 holds the indexation table the Week-9 gate reads
+- `docs/LAUNCH-PACK.md` — **the D2 pack**; PH + Show HN copy, timing, and prepared answers
 - `docs/DIRECTORY-SUBMISSIONS.md` — the D1 pack, paste-ready
 - `SEO-AEO-TRAFFIC-STRATEGY.md` — the strategic analysis this plan operationalizes
