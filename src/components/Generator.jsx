@@ -1078,8 +1078,11 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
                 {sectionCaret(logoOpen)}<span className="gf-sectitle">{t.gen.centerLogo}</span>
                 <span className="gf-secsum">{logoSummary}</span>
               </button>
+              {/* Also `keepMark`: turning the logo off is not the same as discarding
+                  the mark. Dropping it here made the switch one-way — flick it back on
+                  and the default mark was gone for good, replaced by the placeholder. */}
               <button type="button" role="switch" aria-checked={useLogo} aria-label={t.a11y.toggleLogo}
-                className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => mutate(() => setUseLogo(!useLogo))}><span /></button>
+                className={`gf-toggle${useLogo ? ' on' : ''}`} onClick={() => mutate(() => setUseLogo(!useLogo), { keepMark: true })}><span /></button>
             </div>
             {logoOpen && (
               <div className={`gf-logo${useLogo ? '' : ' off'}`} inert={useLogo ? undefined : ''}>

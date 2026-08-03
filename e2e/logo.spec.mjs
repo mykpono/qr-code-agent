@@ -10,8 +10,10 @@ import { test, expect } from '@playwright/test';
   act on the mark, so dropping it there deletes the thing the user is adjusting,
   mid-adjustment: reach for Fit on a fresh page and the QR mark vanishes from
   the preview, replaced by the dashed LOGO placeholder, with no way to get the
-  default mark back. Each case below is the FIRST touch on a freshly loaded
-  page — that is the only moment the bug exists, so every test reloads.
+  default mark back. So is the on/off switch — turning the logo off is not the
+  same as discarding the mark, and dropping it there made the switch one-way.
+  Each case below is the FIRST touch on a freshly loaded page — that is the only
+  moment the bug exists, so every test reloads.
 */
 
 const plateState = (page) => page.locator('.gf-logoplate').evaluate((el) => ({
@@ -47,6 +49,15 @@ test.describe('the default mark survives the plate controls', () => {
 
   test('ticking Border keeps the mark', async ({ page }) => {
     await page.locator('.gf-platerow .gf-check').click();
+    expect(await plateState(page)).toEqual({ img: true, hatch: false });
+  });
+
+  test('the on/off switch is a round trip, not a one-way door', async ({ page }) => {
+    const toggle = page.locator('.gf-toggle');
+    await toggle.click();                                      // off — the plate goes
+    await expect(page.locator('.gf-logoplate')).toHaveCount(0);
+
+    await toggle.click();                                      // on — the mark comes back
     expect(await plateState(page)).toEqual({ img: true, hatch: false });
   });
 
