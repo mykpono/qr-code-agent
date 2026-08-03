@@ -1,0 +1,64 @@
+import { test, expect } from '@playwright/test';
+
+/*
+  The widget opens as a branded demo, and mutate() drops that demo on the FIRST
+  design interaction — the CTA falls back to SCAN ME, the demo URL empties, and
+  the default mark goes. Its own comment carves out the exception: not when the
+  interaction itself set that very thing.
+
+  The plate row IS that exception. Fit, plate shape and the border checkbox all
+  act on the mark, so dropping it there deletes the thing the user is adjusting,
+  mid-adjustment: reach for Fit on a fresh page and the QR mark vanishes from
+  the preview, replaced by the dashed LOGO placeholder, with no way to get the
+  default mark back. Each case below is the FIRST touch on a freshly loaded
+  page — that is the only moment the bug exists, so every test reloads.
+*/
+
+const plateState = (page) => page.locator('.gf-logoplate').evaluate((el) => ({
+  img: !!el.querySelector('img'),
+  hatch: !!el.querySelector('.hatch'),
+}));
+
+test.describe('the default mark survives the plate controls', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await expect(page.locator('.genflag')).toBeVisible();
+    // The mark is rasterised in an effect, so it lands a tick after hydration.
+    await expect.poll(() => plateState(page)).toEqual({ img: true, hatch: false });
+  });
+
+  test('dragging Fit keeps the mark and scales it', async ({ page }) => {
+    const slider = page.locator('.gf-fit input[type=range]');
+    await slider.evaluate((el) => {
+      const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      set.call(el, '160');
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    await expect(page.locator('.gf-fit .val')).toHaveText('160%');
+    expect(await plateState(page)).toEqual({ img: true, hatch: false });
+    expect(await page.locator('.gf-logoplate img').evaluate((el) => el.style.transform)).toBe('scale(1.6)');
+  });
+
+  test('switching the plate shape keeps the mark', async ({ page }) => {
+    await page.locator('.gf-platesw').nth(1).click();          // square
+    expect(await plateState(page)).toEqual({ img: true, hatch: false });
+  });
+
+  test('ticking Border keeps the mark', async ({ page }) => {
+    await page.locator('.gf-platerow .gf-check').click();
+    expect(await plateState(page)).toEqual({ img: true, hatch: false });
+  });
+
+  test('the demo still clears on that same first touch', async ({ page }) => {
+    // The exception is scoped to the mark. Everything else mutate() drops must
+    // still drop, or this fix has quietly turned the branded demo permanent.
+    await page.locator('.gf-platesw').nth(1).click();
+    await expect(page.locator('.gf-cta input')).toHaveValue('SCAN ME');
+  });
+
+  test('REMOVE still clears the mark', async ({ page }) => {
+    await page.locator('.gf-drop .mark .rm').click();
+    expect(await plateState(page)).toEqual({ img: false, hatch: true });
+  });
+});
