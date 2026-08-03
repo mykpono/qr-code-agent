@@ -95,10 +95,18 @@ complete.**
       no consent banner (`Base.astro` gates the banner on the GA id existing). Umami is cookieless,
       so there is nothing to consent to. Recorded in `NEXT-PHASES.md` §2.1 and as an AXME decision.
       **Do not "fix" the missing banner** — its absence is the decision, not a bug.
-- [ ] **A4** `[MYK]` · 45 min · Google Search Console: verify the property, submit
-      `https://qrcodeagent.net/sitemap.xml`, and read **Pages → Indexing**. Record: how many of the
-      141 URLs are indexed vs. discovered-not-indexed. **This number is the input to the Week-9
-      gate.**
+- [ ] **A4** `[MYK]` · ~20 min · Google Search Console: verify the property, submit
+      `sitemap.xml`, and read **Pages → Indexing**. Record indexed vs. discovered-not-indexed for
+      the **150** URLs (was 141 — E1–E3 added nine). **This number is the input to the Week-9 gate.**
+      **Prepared 2026-08-03 → `docs/GSC-SETUP.md`.** Needs a Google sign-in, so the account steps
+      stay yours; the estimate drops because everything else is done.
+      **Pre-flight passed on all 150 URLs** — 200s, zero `noindex`, canonicals all self-referencing,
+      hreflang complete *and reciprocal*, no dangling alternates, sitemap well-formed (A5).
+      **So a low number will not mean a bug on the site** — it will mean authority, which is the
+      distinction the Week-9 gate turns on.
+      **One trap flagged there:** create a **Domain** property, not URL-prefix — and if you do,
+      `gsc-submit.mjs` (A7) needs `GSC_SITE_URL="sc-domain:qrcodeagent.net"`, because its default is
+      the URL-prefix form and will otherwise 404.
 - [x] **A5** `[AGENT]` · **RESOLVED 2026-08-03 — there is no bug. GSC not required.** The question
       was answerable directly and did not need Search Console at all. `sitemap.xml` serves
       **HTTP 200, `content-type: application/xml`, 88,360 bytes, uncompressed** — the first bytes
@@ -513,4 +521,6 @@ Stated so a future session doesn't quietly re-add them:
 - `docs/FINAL-TAXONOMY.md` — 47 built / 13 planned, with validated MSV/KD
 - `docs/SEO-BRIEF.md` — §8.2 per-locale head terms (the basis for §5.1), §11 phased rollout
 - `docs/AEO-BASELINE.md` — **the E4 measurement series**; append a dated block monthly
+- `docs/GSC-SETUP.md` — **the A4 runbook**; §6 holds the indexation table the Week-9 gate reads
+- `docs/DIRECTORY-SUBMISSIONS.md` — the D1 pack, paste-ready
 - `SEO-AEO-TRAFFIC-STRATEGY.md` — the strategic analysis this plan operationalizes
