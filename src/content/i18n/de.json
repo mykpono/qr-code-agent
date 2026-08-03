@@ -1149,6 +1149,12 @@
       ],
       "articles": [
         {
+          "cat": "Grundlagen",
+          "title": "Die besten kostenlosen QR-Code-Generatoren 2026",
+          "text": "Welche Werkzeuge dauerhaft kostenlos sind, welche nur bis zum Ende einer Testphase, und wo dieses hier schwächelt.",
+          "meta": "8 Min. Lesezeit"
+        },
+        {
           "cat": "Druck",
           "title": "Wie groß sollte ein QR-Code im Druck sein?",
           "text": "Die 10:1-Regel für den Scanabstand und sichere Mindestgrößen für Karten, Plakate und Verpackungen.",
@@ -4072,6 +4078,141 @@
         "Verwenden Sie eine Adresse, die Sie tatsächlich überwachen — ein Scan ist ein warmer Lead, also sollten Antworten nicht in einem toten Postfach liegen bleiben",
         "Lassen Sie den Nachrichtentext leer, wenn Sie nur Adresse und Betreff vorausfüllen möchten; die Nachricht schreibt der Absender selbst",
         "Testen Sie auf iPhone und Android — einige ältere Mail-Apps ignorieren den Textparameter, legen Sie daher wichtige Informationen niemals nur dort ab"
+      ]
+    },
+    "learn/best-free-qr-code-generators-2026": {
+      "updated": "August 2026",
+      "reading": "8 Min. Lesezeit",
+      "cat": "Grundlagen",
+      "title": "Kostenlose QR-Code-Generatoren 2026 im Vergleich",
+      "meta": "Die meisten kostenlosen QR-Code-Generatoren sind kostenlos, bis etwas abläuft. Was jeder wirklich umsonst bietet, samt unserer eigenen Schwächen.",
+      "h1": "Die besten kostenlosen QR-Code-Generatoren 2026",
+      "subhead": "Kostenlos bedeutet in diesem Markt vier verschiedene Dinge, und nur eines davon übersteht ein gedrucktes Plakat.",
+      "sections": [
+        {
+          "h": "Die kurze Antwort",
+          "p": [
+            "Wenn Sie einen statischen Code mit Ihrem Logo brauchen und kein Konto anlegen möchten, leisten das QRCode Monkey und diese Seite dauerhaft kostenlos und ohne Wasserzeichen. Wählen Sie eines von beiden. Sie unterscheiden sich in Details, nicht darin, was Sie am Ende mitnehmen dürfen.",
+            "Wenn Sie das Ziel eines Codes nach dem Druck ändern oder Scans auswerten müssen, hilft Ihnen keines dieser Werkzeuge, und Sie sollten mit Kosten rechnen. Diese Fähigkeit setzt einen Server voraus, der dauerhaft läuft, und Server kosten Geld. Wer sie für immer kostenlos anbietet, subventioniert Sie entweder gerade oder plant, damit aufzuhören."
+          ],
+          "callout": "Die eine Frage, die alles vorhersagt: Funktioniert dieser Code noch, wenn Sie nicht mehr darauf achten? Bei einem statischen Code lautet die Antwort immer ja. Bei einem dynamischen hängt sie daran, dass ein Unternehmen weiter existiert und Ihr Konto aktuell bleibt."
+        },
+        {
+          "h": "Vier Bedeutungen von \"kostenlos\"",
+          "p": [
+            "Vergleichsartikel bewerten diese Werkzeuge meist nach Funktionen. Das ist die falsche Achse, denn die Funktionsliste ist selten das, was Ihnen später Probleme macht. Entscheidend ist, welche Art von kostenlos Sie gewählt haben, und davon gibt es vier, von denen nur eine ohne Bedingungen gilt."
+          ],
+          "list": [
+            "Kostenlos erstellt und dauerhaft Ihres. Das Werkzeug gibt Ihnen eine Bilddatei. Nichts wird gespeichert, nichts kann widerrufen werden, und der Code funktioniert, solange das Papier hält. Das gilt ausschließlich für statische Codes.",
+            "Kostenlos, aber mit Konto. Der Code selbst ist in Ordnung, doch Sie müssen sich registrieren, und Ihre Codes liegen in einem Dashboard. Canva arbeitet so. Völlig legitim, bedeutet aber ein Konto für eine Aufgabe von zwei Minuten.",
+            "Kostenlos auf Zeit. Der Code funktioniert während einer Testphase und danach nicht mehr. Diese Variante richtet den echten Schaden an, weil der Ausfall Wochen später eintritt, auf Material, das Sie längst gedruckt und verteilt haben.",
+            "Kostenlos mit Wasserzeichen oder unterhalb einer Größengrenze. Seltener als früher und vor dem Export leicht zu erkennen, aber prüfenswert, bevor Sie in Druckauflösung exportieren."
+          ]
+        },
+        {
+          "h": "Was beim Ende eines kostenlosen Plans wirklich passiert",
+          "p": [
+            "Hier lohnt sich Genauigkeit, denn es ist der Unterschied zwischen einem Ärgernis und dem Nachdruck von tausend Speisekarten. Nehmen Sie qr-code-generator.com, eines der größten und meistbeworbenen Werkzeuge dieser Kategorie. Die Dokumentation ist eindeutig: Dynamische QR-Codes, die während der vierzehntägigen Testphase entstehen, werden mit deren Ende deaktiviert, und wer sie danach scannt, landet auf einer Serviceseite statt bei Ihrem Ziel. Dort erstellte statische Codes funktionieren weiter.",
+            "Daran ist nichts unehrlich. Es steht geschrieben, und ein Weiterleitungsdienst kann nicht unbegrenzt kostenlos laufen. Es bedeutet aber, dass der Unterschied zwischen statisch und dynamisch keine technische Fußnote ist, sondern die gesamte Frage, ob Ihr gedrucktes Material in zwei Monaten noch funktioniert. Viele wählen die dynamische Variante, weil die Oberfläche sie als die bessere präsentiert, ohne zu bemerken, dass ihr Plakat damit von einem Abonnement abhängt.",
+            "Ein statischer Code kann Ihnen das nicht antun. Das Ziel steckt im Muster selbst, es gibt also keinen Server im Weg, kein Konto, das ablaufen kann, und niemanden, der ihn abschalten könnte, auch nicht die Hersteller des Generators. Genau deshalb lässt sich ein statischer Code weder ändern noch auswerten. Es ist dieselbe Eigenschaft, nur von der anderen Seite betrachtet."
+          ]
+        },
+        {
+          "h": "Die kostenlosen Angebote im Vergleich",
+          "p": [
+            "Stand August 2026. Preise und Grenzen ändern sich in diesem Markt häufig. Prüfen Sie alles, worauf es Ihnen ankommt, vor einem Druckauftrag selbst nach, statt dieser Tabelle oder irgendeiner anderen zu vertrauen."
+          ],
+          "table": {
+            "head": [
+              "Werkzeug",
+              "Konto nötig",
+              "Codes können ausfallen",
+              "Vektorexport"
+            ],
+            "rows": [
+              [
+                "QR Code Agent",
+                "Nein",
+                "Nein, nur statisch",
+                "Ja, kostenlos"
+              ],
+              [
+                "QRCode Monkey",
+                "Nein",
+                "Nein, nur statisch",
+                "Ja, kostenlos"
+              ],
+              [
+                "Canva",
+                "Ja",
+                "Nein, statisch",
+                "Je nach Tarif"
+              ],
+              [
+                "qr-code-generator.com",
+                "Ja",
+                "Ja, bei dynamischen Codes",
+                "Je nach Tarif"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "QRCode Monkey, ehrlich eingeordnet",
+          "p": [
+            "Es ist das, was dieser Seite am nächsten kommt, und in mehreren Punkten das etabliertere Werkzeug. Es verlangt keine Anmeldung, nimmt ein hochgeladenes Logo an, bietet Farbverläufe und eigene Augenformen und exportiert PNG sowie SVG, EPS und PDF als Vektor. Für einen Druckauftrag ist das ein wirklich vollständiger Satz an Möglichkeiten.",
+            "Der praktische Unterschied liegt darin, wo gearbeitet wird. Monkey erzeugt Ihren Code auf seinen Servern, was für eine Marketing-URL völlig normal und unbedenklich ist. Es zählt nur dann, wenn der Inhalt Ihren Rechner gar nicht verlassen soll, und das kommt öfter vor als gedacht: ein WLAN-Passwort, eine Privatadresse auf einer Kontaktkarte, der Link zu einem vertraulichen Dokument. Trifft das zu, wählen Sie ein Werkzeug, das nichts überträgt."
+          ]
+        },
+        {
+          "h": "Wo dieses Werkzeug schwächelt",
+          "p": [
+            "Die eigenen Grenzen hier aufzuführen ist keine Bescheidenheit, sondern der nützliche Teil. Ein Vergleich, in dem der Autor überall am besten abschneidet, ist wertlos, und dies sind die Gründe, etwas anderes zu wählen."
+          ],
+          "list": [
+            "Codes sind statisch und bleiben es. Sie können das Ziel nach dem Druck nicht ändern und nicht sehen, wie oft gescannt wurde. Wenn eines davon zählt, ist dies das falsche Werkzeug, und keine künftige Funktion wird daran etwas ändern.",
+            "Es gibt kein Konto, also keine Synchronisierung. Gespeicherte Codes liegen in dem Browser, in dem sie entstanden sind. Löschen Sie die Websitedaten, sind sie weg.",
+            "Keine Massenerstellung. Ein Code nach dem anderen. Vierhundert Tischaufsteller mit jeweils eigenem Code sind ein realer Bedarf, den dieses Werkzeug nicht deckt.",
+            "Das Logo in einer SVG-Datei bleibt ein Rasterbild, weil Sie ein PNG geliefert haben. Das Codemuster ringsum ist echter Vektor und skaliert sauber, das Logo selbst nur so scharf wie Ihre Vorlage.",
+            "Keine Teamfunktionen, keine gemeinsame Bibliothek, keine Freigabeprozesse. Es ist ein Werkzeug für eine Person und eine Aufgabe."
+          ]
+        },
+        {
+          "h": "In etwa einer Minute entscheiden",
+          "p": [
+            "Gehen Sie die Liste durch und halten Sie bei der ersten Zeile an, die auf Sie zutrifft. Das klärt die meisten Fälle schneller als jede Vergleichstabelle, auch die obige."
+          ],
+          "list": [
+            "Sie müssen das Ziel später ändern oder Scans zählen: Sie brauchen dynamische Codes und sollten einen bezahlten Tarif bei einem etablierten Anbieter einplanen.",
+            "Sie kodieren etwas Privates, etwa ein WLAN-Passwort oder persönliche Kontaktdaten: nehmen Sie einen Generator, der im Browser läuft und nichts überträgt.",
+            "Sie gestalten das umgebende Material ohnehin in Canva: nutzen Sie den eingebauten Generator und sparen Sie sich einen Exportschritt.",
+            "Sie wollen einen gestalteten statischen Code mit Logo, ohne Konto und ohne Ablauf: diese Seite oder QRCode Monkey, je nachdem, welche Oberfläche Ihnen zusagt.",
+            "Sie drucken: exportieren Sie in jedem Fall SVG statt PNG und testen Sie den gedruckten Code mit einem alten Telefon bei schlechtem Licht, bevor die volle Auflage läuft."
+          ],
+          "callout": "Eine Gewohnheit lohnt sich unabhängig von der Wahl: Scannen Sie das fertig gedruckte Stück selbst, aus der Entfernung und im Winkel echter Nutzung, bevor die gesamte Auflage produziert wird. Fast jeder QR-Fehler, der es in die Öffentlichkeit schafft, wäre durch diese eine Prüfung aufgefallen."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Laufen kostenlose QR-Codes ab?",
+          "a": "Statische können es nicht. Das Ziel steckt im Muster, es ist also kein Server beteiligt und nichts abschaltbar. Dynamische Codes laufen über einen Anbieter und können ausfallen, wenn das Konto endet oder eine Testphase ausläuft, genau das passiert bei mehreren großen Werkzeugen."
+        },
+        {
+          "q": "Welcher kostenlose QR-Code-Generator kommt ohne Anmeldung aus?",
+          "a": "Dieser hier und QRCode Monkey funktionieren beide ohne Konto. Canva verlangt eine Registrierung. Wenn es Ihnen vor allem darum geht, kein Konto anzulegen, erledigt jedes der ersten beiden die Aufgabe in unter einer Minute."
+        },
+        {
+          "q": "Ist ein kostenloser QR-Code schlechter als ein bezahlter?",
+          "a": "Nein. Ein QR-Code ist ein festgelegter Standard, ein kostenloser und ein teurer Generator erzeugen für denselben Inhalt dasselbe Muster. Bezahlt wird der Dienst ringsum: änderbare Ziele, Scan-Auswertung, Teamkonten und Support. Das Bild selbst wird nicht besser."
+        },
+        {
+          "q": "Darf ich einen kostenlosen QR-Code kommerziell nutzen?",
+          "a": "Ja. Die QR-Spezifikation ist patentfrei und für die kommerzielle Nutzung freigegeben, und hier erstellte Codes tragen weder Wasserzeichen noch Namensnennungspflicht. Prüfen Sie die Bedingungen anderer Generatoren, denn das Werkzeug kann Auflagen machen, die der Standard nicht kennt."
+        },
+        {
+          "q": "Wo ist der Haken bei völlig kostenlosen Generatoren?",
+          "a": "Meist einer von dreien: Ihre Codes liegen auf fremden Servern, die kostenlose Stufe ist eine Testphase mit Ende, oder das Werkzeug finanziert sich über den Verkauf dynamischer Codes. Bei einem Werkzeug, das ausschließlich im Browser läuft und nichts speichert, lautet die ehrliche Antwort: Es kann nur statische Codes erzeugen. Das ist eine echte Einschränkung, aber keine versteckten Kosten."
+        }
       ]
     }
   }

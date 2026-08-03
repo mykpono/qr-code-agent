@@ -3490,6 +3490,13 @@
       "articles_title": "Latest guides",
       "articles": [
         {
+          "cat": "Basics",
+          "title": "Best free QR code generators in 2026",
+          "text": "Which tools are free forever, which are free until a trial ends, and where this one falls short.",
+          "meta": "8 min read",
+          "href": "/learn/best-free-qr-code-generators-2026"
+        },
+        {
           "cat": "Printing",
           "title": "What size should a QR code be to print?",
           "text": "The 10:1 scan-distance rule and safe minimums for cards, posters and packaging.",
@@ -5408,6 +5415,168 @@
         "BreadcrumbList",
         "FAQPage"
       ]
+    },
+    {
+      "slug": "learn/best-free-qr-code-generators-2026",
+      "archetype": "article",
+      "phase": "4",
+      "primary": "best free qr code generators",
+      "msv": null,
+      "kd": null,
+      "secondaries": [
+        "free qr code generator no sign up",
+        "qr code generator without watermark",
+        "free qr code generator that does not expire",
+        "best qr code generator with logo free"
+      ],
+      "cat": "Basics",
+      "reading": "8 min read",
+      "updated": "August 2026",
+      "published": "2026-08-02",
+      "updated_iso": "2026-08-02",
+      "title": "Best Free QR Code Generators (2026): An Honest Comparison",
+      "meta": "Most free QR code generators are free until something expires. What each one actually gives you for nothing, including where this one falls short.",
+      "h1": "Best free QR code generators in 2026",
+      "subhead": "Free means four different things in this market, and only one of them survives contact with a printed poster.",
+      "sections": [
+        {
+          "h": "The short answer",
+          "p": [
+            "If you want a static code with your logo on it and you do not want an account, QRCode Monkey and this site both do that for nothing, permanently, with no watermark. Pick either. They differ in details rather than in what you are allowed to walk away with.",
+            "If you need to change where a code points after it is printed, or you need scan statistics, neither of those tools can help you and you should expect to pay someone. That capability requires a server that stays up, and servers cost money. Any product offering it free forever is either subsidising you now or planning to stop."
+          ],
+          "callout": "The one question that predicts everything: after you stop paying attention, does this code still work? For a static code the answer is always yes. For a dynamic code it depends on a company still being in business and your account still being current."
+        },
+        {
+          "h": "Four things \"free\" can mean",
+          "p": [
+            "Roundups tend to score these tools on features. That is the wrong axis, because the feature list is rarely what bites you. What bites you is which kind of free you signed up for, and there are four, only one of which is unconditional."
+          ],
+          "list": [
+            "Free to make, yours forever. The tool hands you an image file. Nothing is stored anywhere, nothing can be revoked, and the code works until the paper it is printed on falls apart. This only applies to static codes.",
+            "Free but you must have an account. The code itself is fine, but you have to register, and your codes live in a dashboard. Canva works this way. Perfectly reasonable, but it means creating an account to do a two-minute job.",
+            "Free for a while. The code works during a trial and stops afterwards. This is the one that causes real damage, because the failure happens weeks later, on material you have already printed and distributed.",
+            "Free with a watermark, or free below a size limit. Less common than it used to be, and easy to spot before you commit, but still worth checking before you export at print resolution."
+          ]
+        },
+        {
+          "h": "What actually happens when a free plan ends",
+          "p": [
+            "This is worth being concrete about, because it is the difference between a mild annoyance and reprinting a thousand menus. Take qr-code-generator.com, one of the largest and most heavily advertised tools in this category. Its documentation is clear about what happens: dynamic QR codes created during its fourteen-day trial are deactivated when that trial ends, and scanning one afterwards takes the person to a service page rather than to your destination. Static codes made there keep working.",
+            "Nothing about that is dishonest. It is written down, and a redirect service genuinely cannot run for free indefinitely. But it means the distinction between static and dynamic is not a technical footnote, it is the entire question of whether your printed material still functions in two months. Plenty of people pick the dynamic option because the interface presents it as the better one, without registering that they have just made their poster depend on a subscription.",
+            "A static code cannot do this to you. The destination is encoded in the pattern itself, so there is no server in the path, no account to lapse and nobody who can switch it off, including the people who made the generator. That is also precisely why a static code cannot be edited or tracked. It is the same property viewed from either side."
+          ]
+        },
+        {
+          "h": "How the free tiers compare",
+          "p": [
+            "Checked in August 2026. Pricing and limits in this market change often, so verify anything that matters to you before committing to a print run rather than trusting this table, or any other."
+          ],
+          "table": {
+            "head": [
+              "Tool",
+              "Account needed",
+              "Codes can stop working",
+              "Vector export"
+            ],
+            "rows": [
+              [
+                "QR Code Agent",
+                "No",
+                "No, static only",
+                "Yes, free"
+              ],
+              [
+                "QRCode Monkey",
+                "No",
+                "No, static only",
+                "Yes, free"
+              ],
+              [
+                "Canva",
+                "Yes",
+                "No, static",
+                "Depends on plan"
+              ],
+              [
+                "qr-code-generator.com",
+                "Yes",
+                "Yes, if you use dynamic codes",
+                "Depends on plan"
+              ]
+            ]
+          }
+        },
+        {
+          "h": "QRCode Monkey, honestly assessed",
+          "p": [
+            "It is the closest thing this site has to a direct equivalent, and on several counts it is the more established tool. It needs no sign-up, it takes an uploaded logo, it offers gradient colours and custom eye shapes, and it exports PNG alongside SVG, EPS and PDF vector files. For a print job that is a genuinely complete set of options.",
+            "The practical difference is where the work happens. Monkey builds your code on its servers, which is ordinary and fine for a marketing URL. It matters only when the thing you are encoding is not meant to leave your machine, which is the case more often than people expect: a WiFi password, a home address on a contact card, a private document link. If that describes what you are encoding, prefer a tool that never transmits it."
+          ]
+        },
+        {
+          "h": "Where this tool falls short",
+          "p": [
+            "Including our own limitations here is not modesty, it is the useful part. A comparison that finds its author best at everything is not worth reading, and these are the reasons to pick something else."
+          ],
+          "list": [
+            "Codes are static and always will be. You cannot change the destination after printing, and you cannot see how many people scanned it. If either matters, this is the wrong tool and no amount of feature work here will change that.",
+            "There is no account, so there is no sync. Saved codes live in the browser you made them in. Clear your site data and they are gone.",
+            "No bulk generation. One code at a time. Generating four hundred table tents with unique codes is a real need and this does not serve it.",
+            "The logo you embed in an SVG stays a raster image, because you supplied a PNG. The code pattern around it is true vector and scales cleanly, but the logo itself is only as sharp as the file you gave it.",
+            "No team features, no shared library, no approval workflow. It is a tool for one person doing one job."
+          ]
+        },
+        {
+          "h": "How to choose in about a minute",
+          "p": [
+            "Work down this list and stop at the first line that describes you. It resolves most cases faster than reading any comparison table, including the one above."
+          ],
+          "list": [
+            "You need to edit the destination later, or count scans: you need dynamic codes, and you should budget for a paid plan from an established vendor.",
+            "You are encoding something private, such as a WiFi password or personal contact details: use a generator that runs in your browser and never uploads what you type.",
+            "You are already designing the surrounding artwork in Canva: use its built-in generator and save yourself an export step.",
+            "You want a styled static code with a logo, no account and no expiry: this site or QRCode Monkey, whichever interface you prefer.",
+            "You are printing it: whatever you choose, export SVG rather than PNG, and test the printed code with an old phone in poor light before committing to the full run."
+          ],
+          "callout": "One habit worth adopting whatever you pick: scan the final printed piece yourself, from the distance and angle a real person will, before the whole run is produced. Almost every QR failure that reaches the public would have been caught by that one check."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Do free QR codes expire?",
+          "a": "Static ones cannot. The destination is encoded in the pattern, so there is no server involved and nothing to switch off. Dynamic codes route through a provider and can stop working if the account lapses or a trial ends, which is exactly what happens with several major tools."
+        },
+        {
+          "q": "Which free QR code generator does not require sign-up?",
+          "a": "This one and QRCode Monkey both work without an account. Canva requires registration. If avoiding an account is your priority, either of the first two will do the job in under a minute."
+        },
+        {
+          "q": "Is a free QR code lower quality than a paid one?",
+          "a": "No. A QR code is a defined standard, so a free generator and an expensive one produce the same pattern for the same content. What you pay for is the service around it: editable destinations, scan analytics, team accounts and support. The image itself is not better."
+        },
+        {
+          "q": "Can I use a free QR code commercially?",
+          "a": "Yes. The QR specification is patent-free and unrestricted for commercial use, and codes made here carry no watermark or attribution requirement. Do check the terms of any other generator you use, since the tool can impose conditions the standard does not."
+        },
+        {
+          "q": "What is the catch with completely free QR generators?",
+          "a": "Usually one of three: your codes are stored on someone else's server, the free tier is a trial that ends, or the tool is funded by upselling dynamic codes. For a tool that runs entirely in your browser and stores nothing, the honest answer is that it can only make static codes, which is a real limitation rather than a hidden cost."
+        }
+      ],
+      "related": [
+        "/learn/static-vs-dynamic-qr-codes",
+        "/qr-code-with-logo",
+        "/learn/png-or-svg-qr-code",
+        "/learn/qr-code-print-size",
+        "/learn"
+      ],
+      "schema": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "cta_href": "/"
     }
   ]
 }
