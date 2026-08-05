@@ -684,7 +684,10 @@ export default function Generator({ mode: initialMode = 'url', supportUrl = '', 
     } catch {
       // Clipboard images need a secure context and a user gesture; when the
       // browser refuses there is nothing useful to say, so fall back to a file.
+      // That IS a download, so it counts as one — otherwise every Safari/HTTP
+      // user who hits Copy exports a file that download_png never sees.
       download(renderExportCanvas().toDataURL('image/png'), 'qrcode.png');
+      track('download_png', { mode, frame, via: 'copy_fallback' });
     }
   }
 
