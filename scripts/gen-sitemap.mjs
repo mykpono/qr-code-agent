@@ -10,10 +10,19 @@ const data = JSON.parse(readFileSync(new URL('../src/content/pages.json', import
 const today = new Date().toISOString().slice(0, 10);
 
 // Must mirror LOCALE_ORDER / HREFLANG in src/lib/content.js.
-const LOCALE_ORDER = ['en', 'de', 'id', 'pt-br', 'ja', 'pl', 'it', 'fr', 'uk', 'es', 'ru'];
+//
+// This is a real duplicate, not a re-export: lib/content.js resolves its bundles
+// through import.meta.glob, which does not run under plain Node. So a locale that
+// is NOT already in both copies goes live in the site but vanishes from the
+// sitemap and llms.txt — the pages build and serve, and nothing points at them.
+// Adding zh-tw hit exactly that. It is caught, not silent: check-build.mjs's
+// `sitemap matches built pages` and `llms.txt names every live locale` both fail
+// on the mismatch. Any future locale outside the original eleven needs its entry
+// in BOTH files.
+const LOCALE_ORDER = ['en', 'de', 'id', 'pt-br', 'ja', 'zh-tw', 'pl', 'it', 'fr', 'uk', 'es', 'ru'];
 const HREFLANG = {
   en: 'en', es: 'es', 'pt-br': 'pt-BR', de: 'de', fr: 'fr', it: 'it',
-  ja: 'ja', id: 'id', uk: 'uk', pl: 'pl', ru: 'ru',
+  ja: 'ja', id: 'id', uk: 'uk', pl: 'pl', ru: 'ru', 'zh-tw': 'zh-Hant',
 };
 
 const i18nDir = new URL('../src/content/i18n/', import.meta.url);

@@ -31,9 +31,15 @@ const ogHash = createHash('sha256')
   .digest('hex').slice(0, 8);
 const ogImg = `https://qrcodeagent.net/assets/og.png?v=${ogHash}`;
 const ogType = page.archetype === 'article' ? 'article' : 'website';
+// Open Graph wants language_TERRITORY, so this cannot be derived from the
+// hreflang value: zh-tw's hreflang is the SCRIPT subtag zh-Hant (it serves HK and
+// MO too), while og:locale needs a territory. A locale missing here falls back to
+// en_US, which is silent — the page renders fine and only the link unfurl is
+// wrong. The `every live locale has an og:locale` assertion in check-build.mjs
+// catches that now.
 const OG_LOCALE = {
   en: 'en_US', de: 'de_DE', es: 'es_ES', 'pt-br': 'pt_BR', fr: 'fr_FR', it: 'it_IT',
-  ja: 'ja_JP', id: 'id_ID', uk: 'uk_UA', pl: 'pl_PL', ru: 'ru_RU',
+  ja: 'ja_JP', id: 'id_ID', uk: 'uk_UA', pl: 'pl_PL', ru: 'ru_RU', 'zh-tw': 'zh_TW',
 };
 
 // hreflang code doubles as the <html lang> value (SEO-BRIEF §8.1).

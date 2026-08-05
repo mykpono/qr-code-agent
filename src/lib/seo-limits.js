@@ -34,8 +34,8 @@ export const DEFAULT_LIMITS = Object.freeze({ titleMax: 60, metaMin: 70, metaMax
  */
 export const FULL_WIDTH_LIMITS = Object.freeze({ titleMax: 30, metaMin: 35, metaMax: 90 });
 
-/** Locales that render in full-width glyphs. Add zh / ko here if they ever ship. */
-export const FULL_WIDTH_LOCALES = Object.freeze(['ja']);
+/** Locales that render in full-width glyphs. Add ko here if it ever ships. */
+export const FULL_WIDTH_LOCALES = Object.freeze(['ja', 'zh-tw']);
 
 /** Limits for a locale. Unknown locales get the Latin default. */
 export function limitsFor(locale = 'en') {

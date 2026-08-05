@@ -1,0 +1,65 @@
+name: IndexNow
+
+# Announce every live URL to IndexNow (Bing, Yandex, Seznam, Naver) after each
+# push to main — which, since main is protected, means after each merged PR.
+#
+# ── Why this is automated ──────────────────────────────────────────────────
+# The submit was a manual step documented in three places (CLAUDE.md, GSC-SETUP,
+# the i18n runbook) and it was still skipped: the pt-BR locale shipped in #46 and
+# its 50 URLs were never announced, so IndexNow knew about 200 URLs while the
+# site served 250. #52 and #54 then changed the markup of all 250 without a
+# resubmit. Nothing reported any of this — IndexNow does not report back, and
+# Bing Webmaster Tools cannot see submissions made to the API, so its
+# "Set up IndexNow" recommendation card looks identical whether you submit
+# daily or never. A documented step with no enforcement and no feedback signal
+# is a step that gets skipped, which is why it is a workflow now.
+#
+# ── Why it is a separate workflow from CI ──────────────────────────────────
+# ci.yml is the required "verify" check that gates merges. This must never be
+# able to block a merge: a transient IndexNow 429 or a slow deploy is not a
+# reason to hold a PR. It runs only AFTER the merge, on the push to main, and
+# its failure is a notification to re-run — not a broken build.
+#
+# ── Why it waits ───────────────────────────────────────────────────────────
+# This starts the moment main moves, in parallel with Vercel's build, so the new
+# URLs are not served yet. `--await-deploy` polls the live sitemap until it
+# lists every built URL before anything is submitted; see the header comment in
+# scripts/indexnow-submit.mjs for what that does and does not guarantee.
+
+on:
+  push:
+    branches: [main]
+  # Re-run by hand after a failed run, or to force a resubmit without a commit.
+  workflow_dispatch:
+
+# Rapid merges would otherwise stack full 250-URL submissions and risk a 429.
+# Only the newest push matters — it announces the same URL set the older one would.
+concurrency:
+  group: indexnow-main
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    # The wait can legitimately sit through a queued Vercel build; the script's
+    # own 10-minute deadline is the real bound, this is just a backstop.
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+
+      # The built sitemap is what we submit AND how we detect that the deploy
+      # landed, so it has to be generated from this exact commit rather than
+      # read off production.
+      - name: Build (for dist/sitemap.xml)
+        run: npm run build
+
+      - name: Wait for the Vercel deploy, then submit every URL
+        run: npm run indexnow:submit -- --await-deploy

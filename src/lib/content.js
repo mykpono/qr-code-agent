@@ -12,13 +12,24 @@ export const SUPPORT_URL =
   import.meta.env.PUBLIC_STRIPE_SUPPORT_URL || SITE.support.href;
 
 // hreflang code mapping (folder prefix -> hreflang attribute)
+//
+// zh-tw maps to the SCRIPT subtag 'zh-Hant', not to 'zh-TW'. The folder is named
+// for the market the copy is written for (Taiwan), but the hreflang claim is
+// about the writing system, so Hong Kong and Macau readers — who read the same
+// Traditional script — are served this locale instead of falling through to
+// x-default English. Simplified is a different bundle if it ever ships; do NOT
+// widen this to a bare 'zh', which would claim both scripts.
 const HREFLANG = {
   en: 'en', es: 'es', 'pt-br': 'pt-BR', de: 'de', fr: 'fr', it: 'it',
-  ja: 'ja', id: 'id', uk: 'uk', pl: 'pl', ru: 'ru',
+  ja: 'ja', id: 'id', uk: 'uk', pl: 'pl', ru: 'ru', 'zh-tw': 'zh-Hant',
 };
 
 // Rollout order from SEO-BRIEF §11 Phase 3 (by validated head-term opportunity).
-const LOCALE_ORDER = ['en', 'de', 'id', 'pt-br', 'ja', 'pl', 'it', 'fr', 'uk', 'es', 'ru'];
+// zh-tw sits beside ja because it is the other full-width locale, NOT because
+// its demand was measured — SEO-BRIEF §8.2 has no Chinese entry and no Semrush
+// pull has been done. Re-sort it once that data exists; the order only drives
+// the language switcher and the hreflang emission order.
+const LOCALE_ORDER = ['en', 'de', 'id', 'pt-br', 'ja', 'zh-tw', 'pl', 'it', 'fr', 'uk', 'es', 'ru'];
 
 // Translation bundles: src/content/i18n/<locale>.json. A locale goes live purely
 // by having a bundle here — nothing else needs editing.
